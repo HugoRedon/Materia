@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import termo.component.BinaryInteractionParameters;
 import termo.component.Component;
+import termo.component.VanDerWaalsParameters;
 import termo.eos.Cubic;
 import termo.eos.CubicAlpha;
 import termo.eos.EOS;
@@ -22,7 +22,7 @@ public class DewPointTest {
     double tol;
     double fractionsTol;
     
-    BinaryInteractionParameters kinteraction;
+    VanDerWaalsParameters kinteraction;
     private DewPoint dewCalculator;
     
     public DewPointTest() {
@@ -38,7 +38,7 @@ public class DewPointTest {
         components2 = new ArrayList<>();
         components2.add(methanol);
         components2.add(water);
-        kinteraction = new BinaryInteractionParameters();
+        kinteraction = new VanDerWaalsParameters();
         kinteraction.setValue(methanol, water, -0.0778, true);
     }
     

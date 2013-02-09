@@ -1,4 +1,4 @@
-package termo.eos;
+package termo;
 
 /**
  *

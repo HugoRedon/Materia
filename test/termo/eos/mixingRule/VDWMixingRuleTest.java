@@ -15,10 +15,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import termo.component.BinaryInteractionParameters;
 import termo.component.Component;
+import termo.component.VanDerWaalsParameters;
 import termo.eos.Cubic;
 import termo.eos.CubicTest;
 import termo.eos.EOS;
-import termo.eos.alpha.Mathias_StryjekVera;
 
 /**
  *
@@ -33,7 +33,7 @@ public class VDWMixingRuleTest {
    
     ArrayList<Component> components2;
     HashMap<Component, Double> fractions ;
-    BinaryInteractionParameters k;
+    VanDerWaalsParameters k;
     
     Component methanol;
        Component water;
@@ -54,7 +54,7 @@ public class VDWMixingRuleTest {
 //        BinaryInteractionParameters.setK(methanol, water, -0.0778);
 //        BinaryInteractionParameters.setK(water, methanol, -0.0778);
         
-         k = new BinaryInteractionParameters();
+         k = new VanDerWaalsParameters();
         k.setValue(methanol, water, -0.0778, true);
         
         fractions = new HashMap<>();

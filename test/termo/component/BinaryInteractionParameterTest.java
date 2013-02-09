@@ -1,19 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package termo.component;
 
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
- * @author Chilpayate
+ * @author Hugo Redon Rivera
  */
 public class BinaryInteractionParameterTest {
     
@@ -48,7 +44,7 @@ public class BinaryInteractionParameterTest {
         Component component1 = new Component(1, "", 13, 13, 13, 13);     
         Component component2 = new Component(2, "", 4, 5, 54, 5);
         
-        BinaryInteractionParameters instance = new BinaryInteractionParameters();
+        VanDerWaalsParameters instance = new VanDerWaalsParameters();
         
        // instance.setSymmetric(true);
         instance.setValue(component1, component2, 0.5, true);
@@ -73,7 +69,7 @@ public class BinaryInteractionParameterTest {
         assertEquals(exp12Result, result12, tol);
         assertEquals(exp21Result, result21,tol);
         
-        BinaryInteractionParameters instance2 = new BinaryInteractionParameters();
+        VanDerWaalsParameters instance2 = new VanDerWaalsParameters();
         
         double exp = 0;
         double resu = instance2.getValue(component1, component2);

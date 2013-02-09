@@ -8,11 +8,10 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import termo.component.BinaryInteractionParameters;
 import termo.component.Component;
+import termo.component.VanDerWaalsParameters;
 import termo.eos.CubicAlpha;
 import termo.eos.EOS;
-import termo.eos.alpha.Mathias_StryjekVera;
 
 /**
  *
@@ -28,7 +27,7 @@ public class BubblePointTest {
            double fractionsTol;
            double tol;
            
-           BinaryInteractionParameters kinteraction;
+           VanDerWaalsParameters kinteraction;
     BubblePoint bubbleCalculator;
     
     public BubblePointTest() {
@@ -49,7 +48,7 @@ public class BubblePointTest {
         
 //        BinaryInteractionParameters.setK(methanol, water, -0.0778);
 //        BinaryInteractionParameters.setK(water, methanol, -0.0778);
-         kinteraction = new BinaryInteractionParameters();
+         kinteraction = new VanDerWaalsParameters();
         kinteraction.setValue(methanol, water, -0.0778, true);
     }
     @BeforeClass
@@ -218,7 +217,7 @@ public class BubblePointTest {
     public void testTemperatureDiagram(){
         double pressure = 0.14991;
         
-        BinaryInteractionParameters k = new BinaryInteractionParameters();
+        VanDerWaalsParameters k = new VanDerWaalsParameters();
         k.setValue(methanol, water, -0.180000007152557, true);
         
         int  numberCalculations = 10;

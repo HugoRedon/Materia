@@ -1,5 +1,6 @@
 package termo.eos;
 
+import termo.Constants;
 import java.util.ArrayList;
 import java.util.HashMap;
 import termo.component.BinaryInteractionParameters;
@@ -236,8 +237,7 @@ public abstract class Cubic extends EOS{
     
     private double get_aWithMixingRule(double temperature, 
             ArrayList<Component> components,
-            HashMap<Component,
-            Double> fractions,
+            HashMap<Component,Double> fractions,
             BinaryInteractionParameters k
             ) {
         

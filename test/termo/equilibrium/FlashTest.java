@@ -3,14 +3,13 @@ package termo.equilibrium;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.junit.AfterClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
-import termo.component.BinaryInteractionParameters;
+import org.junit.Test;
 import termo.component.Component;
+import termo.component.VanDerWaalsParameters;
 import termo.eos.Cubic;
 import termo.eos.EOS;
-import termo.eos.alpha.Mathias_StryjekVera;
 
 /**
  *
@@ -22,7 +21,7 @@ public class FlashTest {
     Component methanol;
     Component water;
     
-      BinaryInteractionParameters kinteraction;
+      VanDerWaalsParameters kinteraction;
     
     public FlashTest() {
         tol = 0.1;
@@ -35,7 +34,7 @@ public class FlashTest {
 //         BinaryInteractionParameters.setK(methanol, water, -0.0778);
 //        BinaryInteractionParameters.setK(water, methanol, -0.0778);
         
-        kinteraction = new BinaryInteractionParameters();
+        kinteraction = new VanDerWaalsParameters();
         kinteraction.setValue(methanol, water, -0.0778, true);
     }
 

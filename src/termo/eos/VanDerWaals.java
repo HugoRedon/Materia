@@ -1,5 +1,6 @@
 package termo.eos;
 
+import termo.Constants;
 import termo.component.Component;
 
 

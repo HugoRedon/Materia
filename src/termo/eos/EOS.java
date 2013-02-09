@@ -137,6 +137,10 @@ public abstract class EOS {
     public static Cubic vanDerWaals(){
         return new VanDerWaals();
     }
+    public static Cubic pengRobinson_Twu() throws Exception{
+        throw new Exception("Not suppote yet");
+        
+    }
 
     
 }

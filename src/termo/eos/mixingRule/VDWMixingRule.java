@@ -3,8 +3,8 @@ package termo.eos.mixingRule;
 import java.util.ArrayList;
 import java.util.HashMap;
 import termo.component.BinaryInteractionParameters;
-//import termo.component.BinaryInteractionParameters;
 import termo.component.Component;
+import termo.component.VanDerWaalsParameters;
 
 /**
  *
@@ -16,8 +16,9 @@ public class VDWMixingRule extends MixingRule{
     }
     
    @Override
-  public double a(HashMap<Component,Double> singleAs,ArrayList<Component> components,HashMap<Component,Double> fractions,BinaryInteractionParameters k){
+  public double a(HashMap<Component,Double> singleAs,ArrayList<Component> components,HashMap<Component,Double> fractions,BinaryInteractionParameters kb){
        double a = 0;
+       VanDerWaalsParameters k = (VanDerWaalsParameters)kb;
        
       for(Component iComponent:components){
           for(Component jComponent:components){
@@ -44,7 +45,9 @@ public class VDWMixingRule extends MixingRule{
         ArrayList<Component> components,
         Component iComponent,
         HashMap<Component,Double> fractions,
-        BinaryInteractionParameters k){
+        BinaryInteractionParameters kb){
+        
+       VanDerWaalsParameters k = (VanDerWaalsParameters)kb; 
         
        double sum = 0;
        

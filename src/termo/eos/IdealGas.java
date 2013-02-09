@@ -1,5 +1,7 @@
 package termo.eos;
 
+import termo.Constants;
+
 /**
  *
  * @author Hugo Redon Rivera

@@ -18,7 +18,8 @@ public class Component {
     private String name;
     private int id ;
     
-    private HashMap<Component,Double> binaryParameter;
+    
+    private double liquidVolume;
     
     
     public Component (){
@@ -44,11 +45,7 @@ public class Component {
       this.id = id;
     }
     
-    public double binaryParameter(Component aComponent){
-        
-        return binaryParameter.get(aComponent);
-       
-    }
+
     
     public double getCriticalTemperature(){
         return this.criticalTemperature;
@@ -150,6 +147,20 @@ public class Component {
    
     public boolean equals(Component aComponent){ 
        return id == aComponent.id;
+    }
+
+    public double getLiquidVolume(double temperature) {
+        return this.liquidVolume;
+        
+        
+        //Todo get temperature dependent liquid volume.
+    }
+
+    /**
+     * @param liquidVolume the liquid Volume to set
+     */
+    public void setLiquidVolume(double liquidVolume) {
+        this.liquidVolume = liquidVolume;
     }
    
     

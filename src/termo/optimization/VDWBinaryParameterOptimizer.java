@@ -1,13 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package termo.optimization;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import termo.component.BinaryInteractionParameters;
 import termo.component.Component;
+import termo.component.VanDerWaalsParameters;
 import termo.data.ExperimentalDataBinary;
 import termo.eos.Cubic;
 import termo.equilibrium.BubblePoint;
@@ -15,13 +12,13 @@ import termo.equilibrium.EquilibriaPhaseSolution;
 
 /**
  *
- * @author Chilpayate
+ * @author Hugo Redon
  */
-public class BinaryParameterOptimizer {
+public class VDWBinaryParameterOptimizer {
 
     BubblePoint bubbleCalculator;
     
-    public BinaryParameterOptimizer() {
+    public VDWBinaryParameterOptimizer() {
         bubbleCalculator = new BubblePoint();
     }
 
@@ -39,7 +36,7 @@ public class BinaryParameterOptimizer {
         Component referenceComponent = data0.getReferenceComponent();
         Component nonReferenceComponent = data0.getNonReferenceComponent();
         
-        BinaryInteractionParameters k = new BinaryInteractionParameters();
+        VanDerWaalsParameters k = new VanDerWaalsParameters();
         
         double k12 = 0;
         k.setValue(referenceComponent, nonReferenceComponent, k12, true);
@@ -63,7 +60,7 @@ public class BinaryParameterOptimizer {
         
     }
     
-    private double secondDerivative(ArrayList<ExperimentalDataBinary> data,BinaryInteractionParameters kinteraction,Cubic eos, double tolerance){
+    private double secondDerivative(ArrayList<ExperimentalDataBinary> data,VanDerWaalsParameters kinteraction,Cubic eos, double tolerance){
              
         ExperimentalDataBinary data0 =data.get(0);   
          Component c1 = data0.getReferenceComponent();
@@ -73,7 +70,7 @@ public class BinaryParameterOptimizer {
         double deltaK = 0.001;
         double k2 = k1 + deltaK;
         
-        BinaryInteractionParameters kinteraction_ = new BinaryInteractionParameters();
+        VanDerWaalsParameters kinteraction_ = new VanDerWaalsParameters();
         kinteraction_.setValue(c1, c2, k2, true);
         
         double m1 = firstDerivative(data, kinteraction, eos, tolerance);
@@ -82,7 +79,7 @@ public class BinaryParameterOptimizer {
         return (m2 - m1) / deltaK;
     }
     
-    private double firstDerivative(ArrayList<ExperimentalDataBinary>  data,BinaryInteractionParameters kinteraction,Cubic eos, double tolerance){
+    private double firstDerivative(ArrayList<ExperimentalDataBinary>  data,VanDerWaalsParameters kinteraction,Cubic eos, double tolerance){
        ExperimentalDataBinary data0 =data.get(0);   
         Component c1 = data0.getReferenceComponent();
         Component c2 = data0.getNonReferenceComponent();
@@ -91,7 +88,7 @@ public class BinaryParameterOptimizer {
         double deltaK = 0.001;
         double k2 = k1 + deltaK;
         
-        BinaryInteractionParameters kinteraction_ = new BinaryInteractionParameters();
+        VanDerWaalsParameters kinteraction_ = new VanDerWaalsParameters();
         kinteraction_.setValue(c1, c2, k2, true);
         
         double error1 = calculateTempError(data, kinteraction, eos, tolerance);

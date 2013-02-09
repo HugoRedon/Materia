@@ -76,7 +76,7 @@ public class BinaryInteractionParameterOptimizationTest {
 
      @Test
      public void testOptimizeBinaryInteractionParameter() {
-         BinaryParameterOptimizer optimizer = new BinaryParameterOptimizer();
+         VDWBinaryParameterOptimizer optimizer = new VDWBinaryParameterOptimizer();
          Cubic  eos = EOS.pengRobinsonStryjekVera();
          
          double expectedResult = -0.0778;

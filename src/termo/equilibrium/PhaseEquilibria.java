@@ -162,9 +162,7 @@ public  abstract class  PhaseEquilibria {
             result.add(getPressure(temperature, solutionFractions, components2,cubic , kinteraction, tol));
            
         }
-
         return result;
-        
     }
        public ArrayList<EquilibriaPhaseSolution> getPressureDiagram(double temperature, 
             Component component1,
@@ -177,4 +175,18 @@ public  abstract class  PhaseEquilibria {
        }
 
    
+       
+       public ArrayList<EquilibriaPhaseSolution> getPhaseEnvelope(
+               ArrayList<Component> components,
+               HashMap<Component,Double> mixtureFractions,
+               BinaryInteractionParameters kinteraction,
+               Cubic cubic,
+               double tol
+               ){
+           ArrayList<EquilibriaPhaseSolution> phaseEnvelope = new ArrayList<>();
+           
+          
+           
+           return phaseEnvelope;
+       }
 }
