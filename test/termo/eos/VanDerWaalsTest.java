@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package termo.eos;
 
 import java.util.ArrayList;
@@ -10,10 +6,11 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import termo.component.Component;
+import termo.componentsForTests.ComponentsForTests;
 
 /**
  *
- * @author Chilpayate
+ * @author Hugo Redon Rivera
  */
 public class VanDerWaalsTest {
        VanDerWaals instance ;
@@ -22,9 +19,10 @@ public class VanDerWaalsTest {
     public VanDerWaalsTest() {
         tolerance = 0.00001;
         instance = new VanDerWaals();
-        
-         aComponent = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
-        aComponent.setPrsvk1(0.3938);
+//        
+//         aComponent = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
+//        aComponent.setPrsvk1(0.3938);
+        aComponent = ComponentsForTests.getMethanol();
     }
 
     @BeforeClass

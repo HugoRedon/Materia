@@ -9,6 +9,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import termo.component.Component;
+import termo.componentsForTests.ComponentsForTests;
 import termo.eos.CubicAlpha;
 import termo.eos.EOS;
 
@@ -21,8 +22,9 @@ public class Mathias_StryjekVeraTest {
     Mathias_StryjekVera prsvAlpha;
     Mathias_StryjekVera rksmAlpha;
     public Mathias_StryjekVeraTest() {
-        component = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
-        component.setPrsvk1(0.3938);
+//        component = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
+//        component.setPrsvk1(0.3938);
+        component = ComponentsForTests.getMethanol();
         
 
         CubicAlpha  prsv = EOS.pengRobinsonStryjekVera();
@@ -132,8 +134,8 @@ public class Mathias_StryjekVeraTest {
         double aboveTemp = 604.23;
         double belowTemp = 425.87;
         
-        component = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
-        component.setPrsvk1(-0.03374);
+//        component = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
+//        component.setPrsvk1(-0.03374);
 
         double exprksmAboveTcResult = -1.70719975719279;
         double rksmAboveTcresult = rksmAlpha.TOverAlphaTimesDalpha(aboveTemp, component);

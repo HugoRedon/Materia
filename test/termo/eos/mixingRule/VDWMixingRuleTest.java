@@ -16,6 +16,7 @@ import org.junit.Test;
 import termo.component.BinaryInteractionParameters;
 import termo.component.Component;
 import termo.component.VanDerWaalsParameters;
+import termo.componentsForTests.ComponentsForTests;
 import termo.eos.Cubic;
 import termo.eos.CubicTest;
 import termo.eos.EOS;
@@ -41,11 +42,14 @@ public class VDWMixingRuleTest {
     public VDWMixingRuleTest() {   
         prsv = EOS.pengRobinsonStryjekVera();
         rksm = EOS.redlichKwongSoaveMathias();
-        methanol = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
-        methanol.setPrsvk1(0.3938);
+//        methanol = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
+//        methanol.setPrsvk1(0.3938);
+//        
+//        water = new Component(4, "Water", 0.344d, 221.2d, 647.13d, 0.0571d);
+//        water.setPrsvk1(-0.0767d);
         
-        water = new Component(4, "Water", 0.344d, 221.2d, 647.13d, 0.0571d);
-        water.setPrsvk1(-0.0767d);
+        methanol = ComponentsForTests.getMethanol();
+        water = ComponentsForTests.getWater();
         
         components2 = new ArrayList<>();
         components2.add(methanol);

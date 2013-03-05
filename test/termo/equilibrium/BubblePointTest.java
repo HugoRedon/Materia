@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import termo.component.Component;
 import termo.component.VanDerWaalsParameters;
+import termo.componentsForTests.ComponentsForTests;
 import termo.eos.CubicAlpha;
 import termo.eos.EOS;
 
@@ -36,11 +37,13 @@ public class BubblePointTest {
         fractionsTol = 0.09;
         tol = 3;
        // rksm = new RedlichKwongSoave(new Mathias_StryjekVera());
-        methanol = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
-        methanol.setPrsvk1(0.39379);
-        
-        water = new Component(4, "Water", 0.344861d, 217.665927d, 647.13d, 0.0571d);
-        water.setPrsvk1(-7.66990e-002);
+//        methanol = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
+//        methanol.setPrsvk1(0.39379);
+//        
+//        water = new Component(4, "Water", 0.344861d, 217.665927d, 647.13d, 0.0571d);
+//        water.setPrsvk1(-7.66990e-002);
+                methanol = ComponentsForTests.getMethanol();
+        water = ComponentsForTests.getWater();
         
         components2 = new ArrayList<>();
         components2.add(methanol);

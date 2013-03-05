@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import termo.component.Component;
+import termo.componentsForTests.ComponentsForTests;
 import termo.eos.CubicAlpha;
 import termo.eos.EOS;
 
@@ -24,8 +25,9 @@ public class Alpha_RTest {
     Alpha_R alphaRKS;
     
     public Alpha_RTest() {
-         aComponent = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
-        aComponent.setPrsvk1(0.3938);
+//         aComponent = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
+//        aComponent.setPrsvk1(0.3938);
+        aComponent = ComponentsForTests.getMethanol();
         
         pr = EOS.pengRobinson();
         rks = EOS.redlichKwongSoave();

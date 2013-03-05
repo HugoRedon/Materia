@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import termo.component.Component;
+import termo.componentsForTests.ComponentsForTests;
 import termo.data.ExperimentalDataBinary;
 import termo.eos.Cubic;
 import termo.eos.EOS;
@@ -34,11 +35,14 @@ public class BinaryInteractionParameterOptimizationTest {
         
         double pressure = 0.14991;
         
-        methanol = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
-        methanol.setPrsvk1(-0.03374);
-        
-        water = new Component(4, "Water", 0.344861d, 217.665927d, 647.13d, 0.0571d);
-        water.setPrsvk1(-0.0767d);
+//        methanol = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
+//        methanol.setPrsvk1(-0.03374);
+//        
+//        water = new Component(4, "Water", 0.344861d, 217.665927d, 647.13d, 0.0571d);
+//        water.setPrsvk1(-0.0767d);
+//        
+                methanol = ComponentsForTests.getMethanol();
+        water = ComponentsForTests.getWater();
         
         
         experimental = new ArrayList<>();

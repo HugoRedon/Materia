@@ -41,8 +41,8 @@ public class BinaryInteractionParameterTest {
     @Test
     public void testGetValue() {
         System.out.println("getValue");
-        Component component1 = new Component(1, "", 13, 13, 13, 13);     
-        Component component2 = new Component(2, "", 4, 5, 54, 5);
+        Component component1 = new Component();     
+        Component component2 = new Component();
         
         VanDerWaalsParameters instance = new VanDerWaalsParameters();
         

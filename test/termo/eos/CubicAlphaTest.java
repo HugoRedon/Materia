@@ -5,6 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import termo.component.Component;
+import termo.componentsForTests.ComponentsForTests;
 
 /**
  *
@@ -20,8 +21,9 @@ public class CubicAlphaTest {
         prsv = EOS.pengRobinsonStryjekVera();
         rksM =EOS.redlichKwongSoaveMathias(); 
         
-         component = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
-        component.setPrsvk1(0.3938);
+//         component = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
+//        component.setPrsvk1(0.3938);
+        component = ComponentsForTests.getMethanol();
     }
     @BeforeClass
     public static void setUpClass() throws Exception {

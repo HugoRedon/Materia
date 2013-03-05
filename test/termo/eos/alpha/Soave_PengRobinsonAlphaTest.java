@@ -7,6 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import termo.component.Component;
+import termo.componentsForTests.ComponentsForTests;
 import termo.eos.CubicAlpha;
 import termo.eos.EOS;
 
@@ -20,9 +21,9 @@ public class Soave_PengRobinsonAlphaTest {
     Soave_PengRobinsonAlpha rksAlpha;
       double tol =0.00001;
     public Soave_PengRobinsonAlphaTest() {
-        component = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
-        component.setPrsvk1(0.3938);
-        
+//        component = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
+//        component.setPrsvk1(0.3938);
+        component = ComponentsForTests.getMethanol();
 
          CubicAlpha  pr = EOS.pengRobinson();
         CubicAlpha rks = EOS.redlichKwongSoave();
@@ -78,8 +79,8 @@ public class Soave_PengRobinsonAlphaTest {
         
         double temperature = 425.87;
         
-        component = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
-        component.setPrsvk1(-0.03374);
+//        component = new Component(2, "Methanol", 0.572d, 79.94d, 512.6d, 0.118d);
+//        component.setPrsvk1(-0.03374);
         
         double expprResult = -0.972816540611861;
         double prresult = prAlpha.TOverAlphaTimesDalpha(temperature, component);
