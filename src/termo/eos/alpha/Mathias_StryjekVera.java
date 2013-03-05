@@ -16,13 +16,13 @@ public final class Mathias_StryjekVera extends Alpha_R {
     public double alpha(double temperature,Component component) {
          
         double criticalTemperature = component.getCriticalTemperature();
-        double q = component.getPrsvk1();
+        double q = component.getPrsvKappa();
         
         double reducedTemperature = temperature / criticalTemperature;
       
         if(reducedTemperature <= 1){
             double calc = 1 + m(component)* (1 - Math.sqrt(reducedTemperature)) 
-                    +q*(1-reducedTemperature)*(0.7-reducedTemperature) ;
+                    -q*(1-reducedTemperature)*(0.7-reducedTemperature) ;
             return Math.pow( calc, 2);
         }else{
             // Mathias 
@@ -37,7 +37,7 @@ public final class Mathias_StryjekVera extends Alpha_R {
     public double TOverAlphaTimesDalpha(double temperature,Component component){
         
         double tr = temperature /component.getCriticalTemperature();      
-        double q = component.getPrsvk1();
+        double q = component.getPrsvKappa();
         
         if(tr <= 1){
             
@@ -55,7 +55,7 @@ public final class Mathias_StryjekVera extends Alpha_R {
 
  
     private double c(Component component){
-        double q = component.getPrsvk1();
+        double q = component.getPrsvKappa();
         return 1+0.5*m(component)+0.3*q;
     }
    

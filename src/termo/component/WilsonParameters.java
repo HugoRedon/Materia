@@ -39,8 +39,13 @@ public class WilsonParameters extends BinaryInteractionParameters{
     public double Aij(Component ci,Component cj,double T){
         double a = get_a(ci,cj);
         double b = get_b(ci,cj);      
-        double Vj = cj.getLiquidVolume(T);
-        double Vi = ci.getLiquidVolume(T);
+        
+        // check
+//        double Vj = cj.getWilsonMolarVolume();
+//        double Vi = ci.getWilsonMolarVolume();
+        double Vj = cj.getLiquidMolarVolumeat298_15K();
+        double Vi = ci.getLiquidMolarVolumeat298_15K();
+        
         return (Vj / Vi) * Math.exp(- (a + b * T)  /(termo.Constants.R * T));       
     }
     
