@@ -78,7 +78,7 @@ public class VanDerWaalsTest {
         assertEquals(expResult, result, tolerance);
     }
     /**
-     * Test of getPressure method, of super class Cubic
+     * Test of calculatePressure method, of super class Cubic
      */
     @Test
     public void testGetPressure(){
@@ -88,7 +88,7 @@ public class VanDerWaalsTest {
         ArrayList<Component> componentList = new ArrayList<>();
         componentList.add(aComponent);
         double expResult = 24.2399116478063;
-        double result = instance.getPressure(temperature, volume, componentList, null,null);
+        double result = instance.calculatePressure(temperature, volume, componentList, null,null);
       
         // must add multicomponent tests
         assertEquals(expResult,result,tolerance);    

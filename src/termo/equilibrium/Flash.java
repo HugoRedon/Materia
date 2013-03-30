@@ -6,7 +6,7 @@ package termo.equilibrium;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import termo.component.BinaryInteractionParameters;
+import termo.binaryParameter.BinaryInteractionParameter;
 import termo.component.Component;
 import termo.eos.Cubic;
 import termo.phase.Phase;
@@ -25,7 +25,7 @@ public class Flash {
             HashMap<Component,Double> liquidFractions,
             ArrayList<Component> components,
             Cubic eos,
-            BinaryInteractionParameters kinteraction,
+            BinaryInteractionParameter kinteraction,
             double tolerance
             ){
             HashMap<Component,Double> K;
@@ -151,35 +151,36 @@ public class Flash {
             Cubic eos,
             double pressure,
             double temperature,
-            BinaryInteractionParameters kinteraction
+            BinaryInteractionParameter kinteraction
             ){
-        
-        double result=0;
-        for(Component component: components){
-            
-            double xi = liquidFractions.get(component);
-            double yi = vaporFractions.get(component);
-            
-            double liquidFug = eos.getFugacity(pressure, 
-                    temperature, 
-                    components, 
-                    component, 
-                    liquidFractions, 
-                    Phase.LIQUID,
-                    kinteraction);
-            
-            double vaporFug = eos.getFugacity(pressure, 
-                    temperature,
-                    components, 
-                    component, 
-                    vaporFractions,
-                    Phase.VAPOR,
-                    kinteraction);
-            
-            result += Math.abs(xi* liquidFug - yi * vaporFug    );
-        }
-        
-        return result;
+         throw new UnsupportedOperationException("Not supported yet.");
+    
+//        double result=0;
+//        for(Component component: components){
+//            
+//            double xi = liquidFractions.get(component);
+//            double yi = vaporFractions.get(component);
+//            
+//            double liquidFug = eos.calculateFugacity(pressure, 
+//                    temperature, 
+//                    components, 
+//                    component, 
+//                    liquidFractions, 
+//                    Phase.LIQUID,
+//                    kinteraction);
+//            
+//            double vaporFug = eos.calculateFugacity(pressure, 
+//                    temperature,
+//                    components, 
+//                    component, 
+//                    vaporFractions,
+//                    Phase.VAPOR,
+//                    kinteraction);
+//            
+//            result += Math.abs(xi* liquidFug - yi * vaporFug    );
+//        }
+//        
+//        return result;
     }
     
 }

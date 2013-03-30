@@ -14,7 +14,7 @@ import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
-import termo.component.BinaryInteractionParameters;
+import termo.binaryParameter.BinaryInteractionParameter;
 import termo.component.Component;
 import termo.componentsForTests.ComponentsForTests;
 import termo.eos.alpha.Mathias_StryjekVera;
@@ -37,7 +37,7 @@ public class CubicTest {
     
     Component methanol;
        Component water;
-       BinaryInteractionParameters ki;
+       BinaryInteractionParameter ki;
     
     public CubicTest() {
         prsv = EOS.pengRobinsonStryjekVera();//new PengRobinson(new Mathias_StryjekVera());
@@ -59,7 +59,7 @@ public class CubicTest {
         
         fractions = null;
         
-        ki = new BinaryInteractionParameters();
+        ki = new BinaryInteractionParameter();
         
         tol = 0.000001;
     }
@@ -158,7 +158,7 @@ public class CubicTest {
 
 
     /**
-     * Test of getPressure method, of class Cubic.
+     * Test of calculatePressure method, of class Cubic.
      */
     @Test
     public void testGetPressure() {
@@ -167,11 +167,11 @@ public class CubicTest {
         double volume = 1.33 ;
       
         
-        double prsvexpResult = 20.416487251293;
-        double prsvresult = prsv.getPressure(temperature, volume, components1, fractions,ki);
+        double prsvexpResult = 20.6351177035781;
+        double prsvresult = prsv.calculatePressure(temperature, volume, components1, fractions,ki);
         
-        double rksmexpResult = 20.6438305177348;
-        double rksmresult = rksm.getPressure(temperature, volume, components1, fractions, ki);
+        double rksmexpResult = 20.8563922098908;
+        double rksmresult = rksm.calculatePressure(temperature, volume, components1, fractions, ki);
       
         assertEquals(prsvexpResult, prsvresult, tol);
         assertEquals(rksmexpResult, rksmresult, tol);
@@ -198,7 +198,7 @@ public class CubicTest {
     }
 
     /**
-     * Test of getCompresibilityFactor method, of class Cubic.
+     * Test of calculateCompresibilityFactor method, of class Cubic.
      */
     @Test
     public void testGetCompresibilityFactor() {
@@ -208,17 +208,17 @@ public class CubicTest {
         Phase liquid = Phase.LIQUID;
         Phase vapor = Phase.VAPOR;
         
-        double prsvLiquidexpResult = 0.0408195900315209;
-        double prsvLiquidresult = prsv.getCompresibilityFactor(pressure, temperature, components1, fractions, liquid,null);
+        double prsvLiquidexpResult = 0.0417461569101531;
+        double prsvLiquidresult = prsv.calculateCompresibilityFactor(pressure, temperature, components1, fractions, liquid,null);
         
-        double prsvVaporexpResult =0.724260269846677;
-        double prsvVaporresult = prsv.getCompresibilityFactor(pressure, temperature, components1, fractions, vapor,null);
+        double prsvVaporexpResult =0.738911429256551;
+        double prsvVaporresult = prsv.calculateCompresibilityFactor(pressure, temperature, components1, fractions, vapor,null);
         
-        double rksmLiquidexpResult =0.0463621355714631;
-        double rksmLiquidresult = rksm.getCompresibilityFactor(pressure, temperature, components1, fractions, liquid,null);
+        double rksmLiquidexpResult =0.047362482085529;
+        double rksmLiquidresult = rksm.calculateCompresibilityFactor(pressure, temperature, components1, fractions, liquid,null);
         
-        double rksmVaporexpResult = 0.738047638974185;
-        double rksmVaporresult = rksm.getCompresibilityFactor(pressure, temperature, components1, fractions, vapor,null);
+        double rksmVaporexpResult = 0.751837581086835;
+        double rksmVaporresult = rksm.calculateCompresibilityFactor(pressure, temperature, components1, fractions, vapor,null);
         
         assertEquals(prsvLiquidexpResult, prsvLiquidresult,tol);
         assertEquals(rksmLiquidexpResult, rksmLiquidresult,tol);
@@ -296,7 +296,7 @@ public class CubicTest {
 //    }
 //
     /**
-     * Test of getVolume method, of class Cubic.
+     * Test of calculateVolume method, of class Cubic.
      */
     @Test
     public void testGetVolume() {
@@ -306,17 +306,17 @@ public class CubicTest {
         Phase liquid = Phase.LIQUID;
         Phase vapor = Phase.VAPOR;
         
-        double prsvLiquidexpResult = 0.0593947825896397;
-        double prsvLiquidresult = prsv.getVolume(temperature, pressure, components1, fractions, liquid,null);
+        double prsvLiquidexpResult = 0.0607874352209752;
+        double prsvLiquidresult = prsv.calculateVolume(temperature, pressure, components1, fractions, liquid,null);
         
-        double prsvVaporexpResult =1.05383913049198;
-        double prsvVaporresult = prsv.getVolume(temperature, pressure, components1, fractions, vapor,null);
+        double prsvVaporexpResult =1.07594408598236;
+        double prsvVaporresult = prsv.calculateVolume(temperature, pressure, components1, fractions, vapor,null);
         
-        double rksmLiquidexpResult =0.0674594958090482;
-        double rksmLiquidresult = rksm.getVolume(temperature, pressure, components1, fractions, liquid,null);
+        double rksmLiquidexpResult =0.0689654814903089;
+        double rksmLiquidresult = rksm.calculateVolume(temperature, pressure, components1, fractions, liquid,null);
         
-        double rksmVaporexpResult = 1.07390052236728;
-        double rksmVaporresult = rksm.getVolume(temperature, pressure, components1, fractions, vapor,null);
+        double rksmVaporexpResult = 1.09476612075627;
+        double rksmVaporresult = rksm.calculateVolume(temperature, pressure, components1, fractions, vapor,null);
         
         assertEquals(prsvLiquidexpResult, prsvLiquidresult,tol);
         assertEquals(rksmLiquidexpResult, rksmLiquidresult,tol);
@@ -344,7 +344,7 @@ public class CubicTest {
 //    }
 //
     /**
-     * Test of getFugacity method, of class Cubic.
+     * Test of calculateFugacity method, of class Cubic.
      */
     @Test
     public void testGetFugacity() {
@@ -354,17 +354,17 @@ public class CubicTest {
         Phase liquid = Phase.LIQUID;
         Phase vapor = Phase.VAPOR;
         
-        double prsvLiquidexpResult = 0.512327869916484;
-        double prsvLiquidresult = prsv.getFugacity(pressure , temperature, components1, components1.get(0),fractions, liquid,null);
+        double prsvLiquidexpResult = 0.580871852744437;
+        double prsvLiquidresult = prsv.calculateFugacity(pressure , temperature, components1, components1.get(0),fractions, liquid,null);
         
-        double prsvVaporexpResult = 0.785583835534741;
-        double prsvVaporresult = prsv.getFugacity(pressure , temperature, components1, components1.get(0),fractions, vapor,null);
+        double prsvVaporexpResult = 0.793548170919521;
+        double prsvVaporresult = prsv.calculateFugacity(pressure , temperature, components1, components1.get(0),fractions, vapor,null);
         
-        double rksmLiquidexpResult = 1.18162530073007;
-        double rksmLiquidresult = rksm.getFugacity(pressure , temperature, components1, components1.get(0),fractions, liquid,null);
+        double rksmLiquidexpResult = 1.26745792786797;
+        double rksmLiquidresult = rksm.calculateFugacity(pressure , temperature, components1, components1.get(0),fractions, liquid,null);
         
-        double rksmVaporexpResult = 0.801593774329156;
-        double rksmVaporresult = rksm.getFugacity(pressure , temperature, components1, components1.get(0),fractions, vapor,null);
+        double rksmVaporexpResult = 0.808927234002065;
+        double rksmVaporresult = rksm.calculateFugacity(pressure , temperature, components1, components1.get(0),fractions, vapor,null);
         
         assertEquals(prsvLiquidexpResult, prsvLiquidresult,tol);
         assertEquals(rksmLiquidexpResult, rksmLiquidresult,tol);
@@ -397,8 +397,8 @@ public class CubicTest {
             HashMap<Component,Double> as = (HashMap<Component,Double> )single_as.invoke(prsv, components2,temperature);
             
             System.out.println("single_as reflection succeded");
-            double expaWater =7.90913475823673;
-            double expaMethanol = 12.5194340883597;
+            double expaWater =7.91873692603462;
+            double expaMethanol = 12.1481424413572;
             
             double aWater = as.get(water);
             double aMethanol = as.get(methanol);

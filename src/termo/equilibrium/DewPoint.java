@@ -2,7 +2,7 @@ package termo.equilibrium;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import termo.component.BinaryInteractionParameters;
+import termo.binaryParameter.BinaryInteractionParameter;
 import termo.component.Component;
 import termo.eos.Cubic;
 import static termo.equilibrium.EquilibriumFunctions.*;
@@ -21,7 +21,7 @@ public class DewPoint extends PhaseEquilibria{
               HashMap<Component,Double> vaporFractions,
               HashMap<Component,Double> liquidFractions, 
               Cubic eos,
-              BinaryInteractionParameters kinteraction,
+              BinaryInteractionParameter kinteraction,
               double tolerance){
         
         HashMap<Component,Double> K;
@@ -131,7 +131,7 @@ public class DewPoint extends PhaseEquilibria{
             HashMap<Component,Double> vaporFractions, 
              HashMap<Component,Double> liquidFractions,
             Cubic eos,
-            BinaryInteractionParameters kinteraction,
+            BinaryInteractionParameter kinteraction,
             double tolerance){
 
       HashMap<Component,Double> K ;

@@ -13,7 +13,7 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import termo.component.BinaryInteractionParameters;
+import termo.binaryParameter.BinaryInteractionParameter;
 import termo.component.Component;
 import termo.component.VanDerWaalsParameters;
 import termo.componentsForTests.ComponentsForTests;
@@ -55,8 +55,8 @@ public class VDWMixingRuleTest {
         components2.add(methanol);
         components2.add(water);
         
-//        BinaryInteractionParameters.setK(methanol, water, -0.0778);
-//        BinaryInteractionParameters.setK(water, methanol, -0.0778);
+//        BinaryInteractionParameter.setK(methanol, water, -0.0778);
+//        BinaryInteractionParameter.setK(water, methanol, -0.0778);
         
          k = new VanDerWaalsParameters();
         k.setValue(methanol, water, -0.0778, true);
@@ -125,7 +125,7 @@ public class VDWMixingRuleTest {
     }
 
     /**
-     * Test of oneOveraNParcialN2RespectN method, of class VDWMixingRule.
+     * Test of oneOverNParcial_aN2RespectN method, of class VDWMixingRule.
      */
     @Test
     public void testOneOveraNParcialN2RespectN() {

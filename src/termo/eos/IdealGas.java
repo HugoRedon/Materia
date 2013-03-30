@@ -8,7 +8,7 @@ import termo.Constants;
  */
 public class IdealGas extends EOS{
 
-    protected IdealGas(){
+    public IdealGas(){
         setName( "Gas ideal");
     }
     
@@ -35,15 +35,7 @@ public class IdealGas extends EOS{
 //        return true;
 //    }
 
-    @Override
-    public boolean needsComponents() {
-       return false;
-    }
-    
-    @Override
-    public final boolean isCubic(){
-        return false;
-    }
+   
 
     public double getCompresibilityFactor() {
        
@@ -52,6 +44,8 @@ public class IdealGas extends EOS{
     public double getFugacity(){
         return 1;
     }
+    
+
 
     
 }

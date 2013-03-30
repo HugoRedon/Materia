@@ -43,10 +43,10 @@ public class CubicAlphaTest {
         double tBelow = 425.87;
         double tAbove = 604.23;
        
-        double prexpResult = 12.5194340883597;
-        double rksexpResult =11.9723279041348;
-        double prAboveExp =7.72478512262222;
-        double rksAboveExp = 7.01588202630302;
+        double prexpResult = 12.1481424413572;
+        double rksexpResult =11.6214170108335;
+        double prAboveExp =7.73609382203225;
+        double rksAboveExp = 7.02615292700411;
         
         
         double prresult = prsv.single_a(tBelow, component);

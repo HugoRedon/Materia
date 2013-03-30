@@ -2,7 +2,7 @@ package termo.equilibrium;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import termo.component.BinaryInteractionParameters;
+import termo.binaryParameter.BinaryInteractionParameter;
 import termo.component.Component;
 import termo.eos.Cubic;
 
@@ -18,7 +18,7 @@ public  abstract class  PhaseEquilibria {
               HashMap<Component,Double> mixtureFractionsZ, 
               HashMap<Component,Double> estimationFractions,
               Cubic eos,
-              BinaryInteractionParameters kinteraction,
+              BinaryInteractionParameter kinteraction,
               double tolerance);
     
     public EquilibriaPhaseSolution getTemperature(
@@ -26,7 +26,7 @@ public  abstract class  PhaseEquilibria {
             HashMap<Component,Double> mixtureFracions,
             ArrayList<Component> components,
             Cubic eos,
-            BinaryInteractionParameters kinteraction,
+            BinaryInteractionParameter kinteraction,
             double tolerance
             ){
         
@@ -38,7 +38,7 @@ public  abstract class  PhaseEquilibria {
             EquilibriaPhaseSolution estimate,
             ArrayList<Component> components,
             Cubic eos,
-            BinaryInteractionParameters kinteraction,
+            BinaryInteractionParameter kinteraction,
             double tolerance
             ){
         double temperature = estimate.getTemperature();
@@ -56,14 +56,14 @@ public  abstract class  PhaseEquilibria {
             HashMap<Component,Double> mixtureFractionsZ,
             HashMap<Component,Double> estimationFractions, 
             Cubic eos,
-            BinaryInteractionParameters kinteraction,
+            BinaryInteractionParameter kinteraction,
             double tolerance);
      
       private EquilibriaPhaseSolution getPressure(double temperature, 
               HashMap<Component, Double> mixtureFractions, 
               ArrayList<Component> components2, 
               Cubic cubic, 
-              BinaryInteractionParameters kinteraction, 
+              BinaryInteractionParameter kinteraction, 
               double tol) {
           
           EquilibriaPhaseSolution estimate = getPressureEstimate(temperature, mixtureFractions);
@@ -75,7 +75,7 @@ public  abstract class  PhaseEquilibria {
                    EquilibriaPhaseSolution estimate,
                 ArrayList<Component> components,
                Cubic eos,
-                BinaryInteractionParameters kinteraction,
+                BinaryInteractionParameter kinteraction,
               double tolerance
             ){
                double pressure = estimate.getPressure();
@@ -99,7 +99,7 @@ public  abstract class  PhaseEquilibria {
             double pressure, 
             Component component1,
             Component component2, 
-            BinaryInteractionParameters kinteraction,
+            BinaryInteractionParameter kinteraction,
             Cubic eos,
             double tolerance) {
         return getTemperatureDiagram(pressure, component1,component2, kinteraction, eos,101, tolerance);
@@ -111,7 +111,7 @@ public  abstract class  PhaseEquilibria {
              double pressure, 
              Component component1,
              Component component2,
-             BinaryInteractionParameters kinteraction, 
+             BinaryInteractionParameter kinteraction, 
              Cubic eos, 
              int numberCalculations,
              double tolerance) {
@@ -140,7 +140,7 @@ public  abstract class  PhaseEquilibria {
     public ArrayList<EquilibriaPhaseSolution> getPressureDiagram(double temperature, 
             Component component1,
             Component component2, 
-            BinaryInteractionParameters kinteraction, 
+            BinaryInteractionParameter kinteraction, 
             Cubic cubic, 
             int numberCalculations,
             double tol
@@ -167,7 +167,7 @@ public  abstract class  PhaseEquilibria {
        public ArrayList<EquilibriaPhaseSolution> getPressureDiagram(double temperature, 
             Component component1,
             Component component2, 
-            BinaryInteractionParameters kinteraction, 
+            BinaryInteractionParameter kinteraction, 
             Cubic cubic, 
             double tol
             ) {
@@ -179,7 +179,7 @@ public  abstract class  PhaseEquilibria {
        public ArrayList<EquilibriaPhaseSolution> getPhaseEnvelope(
                ArrayList<Component> components,
                HashMap<Component,Double> mixtureFractions,
-               BinaryInteractionParameters kinteraction,
+               BinaryInteractionParameter kinteraction,
                Cubic cubic,
                double tol
                ){

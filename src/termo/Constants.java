@@ -6,6 +6,6 @@ package termo;
  */
 public class Constants {
     
-    //Universal Gas Constants
-    public static final double R =0.08206; //0.082; // [L atm / mol K]
+    //Universal Gas Constant
+    public static final double R =8314.472;//0.08206; //0.082; // [L atm / mol K]
 }

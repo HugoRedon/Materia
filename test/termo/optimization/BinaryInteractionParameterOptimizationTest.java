@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package termo.optimization;
 
 import java.util.ArrayList;
@@ -16,7 +12,6 @@ import termo.componentsForTests.ComponentsForTests;
 import termo.data.ExperimentalDataBinary;
 import termo.eos.Cubic;
 import termo.eos.EOS;
-import termo.eos.alpha.Mathias_StryjekVera;
 
 /**
  *

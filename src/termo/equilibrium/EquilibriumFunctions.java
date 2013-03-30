@@ -2,7 +2,7 @@ package termo.equilibrium;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import termo.component.BinaryInteractionParameters;
+import termo.binaryParameter.BinaryInteractionParameter;
 import termo.component.Component;
 import termo.eos.Cubic;
 import termo.phase.Phase;
@@ -18,22 +18,23 @@ public class EquilibriumFunctions {
             double pressure,
             HashMap<Component,Double> vaporFractions , 
             Cubic eos,
-            BinaryInteractionParameters k
+            BinaryInteractionParameter k
             ){
-        
-         HashMap<Component,Double> equilibriumRelations  = new HashMap<>();
-         
-         for (Component aComponent : components){
-           
-           double liquidFug = eos.getFugacity(pressure, temperature, components, aComponent, liquidFractions, Phase.LIQUID,k);
-           double vaporFug = eos.getFugacity(pressure, temperature, components, aComponent, vaporFractions, Phase.VAPOR,k);          
-           
-           double equilRel = liquidFug/ vaporFug;
-           
-           equilibriumRelations.put(aComponent, equilRel);
-            
-         }
-         return equilibriumRelations;
+        throw new UnsupportedOperationException("Not supported yet.");
+    
+//         HashMap<Component,Double> equilibriumRelations  = new HashMap<>();
+//         
+//         for (Component aComponent : components){
+//           
+//           double liquidFug = eos.calculateFugacity(pressure, temperature, components, aComponent, liquidFractions, Phase.LIQUID,k);
+//           double vaporFug = eos.calculateFugacity(pressure, temperature, components, aComponent, vaporFractions, Phase.VAPOR,k);          
+//           
+//           double equilRel = liquidFug/ vaporFug;
+//           
+//           equilibriumRelations.put(aComponent, equilRel);
+//            
+//         }
+//         return equilibriumRelations;
     }
         
 public static HashMap<Component,Double> getLiquidFractionsRaoultsLaw(double pressure,

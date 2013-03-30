@@ -1,5 +1,7 @@
 package termo.component;
 
+import termo.cp.CpEquation;
+
 /**
  *
  * @author Hugo Redon Rivera
@@ -42,6 +44,20 @@ public class Component {
     
     private double prsvKappa;
     
+    private double L_Twu;
+    private double M_Twu;
+    private double N_Twu;
+    
+    private double A_Mathias_Copeman;
+    private double B_Mathias_Copeman;
+    private double C_Mathias_Copeman;
+    
+    private double r_UNIQUAC;
+    private double q_UNIQUAC;
+//    private double qq_UNIQUAC;
+    
+    private CpEquation cp;
+    
     private int dipprChemID;
     private String name;
     private String casNumber;
@@ -51,7 +67,6 @@ public class Component {
     private String family;
     private String subFamily;
     private String standardState;
-    
     
     public boolean equals(Component aComponent){ 
        return getCasNumber().equals(aComponent.getCasNumber());
@@ -63,112 +78,112 @@ public class Component {
     }
 
     /**
-     * @return the molecularWeight
+     * @return the Molecular Weight  [kg/kmol]
      */
     public double getMolecularWeight() {
         return molecularWeight;
     }
 
     /**
-     * @param molecularWeight the molecularWeight to set
+     * @param molecularWeight the Molecular Weight to set in [kg/kmol]
      */
     public void setMolecularWeight(double molecularWeight) {
         this.molecularWeight = molecularWeight;
     }
 
     /**
-     * @return the lowerFlammabilityLimitTemperature
+     * @return the Lower Flammability Limit Temperature [K]
      */
     public double getLowerFlammabilityLimitTemperature() {
         return lowerFlammabilityLimitTemperature;
     }
 
     /**
-     * @param lowerFlammabilityLimitTemperature the lowerFlammabilityLimitTemperature to set
+     * @param lowerFlammabilityLimitTemperature the Lower Flammability Limit Temperature to set in [K]
      */
     public void setLowerFlammabilityLimitTemperature(double lowerFlammabilityLimitTemperature) {
         this.lowerFlammabilityLimitTemperature = lowerFlammabilityLimitTemperature;
     }
 
     /**
-     * @return the upperFlammabilityLimitTemperature
+     * @return the Upper Flammability Limit Temperature [K]
      */
     public double getUpperFlammabilityLimitTemperature() {
         return upperFlammabilityLimitTemperature;
     }
 
     /**
-     * @param upperFlammabilityLimitTemperature the upperFlammabilityLimitTemperature to set
+     * @param upperFlammabilityLimitTemperature the Upper Flammability Limit Temperature to set in [K]
      */
     public void setUpperFlammabilityLimitTemperature(double upperFlammabilityLimitTemperature) {
         this.upperFlammabilityLimitTemperature = upperFlammabilityLimitTemperature;
     }
 
     /**
-     * @return the criticalCompressibilityFactor
+     * @return the Critical Compressibility Factor
      */
     public double getCriticalCompressibilityFactor() {
         return criticalCompressibilityFactor;
     }
 
     /**
-     * @param criticalCompressibilityFactor the criticalCompressibilityFactor to set
+     * @param criticalCompressibilityFactor the Critical Compressibility Factor to set
      */
     public void setCriticalCompressibilityFactor(double criticalCompressibilityFactor) {
         this.criticalCompressibilityFactor = criticalCompressibilityFactor;
     }
 
     /**
-     * @return the acentricFactor
+     * @return the Acentric Factor
      */
     public double getAcentricFactor() {
         return acentricFactor;
     }
 
     /**
-     * @param acentricFactor the acentricFactor to set
+     * @param acentricFactor the Acentric Factor to set
      */
     public void setAcentricFactor(double acentricFactor) {
         this.acentricFactor = acentricFactor;
     }
 
     /**
-     * @return the gibbsEnergyofFormationofIdealGasat298_15Kand101325Pa
+     * @return the Gibbs Energy of Formation of Ideal Gas at 298.15[K] and 101325 [Pa] in [J/kmol]
      */
     public double getGibbsEnergyofFormationofIdealGasat298_15Kand101325Pa() {
         return gibbsEnergyofFormationofIdealGasat298_15Kand101325Pa;
     }
 
     /**
-     * @param gibbsEnergyofFormationofIdealGasat298_15Kand101325Pa the gibbsEnergyofFormationofIdealGasat298_15Kand101325Pa to set
+     * @param gibbsEnergyofFormationofIdealGasat298_15Kand101325Pa the Gibbs Energy of Formation of Ideal Gas at 298.15 [K] and 101325 [Pa] to set in [J/kmol]
      */
     public void setGibbsEnergyofFormationofIdealGasat298_15Kand101325Pa(double gibbsEnergyofFormationofIdealGasat298_15Kand101325Pa) {
         this.gibbsEnergyofFormationofIdealGasat298_15Kand101325Pa = gibbsEnergyofFormationofIdealGasat298_15Kand101325Pa;
     }
 
     /**
-     * @return the vanDerWaalsReducedVolume
+     * @return the van der Waals Reduced Volume in [m^3/kmol]
      */
     public double getVanDerWaalsReducedVolume() {
         return vanDerWaalsReducedVolume;
     }
 
     /**
-     * @param vanDerWaalsReducedVolume the vanDerWaalsReducedVolume to set
+     * @param vanDerWaalsReducedVolume the van der Waals Reduced Volume to set in [m^3/kmol]
      */
     public void setVanDerWaalsReducedVolume(double vanDerWaalsReducedVolume) {
         this.vanDerWaalsReducedVolume = vanDerWaalsReducedVolume;
     }
 
     /**
-     * @return the vanderWaalsArea
+     * @return the van der WaalsArea in [m^2/kmol]
      */
     public double getVanderWaalsArea() {
         return vanderWaalsArea;
     }
 
     /**
-     * @param vanderWaalsArea the vanderWaalsArea to set
+     * @param vanderWaalsArea the van der Waals Area to set in [m^2/kmol]
      */
     public void setVanderWaalsArea(double vanderWaalsArea) {
         this.vanderWaalsArea = vanderWaalsArea;
@@ -662,6 +677,146 @@ public class Component {
      */
     public void setStandardState(String standardState) {
         this.standardState = standardState;
+    }
+
+    /**
+     * @return the L_Twu
+     */
+    public double getL_Twu() {
+        return L_Twu;
+    }
+
+    /**
+     * @param L_Twu the L_Twu to set
+     */
+    public void setL_Twu(double L_Twu) {
+        this.L_Twu = L_Twu;
+    }
+
+    /**
+     * @return the M_Twu
+     */
+    public double getM_Twu() {
+        return M_Twu;
+    }
+
+    /**
+     * @param M_Twu the M_Twu to set
+     */
+    public void setM_Twu(double M_Twu) {
+        this.M_Twu = M_Twu;
+    }
+
+    /**
+     * @return the N_Twu
+     */
+    public double getN_Twu() {
+        return N_Twu;
+    }
+
+    /**
+     * @param N_Twu the N_Twu to set
+     */
+    public void setN_Twu(double N_Twu) {
+        this.N_Twu = N_Twu;
+    }
+
+    /**
+     * @return the A_Mathias_Copeman
+     */
+    public double getA_Mathias_Copeman() {
+        return A_Mathias_Copeman;
+    }
+
+    /**
+     * @param A_Mathias_Copeman the A_Mathias_Copeman to set
+     */
+    public void setA_Mathias_Copeman(double A_Mathias_Copeman) {
+        this.A_Mathias_Copeman = A_Mathias_Copeman;
+    }
+
+    /**
+     * @return the B_Mathias_Copeman
+     */
+    public double getB_Mathias_Copeman() {
+        return B_Mathias_Copeman;
+    }
+
+    /**
+     * @param B_Mathias_Copeman the B_Mathias_Copeman to set
+     */
+    public void setB_Mathias_Copeman(double B_Mathias_Copeman) {
+        this.B_Mathias_Copeman = B_Mathias_Copeman;
+    }
+
+    /**
+     * @return the C_Mathias_Copeman
+     */
+    public double getC_Mathias_Copeman() {
+        return C_Mathias_Copeman;
+    }
+
+    /**
+     * @param C_Mathias_Copeman the C_Mathias_Copeman to set
+     */
+    public void setC_Mathias_Copeman(double C_Mathias_Copeman) {
+        this.C_Mathias_Copeman = C_Mathias_Copeman;
+    }
+
+    /**
+     * @return the r_UNIQUAC
+     */
+    public double getR_UNIQUAC() {
+        return r_UNIQUAC;
+    }
+
+    /**
+     * @param r_UNIQUAC the r_UNIQUAC to set
+     */
+    public void setR_UNIQUAC(double r_UNIQUAC) {
+        this.r_UNIQUAC = r_UNIQUAC;
+    }
+
+    /**
+     * @return the q_UNIQUAC
+     */
+    public double getQ_UNIQUAC() {
+        return q_UNIQUAC;
+    }
+
+    /**
+     * @param q_UNIQUAC the q_UNIQUAC to set
+     */
+    public void setQ_UNIQUAC(double q_UNIQUAC) {
+        this.q_UNIQUAC = q_UNIQUAC;
+    }
+
+//    /**
+//     * @return the qq_UNIQUAC
+//     */
+//    public double getQq_UNIQUAC() {
+//        return qq_UNIQUAC;
+//    }
+//
+//    /**
+//     * @param qq_UNIQUAC the qq_UNIQUAC to set
+//     */
+//    public void setQq_UNIQUAC(double qq_UNIQUAC) {
+//        this.qq_UNIQUAC = qq_UNIQUAC;
+//    }
+
+    /**
+     * @return the cp
+     */
+    public CpEquation getCpIdealGasEquation() {
+        return cp;
+    }
+
+    /**
+     * @param cp the cp to set
+     */
+    public void setCp(CpEquation cp) {
+        this.cp = cp;
     }
     
 }
