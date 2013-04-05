@@ -1,12 +1,13 @@
 package termo.component;
 
+import java.io.Serializable;
 import termo.cp.CpEquation;
 
 /**
  *
  * @author Hugo Redon Rivera
  */
-public class Component {
+public class Component implements Serializable {
     
     private double molecularWeight;
     private double lowerFlammabilityLimitTemperature;

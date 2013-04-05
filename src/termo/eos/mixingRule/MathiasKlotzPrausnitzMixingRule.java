@@ -1,6 +1,5 @@
 package termo.eos.mixingRule;
 
-import com.sun.org.apache.xerces.internal.impl.dtd.models.MixedContentModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import termo.binaryParameter.BinaryInteractionParameter;
@@ -59,18 +58,112 @@ public class MathiasKlotzPrausnitzMixingRule extends MixingRule {
     @Override
     public double oneOverNParcial_aN2RespectN(
             double temperature,
-            HashMap<Component, Double> singleAs,
-            HashMap<Component, Double> singleBs,
+            HashMap<Component, Double> single_as,
+            HashMap<Component, Double> single_bs,
+            HashMap<Component, Double> singleAlphas, 
             ArrayList<Component> components, 
-            Component iComponent, 
+            Component cl, 
             HashMap<Component, Double> fractions, 
             BinaryInteractionParameter k) {
+        
+        double xl =0;
+        double xj =0;
+        double xi =0;
+        
+        double al =0;
+        double aj =0;
+        double ai =0;
+        
+        double alphaiDeriv =0;
+        double alphajDeriv =0;
+        
+        double klj =0;
+        double kjl =0;
+        
+        double firstTerm =0;
+        double secondTerm =0;
+        double thirdTerm =0;
+        
+        double firstFactor =0;
+        double secondFactor =0;
+        
+        
+        for(Component cj: components){
+            xj =fractions.get(cj);
+            aj = single_as.get(cj);
+
+            klj = k.getValue(cl, cj);
+            kjl = k.getValue(cj, cl);
+            
+            firstTerm += xj * Math.sqrt(al * aj)*(2 - klj - kjl);
+            secondTerm += xj * Math.pow(al*aj, 1d/6d) * Math.pow(klj- kjl, 1d/3d);
+          
+        }
+        
+        for(Component ci : components){
+            
+        }
+        
+        
+        
+        
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public double temperatureParcial_a(ArrayList<Component> components, HashMap<Component, Double> fractions, HashMap<Component, Double> single_as, HashMap<Component, Double> alphaDerivatives, BinaryInteractionParameter k) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public double temperatureParcial_a(
+            double temperature,
+            ArrayList<Component> components, 
+            HashMap<Component, Double> fractions,
+            HashMap<Component, Double> single_as,
+            HashMap<Component, Double> single_bs, 
+            HashMap<Component, Double> alphaDerivatives,
+            BinaryInteractionParameter k) {
+        
+        double xi =0;
+        double xj =0;
+        
+        double ai =0;
+        double aj =0;
+        
+        double alphaiDeriv =0;
+        double alphajDeriv =0;
+        
+        double kij =0;
+        double kji =0;
+        
+        double firstTerm =0;
+        double secondTerm =0;
+        
+        
+        double firstFactor =0;
+        double secondFactor =0;
+        
+        for(Component ci: components){
+            xi =fractions.get(ci);
+            ai = single_as.get(ci);
+            alphaiDeriv = alphaDerivatives.get(ci);
+            
+            firstFactor =0;
+            secondFactor =0;
+            
+            for(Component cj : components){
+                
+                xj = fractions.get(cj);
+                aj = single_as.get(cj);
+                alphajDeriv = alphaDerivatives.get(cj);
+                
+                kij = k.getValue(ci, cj);
+                kji = k.getValue(cj, ci);
+                
+                firstTerm +=  xi * xj * Math.sqrt(ai *aj)*(1-kij)*(alphaiDeriv + alphajDeriv);
+                
+                firstFactor += xj *Math.pow(ai*aj, 1d/6d) * Math.pow(kij-kji, 1d/3d);
+                secondFactor += xj*Math.pow(ai*aj, 1d/6d)*Math.pow(kij - kji,1d/3d) * (alphaiDeriv+alphajDeriv);
+            }
+            secondTerm += xi * Math.pow(firstFactor,2) * secondFactor;
+        }
+        return (1d/2d)*(firstTerm + secondFactor);
     }
 
 }

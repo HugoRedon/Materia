@@ -66,16 +66,60 @@ public class ExcessGibbsMixingRule extends MixingRule{
             double temperature,
             HashMap<Component, Double> singleAs,
             HashMap<Component, Double> singleBs, 
+            HashMap<Component, Double> singleAlphas, 
             ArrayList<Component> components,
-            Component iComponent, 
+            Component ci, 
             HashMap<Component, Double> fractions, 
             BinaryInteractionParameter k) {
-        throw new UnsupportedOperationException("Not supported yet.");
+         
+        double b = b(singleBs, components, fractions);
+        double a =a(temperature, singleAs, singleBs, components, fractions, k);
+        
+        ActivityModelBinaryParameter param = (ActivityModelBinaryParameter)k;
+        double alphai = singleAlphas.get( ci);
+        double gammai = activityModel.activityCoefficient(components, ci, fractions, param, temperature);
+        double bi = singleBs.get(ci);
+
+        return b * Constants.R * temperature*( alphai + this.c1 * (Math.log(b / bi) + ((bi- b)/b)) + this.c2 * Math.log(gammai)) + a * bi / b;
     }
 
     @Override
-    public double temperatureParcial_a(ArrayList<Component> components, HashMap<Component, Double> fractions, HashMap<Component, Double> single_as, HashMap<Component, Double> alphaDerivatives, BinaryInteractionParameter k) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public double temperatureParcial_a(
+            double temperature,
+            ArrayList<Component> components, 
+            HashMap<Component, Double> fractions, 
+            HashMap<Component, Double> single_as, 
+            HashMap<Component, Double> single_bs, 
+            HashMap<Component, Double> alphaDerivatives,
+            BinaryInteractionParameter k) {
+        ActivityModelBinaryParameter param = (ActivityModelBinaryParameter)k;
+        
+        double b = b(single_bs, components, fractions);
+        double excessDeriv = activityModel.parcialExcessGibbsRespectTemperature(components, fractions, param, temperature);
+        
+        double xi =0;
+        double ai =0;
+        double bi =0;
+        double alphaiDeriv =0;
+        
+        double firstTerm = 0;
+        double secondTerm =0;
+        double thirdTerm =0;
+        
+        
+        for(Component ci:components){
+            ai = single_as.get(ci);
+            bi = single_bs.get(ci);
+            alphaiDeriv = alphaDerivatives.get(ci);
+            
+            firstTerm += xi * (ai / bi) * alphaiDeriv;
+            secondTerm += Constants.R * temperature * this.c1 * xi  * Math.log(b / bi);
+            thirdTerm += temperature * this.c2 * excessDeriv;
+            
+            
+        }
+        return b * (firstTerm + secondTerm + thirdTerm);
+        
     }
     
 }

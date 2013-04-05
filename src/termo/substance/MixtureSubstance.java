@@ -54,6 +54,18 @@ public class MixtureSubstance extends Substance{
         }
           return singleBs;
     }
+        public HashMap<Component,Double> single_Alphas(double temperature){
+         HashMap<Component,Double> singleAlphas = new HashMap<>();
+         
+        for(PureSubstance pureSubstance : pureSubstances){
+            Component component = pureSubstance.getComponent();
+            
+            double alpha = pureSubstance.getAlpha().alpha(temperature, component);
+            singleAlphas.put(component,alpha);
+        }
+           
+          return singleAlphas;
+    }
     
     public HashMap<Component,Double> alphaDerivatives(double temperature){
         HashMap<Component,Double> alphaDerivatives = new HashMap<>();
@@ -68,7 +80,14 @@ public class MixtureSubstance extends Substance{
     
     @Override
     public double temperatureParcial_a(double temperature) {
-        return mixingRule.temperatureParcial_a(getComponents(),getFractions(),single_as(temperature), alphaDerivatives(temperature), binaryParameters);
+        return mixingRule.temperatureParcial_a(
+                temperature,
+                getComponents(),
+                getFractions(),
+                single_as(temperature), 
+                single_bs(),
+                alphaDerivatives(temperature), 
+                binaryParameters);
     }
 
     @Override
@@ -106,20 +125,22 @@ public class MixtureSubstance extends Substance{
 
     @Override
     public double calculate_b_cubicParameter() {
-        double b =0;
+//        double b =0;
+//        
+//        for(PureSubstance pureSubstance: pureSubstances){
+//            double xi = molarFractions.get(pureSubstance);
+//            b+= xi * pureSubstance.calculate_b_cubicParameter();
+//        }
+//        
+//        return b;
         
-        for(PureSubstance pureSubstance: pureSubstances){
-            double xi = molarFractions.get(pureSubstance);
-            b+= xi * pureSubstance.calculate_b_cubicParameter();
-        }
+        return mixingRule.b(single_bs(), getComponents(), getFractions());
         
-        return b;
     }
 
     @Override
     public double calculateIdealGasEntropy(double temperature, double pressure) {
-           
-           
+
            double term1 = 0;
            double term2 = 0;
         
@@ -139,10 +160,14 @@ public class MixtureSubstance extends Substance{
     @Override
     public double oneOver_N_Parcial_a(double temperature,PureSubstance pureSubstance) {
         Component component = pureSubstance.getComponent();
-       return mixingRule.oneOverNParcial_aN2RespectN(temperature, single_as(temperature), single_bs(), getComponents(), component, getFractions(), binaryParameters);
+       return mixingRule.oneOverNParcial_aN2RespectN(
+               temperature, 
+               single_as(temperature),
+               single_bs(), 
+               single_Alphas(temperature),
+               getComponents(), 
+               component, 
+               getFractions(), 
+               binaryParameters);
     }
-
-
-    
-    
 }

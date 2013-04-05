@@ -31,6 +31,7 @@ public abstract class MixingRule {
              double temperature,
              HashMap<Component,Double> singleAs,
              HashMap<Component,Double> singleBs,
+             HashMap<Component, Double> singleAlphas, 
              ArrayList<Component> components,
              Component iComponent,
              HashMap<Component,Double> fractions, 
@@ -40,9 +41,11 @@ public abstract class MixingRule {
          return this.name;
      }
      public abstract double temperatureParcial_a(
+             double temperature,
            ArrayList<Component> components, 
            HashMap<Component,Double> fractions,
             HashMap<Component,Double> single_as,
+            HashMap<Component, Double> single_bs, 
              HashMap<Component,Double> alphaDerivatives,
              BinaryInteractionParameter k
            );

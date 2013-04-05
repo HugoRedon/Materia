@@ -44,7 +44,7 @@ public abstract class  Substance {
         
         return idealGasEntropy +  Constants.R * Math.log( (pressure *(volume - b))/(Constants.R * temperature)) + L * (Temp_parcial_a)/(b);
     }
-        public double calculateEnthalpy(double temperature, double pressure, double volume){
+    public final double calculateEnthalpy(double temperature, double pressure, double volume){
         double idealGasEnthalpy = calculateIdealGasEnthalpy(temperature);
         double a = calculate_a_cubicParameter(temperature);
         double b = calculate_b_cubicParameter();

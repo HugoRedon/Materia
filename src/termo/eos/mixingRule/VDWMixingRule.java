@@ -49,9 +49,11 @@ public class VDWMixingRule extends MixingRule{
    
     @Override
    public double temperatureParcial_a(
+            double temperature,
            ArrayList<Component> components, 
            HashMap<Component,Double> fractions,
             HashMap<Component,Double> single_as,
+            HashMap<Component, Double> single_bs, 
              HashMap<Component,Double> alphaDerivatives,
              BinaryInteractionParameter k
            ){
@@ -81,6 +83,7 @@ public class VDWMixingRule extends MixingRule{
             double temperature,
             HashMap<Component,Double> singleAs,
             HashMap<Component,Double> singleBs,
+            HashMap<Component, Double> singleAlphas, 
         ArrayList<Component> components,
         Component iComponent,
         HashMap<Component,Double> fractions,

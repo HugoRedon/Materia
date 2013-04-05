@@ -6,8 +6,9 @@ package termo.eos;
  */
 public class EquationOfStateFactory {
 
-    private static Cubic pengRobinsonBase(){
+    public static Cubic pengRobinsonBase(){
         Cubic pengRobinson = new Cubic();
+        pengRobinson.setName(EOSNames.PengRobinson);
         pengRobinson.set_u(2);
         pengRobinson.set_w(-1);
          pengRobinson.setOmega_a(0.45723553);
@@ -46,10 +47,11 @@ public class EquationOfStateFactory {
         return new IdealGas();
     }
     
-    private static Cubic redlichKwongSoaveBase(){
+    public static Cubic redlichKwongSoaveBase(){
         Cubic rks = new Cubic();
         rks.set_u(1);
         rks.set_w(0);
+        rks.setName(EOSNames.RedlichKwongSoave);
         
         rks.setOmega_a(0.42748023);
         rks.setOmega_b(0.08664035);
@@ -98,6 +100,8 @@ public class EquationOfStateFactory {
         vanDerWaals.set_w(0);
         vanDerWaals.setOmega_a(27d/64d);
         vanDerWaals.setOmega_b(1d/8d);
+        
+        vanDerWaals.setName(EOSNames.VanDerWaals);
         
         return vanDerWaals;
 
