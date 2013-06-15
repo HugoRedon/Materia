@@ -39,7 +39,7 @@ public class PureSubstance extends Substance{
     public double calculateIdealGasEnthalpy(double temperature){
         double enthalpyReference = component.getEnthalpyofFormationofIdealgasat298_15Kand101325Pa();
         double referenceTemp = 298.15;
-         return  component.getCpIdealGasEquation().Enthalpy(temperature, referenceTemp, enthalpyReference);
+         return  component.getCp().Enthalpy(temperature, referenceTemp, enthalpyReference);
     }
 
     @Override
@@ -111,6 +111,6 @@ public class PureSubstance extends Substance{
         double entropyReference = component.getAbsoluteEntropyofIdealGasat298_15Kand101325Pa();
         double referenceTemperature = 298.15;
         double referencePressure = 101325;
-        return component.getCpIdealGasEquation().idealGasEntropy(temperature, referenceTemperature, pressure, referencePressure, entropyReference);
+        return component.getCp().idealGasEntropy(temperature, referenceTemperature, pressure, referencePressure, entropyReference);
     }
 }

@@ -1,18 +1,57 @@
 package termo.eos.alpha;
 
+import java.io.Serializable;
 import termo.component.Component;
 
 /**
  *
  * @author Hugo Redon Rivera
  */
-public class CommonAlphaEquation extends Alpha {
+public class CommonAlphaEquation extends Alpha implements Serializable{
     private double r1;
     private double r2;
     private double r3;
     private double r4;
     
     private double x;
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this.r1) ^ (Double.doubleToLongBits(this.r1) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this.r2) ^ (Double.doubleToLongBits(this.r2) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this.r3) ^ (Double.doubleToLongBits(this.r3) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this.r4) ^ (Double.doubleToLongBits(this.r4) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this.x) ^ (Double.doubleToLongBits(this.x) >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final CommonAlphaEquation other = (CommonAlphaEquation) obj;
+        if (Double.doubleToLongBits(this.r1) != Double.doubleToLongBits(other.r1)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.r2) != Double.doubleToLongBits(other.r2)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.r3) != Double.doubleToLongBits(other.r3)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.r4) != Double.doubleToLongBits(other.r4)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x)) {
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public double alpha(double temperature, Component component) {

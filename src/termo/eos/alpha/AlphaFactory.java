@@ -5,6 +5,12 @@ package termo.eos.alpha;
  * @author Hugo Redon Rivera
  */
 public class AlphaFactory {
+    public static Alpha getVanDerWaalsIndependent(){
+        Alpha vdw = new UnitAlpha();
+        vdw.setName(AlphaNames.vdwIndependent);
+        return vdw;
+        
+    }
 
     public static Alpha getSoaveExpression(){
         double r1 = 0.48508;
@@ -57,7 +63,7 @@ public class AlphaFactory {
         mathias.setAlphaAboveTc(mathiasAbove);
         return mathias;     
     }
-        public static Alpha getStryjekAndVeraExpression(){
+    public static Alpha getStryjekAndVeraExpression(){
             double r1 = 0.378893;
             double r2=1.4897153;
             double r3 = -0.17131848;
@@ -84,7 +90,7 @@ public class AlphaFactory {
         stryjekVeraAbove.setR3(r3);
         stryjekVeraAbove.setR4(r4);
         
-        stryjekveraBelow.setX(0);  
+        stryjekVeraAbove.setX(0);  
         
         stryjek.setAlphaBelowTc(stryjekveraBelow);
         stryjek.setAlphaAboveTc(stryjekVeraAbove);
@@ -123,7 +129,7 @@ public class AlphaFactory {
             twu.setAlphaBelowTc(twuBelow);
             return twu;
         }
-        public Alpha getMathiasAndCopemanExpression(){
+        public static Alpha getMathiasAndCopemanExpression(){
              TwoEquationsAlphaExpression mathiasAndCopeman = new TwoEquationsAlphaExpression();
              mathiasAndCopeman.setName(AlphaNames.Mathias_Copeman);
              
@@ -139,21 +145,21 @@ public class AlphaFactory {
              return mathiasAndCopeman;             
         }
         
-        public Alpha getGCEOS_Expression(double A,double B,double C, double D, double k1,double k2 ,double k3, double k4, double k5){
-            GCEOSEquation alpha = new GCEOSEquation();
-            alpha.setName(AlphaNames.GCEOS);
-            
-            alpha.setA(A);
-            alpha.setB(B);
-            alpha.setC(C);
-            alpha.setD(D);
-            alpha.setK1(k1);
-            alpha.setK2(k2);
-            alpha.setK3(k3);
-            alpha.setK4(k4);
-            alpha.setK5(k5);
-            
-            return alpha;
-        }
+//        public static Alpha getGCEOS_Expression(double A,double B,double C, double D, double k1,double k2 ,double k3, double k4, double k5){
+//            GCEOSEquation alpha = new GCEOSEquation();
+//            alpha.setName(AlphaNames.GCEOS);
+//            
+//            alpha.setA(A);
+//            alpha.setB(B);
+//            alpha.setC(C);
+//            alpha.setD(D);
+//            alpha.setK1(k1);
+//            alpha.setK2(k2);
+//            alpha.setK3(k3);
+//            alpha.setK4(k4);
+//            alpha.setK5(k5);
+//            
+//            return alpha;
+//        }
         
 }

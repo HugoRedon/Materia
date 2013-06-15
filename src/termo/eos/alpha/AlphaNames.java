@@ -16,4 +16,5 @@ public class AlphaNames {
     public static String Mathias_Copeman = "Mathias and Copeman";
     public static String Twu = "Twu";
     public static String GCEOS = "GCEOS";
+    public static String vdwIndependent = "Expresión ndependiente de T";
 }

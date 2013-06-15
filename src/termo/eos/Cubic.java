@@ -11,54 +11,50 @@ public  class Cubic extends EOS{
   
     private double u ;
     private double w;
-//    private MixingRule mixingRule;
   
-
-   
-    protected double get_u(){
-        return this.u;
-    }
-    protected void set_u(double u){
-        this.u = u;
-    }
-    
-    protected double get_w(){
-        return this.w;
-    }
-    protected void set_w(double w){
-        this.w = w;
-    }
-    
     public Cubic(){
-//        setDefaultMixingRule();
+
     }
-    
-//    @Override
-//    public final boolean isCubic(){
-//        return true;
-//    }
-   
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 17 * hash + (int) (Double.doubleToLongBits(this.u) ^ (Double.doubleToLongBits(this.u) >>> 32));
+        hash = 17 * hash + (int) (Double.doubleToLongBits(this.w) ^ (Double.doubleToLongBits(this.w) >>> 32));
+        hash = 17 * hash + (int) (Double.doubleToLongBits(this.omega_a) ^ (Double.doubleToLongBits(this.omega_a) >>> 32));
+        hash = 17 * hash + (int) (Double.doubleToLongBits(this.omega_b) ^ (Double.doubleToLongBits(this.omega_b) >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Cubic other = (Cubic) obj;
+        if (Double.doubleToLongBits(this.u) != Double.doubleToLongBits(other.u)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.w) != Double.doubleToLongBits(other.w)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.omega_a) != Double.doubleToLongBits(other.omega_a)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.omega_b) != Double.doubleToLongBits(other.omega_b)) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public String getEquation(){
-        return "\\( P = \\frac{RT}{v - b} - \\frac{a} { v^2 + " + this.u + " b v + " + this.w +  " b^2} \\) ";
+        return "\\( P = \\frac{RT}{v - b} - \\frac{a} { v^2 + " + this.getU() + " b v + " + this.getW() +  " b^2} \\) ";
     }
- 
-//    public double calculateEnthalpy(ArrayList<Component> components, HashMap<Component,Double> fractions ,double pressure, double volume,double temperature){
-//        
-//        double idealGasEnthalpy = 0;
-//        for (Component ci : components){
-//            double xi = fractions.get(ci);
-//            double enthalpyReference = ci.getEnthalpyofFormationofIdealgasat298_15Kand101325Pa();
-//            double referenceTemp = 298.15;
-//            
-//            idealGasEnthalpy = xi * ci.getCp().idealGasEnthalpy(temperature, referenceTemp, enthalpyReference);
-//            
-//        }
-//        
-//        return idealGasEnthalpy;
-//    }
-    
-    
+
     /**
      *
      * @param temperature Temperature in Kelvin
@@ -72,9 +68,7 @@ public  class Cubic extends EOS{
             double volume,
             double a,
             double b
-//            ArrayList<Component> components,
-//            HashMap<Component,Double> fractions,
-//            BinaryInteractionParameters k
+
             ){    
         //needed before every calculation
         //calculateParameters(temperature,components,fractions);
@@ -83,7 +77,7 @@ public  class Cubic extends EOS{
 //        double b = get_b(components,fractions);
         
         return ( Constants.R * temperature / (volume - b)    )
-                - ( a / (Math.pow(volume ,  2 ) +  this.u  *  b  *  volume  +  this.w  *  Math.pow( b ,  2 ) ) ) ;
+                - ( a / (Math.pow(volume ,  2 ) +  this.getU()  *  b  *  volume  +  this.getW()  *  Math.pow( b ,  2 ) ) ) ;
     }
     
     public boolean oneRoot(double pressure,
@@ -104,9 +98,9 @@ public  class Cubic extends EOS{
         double A = get_A(temperature, pressure, a);
         double B = get_B(temperature, pressure, b);
 //                
-        double alpha = 1-(this.u - 1 ) * B;
-        double beta = A - this.u * B - this.u * Math.pow(B, 2) + this.w * Math.pow(B, 2);
-        double gama = A*B + this.w * Math.pow(B,2) + this.w * Math.pow(B, 3);
+        double alpha = 1-(this.getU() - 1 ) * B;
+        double beta = A - this.getU() * B - this.getU() * Math.pow(B, 2) + this.getW() * Math.pow(B, 2);
+        double gama = A*B + this.getW() * Math.pow(B,2) + this.getW() * Math.pow(B, 3);
         
         double C = 3 * beta - Math.pow( alpha , 2 );
         double D = - Math.pow( alpha , 3 ) + 4.5d * alpha * beta - 13.5 * gama;
@@ -199,9 +193,9 @@ public  class Cubic extends EOS{
 //        double A =get_A(omega_a, u, a);
 //        double B = b * pressure / (Constants.R * temperature); 
                 
-        double alpha = 1-(this.u - 1 ) * B;
-        double beta = A - this.u * B - this.u * Math.pow(B, 2) + this.w * Math.pow(B, 2);
-        double gama = A*B + this.w * Math.pow(B,2) + this.w * Math.pow(B, 3);
+        double alpha = 1-(this.getU() - 1 ) * B;
+        double beta = A - this.getU() * B - this.getU() * Math.pow(B, 2) + this.getW() * Math.pow(B, 2);
+        double gama = A*B + this.getW() * Math.pow(B,2) + this.getW() * Math.pow(B, 3);
         
         double C = 3 * beta - Math.pow(alpha, 2);
         double D = - Math.pow(alpha, 3) + 4.5d * alpha * beta - 13.5 * gama;
@@ -488,7 +482,7 @@ public  class Cubic extends EOS{
     }
        
        public double calculateL(double volume, double b){
-               double delta = Math.sqrt(Math.pow(this.u,2) - 4 * this.w);
+               double delta = Math.sqrt(Math.pow(this.getU(),2) - 4 * this.getW());
                
                  if( delta == 0 ){
                      return b / volume;
@@ -604,6 +598,22 @@ public  class Cubic extends EOS{
 //        
 //        return (omega_b * tc* Constants.R)/ (pc); 
 //    }
+
+    public double getU() {
+        return u;
+    }
+
+    public void setU(double u) {
+        this.u = u;
+    }
+
+    public double getW() {
+        return w;
+    }
+
+    public void setW(double w) {
+        this.w = w;
+    }
 
 
 

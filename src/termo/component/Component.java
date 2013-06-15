@@ -1,6 +1,7 @@
 package termo.component;
 
 import java.io.Serializable;
+import java.util.Objects;
 import termo.cp.CpEquation;
 
 /**
@@ -68,10 +69,239 @@ public class Component implements Serializable {
     private String family;
     private String subFamily;
     private String standardState;
-    
-    public boolean equals(Component aComponent){ 
-       return getCasNumber().equals(aComponent.getCasNumber());
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.molecularWeight) ^ (Double.doubleToLongBits(this.molecularWeight) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.lowerFlammabilityLimitTemperature) ^ (Double.doubleToLongBits(this.lowerFlammabilityLimitTemperature) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.upperFlammabilityLimitTemperature) ^ (Double.doubleToLongBits(this.upperFlammabilityLimitTemperature) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.criticalCompressibilityFactor) ^ (Double.doubleToLongBits(this.criticalCompressibilityFactor) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.acentricFactor) ^ (Double.doubleToLongBits(this.acentricFactor) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.gibbsEnergyofFormationofIdealGasat298_15Kand101325Pa) ^ (Double.doubleToLongBits(this.gibbsEnergyofFormationofIdealGasat298_15Kand101325Pa) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.vanDerWaalsReducedVolume) ^ (Double.doubleToLongBits(this.vanDerWaalsReducedVolume) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.vanderWaalsArea) ^ (Double.doubleToLongBits(this.vanderWaalsArea) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.gibbsEnergyofFormationinStandardStateat298_15Kand101325Pa) ^ (Double.doubleToLongBits(this.gibbsEnergyofFormationinStandardStateat298_15Kand101325Pa) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.radiusofGyration) ^ (Double.doubleToLongBits(this.radiusofGyration) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.solubilityParameterat298_15K) ^ (Double.doubleToLongBits(this.solubilityParameterat298_15K) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.dipoleMoment) ^ (Double.doubleToLongBits(this.dipoleMoment) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.triplePointTemperature) ^ (Double.doubleToLongBits(this.triplePointTemperature) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.criticalTemperature) ^ (Double.doubleToLongBits(this.criticalTemperature) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.enthalpyofFormationofIdealgasat298_15Kand101325Pa) ^ (Double.doubleToLongBits(this.enthalpyofFormationofIdealgasat298_15Kand101325Pa) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.absoluteEntropyofIdealGasat298_15Kand101325Pa) ^ (Double.doubleToLongBits(this.absoluteEntropyofIdealGasat298_15Kand101325Pa) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.netEnthalpyofCombustionStandardState298_15K) ^ (Double.doubleToLongBits(this.netEnthalpyofCombustionStandardState298_15K) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.criticalPressure) ^ (Double.doubleToLongBits(this.criticalPressure) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.normalBoilingPoint_1atm) ^ (Double.doubleToLongBits(this.normalBoilingPoint_1atm) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.enthalpyofFusionatMeltingPoint) ^ (Double.doubleToLongBits(this.enthalpyofFusionatMeltingPoint) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.criticalVolume) ^ (Double.doubleToLongBits(this.criticalVolume) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.enthalpyorHeatofSublimation) ^ (Double.doubleToLongBits(this.enthalpyorHeatofSublimation) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.dielectricConstant) ^ (Double.doubleToLongBits(this.dielectricConstant) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.refractiveIndexat298_15K) ^ (Double.doubleToLongBits(this.refractiveIndexat298_15K) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.flashPoint) ^ (Double.doubleToLongBits(this.flashPoint) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.autoIgnitionTermperature) ^ (Double.doubleToLongBits(this.autoIgnitionTermperature) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.enthalpyofFormationinStandardStateat298_15Kand101325Pa) ^ (Double.doubleToLongBits(this.enthalpyofFormationinStandardStateat298_15Kand101325Pa) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.absoluteEntropyinStandardStateat298_15Kand101325Pa) ^ (Double.doubleToLongBits(this.absoluteEntropyinStandardStateat298_15Kand101325Pa) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.meltingPoint_1atm) ^ (Double.doubleToLongBits(this.meltingPoint_1atm) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.triplePointPressure) ^ (Double.doubleToLongBits(this.triplePointPressure) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.upperFlammabilityLimit) ^ (Double.doubleToLongBits(this.upperFlammabilityLimit) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.liquidMolarVolumeat298_15K) ^ (Double.doubleToLongBits(this.liquidMolarVolumeat298_15K) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.lowerFlammabilityLimit) ^ (Double.doubleToLongBits(this.lowerFlammabilityLimit) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.prsvKappa) ^ (Double.doubleToLongBits(this.prsvKappa) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.L_Twu) ^ (Double.doubleToLongBits(this.L_Twu) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.M_Twu) ^ (Double.doubleToLongBits(this.M_Twu) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.N_Twu) ^ (Double.doubleToLongBits(this.N_Twu) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.A_Mathias_Copeman) ^ (Double.doubleToLongBits(this.A_Mathias_Copeman) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.B_Mathias_Copeman) ^ (Double.doubleToLongBits(this.B_Mathias_Copeman) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.C_Mathias_Copeman) ^ (Double.doubleToLongBits(this.C_Mathias_Copeman) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.r_UNIQUAC) ^ (Double.doubleToLongBits(this.r_UNIQUAC) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.q_UNIQUAC) ^ (Double.doubleToLongBits(this.q_UNIQUAC) >>> 32));
+        hash = 97 * hash + Objects.hashCode(this.getCp());
+        hash = 97 * hash + this.dipprChemID;
+        hash = 97 * hash + Objects.hashCode(this.name);
+        hash = 97 * hash + Objects.hashCode(this.casNumber);
+        hash = 97 * hash + Objects.hashCode(this.formula);
+        hash = 97 * hash + Objects.hashCode(this.smiles);
+        hash = 97 * hash + Objects.hashCode(this.Structure);
+        hash = 97 * hash + Objects.hashCode(this.family);
+        hash = 97 * hash + Objects.hashCode(this.subFamily);
+        hash = 97 * hash + Objects.hashCode(this.standardState);
+        return hash;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Component other = (Component) obj;
+        if (Double.doubleToLongBits(this.molecularWeight) != Double.doubleToLongBits(other.molecularWeight)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.lowerFlammabilityLimitTemperature) != Double.doubleToLongBits(other.lowerFlammabilityLimitTemperature)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.upperFlammabilityLimitTemperature) != Double.doubleToLongBits(other.upperFlammabilityLimitTemperature)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.criticalCompressibilityFactor) != Double.doubleToLongBits(other.criticalCompressibilityFactor)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.acentricFactor) != Double.doubleToLongBits(other.acentricFactor)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.gibbsEnergyofFormationofIdealGasat298_15Kand101325Pa) != Double.doubleToLongBits(other.gibbsEnergyofFormationofIdealGasat298_15Kand101325Pa)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.vanDerWaalsReducedVolume) != Double.doubleToLongBits(other.vanDerWaalsReducedVolume)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.vanderWaalsArea) != Double.doubleToLongBits(other.vanderWaalsArea)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.gibbsEnergyofFormationinStandardStateat298_15Kand101325Pa) != Double.doubleToLongBits(other.gibbsEnergyofFormationinStandardStateat298_15Kand101325Pa)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.radiusofGyration) != Double.doubleToLongBits(other.radiusofGyration)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.solubilityParameterat298_15K) != Double.doubleToLongBits(other.solubilityParameterat298_15K)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.dipoleMoment) != Double.doubleToLongBits(other.dipoleMoment)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.triplePointTemperature) != Double.doubleToLongBits(other.triplePointTemperature)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.criticalTemperature) != Double.doubleToLongBits(other.criticalTemperature)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.enthalpyofFormationofIdealgasat298_15Kand101325Pa) != Double.doubleToLongBits(other.enthalpyofFormationofIdealgasat298_15Kand101325Pa)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.absoluteEntropyofIdealGasat298_15Kand101325Pa) != Double.doubleToLongBits(other.absoluteEntropyofIdealGasat298_15Kand101325Pa)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.netEnthalpyofCombustionStandardState298_15K) != Double.doubleToLongBits(other.netEnthalpyofCombustionStandardState298_15K)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.criticalPressure) != Double.doubleToLongBits(other.criticalPressure)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.normalBoilingPoint_1atm) != Double.doubleToLongBits(other.normalBoilingPoint_1atm)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.enthalpyofFusionatMeltingPoint) != Double.doubleToLongBits(other.enthalpyofFusionatMeltingPoint)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.criticalVolume) != Double.doubleToLongBits(other.criticalVolume)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.enthalpyorHeatofSublimation) != Double.doubleToLongBits(other.enthalpyorHeatofSublimation)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.dielectricConstant) != Double.doubleToLongBits(other.dielectricConstant)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.refractiveIndexat298_15K) != Double.doubleToLongBits(other.refractiveIndexat298_15K)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.flashPoint) != Double.doubleToLongBits(other.flashPoint)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.autoIgnitionTermperature) != Double.doubleToLongBits(other.autoIgnitionTermperature)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.enthalpyofFormationinStandardStateat298_15Kand101325Pa) != Double.doubleToLongBits(other.enthalpyofFormationinStandardStateat298_15Kand101325Pa)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.absoluteEntropyinStandardStateat298_15Kand101325Pa) != Double.doubleToLongBits(other.absoluteEntropyinStandardStateat298_15Kand101325Pa)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.meltingPoint_1atm) != Double.doubleToLongBits(other.meltingPoint_1atm)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.triplePointPressure) != Double.doubleToLongBits(other.triplePointPressure)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.upperFlammabilityLimit) != Double.doubleToLongBits(other.upperFlammabilityLimit)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.liquidMolarVolumeat298_15K) != Double.doubleToLongBits(other.liquidMolarVolumeat298_15K)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.lowerFlammabilityLimit) != Double.doubleToLongBits(other.lowerFlammabilityLimit)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.prsvKappa) != Double.doubleToLongBits(other.prsvKappa)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.L_Twu) != Double.doubleToLongBits(other.L_Twu)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.M_Twu) != Double.doubleToLongBits(other.M_Twu)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.N_Twu) != Double.doubleToLongBits(other.N_Twu)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.A_Mathias_Copeman) != Double.doubleToLongBits(other.A_Mathias_Copeman)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.B_Mathias_Copeman) != Double.doubleToLongBits(other.B_Mathias_Copeman)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.C_Mathias_Copeman) != Double.doubleToLongBits(other.C_Mathias_Copeman)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.r_UNIQUAC) != Double.doubleToLongBits(other.r_UNIQUAC)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.q_UNIQUAC) != Double.doubleToLongBits(other.q_UNIQUAC)) {
+            return false;
+        }
+        if (!Objects.equals(this.cp, other.cp)) {
+            return false;
+        }
+        if (this.dipprChemID != other.dipprChemID) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.casNumber, other.casNumber)) {
+            return false;
+        }
+        if (!Objects.equals(this.formula, other.formula)) {
+            return false;
+        }
+        if (!Objects.equals(this.smiles, other.smiles)) {
+            return false;
+        }
+        if (!Objects.equals(this.Structure, other.Structure)) {
+            return false;
+        }
+        if (!Objects.equals(this.family, other.family)) {
+            return false;
+        }
+        if (!Objects.equals(this.subFamily, other.subFamily)) {
+            return false;
+        }
+        if (!Objects.equals(this.standardState, other.standardState)) {
+            return false;
+        }
+        return true;
+    }
+
+   
+
+   
+    
+  
+  
     
     @Override
     public String toString(){
@@ -806,18 +1036,14 @@ public class Component implements Serializable {
 //        this.qq_UNIQUAC = qq_UNIQUAC;
 //    }
 
-    /**
-     * @return the cp
-     */
-    public CpEquation getCpIdealGasEquation() {
+    public CpEquation getCp() {
         return cp;
     }
 
-    /**
-     * @param cp the cp to set
-     */
     public void setCp(CpEquation cp) {
         this.cp = cp;
     }
+
+
     
 }

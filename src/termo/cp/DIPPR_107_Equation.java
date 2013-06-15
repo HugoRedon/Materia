@@ -1,6 +1,7 @@
 package termo.cp;
 
 import java.io.Serializable;
+import java.util.Objects;
 import termo.Constants;
 
 /**
@@ -19,6 +20,48 @@ public class DIPPR_107_Equation implements CpEquation,Serializable{
        @Override
     public String getMathEquation() {
         return "<math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><mi>Y</mi><mo>&nbsp;</mo><mo>&#x3d;</mo><mo>&nbsp;</mo><mi>A</mi><mo>&nbsp;</mo><mo>&#x2b;</mo><mo>&nbsp;</mo><mi>B</mi><mo>&sdot;</mo><msup><mfenced open='[' close=']' separators=','><mrow><mfrac><mrow><mfrac><mi>C</mi><mrow><mi>T</mi></mrow></mfrac></mrow><mrow><mi mathvariant='normal'>sinh</mi><mfenced open='(' close=')' separators=','><mrow><mfrac><mi>C</mi><mrow><mi>T</mi></mrow></mfrac></mrow></mfenced></mrow></mfrac></mrow></mfenced><mrow><mn>2</mn></mrow></msup><mo>&#x2b;</mo><mo>&nbsp;</mo><mi mathvariant='normal'>D</mi><mo>&nbsp;</mo><mo>&sdot;</mo><mo>&nbsp;</mo><msup><mfenced open='[' close=']' separators=','><mrow><mfrac><mrow><mfrac><mi>E</mi><mrow><mi>T</mi></mrow></mfrac></mrow><mrow><mi mathvariant='normal'>cosh</mi><mfenced open='(' close=')' separators=','><mrow><mfrac><mi>E</mi><mrow><mi>T</mi></mrow></mfrac></mrow></mfenced></mrow></mfrac></mrow></mfenced><mrow><mn>2</mn></mrow></msup></mrow></math>";
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.equation);
+        hash = 89 * hash + (int) (Double.doubleToLongBits(this.A) ^ (Double.doubleToLongBits(this.A) >>> 32));
+        hash = 89 * hash + (int) (Double.doubleToLongBits(this.B) ^ (Double.doubleToLongBits(this.B) >>> 32));
+        hash = 89 * hash + (int) (Double.doubleToLongBits(this.C) ^ (Double.doubleToLongBits(this.C) >>> 32));
+        hash = 89 * hash + (int) (Double.doubleToLongBits(this.D) ^ (Double.doubleToLongBits(this.D) >>> 32));
+        hash = 89 * hash + (int) (Double.doubleToLongBits(this.E) ^ (Double.doubleToLongBits(this.E) >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DIPPR_107_Equation other = (DIPPR_107_Equation) obj;
+        if (!Objects.equals(this.equation, other.equation)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.A) != Double.doubleToLongBits(other.A)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.B) != Double.doubleToLongBits(other.B)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.C) != Double.doubleToLongBits(other.C)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.D) != Double.doubleToLongBits(other.D)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.E) != Double.doubleToLongBits(other.E)) {
+            return false;
+        }
+        return true;
     }
 
     
