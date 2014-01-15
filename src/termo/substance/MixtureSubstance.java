@@ -124,18 +124,8 @@ public class MixtureSubstance extends Substance{
     }
 
     @Override
-    public double calculate_b_cubicParameter() {
-//        double b =0;
-//        
-//        for(PureSubstance pureSubstance: pureSubstances){
-//            double xi = molarFractions.get(pureSubstance);
-//            b+= xi * pureSubstance.calculate_b_cubicParameter();
-//        }
-//        
-//        return b;
-        
+    public double calculate_b_cubicParameter() {       
         return mixingRule.b(single_bs(), getComponents(), getFractions());
-        
     }
 
     @Override

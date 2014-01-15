@@ -12,7 +12,7 @@ public class IdealGas extends EOS{
         setName( "Gas ideal");
     }
     
- 
+
     public  double getPressure(double temperature, double volume){       
         return Constants.R * temperature / volume;
     }  

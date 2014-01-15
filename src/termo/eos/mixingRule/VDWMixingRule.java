@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import termo.binaryParameter.BinaryInteractionParameter;
 import termo.component.Component;
-import termo.component.VanDerWaalsParameters;
 
 /**
  *
@@ -76,8 +75,6 @@ public class VDWMixingRule extends MixingRule{
        return result;
    }
    
-   
-   
     @Override
    public double oneOverNParcial_aN2RespectN(
             double temperature,
@@ -88,11 +85,8 @@ public class VDWMixingRule extends MixingRule{
         Component iComponent,
         HashMap<Component,Double> fractions,
         BinaryInteractionParameter k){
-        
-    
-        
+
        double sum = 0;
-       
        double ai = singleAs.get(iComponent);
        
        for(Component kComponent : components){

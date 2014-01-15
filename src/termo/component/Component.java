@@ -547,14 +547,14 @@ public class Component implements Serializable {
     }
 
     /**
-     * @return the criticalPressure
+     * @return the critical Pressure in [Pa]
      */
     public double getCriticalPressure() {
         return criticalPressure;
     }
 
     /**
-     * @param criticalPressure the criticalPressure to set
+     * @param criticalPressure the critical Pressure [Pa] to set
      */
     public void setCriticalPressure(double criticalPressure) {
         this.criticalPressure = criticalPressure;

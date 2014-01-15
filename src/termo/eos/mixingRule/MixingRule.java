@@ -12,10 +12,7 @@ import termo.component.Component;
 public abstract class MixingRule {
     protected String name;
      
-//     public abstract double a(HashMap<Component,Double> singleAs,
-//             ArrayList<Component> components,
-//             HashMap<Component,Double> fractions,
-//             BinaryInteractionParameter k);
+
      public abstract double a(double temperature,
              HashMap<Component,Double> singleAs,
              HashMap<Component,Double> singleBs,

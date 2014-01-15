@@ -1,6 +1,5 @@
 package termo.eos.alpha;
 
-import java.util.HashMap;
 import termo.component.Component;
 
 /**
@@ -16,6 +15,8 @@ public class GeneralTwuEquation extends Alpha {
     private double L1;
     private double N1 ;
     private double M1;
+
+ 
 
     
     @Override
@@ -142,5 +143,45 @@ public class GeneralTwuEquation extends Alpha {
         this.M1 = M1;
     }
 
+   @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 47 * hash + (int) (Double.doubleToLongBits(this.L0) ^ (Double.doubleToLongBits(this.L0) >>> 32));
+        hash = 47 * hash + (int) (Double.doubleToLongBits(this.N0) ^ (Double.doubleToLongBits(this.N0) >>> 32));
+        hash = 47 * hash + (int) (Double.doubleToLongBits(this.M0) ^ (Double.doubleToLongBits(this.M0) >>> 32));
+        hash = 47 * hash + (int) (Double.doubleToLongBits(this.L1) ^ (Double.doubleToLongBits(this.L1) >>> 32));
+        hash = 47 * hash + (int) (Double.doubleToLongBits(this.N1) ^ (Double.doubleToLongBits(this.N1) >>> 32));
+        hash = 47 * hash + (int) (Double.doubleToLongBits(this.M1) ^ (Double.doubleToLongBits(this.M1) >>> 32));
+        return hash;
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final GeneralTwuEquation other = (GeneralTwuEquation) obj;
+        if (Double.doubleToLongBits(this.L0) != Double.doubleToLongBits(other.L0)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.N0) != Double.doubleToLongBits(other.N0)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.M0) != Double.doubleToLongBits(other.M0)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.L1) != Double.doubleToLongBits(other.L1)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.N1) != Double.doubleToLongBits(other.N1)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.M1) != Double.doubleToLongBits(other.M1)) {
+            return false;
+        }
+        return true;
+    }
 }

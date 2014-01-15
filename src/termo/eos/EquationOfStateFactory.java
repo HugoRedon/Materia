@@ -15,34 +15,7 @@ public class EquationOfStateFactory {
         pengRobinson.setOmega_b(0.077796074);
         return pengRobinson;
     }
-    
-    
-    
-//    public static Cubic pengRobinson(){
-//        Cubic pengRobinson = pengRobinsonBase();
-//        pengRobinson.setName(EOSNames.PengRobinson);
-//        
-////        Alpha_R alpha = new Soave_PengRobinsonAlpha();
-////        alpha.setR(PR_RKS_Constants.r_PengRobinson);
-//        
-//        pengRobinson.setAlpha(AlphaFactory.getPengAndRobinsonExpression());
-//        return pengRobinson;
-//    }
-        
-     
-    
-//    public static CubicAlpha pengRobinsonStryjekVera(){
-//        CubicAlpha prsv = pengRobinsonBase();
-//        prsv.setName(EOSNames.PengRobinsonStryjekVera);
-//        
-////        Alpha_R alpha = new Mathias_StryjekVera();
-////        alpha.setR(PR_RKS_Constants.r_PengRobinson);
-//        
-//         prsv.setAlpha(AlphaFactory.getStryjekAndVeraExpression());
-//        return prsv;
-//    }
-    
-    
+
     public static IdealGas idealGas(){
         return new IdealGas();
     }
@@ -57,26 +30,6 @@ public class EquationOfStateFactory {
         rks.setOmega_b(0.08664035);
         return rks;
     }
-//    public static CubicAlpha redlichKwongSoave(){
-//        CubicAlpha rks = redlichKwongSoaveBase();
-//        rks.setName(EOSNames.RedlichKwongSoave);
-//        
-////        Alpha_R alpha = new Soave_PengRobinsonAlpha();
-////        alpha.setR(PR_RKS_Constants.r_RedlichKwongSoave);
-//        
-//        rks.setAlpha(AlphaFactory.getSoaveExpression());
-//        return rks;
-//    }
-//    public static CubicAlpha redlichKwongSoaveMathias(){
-//        CubicAlpha rksm = redlichKwongSoaveBase();
-//        rksm.setName(EOSNames.RedlichKwongSoaveMathias);
-//        
-////          Alpha_R alpha = new Mathias_StryjekVera();
-////        alpha.setR(PR_RKS_Constants.r_RedlichKwongSoave);
-//        
-//        rksm.setAlpha(AlphaFactory.getMathiasExpression());
-//        return rksm;
-//    }
     
     public static Cubic twoSimTassone(){
         Cubic tst = new Cubic();
@@ -106,12 +59,4 @@ public class EquationOfStateFactory {
         return vanDerWaals;
 
     }
-//    public static Cubic pengRobinson_Twu() throws Exception{
-//        Cubic pengRobinson_Twu = pengRobinsonBase();
-//        pengRobinson_Twu.setAlpha(new TwuEquation());
-//        
-//        pengRobinson_Twu.setName(EOSNames.PengRobinson_Twu);
-//        return pengRobinson_Twu;
-//        
-//    }
 }

@@ -7,8 +7,6 @@ package termo.eos;
 public abstract class EOS {
   
    private String name;
- 
-   
     /**
      * 
      * @return The name of the equation of state as String
@@ -28,17 +26,5 @@ public abstract class EOS {
      * 
      * @return The representation of the Equation of State as String
      */
-    public abstract String getEquation();
-    
-
-    /**
-     * 
-     * @return If components are needed for calculations as boolean
-     */
-//    public abstract boolean needsComponents();
-//   
-//    public abstract boolean isCubic();
-
-
-
+    public abstract String getEquation(); 
 }
