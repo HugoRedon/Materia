@@ -8,7 +8,7 @@ import termo.phase.Phase;
  * @author Hugo Redon Rivera
  */
 public  class Cubic extends EOS{
-  
+    
     private double u ;
     private double w;
   
@@ -17,7 +17,7 @@ public  class Cubic extends EOS{
     
     @Override
     public String getEquation(){
-        return "\\( P = \\frac{RT}{v - b} - \\frac{a} { v^2 + " + this.getU() + " b v + " + this.getW() +  " b^2} \\) ";
+        return "\\( P = \\frac{RT}{v - b} - \\frac{a} { v^2 + u b v + w b^2} \\)";
     }
 
     /**
