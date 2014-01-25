@@ -17,7 +17,7 @@ public  class Cubic extends EOS{
     
     @Override
     public String getEquation(){
-        return "\\( P = \\frac{RT}{v - b} - \\frac{a} { v^2 + u b v + w b^2} \\)";
+        return " P = \\frac{RT}{v - b} - \\frac{a} { v^2 + u b v + w b^2} ";
     }
 
     /**
@@ -46,13 +46,13 @@ public  class Cubic extends EOS{
         double A = get_A(temperature, pressure, a);
         double B = get_B(temperature, pressure, b);
              
-        double alpha = 1-(this.getU() - 1 ) * B;
-        double beta = A - this.getU() * B - this.getU() * Math.pow(B, 2) + this.getW() * Math.pow(B, 2);
-        double gama = A*B + this.getW() * Math.pow(B,2) + this.getW() * Math.pow(B, 3);
+        double alpha = cubicSolutionAlpha(B);
+        double beta = cubicSolutionBeta(A, B);
+        double gama = cubicSolutionGama(A, B);
         
-        double C = 3 * beta - Math.pow( alpha , 2 );
-        double D = - Math.pow( alpha , 3 ) + 4.5d * alpha * beta - 13.5 * gama;
-        double Q = Math.pow(C, 3) + Math.pow( D , 2 );
+        double C = cubicSolutionC(beta, alpha);
+        double D = cubicSolutionD(alpha, beta, gama);
+        double Q = cubicSolutionQ(C, D);
         
         if(Q <= 0){
             return false;
@@ -62,12 +62,29 @@ public  class Cubic extends EOS{
             
     }
     
-    public double get_A(double temperature, double pressure, double a){
-        return    a * pressure /Math.pow(Constants.R * temperature,2);
+    private double cubicSolutionQ(double C, double D){
+	return  Math.pow(C, 3) + Math.pow( D , 2 );
     }
-    public double get_B(double temperature, double pressure, double b){
-        return b * pressure / (Constants.R * temperature); 
+    
+    private double cubicSolutionD(double alpha,double beta, double gama){
+	return - Math.pow( alpha , 3 ) + 4.5d * alpha * beta - 13.5 * gama;
     }
+    
+    private double cubicSolutionC(double beta, double alpha){
+	return 3 * beta - Math.pow( alpha , 2 );
+    }
+    
+    private double cubicSolutionAlpha(double B){
+	return 1-(this.getU() - 1 ) * B;
+    }
+    private double cubicSolutionBeta(double A,double B){
+	return A - this.getU() * B - this.getU() * Math.pow(B, 2) + this.getW() * Math.pow(B, 2);
+    }
+    private double cubicSolutionGama(double A, double B){
+	return A*B + this.getW() * Math.pow(B,2) + this.getW() * Math.pow(B, 3);
+    }
+    
+ 
     
     public double calculateCompresibilityFactor(
             double A,
@@ -114,6 +131,14 @@ public  class Cubic extends EOS{
         
 
     }
+    
+       public double get_A(double temperature, double pressure, double a){
+        return    a * pressure /Math.pow(Constants.R * temperature,2);
+    }
+    public double get_B(double temperature, double pressure, double b){
+        return b * pressure / (Constants.R * temperature); 
+    }
+    
  public double calculateVolume(
             double temperature, 
             double pressure,

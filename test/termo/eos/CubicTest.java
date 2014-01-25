@@ -1,12 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package termo.eos;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
+import termo.component.Component;
+import termo.cp.DIPPR_107_Equation;
+import termo.eos.alpha.AlphaFactory;
 import termo.phase.Phase;
+import termo.substance.PureSubstance;
 
 /**
  *
@@ -39,17 +39,17 @@ public class CubicTest {
     public void testCalculatePressure() {
 	System.out.println("calculatePressure");
 	double temperature = 300;
-	double volume = 2;
-	double a = 3;
-	double b = 5;
+	double volume = 0.1455;
+	double a = 557542.4546;
+	double b = 0.065047879;
 	Cubic instance = new Cubic();
-	instance.setU(1);
-	instance.setW(-1);
-	
-	double expResult = -831446.9273;
+	instance.setU(0);
+	instance.setW(0);
+
+	double expResult = 4667920.29500558;
 	double result = instance.calculatePressure(temperature, volume, a, b);
 
-	assertEquals(expResult, result, 1e-3);
+	assertEquals(expResult, result, 1e-5);
 	
     }
 
@@ -78,15 +78,14 @@ public class CubicTest {
     @Test
     public void testGet_A() {
 	System.out.println("get_A");
-	double temperature = 0.0;
-	double pressure = 0.0;
-	double a = 0.0;
+	double temperature = 300;
+	double pressure = 100000;
+	double a = 5;
 	Cubic instance = new Cubic();
-	double expResult = 0.0;
+	double expResult = 8.03633e-8;
 	double result = instance.get_A(temperature, pressure, a);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	assertEquals(expResult, result, 1e-4);
+	
     }
 
     /**
@@ -95,15 +94,14 @@ public class CubicTest {
     @Test
     public void testGet_B() {
 	System.out.println("get_B");
-	double temperature = 0.0;
-	double pressure = 0.0;
-	double b = 0.0;
+	double temperature = 300;
+	double pressure = 100000;
+	double b = 2;
 	Cubic instance = new Cubic();
-	double expResult = 0.0;
+	double expResult = 0.080181479;
 	double result = instance.get_B(temperature, pressure, b);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	assertEquals(expResult, result, 1e-4);
+	
     }
 
     /**
@@ -112,15 +110,31 @@ public class CubicTest {
     @Test
     public void testCalculateCompresibilityFactor() {
 	System.out.println("calculateCompresibilityFactor");
-	double A = 0.0;
-	double B = 0.0;
-	Phase aPhase = null;
+	
+	double temperature = 241.255013;
+	double pressure = 1013250;
+	
+	double a = 6.476341e5 ;
+	double b = 0.045089;
+	
+
 	Cubic instance = new Cubic();
-	double expResult = 0.0;
-	double result = instance.calculateCompresibilityFactor(A, B, aPhase);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	
+	
+	instance.setU(1);
+	instance.setW(0);
+
+	double A = instance.get_A(temperature, pressure, a);
+	double B = instance.get_B(temperature, pressure, b);
+	
+	double expResultLiquid = 0.035052;
+	double expResultVapor = 0.838578;
+	double liquidz = instance.calculateCompresibilityFactor(A, B, Phase.LIQUID);
+	double vaporz = instance.calculateCompresibilityFactor(A, B, Phase.VAPOR);
+	
+	assertEquals(expResultLiquid, liquidz, 1e-4);
+	assertEquals(expResultVapor, vaporz, 1e-4);
+
     }
 
     /**
