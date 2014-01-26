@@ -26,7 +26,7 @@ public class CubicTest {
     public void testGetEquation() {
 	System.out.println("getEquation");
 	Cubic instance = new Cubic();
-	String expResult = "\\( P = \\frac{RT}{v - b} - \\frac{a} { v^2 + u b v + w b^2} \\)";
+	String expResult = "P = \\frac{RT}{v - b} - \\frac{a} { v^2 + u b v + w b^2}";
 	String result = instance.getEquation();
 	assertEquals(expResult, result);
 	
@@ -143,15 +143,14 @@ public class CubicTest {
     @Test
     public void testCalculateVolume() {
 	System.out.println("calculateVolume");
-	double temperature = 0.0;
-	double pressure = 0.0;
-	double z = 0.0;
+	double temperature = 241.255013;
+	double pressure = 1013250;
+	double z = 0.035052;
 	Cubic instance = new Cubic();
-	double expResult = 0.0;
+	double expResult = 69.393414e-3;
 	double result = instance.calculateVolume(temperature, pressure, z);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	assertEquals(expResult, result, 1e-4);
+	
     }
 
     /**
@@ -160,19 +159,22 @@ public class CubicTest {
     @Test
     public void testCalculateFugacity() {
 	System.out.println("calculateFugacity");
-	double temperature = 0.0;
-	double pressure = 0.0;
-	double a = 0.0;
-	double b = 0.0;
-	double parciala = 0.0;
-	double bi = 0.0;
-	Phase aPhase = null;
+	double temperature = 241.255013;
+	double pressure = 1013250;
+	
+	double a = 6.476341e5 ;
+	double b = 0.045089;
+	double parciala = 2*a;
+	double bi = 0.045089;
+	Phase aPhase = Phase.LIQUID;
 	Cubic instance = new Cubic();
-	double expResult = 0.0;
+	instance.setU(1);
+	instance.setW(0);
+	
+	double expResult = 0.8609433;
 	double result = instance.calculateFugacity(temperature, pressure, a, b, parciala, bi, aPhase);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	assertEquals(expResult, result, 1e-4);
+
     }
 
     /**

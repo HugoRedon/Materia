@@ -17,7 +17,7 @@ public  class Cubic extends EOS{
     
     @Override
     public String getEquation(){
-        return " P = \\frac{RT}{v - b} - \\frac{a} { v^2 + u b v + w b^2} ";
+        return "P = \\frac{RT}{v - b} - \\frac{a} { v^2 + u b v + w b^2}";
     }
 
     /**
@@ -175,7 +175,7 @@ public  class Cubic extends EOS{
                  if( delta == 0 ){
                      return b / volume;
                  }else{
-                     return  (1 / delta)* Math.log((2 * volume + (2 + delta) * b)/(2 * volume  + (2 - delta) * b));
+                     return  (1 / delta)* Math.log((2 * volume + (u + delta) * b)/(2 * volume  + (u - delta) * b));
                  }      
        }
        
