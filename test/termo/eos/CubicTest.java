@@ -166,14 +166,18 @@ public class CubicTest {
 	double b = 0.045089;
 	double parciala = 2*a;
 	double bi = 0.045089;
-	Phase aPhase = Phase.LIQUID;
+	
 	Cubic instance = new Cubic();
 	instance.setU(1);
 	instance.setW(0);
 	
-	double expResult = 0.8609433;
-	double result = instance.calculateFugacity(temperature, pressure, a, b, parciala, bi, aPhase);
-	assertEquals(expResult, result, 1e-4);
+	double expLiquidResult = 0.8609433;
+	double expVaporResult = 0.8609429;
+	double liquidResult = instance.calculateFugacity(temperature, pressure, a, b, parciala, bi, Phase.LIQUID);
+	double vaporResult = instance.calculateFugacity(temperature, pressure, a, b, parciala, bi, Phase.VAPOR);
+	
+	assertEquals(expVaporResult, vaporResult, 1e-4);
+	assertEquals(expLiquidResult, liquidResult, 1e-4);
 
     }
 
@@ -183,150 +187,17 @@ public class CubicTest {
     @Test
     public void testCalculateL() {
 	System.out.println("calculateL");
-	double volume = 0.0;
-	double b = 0.0;
+	double volume = 0.069391;
+	double b = 0.045089;
 	Cubic instance = new Cubic();
-	double expResult = 0.0;
+	instance.setU(1);
+	instance.setW(0);
+	
+	double expResult = 0.5006393;
 	double result = instance.calculateL(volume, b);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	assertEquals(expResult, result, 1e-4);
     }
 
-    /**
-     * Test of setOmega_a method, of class Cubic.
-     */
-    @Test
-    public void testSetOmega_a() {
-	System.out.println("setOmega_a");
-	double omega_a = 0.0;
-	Cubic instance = new Cubic();
-	instance.setOmega_a(omega_a);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getOmega_a method, of class Cubic.
-     */
-    @Test
-    public void testGetOmega_a() {
-	System.out.println("getOmega_a");
-	Cubic instance = new Cubic();
-	double expResult = 0.0;
-	double result = instance.getOmega_a();
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setOmega_b method, of class Cubic.
-     */
-    @Test
-    public void testSetOmega_b() {
-	System.out.println("setOmega_b");
-	double omega_b = 0.0;
-	Cubic instance = new Cubic();
-	instance.setOmega_b(omega_b);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getOmega_b method, of class Cubic.
-     */
-    @Test
-    public void testGetOmega_b() {
-	System.out.println("getOmega_b");
-	Cubic instance = new Cubic();
-	double expResult = 0.0;
-	double result = instance.getOmega_b();
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getU method, of class Cubic.
-     */
-    @Test
-    public void testGetU() {
-	System.out.println("getU");
-	Cubic instance = new Cubic();
-	double expResult = 0.0;
-	double result = instance.getU();
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setU method, of class Cubic.
-     */
-    @Test
-    public void testSetU() {
-	System.out.println("setU");
-	double u = 0.0;
-	Cubic instance = new Cubic();
-	instance.setU(u);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getW method, of class Cubic.
-     */
-    @Test
-    public void testGetW() {
-	System.out.println("getW");
-	Cubic instance = new Cubic();
-	double expResult = 0.0;
-	double result = instance.getW();
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setW method, of class Cubic.
-     */
-    @Test
-    public void testSetW() {
-	System.out.println("setW");
-	double w = 0.0;
-	Cubic instance = new Cubic();
-	instance.setW(w);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of hashCode method, of class Cubic.
-     */
-    @Test
-    public void testHashCode() {
-	System.out.println("hashCode");
-	Cubic instance = new Cubic();
-	int expResult = 0;
-	int result = instance.hashCode();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of equals method, of class Cubic.
-     */
-    @Test
-    public void testEquals() {
-	System.out.println("equals");
-	Object obj = null;
-	Cubic instance = new Cubic();
-	boolean expResult = false;
-	boolean result = instance.equals(obj);
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
+   
+  
 }
