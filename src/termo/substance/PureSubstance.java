@@ -3,6 +3,7 @@ package termo.substance;
 import termo.Constants;
 import termo.component.Component;
 import termo.eos.alpha.Alpha;
+import termo.phase.Phase;
 
 /**
  *
@@ -12,6 +13,11 @@ public class PureSubstance extends Substance{
     private Component component;
     private Alpha alpha;
     
+    
+    public double calculateFugacity(double temperature, double pressure, Phase aPhase){
+	return super.calculateFugacity(this, temperature, pressure, aPhase);
+	
+    }
     
     public boolean equals(PureSubstance substance){
         if(substance.getComponent().equals(component) &&

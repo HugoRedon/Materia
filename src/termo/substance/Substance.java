@@ -3,6 +3,7 @@ package termo.substance;
 
 import termo.Constants;
 import termo.eos.Cubic;
+import termo.equilibrium.BubblePoint;
 import termo.phase.Phase;
 
 /**
@@ -12,6 +13,7 @@ import termo.phase.Phase;
 public abstract class  Substance {
     
     private Cubic cubicEquationOfState;
+    private BubblePoint bubblePoint;
 
     public abstract double temperatureParcial_a(double temperature);
     public abstract double calculate_a_cubicParameter(double temperature);
