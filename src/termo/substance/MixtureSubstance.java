@@ -214,4 +214,9 @@ public class MixtureSubstance extends Substance{
     public void setBinaryParameters(BinaryInteractionParameter binaryParameters) {
 	this.binaryParameters = binaryParameters;
     }
+
+    @Override
+    public double bubbleTemperature(Double pressure) {
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

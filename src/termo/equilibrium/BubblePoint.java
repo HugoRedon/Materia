@@ -67,7 +67,7 @@ public class BubblePoint extends PhaseEquilibria{
       double pressure= 0;
       int  iterations = 0;
       for( Component component : liquidFractions.keySet()){
-          double vaporP =  EquilibriumFunctions.getPureComponentVaporPressure(component, temperature);//pc * Math.pow(10,(-7d/3d)* (1+w) * ((tc/temperature) - 1 ) );
+          double vaporP = 1;// EquilibriumFunctions.getPureComponentVaporPressure(component, temperature);//pc * Math.pow(10,(-7d/3d)* (1+w) * ((tc/temperature) - 1 ) );
           vaporPressures.put(component, vaporP);
           pressure += vaporP * liquidFractions.get(component);  
       }
@@ -95,10 +95,10 @@ public class BubblePoint extends PhaseEquilibria{
             calcP_ = 0;
             T_  = temperature + deltaT;
            for (Component component : liquidFractions.keySet() ){
-               double vaporPressure = EquilibriumFunctions.getPureComponentVaporPressure(component, temperature);
+               double vaporPressure =1;// EquilibriumFunctions.getPureComponentVaporPressure(component, temperature);
                double pi = vaporPressure * liquidFractions.get(component);
                calcPressure += pi;
-               double vaporPressure_ = EquilibriumFunctions.getPureComponentVaporPressure(component, T_);
+               double vaporPressure_ =1;// EquilibriumFunctions.getPureComponentVaporPressure(component, T_);
                double pi_ = vaporPressure_ * liquidFractions.get(component);
                calcP_  += pi_;
            }
@@ -107,7 +107,7 @@ public class BubblePoint extends PhaseEquilibria{
            temperature = (temperature * T_ *(error_ - error)) / (T_ * error_ - temperature * error);
       } 
       for(Component component: liquidFractions.keySet()){
-          double vp = EquilibriumFunctions.getPureComponentVaporPressure(component, temperature);
+          double vp =1;// EquilibriumFunctions.getPureComponentVaporPressure(component, temperature);
           double yi = vp * liquidFractions.get(component) / pressure;
           vaporFractions.put(component, yi);
       }

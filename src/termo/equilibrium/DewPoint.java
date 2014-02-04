@@ -85,10 +85,10 @@ public class DewPoint extends PhaseEquilibria{
             
             T_  = temperature + deltaT;
            for (Component component : vaporFractions.keySet() ){
-               double vaporPressure = EquilibriumFunctions.getPureComponentVaporPressure(component, temperature);
+               double vaporPressure =1; //EquilibriumFunctions.getPureComponentVaporPressure(component, temperature);
                denominator += vaporFractions.get(component) / vaporPressure;
                
-               double vaporPressure_ = EquilibriumFunctions.getPureComponentVaporPressure(component, T_);
+               double vaporPressure_ =1;// EquilibriumFunctions.getPureComponentVaporPressure(component, T_);
                denominator_ += vaporFractions.get(component) / vaporPressure_;
            }
            
@@ -100,7 +100,7 @@ public class DewPoint extends PhaseEquilibria{
            temperature = (temperature * T_ *(error_ - error)) / (T_ * error_ - temperature * error);
       } 
       for(Component component: vaporFractions.keySet()){
-          double vp = EquilibriumFunctions.getPureComponentVaporPressure(component, temperature);
+          double vp =1;// EquilibriumFunctions.getPureComponentVaporPressure(component, temperature);
           double xi =  pressure *vaporFractions.get(component) /vp ;
           liquidFractions.put(component, xi);
       }
@@ -115,7 +115,7 @@ public class DewPoint extends PhaseEquilibria{
       int  iterations = 0;
       double denominator=0;
       for( Component component : vaporFractions.keySet()){
-            double vaporP =  EquilibriumFunctions.getPureComponentVaporPressure(component, temperature);//pc * Math.pow(10,(-7d/3d)* (1+w) * ((tc/temperature) - 1 ) );
+            double vaporP =  1;//EquilibriumFunctions.getPureComponentVaporPressure(component, temperature);//pc * Math.pow(10,(-7d/3d)* (1+w) * ((tc/temperature) - 1 ) );
             vaporPressures.put(component, vaporP);
             denominator += vaporFractions.get(component) / vaporP;
       }

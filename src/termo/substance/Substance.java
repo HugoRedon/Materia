@@ -13,7 +13,7 @@ import termo.phase.Phase;
 public abstract class  Substance {
     
     private Cubic cubicEquationOfState;
-    private BubblePoint bubblePoint;
+   // protected BubblePoint bubblePoint = new BubblePoint();
 
     public abstract double temperatureParcial_a(double temperature);
     public abstract double calculate_a_cubicParameter(double temperature);
@@ -71,4 +71,6 @@ public abstract class  Substance {
     public void setCubicEquationOfState(Cubic cubicEquationOfState) {
         this.cubicEquationOfState = cubicEquationOfState;
     }
+
+    public abstract double bubbleTemperature(Double pressure) ;
 }

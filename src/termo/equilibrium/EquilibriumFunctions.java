@@ -65,15 +65,7 @@ public static HashMap<Component,Double> getVaporFractionsRaoultsLaw(double press
     
 }
         
-public static double getPureComponentVaporPressure(Component component,double temperature){
-    double pc = component.getCriticalPressure();
-    double w = component.getAcentricFactor();
-    double tc = component.getCriticalTemperature();
 
-    double vaporPressure =  pc * Math.pow(10,(-7d/3d)* (1+w) * ((tc/temperature) - 1 ) );
-
-    return vaporPressure;
-}
     
         
     public static double calculateSy(HashMap<Component,Double> equilibriumRelations, HashMap<Component,Double> fractions, ArrayList<Component> components){
