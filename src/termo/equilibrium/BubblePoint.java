@@ -13,9 +13,6 @@ import static termo.equilibrium.EquilibriumFunctions.*;
  */
 public class BubblePoint extends PhaseEquilibria{
    
-    
-
-    
     @Override
       public EquilibriaPhaseSolution getTemperature(
                 double temperature,

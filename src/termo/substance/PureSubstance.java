@@ -6,6 +6,11 @@ import termo.component.Component;
 import termo.eos.alpha.Alpha;
 import termo.equilibrium.EquilibriaPhaseSolution;
 import termo.equilibrium.EquilibriumFunctions;
+import static termo.equilibrium.EquilibriumFunctions.calculateNewXFractions;
+import static termo.equilibrium.EquilibriumFunctions.calculateNewYFractions;
+import static termo.equilibrium.EquilibriumFunctions.calculateSx;
+import static termo.equilibrium.EquilibriumFunctions.calculateSy;
+import static termo.equilibrium.EquilibriumFunctions.equilibriumRelations;
 import termo.phase.Phase;
 
 /**
@@ -131,7 +136,7 @@ public class PureSubstance extends Substance{
         double deltaT = 1;
         int count = 0;
 	
-        while(e > tolerance && count < 1000){
+        while(Math.abs(e) > tolerance && count < 1000){
 	    count++;
 	    double K = calculateFugacity(temperature, pressure, Phase.LIQUID)/ calculateFugacity(temperature, pressure, Phase.VAPOR);
             e = Math.log( K);
@@ -142,7 +147,6 @@ public class PureSubstance extends Substance{
         }
         return temperature;
     }
-    
     public double bubbleTemperatureEstimate(Double pressure){
 	
 	double temperature =  300;
@@ -151,7 +155,7 @@ public class PureSubstance extends Substance{
 	double tol = 1e-4;
 	int iterations =0;
 	
-	while (error >tol  || iterations < 1000){
+	while (Math.abs(error) >tol  || iterations < 1000){
 	    iterations++;
 	    double T_  = temperature + deltaT;
 	    double vaporPressure = getAcentricFactorBasedVaporPressure( temperature);
@@ -163,18 +167,84 @@ public class PureSubstance extends Substance{
     return temperature;
     }
     public double bubblePressureEstimate(Double temperature){
-	// HashMap<Component,Double> vaporPressures = new HashMap<>();
-      //double pressure= 0;
-      int  iterations = 0;
-     // for( Component component : liquidFractions.keySet()){
-          double vaporP = getAcentricFactorBasedVaporPressure(temperature);
-         // vaporPressures.put(component, vaporP);
-         // pressure += vaporP * liquidFractions.get(component);  
-      //}
-//      HashMap<Component,Double>  vaporFractions = EquilibriumFunctions.getVaporFractionsRaoultsLaw(pressure, liquidFractions, vaporPressures);
-//      return new EquilibriaPhaseSolution(temperature,pressure,liquidFractions, vaporFractions, iterations);
-      
-      return vaporP;
+	return getAcentricFactorBasedVaporPressure(temperature);
+    }
+    public double dewTemperature(double pressure) {
+
+	double temperature = dewTemperatureEstimate(pressure);
+        double e = 100;
+        double deltaT = 0.1;
+        double tolerance = 1e-4;
+        int count = 0;
+        while(Math.abs(e) >= tolerance && count == 1000){
+            double K = calculateFugacity(temperature, pressure, Phase.LIQUID)/calculateFugacity(temperature, pressure, Phase.VAPOR);
+            e = Math.log(1/K);
+            double T_ = temperature + deltaT;
+            double k_ = calculateFugacity(T_, pressure, Phase.LIQUID)/calculateFugacity(T_, pressure, Phase.VAPOR);
+            double e_ = Math.log(1/k_);
+            temperature = temperature * T_ * (e_ - e) / (T_ * e_ - temperature * e);
+
+        }
+
+	return temperature;
+    }
+    public double dewTemperatureEstimate(double pressure) {
+	double temperature =  300;	
+	double error = 100;
+	double deltaT =1;
+	double tol = 1e-3; 
+	int iterations =0;
+	while (Math.abs(error) >tol && iterations < 1000 ){
+	    iterations++;
+	    double T_  = temperature + deltaT;
+	    double vaporPressure =getAcentricFactorBasedVaporPressure(temperature);
+	    double vaporPressure_ = getAcentricFactorBasedVaporPressure(T_);
+	    error = Math.log(vaporPressure / pressure);
+	    double error_ = Math.log(vaporPressure_ / pressure);
+	    temperature = (temperature * T_ *(error_ - error)) / (T_ * error_ - temperature * error);
+	} 
+	return temperature;
+    }
+    public double dewPressureEstimate(double temperature) {
+	double vaporP =  getAcentricFactorBasedVaporPressure(temperature);
+	return vaporP;
+    }
+    public double dewPressure(double temperature) {
+	
+	double pressure = dewPressureEstimate(temperature);
+	double tolerance = 1e-4;
+	double deltaP = 0.0001;
+	double e = 10;
+	 int count = 0;
+	while(Math.abs(e) > tolerance && count < 1000 ){         
+	    count++;
+            double K = calculateFugacity(temperature, pressure, Phase.LIQUID)/calculateFugacity(temperature, pressure, Phase.VAPOR);
+            e = (1/K) -1;
+	    double p_ = pressure * (1 + deltaP);
+            double K_ = calculateFugacity(temperature, p_, Phase.LIQUID)/calculateFugacity(temperature, p_, Phase.VAPOR);
+            double  e_ = (1/K_)-1;
+            pressure =  pressure - e * (p_ - pressure)/ (e_ - e);
+      }    
+	return pressure;
+    }
+    public double bubblePressure(double temperature) {
+	double p = bubblePressureEstimate(temperature);
+	double tolerance = 1e-4; 
+      double deltaP = 0.0001;
+      double e = 10;
+ 
+      int count = 0;
+      while(Math.abs(e) > tolerance && count < 1000 ){         
+            count++;
+            double k =calculateFugacity(temperature, p, Phase.LIQUID)/calculateFugacity(temperature, p, Phase.VAPOR) ;
+            e = k -1;
+            double p_ = p * (1 + deltaP); 
+            double k_ =calculateFugacity(temperature, p_, Phase.LIQUID)/calculateFugacity(temperature, p_, Phase.VAPOR) ;  
+            double e_ = k_-1;
+            p = ((p * p_ )* (e_ - e)) / ((p_ * e_) - (p * e));      
+      }  
+
+      return p;
     }
     public  double getAcentricFactorBasedVaporPressure(double temperature){
 	double pc = component.getCriticalPressure();
@@ -183,9 +253,4 @@ public class PureSubstance extends Substance{
 
 	return  pc * Math.pow(10,(-7d/3d)* (1+w) * ((tc/temperature) - 1 ) );
     }
-    
-    
-    
-    
-    
 }
