@@ -147,6 +147,25 @@ public class PureSubstance extends Substance{
         }
         return temperature;
     }
+    public double bubblePressure(double temperature) {
+	double p = bubblePressureEstimate(temperature);
+	double tolerance = 1e-4; 
+      double deltaP = 0.0001;
+      double e = 10;
+ 
+      int count = 0;
+      while(Math.abs(e) > tolerance && count < 1000 ){         
+            count++;
+            double k =calculateFugacity(temperature, p, Phase.LIQUID)/calculateFugacity(temperature, p, Phase.VAPOR) ;
+            e = k -1;
+            double p_ = p * (1 + deltaP); 
+            double k_ =calculateFugacity(temperature, p_, Phase.LIQUID)/calculateFugacity(temperature, p_, Phase.VAPOR) ;  
+            double e_ = k_-1;
+            p = ((p * p_ )* (e_ - e)) / ((p_ * e_) - (p * e));      
+      }  
+
+      return p;
+    }
     public double bubbleTemperatureEstimate(Double pressure){
 	
 	double temperature =  300;
@@ -227,25 +246,7 @@ public class PureSubstance extends Substance{
       }    
 	return pressure;
     }
-    public double bubblePressure(double temperature) {
-	double p = bubblePressureEstimate(temperature);
-	double tolerance = 1e-4; 
-      double deltaP = 0.0001;
-      double e = 10;
- 
-      int count = 0;
-      while(Math.abs(e) > tolerance && count < 1000 ){         
-            count++;
-            double k =calculateFugacity(temperature, p, Phase.LIQUID)/calculateFugacity(temperature, p, Phase.VAPOR) ;
-            e = k -1;
-            double p_ = p * (1 + deltaP); 
-            double k_ =calculateFugacity(temperature, p_, Phase.LIQUID)/calculateFugacity(temperature, p_, Phase.VAPOR) ;  
-            double e_ = k_-1;
-            p = ((p * p_ )* (e_ - e)) / ((p_ * e_) - (p * e));      
-      }  
-
-      return p;
-    }
+  
     public  double getAcentricFactorBasedVaporPressure(double temperature){
 	double pc = component.getCriticalPressure();
 	double w = component.getAcentricFactor();
