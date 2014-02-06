@@ -1,16 +1,9 @@
 package termo.substance;
 
-import java.util.HashMap;
 import termo.Constants;
 import termo.component.Component;
 import termo.eos.alpha.Alpha;
 import termo.equilibrium.EquilibriaPhaseSolution;
-import termo.equilibrium.EquilibriumFunctions;
-import static termo.equilibrium.EquilibriumFunctions.calculateNewXFractions;
-import static termo.equilibrium.EquilibriumFunctions.calculateNewYFractions;
-import static termo.equilibrium.EquilibriumFunctions.calculateSx;
-import static termo.equilibrium.EquilibriumFunctions.calculateSy;
-import static termo.equilibrium.EquilibriumFunctions.equilibriumRelations;
 import termo.phase.Phase;
 
 /**
@@ -129,8 +122,8 @@ public class PureSubstance extends Substance{
     }
 
     @Override
-    public double bubbleTemperature(Double pressure) {
-	double temperature = bubbleTemperatureEstimate(pressure);
+    public double bubbleTemperature(double pressure) {
+	double temperature = bubbleTemperatureEstimate(pressure).getTemperature();
 	double tolerance = 1e-4;
         double e = 100;
         double deltaT = 1;
@@ -147,6 +140,7 @@ public class PureSubstance extends Substance{
         }
         return temperature;
     }
+    @Override
     public double bubblePressure(double temperature) {
 	double p = bubblePressureEstimate(temperature);
 	double tolerance = 1e-4; 
@@ -166,7 +160,8 @@ public class PureSubstance extends Substance{
 
       return p;
     }
-    public double bubbleTemperatureEstimate(Double pressure){
+    @Override
+    public EquilibriaPhaseSolution bubbleTemperatureEstimate(double pressure){
 	
 	double temperature =  300;
 	double error = 100;
@@ -174,7 +169,7 @@ public class PureSubstance extends Substance{
 	double tol = 1e-4;
 	int iterations =0;
 	
-	while (Math.abs(error) >tol  || iterations < 1000){
+	while (Math.abs(error) >tol  && iterations < 1000){
 	    iterations++;
 	    double T_  = temperature + deltaT;
 	    double vaporPressure = getAcentricFactorBasedVaporPressure( temperature);
@@ -183,11 +178,15 @@ public class PureSubstance extends Substance{
 	    double error_ = Math.log(vaporPressure_ / pressure);
 	    temperature = (temperature * T_ *(error_ - error)) / (T_ * error_ - temperature * error);
 	} 
-    return temperature;
+	
+	return new EquilibriaPhaseSolution(temperature, pressure, iterations);
+    //return temperature;
     }
-    public double bubblePressureEstimate(Double temperature){
+    @Override
+    public double bubblePressureEstimate(double temperature){
 	return getAcentricFactorBasedVaporPressure(temperature);
     }
+    @Override
     public double dewTemperature(double pressure) {
 
 	double temperature = dewTemperatureEstimate(pressure);
@@ -207,6 +206,7 @@ public class PureSubstance extends Substance{
 
 	return temperature;
     }
+    @Override
     public double dewTemperatureEstimate(double pressure) {
 	double temperature =  300;	
 	double error = 100;
@@ -224,10 +224,12 @@ public class PureSubstance extends Substance{
 	} 
 	return temperature;
     }
+    @Override
     public double dewPressureEstimate(double temperature) {
 	double vaporP =  getAcentricFactorBasedVaporPressure(temperature);
 	return vaporP;
     }
+    @Override
     public double dewPressure(double temperature) {
 	
 	double pressure = dewPressureEstimate(temperature);

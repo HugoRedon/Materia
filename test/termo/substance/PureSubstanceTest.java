@@ -22,8 +22,8 @@ public class PureSubstanceTest {
 	
 	ethane.setAcentricFactor(0.09781);
 	ethane.setCriticalTemperature(305.43);
-	ethane.setCriticalPressure(4879761.338);
-	ethane.setPrsvKappa(-0.02669);
+	ethane.setCriticalPressure(48.1595*101325);
+	ethane.setPrsvKappa(0.02669);//en eqfases2 tiene un signo negativo ...
 	
 	Cubic eos = EquationOfStateFactory.pengRobinsonBase();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
@@ -132,48 +132,6 @@ public class PureSubstanceTest {
     }
 
     @Test
-    public void testGetComponent() {
-	System.out.println("getComponent");
-	PureSubstance instance = new PureSubstance();
-	Component expResult = null;
-	Component result = instance.getComponent();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testSetComponent() {
-	System.out.println("setComponent");
-	Component component = null;
-	PureSubstance instance = new PureSubstance();
-	instance.setComponent(component);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testGetAlpha() {
-	System.out.println("getAlpha");
-	PureSubstance instance = new PureSubstance();
-	Alpha expResult = null;
-	Alpha result = instance.getAlpha();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testSetAlpha() {
-	System.out.println("setAlpha");
-	Alpha alpha = null;
-	PureSubstance instance = new PureSubstance();
-	instance.setAlpha(alpha);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    @Test
     public void testCalculateIdealGasEntropy() {
 	System.out.println("calculateIdealGasEntropy");
 	double temperature = 0.0;
@@ -211,8 +169,8 @@ public class PureSubstanceTest {
 	double temperature =298;
 	double result = substance.bubblePressureEstimate(temperature);
 	double tolerance = 1e-3;
-	double expResult = 41.57334499;
-	assertEquals(expResult, result/101325,tolerance);
+	double expResult = 41.57334499*101325;
+	assertEquals(expResult, result,tolerance);
     }
 
     /**
@@ -222,7 +180,7 @@ public class PureSubstanceTest {
     public void testBubbleTemperatureEstimate() {
 	System.out.println("getTemperatureEstimate");
 	double pressure =101325;
-	double result = substance.bubbleTemperatureEstimate(pressure);
+	double result = substance.bubbleTemperatureEstimate(pressure).getTemperature();
 	double tolerance = 1e-3;
 	double expResult = 184.338452;
 	assertEquals(expResult, result,tolerance);
@@ -241,55 +199,50 @@ public class PureSubstanceTest {
 	double expResult =41.432724;
 	assertEquals(expResult, result/101325,tolerance);
     }
-
-    @Test
+    
+   @Test
     public void testDewTemperature() {
-	System.out.println("dewTemperature");
-	double pressure = 0.0;
-	PureSubstance instance = new PureSubstance();
-	double expResult = 0.0;
-	double result = instance.dewTemperature(pressure);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	System.out.println("getTemperature");
+	
+	double pressure =101325;
+	double result = substance.dewTemperature(pressure);	
+	double tolerance = 1e-3;
+	double expResult = 184.607519;
+	
+	assertEquals(expResult, result,tolerance);
     }
-
+   
     @Test
     public void testDewTemperatureEstimate() {
-	System.out.println("dewTemperatureEstimate");
-	double pressure = 0.0;
-	PureSubstance instance = new PureSubstance();
-	double expResult = 0.0;
-	double result = instance.dewTemperatureEstimate(pressure);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	System.out.println("getTemperatureEstimate");
+	double pressure =101325;
+	double result = substance.dewTemperatureEstimate(pressure);
+	double tolerance = 1e-3;
+	double expResult = 184.338452;
+	assertEquals(expResult, result,tolerance);
     }
 
     @Test
     public void testDewPressureEstimate() {
-	System.out.println("dewPressureEstimate");
-	double temperature = 0.0;
-	PureSubstance instance = new PureSubstance();
-	double expResult = 0.0;
-	double result = instance.dewPressureEstimate(temperature);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	System.out.println("getPressureEstimate");
+	double temperature =298;
+	double result = substance.dewPressureEstimate(temperature);
+	double tolerance = 1e-3;
+	double expResult = 41.57334499*101325;
+	assertEquals(expResult, result,tolerance);
     }
 
     @Test
     public void testDewPressure() {
-	System.out.println("dewPressure");
-	double temperature = 0.0;
-	PureSubstance instance = new PureSubstance();
-	double expResult = 0.0;
-	double result = instance.dewPressure(temperature);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	System.out.println("getPressure");
+	
+	double temperature = 298;
+	double result = substance.dewPressure(temperature);
+	double tolerance =  1e-3;
+	double expResult =41.432724;// 4.198171e6;
+	assertEquals(expResult, result/101325,tolerance);
     }
-
+    
     @Test
     public void testGetAcentricFactorBasedVaporPressure() {
 	System.out.println("getAcentricFactorBasedVaporPressure");
@@ -297,7 +250,7 @@ public class PureSubstanceTest {
 	
 	double expResult = 41.57334499;
 	double result = substance.getAcentricFactorBasedVaporPressure(temperature);
-	assertEquals(expResult, result, 1e-3);
+	assertEquals(expResult, result/101325, 1e-3);
 	
     }
 }

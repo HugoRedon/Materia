@@ -3,7 +3,7 @@ package termo.substance;
 
 import termo.Constants;
 import termo.eos.Cubic;
-import termo.equilibrium.BubblePoint;
+import termo.equilibrium.EquilibriaPhaseSolution;
 import termo.phase.Phase;
 
 /**
@@ -72,5 +72,13 @@ public abstract class  Substance {
         this.cubicEquationOfState = cubicEquationOfState;
     }
 
-    public abstract double bubbleTemperature(Double pressure) ;
+    
+    public abstract double bubbleTemperature(double pressure) ;
+    public abstract double bubblePressure(double temperature);
+    public abstract EquilibriaPhaseSolution bubbleTemperatureEstimate(double pressure);
+    public abstract double bubblePressureEstimate(double temperature);
+    public abstract double dewTemperature(double pressure);
+    public abstract double dewTemperatureEstimate(double pressure);
+    public abstract double dewPressureEstimate(double temperature);
+    public abstract double dewPressure(double temperature);
 }

@@ -7,6 +7,8 @@ import termo.binaryParameter.BinaryInteractionParameter;
 import termo.component.Component;
 import termo.eos.Cubic;
 import termo.eos.mixingRule.MixingRule;
+import termo.equilibrium.EquilibriaPhaseSolution;
+import termo.equilibrium.MixtureEquilibriaPhaseSolution;
 
 /**
  *
@@ -216,7 +218,96 @@ public class MixtureSubstance extends Substance{
     }
 
     @Override
-    public double bubbleTemperature(Double pressure) {
+    public EquilibriaPhaseSolution bubbleTemperatureEstimate(double pressure) {
+	//return 204.911544;
+	  double temperature =  300;
+      
+      double error = 100;
+      double deltaT =1;
+      
+      double tol = 1e-4;
+      
+      
+      HashMap<PureSubstance,Double> vaporFractions  = new HashMap<>();
+      
+      int iterations =0;
+      while (error >tol  && iterations < 1000){
+          iterations++;
+	    double T_  = temperature + deltaT;
+            double vaporPressure = calculateVaporPressure(temperature);
+            double vaporPressure_ = calculateVaporPressure(T_);
+           error = Math.log(vaporPressure / pressure);
+           double error_ = Math.log(vaporPressure_ / pressure);
+           temperature = (temperature * T_ *(error_ - error)) / (T_ * error_ - temperature * error);
+      } 
+      for(PureSubstance component: pureSubstances){
+          double vp = component.getAcentricFactorBasedVaporPressure(temperature);
+          double yi = vp * molarFractions.get(component) / pressure;
+          vaporFractions.put(component, yi);
+      }
+      return new MixtureEquilibriaPhaseSolution(temperature, pressure,molarFractions,vaporFractions, iterations);
+	//return temperature;
+    }
+    public double calculateVaporPressure(double temperature){
+	double vaporPressure = 0;
+	 for (PureSubstance component : pureSubstances ){
+               vaporPressure += component.getAcentricFactorBasedVaporPressure(temperature)*molarFractions.get(component);     
+           }
+	 
+	 return vaporPressure;
+    }
+    
+    
+    
+    @Override
+    public double bubbleTemperature(double pressure) {
+	
+	
+	
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	
+    }
+
+    @Override
+    public double bubblePressure(double temperature) {
 	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    
+    @Override
+    public double bubblePressureEstimate(double temperature) {
+	  HashMap<Component,Double> vaporPressures = new HashMap<>();
+      double pressure= 0;
+      int  iterations = 0;
+      for( PureSubstance component : pureSubstances){
+          double vaporP =  component.getAcentricFactorBasedVaporPressure(temperature);
+          //vaporPressures.put(component, vaporP);
+          pressure += vaporP * molarFractions.get(component);  
+      }
+     // HashMap<Component,Double>  vaporFractions = EquilibriumFunctions.getVaporFractionsRaoultsLaw(pressure, liquidFractions, vaporPressures);
+     // return new EquilibriaPhaseSolution(temperature,pressure,liquidFractions, vaporFractions, iterations);   
+      return pressure;
+    }
+
+    @Override
+    public double dewTemperature(double pressure) {
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double dewTemperatureEstimate(double pressure) {
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double dewPressureEstimate(double temperature) {
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double dewPressure(double temperature) {
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }
