@@ -3,7 +3,9 @@ package termo.eos.mixingRule;
 import java.util.ArrayList;
 import java.util.HashMap;
 import termo.binaryParameter.BinaryInteractionParameter;
+import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
+import termo.substance.PureSubstance;
 
 /**
  *
@@ -16,27 +18,25 @@ public class VDWMixingRule extends MixingRule{
  
     }
     
-   @Override
+   
+    @Override
   public double a(double temperature,
-           HashMap<Component,Double> singleAs,
-           HashMap<Component,Double> singleBs,
-           ArrayList<Component> components,
-           HashMap<Component,Double> fractions,
-           BinaryInteractionParameter k){
+           HashMap<PureSubstance,Double> fractions,
+           InteractionParameter k){
        double a = 0;
        
        
-      for(Component iComponent:components){
-          for(Component jComponent:components){
+      for(PureSubstance iComponent: fractions.keySet()){
+          for(PureSubstance jComponent: fractions.keySet()){
               double xi = fractions.get(iComponent);
               double xj = fractions.get(jComponent);
               
-              double ai = singleAs.get(iComponent);
-              double aj = singleAs.get(jComponent);
+              double ai = iComponent.calculate_a_cubicParameter(temperature);
+              double aj = jComponent.calculate_a_cubicParameter(temperature);
               
-              //TODO: depends on the equation of state 
+             
               double kij = k.getValue(iComponent, jComponent);
-             // double kij = BinaryInteractionParameter.getk(iComponent, jComponent);
+             
               
               a += xi * xj * Math.sqrt(ai * aj) * (1-kij);
           }
@@ -46,52 +46,48 @@ public class VDWMixingRule extends MixingRule{
        return a;
   }
    
-    @Override
-   public double temperatureParcial_a(
-            double temperature,
-           ArrayList<Component> components, 
-           HashMap<Component,Double> fractions,
-            HashMap<Component,Double> single_as,
-            HashMap<Component, Double> single_bs, 
-             HashMap<Component,Double> alphaDerivatives,
-             BinaryInteractionParameter k
-           ){
-       
-       double result = 0;
-       for(Component ci: components){
-            for (Component cj: components){
-                double xi = fractions.get(ci);
-                double ai = single_as.get(ci);
-                double tempAlphaDerivativeAlphai = alphaDerivatives.get(ci);
-                
-                double xj = fractions.get(cj);
-                  double aj = single_as.get(cj);
-                double tempAlphaDerivativeAlphaj = alphaDerivatives.get(cj);
-                
-                result += (1d/2d) * xi * xj * Math.sqrt(ai * aj )*(1- k.getValue(ci, cj))*(tempAlphaDerivativeAlphai + tempAlphaDerivativeAlphaj);
-                
-            }
-       }
-       return result;
-   }
+//    @Override
+//   public double temperatureParcial_a(
+//            double temperature,
+//           ArrayList<Component> components, 
+//           HashMap<Component,Double> fractions,
+//            HashMap<Component,Double> single_as,
+//            HashMap<Component, Double> single_bs, 
+//             HashMap<Component,Double> alphaDerivatives,
+//             BinaryInteractionParameter k
+//           ){
+//       
+//       double result = 0;
+//       for(Component ci: components){
+//            for (Component cj: components){
+//                double xi = fractions.get(ci);
+//                double ai = single_as.get(ci);
+//                double tempAlphaDerivativeAlphai = alphaDerivatives.get(ci);
+//                
+//                double xj = fractions.get(cj);
+//                  double aj = single_as.get(cj);
+//                double tempAlphaDerivativeAlphaj = alphaDerivatives.get(cj);
+//                
+//                result += (1d/2d) * xi * xj * Math.sqrt(ai * aj )*(1- k.getValue(ci, cj))*(tempAlphaDerivativeAlphai + tempAlphaDerivativeAlphaj);
+//                
+//            }
+//       }
+//       return result;
+//   }
    
     @Override
    public double oneOverNParcial_aN2RespectN(
             double temperature,
-            HashMap<Component,Double> singleAs,
-            HashMap<Component,Double> singleBs,
-            HashMap<Component, Double> singleAlphas, 
-        ArrayList<Component> components,
-        Component iComponent,
-        HashMap<Component,Double> fractions,
-        BinaryInteractionParameter k){
+        PureSubstance iComponent,
+        HashMap<PureSubstance,Double> fractions,
+        InteractionParameter k){
 
        double sum = 0;
-       double ai = singleAs.get(iComponent);
+       double ai = iComponent.calculate_a_cubicParameter(temperature);
        
-       for(Component kComponent : components){
+       for(PureSubstance kComponent : fractions.keySet()){
            double xk = fractions.get(kComponent);          
-           double ak = singleAs.get(kComponent);        
+           double ak = kComponent.calculate_a_cubicParameter(temperature);//singleAs.get(kComponent);        
            
            double kik = k.getValue(iComponent, kComponent);
            //double kik = BinaryInteractionParameter.getk(iComponent, kComponent);
@@ -118,6 +114,15 @@ public class VDWMixingRule extends MixingRule{
        
        return b;
     }
+
+    @Override
+    public double temperatureParcial_a(double temperature, ArrayList<Component> components, HashMap<Component, Double> fractions, HashMap<Component, Double> single_as, HashMap<Component, Double> single_bs, HashMap<Component, Double> alphaDerivatives, BinaryInteractionParameter k) {
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+ 
+
+   
  
     
 }

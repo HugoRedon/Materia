@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import termo.Constants;
 import termo.binaryParameter.BinaryInteractionParameter;
+import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.eos.Cubic;
 import termo.eos.mixingRule.MixingRule;
 import termo.equilibrium.EquilibriaPhaseSolution;
+import static termo.equilibrium.EquilibriumFunctions.calculateNewXFractions;
+import static termo.equilibrium.EquilibriumFunctions.equilibriumRelations;
 import termo.equilibrium.MixtureEquilibriaPhaseSolution;
+import termo.phase.Phase;
 
 /**
  *
@@ -18,7 +22,7 @@ public class MixtureSubstance extends Substance{
     private MixingRule mixingRule;
     private ArrayList<PureSubstance> pureSubstances = new ArrayList<>();
     private HashMap<PureSubstance,Double> molarFractions = new HashMap<>();
-    private BinaryInteractionParameter binaryParameters;
+    private InteractionParameter binaryParameters;
     
     public void addComponent(PureSubstance pureSubstance, double molarFraction){
         pureSubstance.setCubicEquationOfState(getCubicEquationOfState());
@@ -93,7 +97,7 @@ public class MixtureSubstance extends Substance{
 
     @Override
     public double calculate_a_cubicParameter(double temperature) {
-        return getMixingRule().a(temperature, single_as(temperature), single_bs(), getComponents(), getFractions(), getBinaryParameters());
+        return getMixingRule().a(temperature, molarFractions, binaryParameters);
     }
     public ArrayList<Component> getComponents(){
         ArrayList<Component> components = new ArrayList<>();
@@ -153,12 +157,9 @@ public class MixtureSubstance extends Substance{
         Component component = pureSubstance.getComponent();
        return getMixingRule().oneOverNParcial_aN2RespectN(
                temperature, 
-               single_as(temperature),
-               single_bs(), 
-               single_Alphas(temperature),
-               getComponents(), 
-               component, 
-               getFractions(), getBinaryParameters());
+               pureSubstance, 
+               molarFractions,
+	       binaryParameters);
     }
 
     /**
@@ -203,17 +204,20 @@ public class MixtureSubstance extends Substance{
 	this.molarFractions = molarFractions;
     }
 
-    /**
-     * @return the binaryParameters
-     */
-    public BinaryInteractionParameter getBinaryParameters() {
-	return binaryParameters;
+//    /**
+//     * @return the binaryParameters
+//     */
+//    public InteractionParameter getBinaryParameters() {
+//	return binaryParameters;
+//    }
+      public BinaryInteractionParameter getBinaryParameters() {
+	return null;
     }
 
     /**
      * @param binaryParameters the binaryParameters to set
      */
-    public void setBinaryParameters(BinaryInteractionParameter binaryParameters) {
+    public void setBinaryParameters(InteractionParameter binaryParameters) {
 	this.binaryParameters = binaryParameters;
     }
 
@@ -260,11 +264,10 @@ public class MixtureSubstance extends Substance{
     
     
     @Override
-    public double bubbleTemperature(double pressure) {
+    public EquilibriaPhaseSolution bubbleTemperature(double pressure) {
 	
 	
 	
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	
     }
 
@@ -290,24 +293,188 @@ public class MixtureSubstance extends Substance{
     }
 
     @Override
-    public double dewTemperature(double pressure) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public EquilibriaPhaseSolution dewTemperature(double pressure) {
+	
+        HashMap<PureSubstance,Double> K;
+	HashMap<PureSubstance,Double> liquidFractions = new HashMap<>();;
+        double sx;
+        double e = 100;
+        double deltaT = 0.1;
+        double T_;
+        HashMap<PureSubstance,Double> k_;
+        double sx_;
+        double e_;
+        
+	double temperature = bubbleTemperatureEstimate(pressure).getTemperature();
+//        if(components.size() == 1){
+//            liquidFractions = new HashMap<>();
+//            liquidFractions.put(components.get(0), 1.0);
+//            vaporFractions = new HashMap<>();
+//            vaporFractions.put(components.get(0), 1.0);
+//        }
+        double tolerance  = 1e-4;
+        int count = 0;
+        while(e >= tolerance && count < 1000){
+            K = equilibriumRelations(temperature, pressure); //equilibriumRelations(temperature, components, liquidFractions, pressure, vaporFractions, eos,kinteraction);
+            sx = calculateSx(K);
+		    //calculateSx(K, vaporFractions, components);
+            e = Math.log(sx);
+            T_ = temperature + deltaT;
+            k_ = equilibriumRelations(T_, pressure);//equilibriumRelations(T_, components, liquidFractions, pressure, vaporFractions, eos,kinteraction);
+            sx_ = calculateSx(k_);//, vaporFractions, components);
+            e_ = Math.log(sx_);
+            temperature = temperature * T_ * (e_ - e) / (T_ * e_ - temperature * e);
+           // K = equilibriumRelations(temperature, pressure);//equilibriumRelations(temperature, components, liquidFractions, pressure, vaporFractions, eos,kinteraction);
+            //sx = calculateSx(K);//, vaporFractions, components);
+            //calculateNewXFractions(K, vaporFractions, components, sx);
+        }
+        return new MixtureEquilibriaPhaseSolution(temperature,pressure, molarFractions,liquidFractions, count);
     }
 
     @Override
-    public double dewTemperatureEstimate(double pressure) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public MixtureEquilibriaPhaseSolution dewTemperatureEstimate(double pressure) {
+	      double temperature =  300;
+      double calcPressure;
+      double error = 100;
+      double deltaT =1;
+      double T_;
+      double tol = 1e-4;
+      double calcP_;
+      double error_;  
+      
+      double denominator_;
+      double denominator;
+      
+      HashMap<PureSubstance,Double> liquidFractions  = new HashMap<>();
+      
+      int iterations =0;
+      while (Math.abs(error) >tol && iterations < 1000 ){
+          iterations++;
+            calcPressure = 0;
+            calcP_ = 0;
+            denominator = 0;
+            denominator_ = 0;
+            
+            T_  = temperature + deltaT;
+           for (PureSubstance component : molarFractions.keySet() ){
+               double vaporPressure =component.getAcentricFactorBasedVaporPressure(temperature);
+               denominator += molarFractions.get(component) / vaporPressure;
+               
+               double vaporPressure_ =component.getAcentricFactorBasedVaporPressure(T_);
+               denominator_ += molarFractions.get(component) / vaporPressure_;
+           }
+           
+           calcPressure = 1/denominator;
+           calcP_ = 1/ denominator_;
+           
+           error = Math.log(calcPressure / pressure);
+           error_ = Math.log(calcP_ / pressure);
+           temperature = (temperature * T_ *(error_ - error)) / (T_ * error_ - temperature * error);
+      } 
+      for(PureSubstance component: molarFractions.keySet()){
+          double vp = component.getAcentricFactorBasedVaporPressure( temperature);
+          double xi =  pressure *molarFractions.get(component) /vp ;
+          liquidFractions.put(component, xi);
+      }
+      return new MixtureEquilibriaPhaseSolution( temperature, pressure,liquidFractions,molarFractions, iterations);
     }
 
     @Override
-    public double dewPressureEstimate(double temperature) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public MixtureEquilibriaPhaseSolution dewPressureEstimate(double temperature) {
+	//return 12.2533971*101325;
+	   HashMap<PureSubstance,Double> vaporPressures = new HashMap<>();
+      int  iterations = 0;
+      double denominator=0;
+      for( PureSubstance component : molarFractions.keySet()){
+            double vaporP =  component.getAcentricFactorBasedVaporPressure(temperature);
+            vaporPressures.put(component, vaporP);
+            denominator += molarFractions.get(component) / vaporP;
+      }
+     double pressure = 1/denominator;
+     HashMap<PureSubstance,Double> liquidFractions = getLiquidFractionsRaoultsLaw(pressure, molarFractions, vaporPressures);
+      return new MixtureEquilibriaPhaseSolution(temperature,pressure, liquidFractions,molarFractions, iterations);
     }
 
     @Override
-    public double dewPressure(double temperature) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public MixtureEquilibriaPhaseSolution dewPressure(double temperature) {
+	//return 12.618295 * 101325;
+	HashMap<PureSubstance,Double> K ;
+	HashMap<PureSubstance,Double> K_;
+	double sx;
+	double sx_;
+	double deltaP = 0.0001;
+	double e = 10;
+	double e_;
+	double p_;
+	double tolerance = 1e-4;
+
+    HashMap<PureSubstance,Double> liquidFractions = new HashMap();
+	double pressure = dewPressureEstimate(temperature).getPressure();
+//      if(components.size() == 1){
+//          liquidFractions = new HashMap<>();
+//          liquidFractions.put(components.get(0), 1.0);
+//          vaporFractions = new HashMap<>();
+//          vaporFractions.put(components.get(0), 1.0);
+//      }
+      int count = 0;
+      while(Math.abs(e) > tolerance && count < 1000 ){         
+            count++;
+            K =   equilibriumRelations(temperature, pressure);
+            sx = calculateSx(K);
+            e = sx -1;
+	    
+	    
+            p_ = pressure * (1 + deltaP);
+            K_ = equilibriumRelations(temperature, p_);
+            sx_ = calculateSx(K_);
+            e_ = sx_-1;
+            pressure =  pressure - e * (p_ - pressure)/ (e_ - e);//*/ ((pressure * p_ )* (e_ - e)) / ((p_ * e_) - (pressure * e));
+            //K = equilibriumRelations(temperature, pressure);
+            //sx = calculateSx(K);
+//	    HashMap<PureSubstance,Double> 
+            liquidFractions = new HashMap();//= calculateNewXFractions(K, vaporFractions, components, sx);
+      }    
+      return new MixtureEquilibriaPhaseSolution(temperature,pressure,molarFractions,liquidFractions  , count);
     }
     
+    public  HashMap<PureSubstance,Double> equilibriumRelations (
+	    double temperature,
+	    double pressure
+            ){
+         HashMap<PureSubstance,Double> equilibriumRelations  = new HashMap<>();
+         
+         for (PureSubstance aComponent : pureSubstances){
+           
+           double liquidFug = calculateFugacity(aComponent,temperature,pressure,Phase.LIQUID);
+           double vaporFug = calculateFugacity(aComponent, temperature, pressure, Phase.VAPOR);     
+           double equilRel = liquidFug/ vaporFug;
+           equilibriumRelations.put(aComponent, equilRel);
+         }
+         return equilibriumRelations;
+    }
+    public  double calculateSx(
+	    HashMap<PureSubstance,Double> equilibriumRelations){
+        
+         double s = 0;
+        for (PureSubstance aComponent : pureSubstances){
+              double equilRel = equilibriumRelations.get(aComponent);
+           s +=  molarFractions.get(aComponent)/equilRel;
+            
+        }
+        
+        return s;
+    }
     
+    public static HashMap<PureSubstance,Double> getLiquidFractionsRaoultsLaw(double pressure,
+        HashMap<PureSubstance,Double> vaporFractions,
+        HashMap<PureSubstance,Double> vaporPressures){
+    
+        HashMap<PureSubstance,Double> liquidFractions = new HashMap<>();
+        
+        for( PureSubstance component : vaporFractions.keySet()){
+            double x =  vaporFractions.get(component)*pressure/vaporPressures.get(component) ;
+            liquidFractions.put(component, x);  
+        }   
+        return liquidFractions;
+}
 }

@@ -4,6 +4,7 @@ package termo.substance;
 import termo.Constants;
 import termo.eos.Cubic;
 import termo.equilibrium.EquilibriaPhaseSolution;
+import termo.equilibrium.MixtureEquilibriaPhaseSolution;
 import termo.phase.Phase;
 
 /**
@@ -77,8 +78,8 @@ public abstract class  Substance {
     public abstract double bubblePressure(double temperature);
     public abstract EquilibriaPhaseSolution bubbleTemperatureEstimate(double pressure);
     public abstract double bubblePressureEstimate(double temperature);
-    public abstract double dewTemperature(double pressure);
-    public abstract double dewTemperatureEstimate(double pressure);
-    public abstract double dewPressureEstimate(double temperature);
-    public abstract double dewPressure(double temperature);
+    public abstract EquilibriaPhaseSolution dewTemperature(double pressure);
+    public abstract EquilibriaPhaseSolution dewTemperatureEstimate(double pressure);
+    public abstract EquilibriaPhaseSolution dewPressureEstimate(double temperature);
+    public abstract EquilibriaPhaseSolution dewPressure(double temperature);
 }

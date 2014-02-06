@@ -205,7 +205,7 @@ public class PureSubstanceTest {
 	System.out.println("getTemperature");
 	
 	double pressure =101325;
-	double result = substance.dewTemperature(pressure);	
+	double result = substance.dewTemperature(pressure).getPressure();	
 	double tolerance = 1e-3;
 	double expResult = 184.607519;
 	
@@ -216,7 +216,7 @@ public class PureSubstanceTest {
     public void testDewTemperatureEstimate() {
 	System.out.println("getTemperatureEstimate");
 	double pressure =101325;
-	double result = substance.dewTemperatureEstimate(pressure);
+	double result = substance.dewTemperatureEstimate(pressure).getTemperature();
 	double tolerance = 1e-3;
 	double expResult = 184.338452;
 	assertEquals(expResult, result,tolerance);
@@ -226,7 +226,7 @@ public class PureSubstanceTest {
     public void testDewPressureEstimate() {
 	System.out.println("getPressureEstimate");
 	double temperature =298;
-	double result = substance.dewPressureEstimate(temperature);
+	double result = substance.dewPressureEstimate(temperature).getPressure();
 	double tolerance = 1e-3;
 	double expResult = 41.57334499*101325;
 	assertEquals(expResult, result,tolerance);
@@ -237,7 +237,7 @@ public class PureSubstanceTest {
 	System.out.println("getPressure");
 	
 	double temperature = 298;
-	double result = substance.dewPressure(temperature);
+	double result = substance.dewPressure(temperature).getPressure();
 	double tolerance =  1e-3;
 	double expResult =41.432724;// 4.198171e6;
 	assertEquals(expResult, result/101325,tolerance);

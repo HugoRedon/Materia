@@ -161,6 +161,25 @@ public class PureSubstance extends Substance{
       return p;
     }
     @Override
+    public EquilibriaPhaseSolution dewPressure(double temperature) {
+	
+	double pressure = dewPressureEstimate(temperature).getPressure();
+	double tolerance = 1e-4;
+	double deltaP = 0.0001;
+	double e = 10;
+	 int count = 0;
+	while(Math.abs(e) > tolerance && count < 1000 ){         
+	    count++;
+            double K = calculateFugacity(temperature, pressure, Phase.LIQUID)/calculateFugacity(temperature, pressure, Phase.VAPOR);
+            e = (1/K) -1;
+	    double p_ = pressure * (1 + deltaP);
+            double K_ = calculateFugacity(temperature, p_, Phase.LIQUID)/calculateFugacity(temperature, p_, Phase.VAPOR);
+            double  e_ = (1/K_)-1;
+            pressure =  pressure - e * (p_ - pressure)/ (e_ - e);
+      }    
+	return new EquilibriaPhaseSolution(temperature, pressure, count); 
+    }
+    @Override
     public EquilibriaPhaseSolution bubbleTemperatureEstimate(double pressure){
 	
 	double temperature =  300;
@@ -187,9 +206,9 @@ public class PureSubstance extends Substance{
 	return getAcentricFactorBasedVaporPressure(temperature);
     }
     @Override
-    public double dewTemperature(double pressure) {
+    public EquilibriaPhaseSolution dewTemperature(double pressure) {
 
-	double temperature = dewTemperatureEstimate(pressure);
+	double temperature = dewTemperatureEstimate(pressure).getTemperature();
         double e = 100;
         double deltaT = 0.1;
         double tolerance = 1e-4;
@@ -204,10 +223,10 @@ public class PureSubstance extends Substance{
 
         }
 
-	return temperature;
+	return new EquilibriaPhaseSolution(temperature, pressure, count);
     }
     @Override
-    public double dewTemperatureEstimate(double pressure) {
+    public EquilibriaPhaseSolution dewTemperatureEstimate(double pressure) {
 	double temperature =  300;	
 	double error = 100;
 	double deltaT =1;
@@ -222,32 +241,16 @@ public class PureSubstance extends Substance{
 	    double error_ = Math.log(vaporPressure_ / pressure);
 	    temperature = (temperature * T_ *(error_ - error)) / (T_ * error_ - temperature * error);
 	} 
-	return temperature;
+	return new EquilibriaPhaseSolution(temperature, pressure, iterations);
+	//return temperature;
     }
     @Override
-    public double dewPressureEstimate(double temperature) {
-	double vaporP =  getAcentricFactorBasedVaporPressure(temperature);
-	return vaporP;
-    }
-    @Override
-    public double dewPressure(double temperature) {
+    public EquilibriaPhaseSolution dewPressureEstimate(double temperature) {
+	return new EquilibriaPhaseSolution(temperature, getAcentricFactorBasedVaporPressure(temperature), 0);
 	
-	double pressure = dewPressureEstimate(temperature);
-	double tolerance = 1e-4;
-	double deltaP = 0.0001;
-	double e = 10;
-	 int count = 0;
-	while(Math.abs(e) > tolerance && count < 1000 ){         
-	    count++;
-            double K = calculateFugacity(temperature, pressure, Phase.LIQUID)/calculateFugacity(temperature, pressure, Phase.VAPOR);
-            e = (1/K) -1;
-	    double p_ = pressure * (1 + deltaP);
-            double K_ = calculateFugacity(temperature, p_, Phase.LIQUID)/calculateFugacity(temperature, p_, Phase.VAPOR);
-            double  e_ = (1/K_)-1;
-            pressure =  pressure - e * (p_ - pressure)/ (e_ - e);
-      }    
-	return pressure;
+	
     }
+
   
     public  double getAcentricFactorBasedVaporPressure(double temperature){
 	double pc = component.getCriticalPressure();

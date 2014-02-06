@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import termo.binaryParameter.BinaryInteractionParameter;
+import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.eos.Cubic;
 import termo.eos.EquationOfStateFactory;
@@ -29,13 +30,13 @@ public class MixtureSubstanceTest {
 	ethane.setAcentricFactor(0.09781);
 	ethane.setCriticalTemperature(305.43);
 	ethane.setCriticalPressure(48.1595*101325);
-	ethane.setPrsvKappa(-0.02669);
+	ethane.setPrsvKappa(0.02669);
 	
 	Cubic eos = EquationOfStateFactory.pengRobinsonBase();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
 	PureSubstance ethanePure = new PureSubstance();
-	ethanePure.setCubicEquationOfState(eos);
+	//ethanePure.setCubicEquationOfState(eos);
 	ethanePure.setAlpha(alpha);
 	ethanePure.setComponent(ethane);
 	
@@ -44,23 +45,23 @@ public class MixtureSubstanceTest {
 	propane.setAcentricFactor(0.15416);
 	propane.setCriticalTemperature(369.82);
 	propane.setCriticalPressure(41.9396*101325);
-	propane.setPrsvKappa(-0.03136);
+	propane.setPrsvKappa(0.03136);
 	
 	
 	
 	PureSubstance propanePure = new PureSubstance();
-	propanePure.setCubicEquationOfState(eos);
+	//propanePure.setCubicEquationOfState(eos);
 	propanePure.setAlpha(alpha);
 	propanePure.setComponent(propane);
 	
 	
-	
+	substance.setCubicEquationOfState(eos);
 	substance.addComponent(propanePure, 0.7);
 	substance.addComponent(ethanePure, 0.3);
 	
 	
-	BinaryInteractionParameter b = new BinaryInteractionParameter();
-	b.setValue(propane, ethane, 0, true);
+	InteractionParameter b = new InteractionParameter();
+	b.setValue(propanePure, ethanePure, 0, true);
 	MixingRule mr = new VDWMixingRule();
 	
 	
@@ -321,7 +322,7 @@ public class MixtureSubstanceTest {
 	System.out.println("setBinaryParameters");
 	BinaryInteractionParameter binaryParameters = null;
 	MixtureSubstance instance = new MixtureSubstance();
-	instance.setBinaryParameters(binaryParameters);
+	//instance.setBinaryParameters(binaryParameters);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
     }
@@ -329,7 +330,10 @@ public class MixtureSubstanceTest {
     @Test
     public void testBubbleTemperature() {
 	System.out.println("bubbleTemperature");
-	fail("The test case is a prototype.");
+	double pressure = 101325;
+	double expResult =205.996089;
+	double result = substance.bubbleTemperature(pressure).getTemperature();
+	assertEquals(expResult, result, 1e-3);
     }
 
     @Test
@@ -345,7 +349,7 @@ public class MixtureSubstanceTest {
     @Test
     public void testBubblePressure() {
 	System.out.println("bubblePressure");
-	double temperature = 0.0;
+	double temperature = 298;
 	MixtureSubstance instance = new MixtureSubstance();
 	double expResult = 0.0;
 	double result = instance.bubblePressure(temperature);
@@ -368,48 +372,40 @@ public class MixtureSubstanceTest {
     @Test
     public void testDewTemperature() {
 	System.out.println("dewTemperature");
-	double pressure = 0.0;
-	MixtureSubstance instance = new MixtureSubstance();
-	double expResult = 0.0;
-	double result = instance.dewTemperature(pressure);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	double pressure = 101325;
+	double expResult =224.7880188;
+	double result = substance.dewTemperature(pressure).getTemperature();
+	assertEquals(expResult, result, 1e-3);
     }
 
     @Test
     public void testDewTemperatureEstimate() {
 	System.out.println("dewTemperatureEstimate");
-	double pressure = 0.0;
-	MixtureSubstance instance = new MixtureSubstance();
-	double expResult = 0.0;
-	double result = instance.dewTemperatureEstimate(pressure);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	double pressure = 101325;
+	double expResult = 223.967265;
+	double result = substance.dewTemperatureEstimate(pressure).getTemperature();
+	assertEquals(expResult, result, 1e-3);
     }
 
     @Test
     public void testDewPressureEstimate() {
 	System.out.println("dewPressureEstimate");
-	double temperature = 0.0;
-	MixtureSubstance instance = new MixtureSubstance();
-	double expResult = 0.0;
-	double result = instance.dewPressureEstimate(temperature);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	double temperature = 298;
+	
+	double expResult = 12.253971;
+	double result = substance.dewPressureEstimate(temperature).getPressure();
+	assertEquals(expResult, result/101325, 1e-3);
+
     }
 
     @Test
     public void testDewPressure() {
 	System.out.println("dewPressure");
-	double temperature = 0.0;
-	MixtureSubstance instance = new MixtureSubstance();
-	double expResult = 0.0;
-	double result = instance.dewPressure(temperature);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	double temperature = 298;
+	
+	double expResult = 12.618295;
+	double result = substance.dewPressure(temperature).getPressure();
+	assertEquals(expResult, result/101325, 1e-3);
+
     }
 }
