@@ -10,8 +10,28 @@ import termo.component.Component;
  * Hugo
  */
 public class CommonAlphaEquationTest {
-    
+	Component ethane;
+	CommonAlphaEquation alpha;
     public CommonAlphaEquationTest() {
+	ethane = new Component();
+	
+	ethane.setAcentricFactor(0.09781);
+	ethane.setCriticalTemperature(305.43);
+	ethane.setCriticalPressure(48.1595*101325);
+	ethane.setPrsvKappa(0.02669);
+	
+	
+	double r1 = 0.378893;
+	double r2=1.4897153;
+	double r3 = -0.17131848;
+	double r4 = 0.0196554;
+	
+	alpha =  new CommonAlphaEquation();
+	alpha.setR1(r1);
+	alpha.setR2(r2);
+	alpha.setR3(r3);
+	alpha.setR4(r4);
+	
     }
 
     /**
@@ -20,14 +40,25 @@ public class CommonAlphaEquationTest {
     @Test
     public void testAlpha() {
 	System.out.println("alpha");
-	double temperature = 0.0;
-	Component component = null;
-	CommonAlphaEquation instance = new CommonAlphaEquation();
-	double expResult = 0.0;
-	double result = instance.alpha(temperature, component);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	
+	
+	
+	double temperature = ethane.getCriticalTemperature()*0.5;
+	
+	
+	alpha.setX(1);
+		
+	
+	double expResult = 1.33598;
+	double result = alpha.alpha(temperature, ethane);
+	
+	double expAboveResult = 0.81754;
+	double tempabove  = ethane.getCriticalTemperature()*1.4;
+	alpha.setX(0);
+	double aboveResult = alpha.alpha(tempabove, ethane);
+	assertEquals(expResult, result, 1e-3);
+	assertEquals(expAboveResult, aboveResult, 1e-3);
+	
     }
 
     /**
@@ -36,13 +67,11 @@ public class CommonAlphaEquationTest {
     @Test
     public void testM() {
 	System.out.println("m");
-	Component component = null;
-	CommonAlphaEquation instance = new CommonAlphaEquation();
-	double expResult = 0.0;
-	double result = instance.m(component);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+
+	double expResult = 0.52298;
+	double result = alpha.m(ethane);
+	assertEquals(expResult, result, 1e-3);
+	
     }
 
     /**
@@ -51,164 +80,16 @@ public class CommonAlphaEquationTest {
     @Test
     public void testTempOverAlphaTimesDerivativeAlphaRespectTemperature() {
 	System.out.println("TempOverAlphaTimesDerivativeAlphaRespectTemperature");
-	double temperature = 0.0;
-	Component component = null;
-	CommonAlphaEquation instance = new CommonAlphaEquation();
-	double expResult = 0.0;
-	double result = instance.TempOverAlphaTimesDerivativeAlphaRespectTemperature(temperature, component);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	double temperature = ethane.getCriticalTemperature()*0.5;
+	
+	alpha.setX(1);
+	double expResult = -0.33611;
+	double result = alpha.TempOverAlphaTimesDerivativeAlphaRespectTemperature(temperature, ethane);
+	assertEquals(expResult, result, 1e-3);
+
     }
 
-    /**
-     * Test of getR1 method, of class CommonAlphaEquation.
-     */
-    @Test
-    public void testGetR1() {
-	System.out.println("getR1");
-	CommonAlphaEquation instance = new CommonAlphaEquation();
-	double expResult = 0.0;
-	double result = instance.getR1();
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setR1 method, of class CommonAlphaEquation.
-     */
-    @Test
-    public void testSetR1() {
-	System.out.println("setR1");
-	double r1 = 0.0;
-	CommonAlphaEquation instance = new CommonAlphaEquation();
-	instance.setR1(r1);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getR2 method, of class CommonAlphaEquation.
-     */
-    @Test
-    public void testGetR2() {
-	System.out.println("getR2");
-	CommonAlphaEquation instance = new CommonAlphaEquation();
-	double expResult = 0.0;
-	double result = instance.getR2();
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setR2 method, of class CommonAlphaEquation.
-     */
-    @Test
-    public void testSetR2() {
-	System.out.println("setR2");
-	double r2 = 0.0;
-	CommonAlphaEquation instance = new CommonAlphaEquation();
-	instance.setR2(r2);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getR3 method, of class CommonAlphaEquation.
-     */
-    @Test
-    public void testGetR3() {
-	System.out.println("getR3");
-	CommonAlphaEquation instance = new CommonAlphaEquation();
-	double expResult = 0.0;
-	double result = instance.getR3();
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setR3 method, of class CommonAlphaEquation.
-     */
-    @Test
-    public void testSetR3() {
-	System.out.println("setR3");
-	double r3 = 0.0;
-	CommonAlphaEquation instance = new CommonAlphaEquation();
-	instance.setR3(r3);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getR4 method, of class CommonAlphaEquation.
-     */
-    @Test
-    public void testGetR4() {
-	System.out.println("getR4");
-	CommonAlphaEquation instance = new CommonAlphaEquation();
-	double expResult = 0.0;
-	double result = instance.getR4();
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setR4 method, of class CommonAlphaEquation.
-     */
-    @Test
-    public void testSetR4() {
-	System.out.println("setR4");
-	double r4 = 0.0;
-	CommonAlphaEquation instance = new CommonAlphaEquation();
-	instance.setR4(r4);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getX method, of class CommonAlphaEquation.
-     */
-    @Test
-    public void testGetX() {
-	System.out.println("getX");
-	CommonAlphaEquation instance = new CommonAlphaEquation();
-	double expResult = 0.0;
-	double result = instance.getX();
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setX method, of class CommonAlphaEquation.
-     */
-    @Test
-    public void testSetX() {
-	System.out.println("setX");
-	double x = 0.0;
-	CommonAlphaEquation instance = new CommonAlphaEquation();
-	instance.setX(x);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of hashCode method, of class CommonAlphaEquation.
-     */
-    @Test
-    public void testHashCode() {
-	System.out.println("hashCode");
-	CommonAlphaEquation instance = new CommonAlphaEquation();
-	int expResult = 0;
-	int result = instance.hashCode();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
+ 
 
     /**
      * Test of equals method, of class CommonAlphaEquation.
@@ -216,12 +97,29 @@ public class CommonAlphaEquationTest {
     @Test
     public void testEquals() {
 	System.out.println("equals");
-	Object obj = null;
-	CommonAlphaEquation instance = new CommonAlphaEquation();
+	Object obj = new CommonAlphaEquation();
+	
+	CommonAlphaEquation alpha1 = new CommonAlphaEquation();
+	double r1 = 0.378893;
+	double r2=1.4897153;
+	double r3 = -0.17131848;
+	double r4 = 0.0196554;
+	
+	
+	alpha1.setR1(r1);
+	alpha1.setR2(r2);
+	alpha1.setR3(r3);
+	alpha1.setR4(r4);
+	alpha1.setX(0);
+	
+	alpha.setX(0);
+	
+	
 	boolean expResult = false;
-	boolean result = instance.equals(obj);
+	boolean result = alpha.equals(obj);
 	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	
+	assertEquals(alpha.equals(alpha1),true);
+
     }
 }

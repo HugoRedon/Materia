@@ -122,7 +122,7 @@ public class PureSubstance extends Substance{
     }
 
     @Override
-    public double bubbleTemperature(double pressure) {
+    public EquilibriaPhaseSolution bubbleTemperature(double pressure) {
 	double temperature = bubbleTemperatureEstimate(pressure).getTemperature();
 	double tolerance = 1e-4;
         double e = 100;
@@ -138,10 +138,10 @@ public class PureSubstance extends Substance{
             double e_ = Math.log(k_);
             temperature = temperature * T_ * (e_ - e) / (T_ * e_ - temperature * e);
         }
-        return temperature;
+        return new EquilibriaPhaseSolution(temperature, pressure, count);
     }
     @Override
-    public double bubblePressure(double temperature) {
+    public EquilibriaPhaseSolution bubblePressure(double temperature) {
 	double p = bubblePressureEstimate(temperature);
 	double tolerance = 1e-4; 
       double deltaP = 0.0001;
@@ -158,7 +158,7 @@ public class PureSubstance extends Substance{
             p = ((p * p_ )* (e_ - e)) / ((p_ * e_) - (p * e));      
       }  
 
-      return p;
+      return new EquilibriaPhaseSolution(temperature, p, count);
     }
     @Override
     public EquilibriaPhaseSolution dewPressure(double temperature) {

@@ -20,12 +20,12 @@ public class VDWMixingRule extends MixingRule{
     
    
     @Override
-  public double a(double temperature,
+  public double a(
+	    double temperature,
            HashMap<PureSubstance,Double> fractions,
            InteractionParameter k){
+	
        double a = 0;
-       
-       
       for(PureSubstance iComponent: fractions.keySet()){
           for(PureSubstance jComponent: fractions.keySet()){
               double xi = fractions.get(iComponent);
@@ -34,15 +34,11 @@ public class VDWMixingRule extends MixingRule{
               double ai = iComponent.calculate_a_cubicParameter(temperature);
               double aj = jComponent.calculate_a_cubicParameter(temperature);
               
-             
               double kij = k.getValue(iComponent, jComponent);
              
-              
               a += xi * xj * Math.sqrt(ai * aj) * (1-kij);
           }
-          
       }
-       
        return a;
   }
    

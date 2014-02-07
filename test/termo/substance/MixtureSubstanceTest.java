@@ -101,40 +101,7 @@ public class MixtureSubstanceTest {
 	fail("The test case is a prototype.");
     }
 
-    @Test
-    public void testSingle_as() {
-	System.out.println("single_as");
-	double aTemperature = 0.0;
-	MixtureSubstance instance = new MixtureSubstance();
-	HashMap expResult = null;
-	HashMap result = instance.single_as(aTemperature);
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testSingle_bs() {
-	System.out.println("single_bs");
-	MixtureSubstance instance = new MixtureSubstance();
-	HashMap expResult = null;
-	HashMap result = instance.single_bs();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testSingle_Alphas() {
-	System.out.println("single_Alphas");
-	double temperature = 0.0;
-	MixtureSubstance instance = new MixtureSubstance();
-	HashMap expResult = null;
-	HashMap result = instance.single_Alphas(temperature);
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
+   
 
     @Test
     public void testAlphaDerivatives() {
@@ -160,18 +127,7 @@ public class MixtureSubstanceTest {
 	fail("The test case is a prototype.");
     }
 
-    @Test
-    public void testCalculate_a_cubicParameter() {
-	System.out.println("calculate_a_cubicParameter");
-	double temperature = 0.0;
-	MixtureSubstance instance = new MixtureSubstance();
-	double expResult = 0.0;
-	double result = instance.calculate_a_cubicParameter(temperature);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
+ 
     @Test
     public void testGetComponents() {
 	System.out.println("getComponents");
@@ -183,16 +139,7 @@ public class MixtureSubstanceTest {
 	fail("The test case is a prototype.");
     }
 
-    @Test
-    public void testGetFractions() {
-	System.out.println("getFractions");
-	MixtureSubstance instance = new MixtureSubstance();
-	HashMap expResult = null;
-	HashMap result = instance.getFractions();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
+    
 
     @Test
     public void testCalculateIdealGasEnthalpy() {
@@ -243,79 +190,7 @@ public class MixtureSubstanceTest {
 	fail("The test case is a prototype.");
     }
 
-    @Test
-    public void testGetMixingRule() {
-	System.out.println("getMixingRule");
-	MixtureSubstance instance = new MixtureSubstance();
-	MixingRule expResult = null;
-	MixingRule result = instance.getMixingRule();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
 
-    @Test
-    public void testSetMixingRule() {
-	System.out.println("setMixingRule");
-	MixingRule mixingRule = null;
-	MixtureSubstance instance = new MixtureSubstance();
-	instance.setMixingRule(mixingRule);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testGetPureSubstances() {
-	System.out.println("getPureSubstances");
-	MixtureSubstance instance = new MixtureSubstance();
-	ArrayList expResult = null;
-	ArrayList result = instance.getPureSubstances();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testSetPureSubstances() {
-	System.out.println("setPureSubstances");
-	ArrayList<PureSubstance> pureSubstances = null;
-	MixtureSubstance instance = new MixtureSubstance();
-	instance.setPureSubstances(pureSubstances);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testGetMolarFractions() {
-	System.out.println("getMolarFractions");
-	MixtureSubstance instance = new MixtureSubstance();
-	HashMap expResult = null;
-	HashMap result = instance.getMolarFractions();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testSetMolarFractions() {
-	System.out.println("setMolarFractions");
-	HashMap<PureSubstance, Double> molarFractions = null;
-	MixtureSubstance instance = new MixtureSubstance();
-	instance.setMolarFractions(molarFractions);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testGetBinaryParameters() {
-	System.out.println("getBinaryParameters");
-	MixtureSubstance instance = new MixtureSubstance();
-	BinaryInteractionParameter expResult = null;
-	BinaryInteractionParameter result = instance.getBinaryParameters();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
 
     @Test
     public void testSetBinaryParameters() {
@@ -350,12 +225,11 @@ public class MixtureSubstanceTest {
     public void testBubblePressure() {
 	System.out.println("bubblePressure");
 	double temperature = 298;
-	MixtureSubstance instance = new MixtureSubstance();
-	double expResult = 0.0;
-	double result = instance.bubblePressure(temperature);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	
+	double expResult = 17.227281;
+	double result = substance.bubblePressure(temperature).getPressure();
+	assertEquals(expResult, result/101325, 1e-3);
+	
     }
 
     @Test

@@ -152,7 +152,7 @@ public class PureSubstanceTest {
 	System.out.println("getTemperature");
 	
 	double pressure =101325;
-	double result = substance.bubbleTemperature(pressure);	
+	double result = substance.bubbleTemperature(pressure).getTemperature();	
 	double tolerance = 1e-3;
 	double expResult = 184.607519;
 	
@@ -194,7 +194,7 @@ public class PureSubstanceTest {
 	System.out.println("getPressure");
 	
 	double temperature = 298;
-	double result = substance.bubblePressure(temperature);
+	double result = substance.bubblePressure(temperature).getPressure();
 	double tolerance =  1e-3;
 	double expResult =41.432724;
 	assertEquals(expResult, result/101325,tolerance);

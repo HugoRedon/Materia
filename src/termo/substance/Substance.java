@@ -74,8 +74,8 @@ public abstract class  Substance {
     }
 
     
-    public abstract double bubbleTemperature(double pressure) ;
-    public abstract double bubblePressure(double temperature);
+    public abstract EquilibriaPhaseSolution bubbleTemperature(double pressure) ;
+    public abstract EquilibriaPhaseSolution bubblePressure(double temperature);
     public abstract EquilibriaPhaseSolution bubbleTemperatureEstimate(double pressure);
     public abstract double bubblePressureEstimate(double temperature);
     public abstract EquilibriaPhaseSolution dewTemperature(double pressure);
