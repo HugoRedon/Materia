@@ -91,14 +91,14 @@ public  class Cubic extends EOS{
             double B,
             Phase aPhase){
       
-        double alpha = 1-(this.getU() - 1 ) * B;
-        double beta = A - this.getU() * B - this.getU() * Math.pow(B, 2) + this.getW() * Math.pow(B, 2);
-        double gama = A*B + this.getW() * Math.pow(B,2) + this.getW() * Math.pow(B, 3);
+        double alpha = cubicSolutionAlpha(B);//1-(this.getU() - 1 ) * B;
+        double beta =cubicSolutionBeta(A, B);// A - this.getU() * B - this.getU() * Math.pow(B, 2) + this.getW() * Math.pow(B, 2);
+        double gama = cubicSolutionGama(A, B);//A*B + this.getW() * Math.pow(B,2) + this.getW() * Math.pow(B, 3);
         
-        double C = 3 * beta - Math.pow(alpha, 2);
-        double D = - Math.pow(alpha, 3) + 4.5d * alpha * beta - 13.5 * gama;
-        double Q = Math.pow(C, 3) + Math.pow(D, 2);
-        
+        double C =cubicSolutionC(beta, alpha);// 3 * beta - Math.pow(alpha, 2);
+        double D = cubicSolutionD(alpha, beta, gama);//- Math.pow(alpha, 3) + 4.5d * alpha * beta - 13.5 * gama;
+        double Q = cubicSolutionQ(C, D);//Math.pow(C, 3) + Math.pow(D, 2);
+        //falta agregar la extrapolación
         if(Q <= 0){
             double theta = Math.acos(-D / Math.sqrt(- Math.pow(C, 3)));
             

@@ -12,7 +12,7 @@ import termo.substance.PureSubstance;
  * @author
  * Hugo
  */
-public class MixtureEquilibriaPhaseSolution extends EquilibriaPhaseSolution{
+public class MixtureEquilibriaPhaseSolution extends EquilibriaSolution{
     private HashMap<PureSubstance,Double> solutionFractions;
     private HashMap<PureSubstance,Double> mixtureFractions;
     public MixtureEquilibriaPhaseSolution(

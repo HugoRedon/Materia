@@ -48,29 +48,52 @@ public class PureSubstanceTest {
 	fail("The test case is a prototype.");
     }
 
+//    @Test
+//    public void testEquals() {
+//	System.out.println("equals");
+//	PureSubstance substance = null;
+//	PureSubstance instance = new PureSubstance();
+//	boolean expResult = false;
+//	boolean result = instance.equals(substance);
+//	assertEquals(expResult, result);
+//	// TODO review the generated test code and remove the default call to fail.
+//	fail("The test case is a prototype.");
+//    }
+//
+//    @Test
+//    public void testToString() {
+//	System.out.println("toString");
+//	PureSubstance instance = new PureSubstance();
+//	String expResult = "";
+//	String result = instance.toString();
+//	assertEquals(expResult, result);
+//	// TODO review the generated test code and remove the default call to fail.
+//	fail("The test case is a prototype.");
+//    }
+    
     @Test
-    public void testEquals() {
-	System.out.println("equals");
-	PureSubstance substance = null;
-	PureSubstance instance = new PureSubstance();
-	boolean expResult = false;
-	boolean result = instance.equals(substance);
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+    public void testCalculateMolarVolume(){
+	System.out.println("calculateMolarVolume: in PureSubstance it is not a formal test");
+	double temperature = 200;
+	double pressure = 1*101325;
+	
+	double expResult = 52.815879/1000;
+	double result = substance.calculateMolarVolume(temperature, pressure, Phase.LIQUID);
+	assertEquals(expResult, result, 1e-3);
+	
     }
-
+    
     @Test
-    public void testToString() {
-	System.out.println("toString");
-	PureSubstance instance = new PureSubstance();
-	String expResult = "";
-	String result = instance.toString();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+    public void testCalculateCompresibilityFactor(){
+	System.out.println("calculateCompresibilityFactor :in PureSubstance it is not a formal test");
+	double temperature = 200;
+	double pressure = 1*101325;
+	
+	double expResult = 0.003218;
+	double result = substance.calculateCompresibilityFactor(temperature, pressure, Phase.LIQUID);
+	assertEquals(expResult, result, 1e-3);
     }
-
+    
     @Test
     public void testCalculateIdealGasEnthalpy() {
 	System.out.println("calculateIdealGasEnthalpy");
@@ -153,10 +176,10 @@ public class PureSubstanceTest {
 	
 	double pressure =101325;
 	double result = substance.bubbleTemperature(pressure).getTemperature();	
-	double tolerance = 1e-3;
+	
 	double expResult = 184.607519;
 	
-	assertEquals(expResult, result,tolerance);
+	assertEquals(expResult, result, 1e-3);
 	
     }
 
@@ -205,7 +228,7 @@ public class PureSubstanceTest {
 	System.out.println("getTemperature");
 	
 	double pressure =101325;
-	double result = substance.dewTemperature(pressure).getPressure();	
+	double result = substance.dewTemperature(pressure).getTemperature();	
 	double tolerance = 1e-3;
 	double expResult = 184.607519;
 	

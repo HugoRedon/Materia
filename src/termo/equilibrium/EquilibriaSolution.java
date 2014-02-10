@@ -4,12 +4,12 @@ package termo.equilibrium;
  *
  * @author Hugo Redon Rivera
  */
-public class EquilibriaPhaseSolution {
+public class EquilibriaSolution {
     private double Temperature;
     private double pressure;
     private int iterations;
     
-    public EquilibriaPhaseSolution( 
+    public EquilibriaSolution( 
 	    double temperature, 
 	    double pressure,
 	    int iterations){

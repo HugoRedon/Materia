@@ -1,9 +1,11 @@
 package termo.substance;
 
+import java.util.Objects;
 import termo.Constants;
 import termo.component.Component;
 import termo.eos.alpha.Alpha;
-import termo.equilibrium.EquilibriaPhaseSolution;
+import termo.equilibrium.EquilibriaFunction;
+import termo.equilibrium.EquilibriaSolution;
 import termo.phase.Phase;
 
 /**
@@ -13,6 +15,32 @@ import termo.phase.Phase;
 public class PureSubstance extends Substance{
     private Component component;
     private Alpha alpha;
+
+    @Override
+    public int hashCode() {
+	int hash = 3;
+	hash = 53 * hash + Objects.hashCode(this.component);
+	hash = 53 * hash + Objects.hashCode(this.alpha);
+	return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (obj == null) {
+	    return false;
+	}
+	if (getClass() != obj.getClass()) {
+	    return false;
+	}
+	final PureSubstance other = (PureSubstance) obj;
+	if (!Objects.equals(this.component, other.component)) {
+	    return false;
+	}
+	if (!Objects.equals(this.alpha, other.alpha)) {
+	    return false;
+	}
+	return true;
+    }
     
     
     public double calculateFugacity(double temperature, double pressure, Phase aPhase){
@@ -62,7 +90,7 @@ public class PureSubstance extends Substance{
         return 2 * calculate_a_cubicParameter(temperature);
     }
     
-
+    
     
 
     @Override
@@ -122,8 +150,40 @@ public class PureSubstance extends Substance{
     }
 
     @Override
-    public EquilibriaPhaseSolution bubbleTemperature(double pressure) {
-	double temperature = bubbleTemperatureEstimate(pressure).getTemperature();
+    public EquilibriaSolution bubbleTemperature(double pressure) {
+	
+	EquilibriaFunction function = new BubbleTemperatureFunctions();
+	return minimizeTemperature(function, pressure);
+    }
+    
+    @Override
+    public EquilibriaSolution bubblePressure(double temperature) {
+	EquilibriaFunction function = new BubblePressureFunctions();
+	return minimizePressure(function, temperature);
+    }
+    @Override
+    public EquilibriaSolution dewPressure(double temperature) {
+	
+	EquilibriaFunction function = new DewPressureFunctions();
+	return minimizePressure(function, temperature);
+    }
+    
+    
+    @Override
+    public EquilibriaSolution dewTemperatureEstimate(double pressure) {
+	return temperatureEstimate(pressure);
+    }
+
+    
+    
+        @Override
+    public EquilibriaSolution bubbleTemperatureEstimate(double pressure){
+	return temperatureEstimate(pressure);
+    }
+    
+    private EquilibriaSolution minimizeTemperature(EquilibriaFunction function,double pressure){
+	
+	double temperature = temperatureEstimate(pressure).getTemperature();
 	double tolerance = 1e-4;
         double e = 100;
         double deltaT = 1;
@@ -131,102 +191,65 @@ public class PureSubstance extends Substance{
 	
         while(Math.abs(e) > tolerance && count < 1000){
 	    count++;
-	    double K = calculateFugacity(temperature, pressure, Phase.LIQUID)/ calculateFugacity(temperature, pressure, Phase.VAPOR);
-            e = Math.log( K);
-            double T_ = temperature + deltaT;
-            double k_ =calculateFugacity(T_, pressure, Phase.LIQUID)/ calculateFugacity(T_, pressure, Phase.VAPOR); 
-            double e_ = Math.log(k_);
-            temperature = temperature * T_ * (e_ - e) / (T_ * e_ - temperature * e);
+            e = function.errorFunction(equilibriaRelation(temperature, pressure));
+            double temperature_ = temperature + deltaT;
+            double e_ = function.errorFunction(equilibriaRelation(temperature_, pressure));
+            temperature = function.newVariableFunction(temperature, temperature_, e, e_);
         }
-        return new EquilibriaPhaseSolution(temperature, pressure, count);
+        return new EquilibriaSolution(temperature, pressure, count);
     }
-    @Override
-    public EquilibriaPhaseSolution bubblePressure(double temperature) {
-	double p = bubblePressureEstimate(temperature);
+    
+    private EquilibriaSolution minimizePressure(EquilibriaFunction function,double temperature){
+	double pressure = bubblePressureEstimate(temperature);
 	double tolerance = 1e-4; 
-      double deltaP = 0.0001;
-      double e = 10;
- 
-      int count = 0;
-      while(Math.abs(e) > tolerance && count < 1000 ){         
-            count++;
-            double k =calculateFugacity(temperature, p, Phase.LIQUID)/calculateFugacity(temperature, p, Phase.VAPOR) ;
-            e = k -1;
-            double p_ = p * (1 + deltaP); 
-            double k_ =calculateFugacity(temperature, p_, Phase.LIQUID)/calculateFugacity(temperature, p_, Phase.VAPOR) ;  
-            double e_ = k_-1;
-            p = ((p * p_ )* (e_ - e)) / ((p_ * e_) - (p * e));      
-      }  
-
-      return new EquilibriaPhaseSolution(temperature, p, count);
-    }
-    @Override
-    public EquilibriaPhaseSolution dewPressure(double temperature) {
-	
-	double pressure = dewPressureEstimate(temperature).getPressure();
-	double tolerance = 1e-4;
 	double deltaP = 0.0001;
-	double e = 10;
-	 int count = 0;
+	double e = 100;
+ 
+	int count = 0;
 	while(Math.abs(e) > tolerance && count < 1000 ){         
 	    count++;
-            double K = calculateFugacity(temperature, pressure, Phase.LIQUID)/calculateFugacity(temperature, pressure, Phase.VAPOR);
-            e = (1/K) -1;
-	    double p_ = pressure * (1 + deltaP);
-            double K_ = calculateFugacity(temperature, p_, Phase.LIQUID)/calculateFugacity(temperature, p_, Phase.VAPOR);
-            double  e_ = (1/K_)-1;
-            pressure =  pressure - e * (p_ - pressure)/ (e_ - e);
-      }    
-	return new EquilibriaPhaseSolution(temperature, pressure, count); 
+	    e =  function.errorFunction(equilibriaRelation(temperature, pressure));
+	    double pressure_ = pressure * (1 + deltaP); 
+	    double e_ = function.errorFunction(equilibriaRelation(temperature, pressure_));
+	    pressure =  function.newVariableFunction(pressure, pressure_, e, e_);
+	}  
+	return new EquilibriaSolution(temperature, pressure, count);
     }
-    @Override
-    public EquilibriaPhaseSolution bubbleTemperatureEstimate(double pressure){
-	
-	double temperature =  300;
-	double error = 100;
-	double deltaT =1;
-	double tol = 1e-4;
-	int iterations =0;
-	
-	while (Math.abs(error) >tol  && iterations < 1000){
-	    iterations++;
-	    double T_  = temperature + deltaT;
-	    double vaporPressure = getAcentricFactorBasedVaporPressure( temperature);
-	    double vaporPressure_ = getAcentricFactorBasedVaporPressure( T_);
-	    error = Math.log(vaporPressure / pressure);
-	    double error_ = Math.log(vaporPressure_ / pressure);
-	    temperature = (temperature * T_ *(error_ - error)) / (T_ * error_ - temperature * error);
-	} 
-	
-	return new EquilibriaPhaseSolution(temperature, pressure, iterations);
-    //return temperature;
+    
+    
+    public double equilibriaRelation(double temperature, double pressure){
+	return calculateFugacity(temperature, pressure, Phase.LIQUID)/calculateFugacity(temperature, pressure, Phase.VAPOR);
     }
+    
+
     @Override
     public double bubblePressureEstimate(double temperature){
 	return getAcentricFactorBasedVaporPressure(temperature);
     }
+    
     @Override
-    public EquilibriaPhaseSolution dewTemperature(double pressure) {
-
-	double temperature = dewTemperatureEstimate(pressure).getTemperature();
-        double e = 100;
-        double deltaT = 0.1;
-        double tolerance = 1e-4;
-        int count = 0;
-        while(Math.abs(e) >= tolerance && count == 1000){
-            double K = calculateFugacity(temperature, pressure, Phase.LIQUID)/calculateFugacity(temperature, pressure, Phase.VAPOR);
-            e = Math.log(1/K);
-            double T_ = temperature + deltaT;
-            double k_ = calculateFugacity(T_, pressure, Phase.LIQUID)/calculateFugacity(T_, pressure, Phase.VAPOR);
-            double e_ = Math.log(1/k_);
-            temperature = temperature * T_ * (e_ - e) / (T_ * e_ - temperature * e);
-
-        }
-
-	return new EquilibriaPhaseSolution(temperature, pressure, count);
+    public EquilibriaSolution dewTemperature(double pressure) {
+	EquilibriaFunction function = new DewTemperatureFunctions();
+	return minimizeTemperature(function, pressure);
     }
+    
+    
+    
     @Override
-    public EquilibriaPhaseSolution dewTemperatureEstimate(double pressure) {
+    public EquilibriaSolution dewPressureEstimate(double temperature) {
+	return new EquilibriaSolution(temperature, getAcentricFactorBasedVaporPressure(temperature), 0);
+    }
+
+  
+    public  double getAcentricFactorBasedVaporPressure(double temperature){
+	double pc = component.getCriticalPressure();
+	double w = component.getAcentricFactor();
+	double tc = component.getCriticalTemperature();
+
+	return  pc * Math.pow(10,(-7d/3d)* (1+w) * ((tc/temperature) - 1 ) );
+    }
+    
+        public EquilibriaSolution temperatureEstimate(double pressure){
 	double temperature =  300;	
 	double error = 100;
 	double deltaT =1;
@@ -241,22 +264,63 @@ public class PureSubstance extends Substance{
 	    double error_ = Math.log(vaporPressure_ / pressure);
 	    temperature = (temperature * T_ *(error_ - error)) / (T_ * error_ - temperature * error);
 	} 
-	return new EquilibriaPhaseSolution(temperature, pressure, iterations);
+	return new EquilibriaSolution(temperature, pressure, iterations);
 	//return temperature;
     }
+}
+
+class BubbleTemperatureFunctions implements EquilibriaFunction{
+    
     @Override
-    public EquilibriaPhaseSolution dewPressureEstimate(double temperature) {
-	return new EquilibriaPhaseSolution(temperature, getAcentricFactorBasedVaporPressure(temperature), 0);
-	
-	
+    public double errorFunction(double equilibriaRelation){
+	//double k = equilibriaRelation(temperature, pressure);
+	return Math.log(equilibriaRelation);
     }
+    @Override
+    public double newVariableFunction(double temperature, double temperature_, double e, double e_){
+	return temperature * temperature_ * (e_ - e) / (temperature_ * e_ - temperature * e);
+    }
+    
+    
+}
 
-  
-    public  double getAcentricFactorBasedVaporPressure(double temperature){
-	double pc = component.getCriticalPressure();
-	double w = component.getAcentricFactor();
-	double tc = component.getCriticalTemperature();
 
-	return  pc * Math.pow(10,(-7d/3d)* (1+w) * ((tc/temperature) - 1 ) );
+
+
+
+
+
+class BubblePressureFunctions implements EquilibriaFunction{
+    
+    @Override
+    public double errorFunction(double equilibriaRelation){
+	return equilibriaRelation-1;
+    }
+    @Override
+    public double newVariableFunction(double pressure, double pressure_,double e, double e_){
+	return ((pressure * pressure_ )* (e_ - e)) / ((pressure_ * e_) - (pressure * e));
+    }
+    
+}
+
+class DewPressureFunctions implements EquilibriaFunction{
+    @Override
+    public double errorFunction(double equilibriaRelation){
+	return (1/equilibriaRelation) -1;
+    }
+    @Override
+    public double newVariableFunction(double pressure, double pressure_,double e, double e_){
+	return  pressure - e * (pressure_ - pressure)/ (e_ - e);
+    }
+}
+
+class DewTemperatureFunctions implements EquilibriaFunction{
+    @Override
+    public double errorFunction(double equilibriaRelation){
+	return  Math.log(1/equilibriaRelation);
+    }
+    @Override
+    public double newVariableFunction(double temperature, double temperature_, double e, double e_){
+	return temperature * temperature_ * (e_ - e) / (temperature_ * e_ - temperature * e);
     }
 }

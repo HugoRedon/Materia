@@ -69,24 +69,6 @@ public static HashMap<Component,Double> getVaporFractionsRaoultsLaw(double press
     
         
         
-     public static HashMap<Component,Double> calculateNewYFractions(HashMap<Component,Double> equilibriumRelations, HashMap<Component,Double> fractions,ArrayList<Component> components, double s){
-         HashMap<Component,Double> newFractions = new  HashMap<>();
-        for (Component aComponent: components){
-            double ki = equilibriumRelations.get(aComponent);
-            double x = fractions.get(aComponent);
-            newFractions.put(aComponent, ki * x / s);
-        }
-        
-        return newFractions;
-    }
-          public static HashMap<Component,Double> calculateNewXFractions(HashMap<Component,Double> equilibriumRelations, HashMap<Component,Double> fractions,ArrayList<Component> components, double s){
-         HashMap<Component,Double> newFractions = new  HashMap<>();
-        for (Component aComponent: components){
-            double ki = equilibriumRelations.get(aComponent);
-            double y = fractions.get(aComponent);
-            newFractions.put(aComponent,   y / (ki*s));
-        }
-        
-        return newFractions;
-    }
+    
+          
 }

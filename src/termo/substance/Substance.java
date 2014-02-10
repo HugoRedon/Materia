@@ -3,8 +3,7 @@ package termo.substance;
 
 import termo.Constants;
 import termo.eos.Cubic;
-import termo.equilibrium.EquilibriaPhaseSolution;
-import termo.equilibrium.MixtureEquilibriaPhaseSolution;
+import termo.equilibrium.EquilibriaSolution;
 import termo.phase.Phase;
 
 /**
@@ -22,6 +21,24 @@ public abstract class  Substance {
     public abstract double calculate_b_cubicParameter();
     public  abstract double calculateIdealGasEntropy(double temperature, double pressure) ;
     public abstract double oneOver_N_Parcial_a(double temperature,PureSubstance pureSubstance);
+    
+    public double calculateMolarVolume(double temperature,double pressure,Phase aPhase){
+	//return 220.746180;
+	double z = calculateCompresibilityFactor(temperature, pressure,aPhase);
+	
+	
+	return cubicEquationOfState.calculateVolume(temperature, pressure, z);
+    }
+    public double calculateCompresibilityFactor(double temperature,double pressure,Phase aPhase){
+	double a = calculate_a_cubicParameter(temperature);
+	double b = calculate_b_cubicParameter();
+	
+	double A = cubicEquationOfState.get_A(temperature, pressure, a);
+	double B = cubicEquationOfState.get_B(temperature, pressure, b);
+	
+	
+	return  cubicEquationOfState.calculateCompresibilityFactor(A, B, aPhase);
+    }
     
      public double bi(PureSubstance pureSubstance){
         return pureSubstance.calculate_b_cubicParameter();
@@ -74,12 +91,12 @@ public abstract class  Substance {
     }
 
     
-    public abstract EquilibriaPhaseSolution bubbleTemperature(double pressure) ;
-    public abstract EquilibriaPhaseSolution bubblePressure(double temperature);
-    public abstract EquilibriaPhaseSolution bubbleTemperatureEstimate(double pressure);
+    public abstract EquilibriaSolution bubbleTemperature(double pressure);
+    public abstract EquilibriaSolution bubblePressure(double temperature);
+    public abstract EquilibriaSolution bubbleTemperatureEstimate(double pressure);
     public abstract double bubblePressureEstimate(double temperature);
-    public abstract EquilibriaPhaseSolution dewTemperature(double pressure);
-    public abstract EquilibriaPhaseSolution dewTemperatureEstimate(double pressure);
-    public abstract EquilibriaPhaseSolution dewPressureEstimate(double temperature);
-    public abstract EquilibriaPhaseSolution dewPressure(double temperature);
+    public abstract EquilibriaSolution dewTemperature(double pressure);
+    public abstract EquilibriaSolution dewTemperatureEstimate(double pressure);
+    public abstract EquilibriaSolution dewPressureEstimate(double temperature);
+    public abstract EquilibriaSolution dewPressure(double temperature);
 }
