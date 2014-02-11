@@ -10,10 +10,10 @@ import termo.phase.Phase;
  *
  * @author Hugo Redon Rivera
  */
-public abstract class  Substance {
+public abstract class  HomogeneousSubstance {
     
-    private Cubic cubicEquationOfState;
-   // protected BubblePoint bubblePoint = new BubblePoint();
+    private Cubic cubicEquationOfState;    
+    private Phase phase;
 
     public abstract double temperatureParcial_a(double temperature);
     public abstract double calculate_a_cubicParameter(double temperature);
@@ -22,22 +22,21 @@ public abstract class  Substance {
     public  abstract double calculateIdealGasEntropy(double temperature, double pressure) ;
     public abstract double oneOver_N_Parcial_a(double temperature,PureSubstance pureSubstance);
     
-    public double calculateMolarVolume(double temperature,double pressure,Phase aPhase){
+    public double calculateMolarVolume(double temperature,double pressure){
 	//return 220.746180;
-	double z = calculateCompresibilityFactor(temperature, pressure,aPhase);
+	double z = calculateCompresibilityFactor(temperature, pressure);
 	
 	
 	return cubicEquationOfState.calculateVolume(temperature, pressure, z);
     }
-    public double calculateCompresibilityFactor(double temperature,double pressure,Phase aPhase){
+    public double calculateCompresibilityFactor(double temperature,double pressure){
 	double a = calculate_a_cubicParameter(temperature);
 	double b = calculate_b_cubicParameter();
 	
 	double A = cubicEquationOfState.get_A(temperature, pressure, a);
 	double B = cubicEquationOfState.get_B(temperature, pressure, b);
 	
-	
-	return  cubicEquationOfState.calculateCompresibilityFactor(A, B, aPhase);
+	return  cubicEquationOfState.calculateCompresibilityFactor(A, B, getPhase());
     }
     
      public double bi(PureSubstance pureSubstance){
@@ -45,14 +44,14 @@ public abstract class  Substance {
     }
     
         
-    public double calculateFugacity( PureSubstance pureSubstance,double temperature, double pressure, Phase aPhase){
+    public double calculateFugacity( PureSubstance pureSubstance,double temperature, double pressure){
         double a = calculate_a_cubicParameter(temperature);
         double b = calculate_b_cubicParameter();
 
         double  parcialb = bi(pureSubstance);
         double parciala = oneOver_N_Parcial_a( temperature,pureSubstance);
         
-        return getCubicEquationOfState().calculateFugacity(temperature, pressure, a, b, parciala, parcialb, aPhase);
+        return getCubicEquationOfState().calculateFugacity(temperature, pressure, a, b, parciala, parcialb, getPhase());
     }
     
     public double calculateEntropy(double temperature, double pressure, double volume){
@@ -91,12 +90,26 @@ public abstract class  Substance {
     }
 
     
-    public abstract EquilibriaSolution bubbleTemperature(double pressure);
-    public abstract EquilibriaSolution bubblePressure(double temperature);
-    public abstract EquilibriaSolution bubbleTemperatureEstimate(double pressure);
-    public abstract double bubblePressureEstimate(double temperature);
-    public abstract EquilibriaSolution dewTemperature(double pressure);
-    public abstract EquilibriaSolution dewTemperatureEstimate(double pressure);
-    public abstract EquilibriaSolution dewPressureEstimate(double temperature);
-    public abstract EquilibriaSolution dewPressure(double temperature);
+//    public abstract EquilibriaSolution bubbleTemperature(double pressure);
+//    public abstract EquilibriaSolution bubblePressure(double temperature);
+//    public abstract EquilibriaSolution bubbleTemperatureEstimate(double pressure);
+//    public abstract double bubblePressureEstimate(double temperature);
+//    public abstract EquilibriaSolution dewTemperature(double pressure);
+//    public abstract EquilibriaSolution dewTemperatureEstimate(double pressure);
+//    public abstract EquilibriaSolution dewPressureEstimate(double temperature);
+//    public abstract EquilibriaSolution dewPressure(double temperature);
+
+    /**
+     * @return the phase
+     */
+    public Phase getPhase() {
+	return phase;
+    }
+
+    /**
+     * @param phase the phase to set
+     */
+    public void setPhase(Phase phase) {
+	this.phase = phase;
+    }
 }

@@ -19,7 +19,6 @@ public class PureSubstanceTest {
     public PureSubstanceTest() {
 	Component ethane = new Component();
 	
-	
 	ethane.setAcentricFactor(0.09781);
 	ethane.setCriticalTemperature(305.43);
 	ethane.setCriticalPressure(48.1595*101325);
@@ -28,7 +27,10 @@ public class PureSubstanceTest {
 	Cubic eos = EquationOfStateFactory.pengRobinsonBase();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
+	
+	
 	substance = new PureSubstance();
+	substance.setPhase(Phase.LIQUID);
 	substance.setCubicEquationOfState(eos);
 	substance.setAlpha(alpha);
 	substance.setComponent(ethane);
@@ -42,7 +44,7 @@ public class PureSubstanceTest {
 	Phase aPhase = null;
 	PureSubstance instance = new PureSubstance();
 	double expResult = 0.0;
-	double result = instance.calculateFugacity(temperature, pressure, aPhase);
+	double result = instance.calculateFugacity(temperature, pressure);
 	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
@@ -78,7 +80,7 @@ public class PureSubstanceTest {
 	double pressure = 1*101325;
 	
 	double expResult = 52.815879/1000;
-	double result = substance.calculateMolarVolume(temperature, pressure, Phase.LIQUID);
+	double result = substance.calculateMolarVolume(temperature, pressure);
 	assertEquals(expResult, result, 1e-3);
 	
     }
@@ -90,7 +92,7 @@ public class PureSubstanceTest {
 	double pressure = 1*101325;
 	
 	double expResult = 0.003218;
-	double result = substance.calculateCompresibilityFactor(temperature, pressure, Phase.LIQUID);
+	double result = substance.calculateCompresibilityFactor(temperature, pressure);
 	assertEquals(expResult, result, 1e-3);
     }
     
@@ -167,104 +169,8 @@ public class PureSubstanceTest {
 	fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of getTemperature method, of class BubblePoint.
-     */
-    @Test
-    public void testBubbleTemperature() {
-	System.out.println("getTemperature");
-	
-	double pressure =101325;
-	double result = substance.bubbleTemperature(pressure).getTemperature();	
-	
-	double expResult = 184.607519;
-	
-	assertEquals(expResult, result, 1e-3);
-	
-    }
-
-    /**
-     * Test of getPressureEstimate method, of class BubblePoint.
-     */
-    @Test
-    public void testBubblePressureEstimate() {
-	System.out.println("getPressureEstimate");
-	double temperature =298;
-	double result = substance.bubblePressureEstimate(temperature);
-	double tolerance = 1e-3;
-	double expResult = 41.57334499*101325;
-	assertEquals(expResult, result,tolerance);
-    }
-
-    /**
-     * Test of getTemperatureEstimate method, of class BubblePoint.
-     */
-    @Test
-    public void testBubbleTemperatureEstimate() {
-	System.out.println("getTemperatureEstimate");
-	double pressure =101325;
-	double result = substance.bubbleTemperatureEstimate(pressure).getTemperature();
-	double tolerance = 1e-3;
-	double expResult = 184.338452;
-	assertEquals(expResult, result,tolerance);
-    }
-
-    /**
-     * Test of getPressure method, of class BubblePoint.
-     */
-    @Test
-    public void testBubblePressure() {
-	System.out.println("getPressure");
-	
-	double temperature = 298;
-	double result = substance.bubblePressure(temperature).getPressure();
-	double tolerance =  1e-3;
-	double expResult =41.432724;
-	assertEquals(expResult, result/101325,tolerance);
-    }
-    
-   @Test
-    public void testDewTemperature() {
-	System.out.println("getTemperature");
-	
-	double pressure =101325;
-	double result = substance.dewTemperature(pressure).getTemperature();	
-	double tolerance = 1e-3;
-	double expResult = 184.607519;
-	
-	assertEquals(expResult, result,tolerance);
-    }
    
-    @Test
-    public void testDewTemperatureEstimate() {
-	System.out.println("getTemperatureEstimate");
-	double pressure =101325;
-	double result = substance.dewTemperatureEstimate(pressure).getTemperature();
-	double tolerance = 1e-3;
-	double expResult = 184.338452;
-	assertEquals(expResult, result,tolerance);
-    }
-
-    @Test
-    public void testDewPressureEstimate() {
-	System.out.println("getPressureEstimate");
-	double temperature =298;
-	double result = substance.dewPressureEstimate(temperature).getPressure();
-	double tolerance = 1e-3;
-	double expResult = 41.57334499*101325;
-	assertEquals(expResult, result,tolerance);
-    }
-
-    @Test
-    public void testDewPressure() {
-	System.out.println("getPressure");
-	
-	double temperature = 298;
-	double result = substance.dewPressure(temperature).getPressure();
-	double tolerance =  1e-3;
-	double expResult =41.432724;// 4.198171e6;
-	assertEquals(expResult, result/101325,tolerance);
-    }
+   
     
     @Test
     public void testGetAcentricFactorBasedVaporPressure() {

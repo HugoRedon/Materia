@@ -16,7 +16,7 @@ import termo.phase.Phase;
  *
  * @author Hugo Redon Rivera
  */
-public class MixtureSubstance extends Substance{
+public class MixtureSubstance extends HomogeneousSubstance{
     private MixingRule mixingRule;
     private ArrayList<PureSubstance> pureSubstances = new ArrayList<>();
     private HashMap<PureSubstance,Double> molarFractions = new HashMap<>();
@@ -223,7 +223,7 @@ public class MixtureSubstance extends Substance{
 	this.binaryParameters = binaryParameters;
     }
 
-    @Override
+    
     public EquilibriaSolution bubbleTemperatureEstimate(double pressure) {
 	//return 204.911544;
 	  double temperature =  300;
@@ -265,7 +265,7 @@ public class MixtureSubstance extends Substance{
     
     
     
-    @Override
+    
     public MixtureEquilibriaPhaseSolution bubbleTemperature(double pressure) {
 	
 	 HashMap<PureSubstance,Double> K;
@@ -321,7 +321,7 @@ public class MixtureSubstance extends Substance{
         return newFractions;
     }
     
-      @Override
+      
     public MixtureEquilibriaPhaseSolution dewPressure(double temperature) {
 	MixtureEquilibriaFunction function = new DewPressureFunctions();
 	double pressureEstimate =  dewPressureEstimate(temperature).getPressure();
@@ -379,7 +379,7 @@ public class MixtureSubstance extends Substance{
 	}
 	
     }
-    @Override
+    
     public MixtureEquilibriaPhaseSolution bubblePressure(double temperature) {
 	BubblePressureFunctions function = new BubblePressureFunctions();
 	
@@ -408,7 +408,7 @@ public class MixtureSubstance extends Substance{
 	
     }
    
-    @Override
+    
     public double bubblePressureEstimate(double temperature) {
 	  HashMap<Component,Double> vaporPressures = new HashMap<>();
       double pressure= 0;
@@ -423,7 +423,7 @@ public class MixtureSubstance extends Substance{
       return pressure;
     }
 
-    @Override
+   
     public EquilibriaSolution dewTemperature(double pressure) {
 	
         HashMap<PureSubstance,Double> K;
@@ -457,7 +457,6 @@ public class MixtureSubstance extends Substance{
         return new MixtureEquilibriaPhaseSolution(temperature,pressure, molarFractions,liquidFractions, count);
     }
 
-    @Override
     public MixtureEquilibriaPhaseSolution dewTemperatureEstimate(double pressure) {
 	      double temperature =  300;
       double calcPressure;
@@ -505,7 +504,7 @@ public class MixtureSubstance extends Substance{
       return new MixtureEquilibriaPhaseSolution( temperature, pressure,liquidFractions,molarFractions, iterations);
     }
 
-    @Override
+   
     public MixtureEquilibriaPhaseSolution dewPressureEstimate(double temperature) {
 	//return 12.2533971*101325;
 	   HashMap<PureSubstance,Double> vaporPressures = new HashMap<>();
@@ -546,10 +545,10 @@ public class MixtureSubstance extends Substance{
          
          for (PureSubstance aComponent : getPureSubstances()){
            
-           double liquidFug = calculateFugacity(aComponent,temperature,pressure,Phase.LIQUID);
-           double vaporFug = calculateFugacity(aComponent, temperature, pressure, Phase.VAPOR);     
-           double equilRel = liquidFug/ vaporFug;
-           equilibriumRelations.put(aComponent, equilRel);
+//           double liquidFug = calculateFugacity(aComponent,temperature,pressure,Phase.LIQUID);
+//           double vaporFug = calculateFugacity(aComponent, temperature, pressure, Phase.VAPOR);     
+//           double equilRel = liquidFug/ vaporFug;
+//           equilibriumRelations.put(aComponent, equilRel);
          }
          return equilibriumRelations;
     }
