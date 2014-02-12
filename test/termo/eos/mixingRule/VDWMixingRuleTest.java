@@ -63,7 +63,7 @@ public class VDWMixingRuleTest {
 	
 	
 	 b = new InteractionParameter();
-	b.setValue(propanePure, ethanePure, 0.05, true);
+	b.setValue(propane, ethane, 0.05, true);
 	MixingRule mr = new VDWMixingRule();
 	
 	

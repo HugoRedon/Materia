@@ -61,7 +61,7 @@ public class MixtureSubstanceTest {
 	
 	
 	InteractionParameter b = new InteractionParameter();
-	b.setValue(propanePure, ethanePure, 0, true);
+	b.setValue(propane, ethane, 0, true);
 	MixingRule mr = new VDWMixingRule();
 	
 	
@@ -202,84 +202,4 @@ public class MixtureSubstanceTest {
 	fail("The test case is a prototype.");
     }
 
-    @Test
-    public void testBubbleTemperature() {
-	System.out.println("bubbleTemperature");
-	double pressure = 101325;
-	double expResult =205.996089;
-	double result = substance.bubbleTemperature(pressure).getTemperature();
-	assertEquals(expResult, result, 1e-3);
-    }
-
-    @Test
-    public void testBubbleTemperatureEstimate() {
-	System.out.println("bubbleTemperatureEstimate");
-	
-	double pressure = 101325;
-	double expResult = 204.911544;
-	double result = substance.bubbleTemperatureEstimate(pressure).getTemperature();
-	assertEquals(expResult, result, 1e-3);
-    }
-
-    @Test
-    public void testBubblePressure() {
-	System.out.println("bubblePressure");
-	double temperature = 298;
-	
-	double expResult = 17.227281;
-	double result = substance.bubblePressure(temperature).getPressure();
-	assertEquals(expResult, result/101325, 1e-3);
-	
-    }
-
-    @Test
-    public void testBubblePressureEstimate() {
-	System.out.println("bubblePressureEstimate");
-	
-	double temperature = 298;
-	double expResult = 19.058900;
-	double result = substance.bubblePressureEstimate(temperature);
-	assertEquals(expResult, result/101325, 1e-3);
-
-    }
-
-    @Test
-    public void testDewTemperature() {
-	System.out.println("dewTemperature");
-	double pressure = 101325;
-	double expResult =224.7880188;
-	double result = substance.dewTemperature(pressure).getTemperature();
-	assertEquals(expResult, result, 1e-3);
-    }
-
-    @Test
-    public void testDewTemperatureEstimate() {
-	System.out.println("dewTemperatureEstimate");
-	double pressure = 101325;
-	double expResult = 223.967265;
-	double result = substance.dewTemperatureEstimate(pressure).getTemperature();
-	assertEquals(expResult, result, 1e-3);
-    }
-
-    @Test
-    public void testDewPressureEstimate() {
-	System.out.println("dewPressureEstimate");
-	double temperature = 298;
-	
-	double expResult = 12.253971;
-	double result = substance.dewPressureEstimate(temperature).getPressure();
-	assertEquals(expResult, result/101325, 1e-3);
-
-    }
-
-    @Test
-    public void testDewPressure() {
-	System.out.println("dewPressure");
-	double temperature = 298;
-	
-	double expResult = 12.618295;
-	double result = substance.dewPressure(temperature).getPressure();
-	assertEquals(expResult, result/101325, 1e-3);
-
-    }
 }

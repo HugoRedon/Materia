@@ -34,7 +34,7 @@ public class VDWMixingRule extends MixingRule{
               double ai = iComponent.calculate_a_cubicParameter(temperature);
               double aj = jComponent.calculate_a_cubicParameter(temperature);
               
-              double kij = k.getValue(iComponent, jComponent);
+              double kij = k.getValue(iComponent.getComponent(), jComponent.getComponent());
              
               a += xi * xj * Math.sqrt(ai * aj) * (1-kij);
           }
@@ -85,7 +85,7 @@ public class VDWMixingRule extends MixingRule{
            double xk = fractions.get(kComponent);          
            double ak = kComponent.calculate_a_cubicParameter(temperature);//singleAs.get(kComponent);        
            
-           double kik = k.getValue(iComponent, kComponent);
+           double kik = k.getValue(iComponent.getComponent(), kComponent.getComponent());
            //double kik = BinaryInteractionParameter.getk(iComponent, kComponent);
            
            sum += xk * Math.sqrt(ai * ak ) * (1- kik);

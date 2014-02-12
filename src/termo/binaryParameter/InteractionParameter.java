@@ -6,6 +6,7 @@ package termo.binaryParameter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import termo.component.Component;
 import termo.substance.PureSubstance;
 
 /**
@@ -15,7 +16,7 @@ import termo.substance.PureSubstance;
  */
 public class InteractionParameter {
     
-  private HashMap<ArrayList<PureSubstance>,Double> param ;
+  private HashMap<ArrayList<Component>,Double> param ;
 //    private boolean symmetric;
     //private HashMap<ArrayList<Component>,Double> k21Value;
 
@@ -24,8 +25,8 @@ public class InteractionParameter {
     }
   
    
-    public double  getValue(PureSubstance component1,PureSubstance component2){
-         ArrayList<PureSubstance> components = new ArrayList<>();
+    public double  getValue(Component component1,Component component2){
+         ArrayList<Component> components = new ArrayList<>();
         components.add(component1);
         components.add(component2);
         
@@ -36,22 +37,22 @@ public class InteractionParameter {
         }
     }
     
-    public void setValue(PureSubstance component1,PureSubstance component2,double value,boolean isSymmetric){
+    public void setValue(Component component1,Component component2,double value,boolean isSymmetric){
         
-        ArrayList<PureSubstance> components = new ArrayList<>();
+        ArrayList<Component> components = new ArrayList<>();
         components.add(component1);
         components.add(component2);
         
         //What the fuck!!!
-         param.put((ArrayList<PureSubstance>)components.clone(), value);
+         param.put((ArrayList<Component>)components.clone(), value);
          
 //         this.symmetric = isSymmetric;
-	  ArrayList<PureSubstance> components1 = new ArrayList<>();
+	  ArrayList<Component> components1 = new ArrayList<>();
         if(isSymmetric){
             
             components1.add(component2);
             components1.add(component1);
-            param.put((ArrayList<PureSubstance>)components1.clone(), value);
+            param.put((ArrayList<Component>)components1.clone(), value);
         }
     }
 

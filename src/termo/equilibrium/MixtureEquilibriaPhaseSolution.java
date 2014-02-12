@@ -5,6 +5,7 @@
 package termo.equilibrium;
 
 import java.util.HashMap;
+import termo.component.Component;
 import termo.substance.PureSubstance;
 
 /**
@@ -13,45 +14,45 @@ import termo.substance.PureSubstance;
  * Hugo
  */
 public class MixtureEquilibriaPhaseSolution extends EquilibriaSolution{
-    private HashMap<PureSubstance,Double> solutionFractions;
-    private HashMap<PureSubstance,Double> mixtureFractions;
+    private HashMap<Component,Double> vaporFractions;
+    private HashMap<Component,Double> liquidFractions;
     public MixtureEquilibriaPhaseSolution(
 	 double temperature, 
                 double pressure,
-                HashMap<PureSubstance,Double> zFraction, 
-                HashMap<PureSubstance,Double> solutionFractions,
+                HashMap<Component,Double> liquidFractions, 
+                HashMap<Component,Double> solutionFractions,
                 int iterations){
             super(temperature, pressure, iterations);
             
-            this.mixtureFractions = zFraction;
-            this.solutionFractions = solutionFractions;
+            this.liquidFractions = liquidFractions;
+            this.vaporFractions = solutionFractions;
             
     }
       /**
          * @return the vaporFractions
          */
-        public HashMap<PureSubstance,Double> getMixtureFractions() {
-            return mixtureFractions;
+        public HashMap<Component,Double> getLiquidFractions() {
+            return liquidFractions;
         }
 
         /**
          * @param vaporFractions the vaporFractions to set
          */
-        public void setMixtureFractions(HashMap<PureSubstance,Double> mixtureFractions) {
-            this.mixtureFractions = mixtureFractions;
+        public void setLiquidFractions(HashMap<Component,Double> mixtureFractions) {
+            this.liquidFractions = mixtureFractions;
         }
 	 /**
      * @return the vaporFractions
      */
-    public HashMap<PureSubstance,Double> getSolutionFractions() {
-        return solutionFractions;
+    public HashMap<Component,Double> getVaporFractions() {
+        return vaporFractions;
     }
 
     /**
      * @param vaporFractions the vaporFractions to set
      */
-    public void setSolutionFractions(HashMap<PureSubstance,Double> vaporFractions) {
-        this.solutionFractions = vaporFractions;
+    public void setVaporFractions(HashMap<Component,Double> vaporFractions) {
+        this.vaporFractions = vaporFractions;
     }
 
 }

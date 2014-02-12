@@ -17,9 +17,9 @@ import termo.eos.alpha.AlphaFactory;
  * @author
  * Hugo
  */
-public class HeterogeneousSubstanceTest {
-    HeterogeneousSubstance substance;
-    public HeterogeneousSubstanceTest() {
+public class HeterogeneousPureSubstanceTest {
+    HeterogeneousPureSubstance substance;
+    public HeterogeneousPureSubstanceTest() {
 	
 	Component ethane = new Component();
 	ethane.setAcentricFactor(0.09781);
@@ -30,7 +30,7 @@ public class HeterogeneousSubstanceTest {
 	Cubic eos = EquationOfStateFactory.pengRobinsonBase();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
-	substance = new HeterogeneousSubstance(eos, alpha, ethane);
+	substance = new HeterogeneousPureSubstance(eos, alpha, ethane);
 //	
 //	substance.setCubicEquationOfState(eos);
 //	substance.setAlpha(alpha);
@@ -45,12 +45,9 @@ public class HeterogeneousSubstanceTest {
     @Test
     public void testBubbleTemperature() {
 	System.out.println("getTemperature");
-	
 	double pressure =101325;
 	double result = substance.bubbleTemperature(pressure).getTemperature();	
-	
 	double expResult = 184.607519;
-	
 	assertEquals(expResult, result, 1e-3);
 	
     }

@@ -10,10 +10,21 @@ import termo.phase.Phase;
  *
  * @author Hugo Redon Rivera
  */
-public abstract class  HomogeneousSubstance {
+public abstract class  HomogeneousSubstance extends Substance {
     
     private Cubic cubicEquationOfState;    
     private Phase phase;
+    
+    public HomogeneousSubstance(){
+	
+    }
+    public HomogeneousSubstance(Cubic eos){
+	this.cubicEquationOfState= eos;
+    }
+    public HomogeneousSubstance(Cubic eos,Phase phase){
+	this.cubicEquationOfState = eos;
+	this.phase = phase;
+    }
 
     public abstract double temperatureParcial_a(double temperature);
     public abstract double calculate_a_cubicParameter(double temperature);
@@ -39,16 +50,18 @@ public abstract class  HomogeneousSubstance {
 	return  cubicEquationOfState.calculateCompresibilityFactor(A, B, getPhase());
     }
     
-     public double bi(PureSubstance pureSubstance){
-        return pureSubstance.calculate_b_cubicParameter();
-    }
+//     public double bi(PureSubstance pureSubstance){
+//        return pureSubstance.calculate_b_cubicParameter();
+//    }
     
         
     public double calculateFugacity( PureSubstance pureSubstance,double temperature, double pressure){
         double a = calculate_a_cubicParameter(temperature);
         double b = calculate_b_cubicParameter();
 
-        double  parcialb = bi(pureSubstance);
+	
+	
+        double  parcialb = pureSubstance.calculate_b_cubicParameter();//bi(pureSubstance);
         double parciala = oneOver_N_Parcial_a( temperature,pureSubstance);
         
         return getCubicEquationOfState().calculateFugacity(temperature, pressure, a, b, parciala, parcialb, getPhase());

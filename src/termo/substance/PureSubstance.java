@@ -11,17 +11,25 @@ import termo.phase.Phase;
  *
  * @author Hugo Redon Rivera
  */
-public class PureSubstance extends HomogeneousSubstance{
+public class PureSubstance extends HomogeneousSubstance {
     private Component component;
     private Alpha alpha;
     
     public PureSubstance(){
 	
     }
+    public PureSubstance(Cubic eos,Alpha alpha,Component component){
+	super(eos);
+	
+    }
+    private PureSubstance(Alpha alpha , Component component){
+	this.alpha = alpha;
+	this.component = component;
+    }
     
     public PureSubstance(Cubic eos,Alpha alpha,Component component,Phase phase ){
-	super.setCubicEquationOfState(eos);
-	super.setPhase(phase);
+	super(eos,phase);
+	
 	this.alpha = alpha;
 	this.component = component;
     }
