@@ -144,17 +144,31 @@ public class HeterogeneousMixtureSubstanceTest {
 	double pressure = 101325;
 	double expResult = 0.553888;
 	
-	double vFEstimate = 0.563536;
+//	double vFEstimate = 0.563536;
+//	
+//	
+//	substance.liquid.setFraction(ethane, 0.0512682);
+//	substance.liquid.setFraction(propane, 0.948732);
+//	
+//	substance.vapor.setFraction(ethane, 0.772672);
+//	substance.vapor.setFraction(propane, 0.227328);
+//	
 	
-	
-	substance.liquid.setFraction(ethane, 0.0512682);
-	substance.liquid.setFraction(propane, 0.948732);
-	substance.vapor.setFraction(ethane, 0.772672);
-	substance.vapor.setFraction(propane, 0.227328);
-	
-	
-	double result = substance.flash(temperature,pressure,vFEstimate);
+	double result = substance.flash(temperature,pressure);
 	assertEquals(expResult, result, 1e-3);
     }
+//    @Test
+//    public void testFlashEstimate(){
+//	System.out.println("flashEstimate");
+//	
+//	double pressure = 101325;
+//	double temperature = 220;
+//	
+//	double expResult = 0.563536;
+//	
+//	double result = substance.flashEstimate(temperature, pressure);
+//	
+//	assertEquals(expResult, result, 1e-3);
+//    }
     
 }

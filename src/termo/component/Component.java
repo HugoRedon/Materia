@@ -45,6 +45,7 @@ public class Component implements Serializable {
     private double lowerFlammabilityLimit;
     
     private double prsvKappa;
+    private double SRK_A;
     
     private double L_Twu;
     private double M_Twu;
@@ -69,6 +70,7 @@ public class Component implements Serializable {
     private String family;
     private String subFamily;
     private String standardState;
+    
 
     @Override
     public int hashCode() {
@@ -1042,6 +1044,13 @@ public class Component implements Serializable {
 
     public void setCp(CpEquation cp) {
         this.cp = cp;
+    }
+
+    public void setSRK_A(double srk){
+	this.SRK_A = srk;
+    }
+    public double getSRK_A() {
+	return this.SRK_A;
     }
 
 

@@ -117,10 +117,13 @@ public class PureSubstance extends HomogeneousSubstance {
         
         double omega_a = getCubicEquationOfState().getOmega_a();
         
-             double tc = component.getCriticalTemperature();
+	double tc = component.getCriticalTemperature();
         double pc = component.getCriticalPressure();
         
-        return (omega_a * Math.pow( Constants.R  * tc,2) *getAlpha().alpha(temperature,component) )/ (pc);  
+	double alphaE = alpha.alpha(temperature,component);
+	
+	
+        return (omega_a * Math.pow( Constants.R  * tc,2) *alphaE )/ (pc);  
     }
 
     @Override

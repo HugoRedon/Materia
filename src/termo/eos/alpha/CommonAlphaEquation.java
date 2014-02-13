@@ -7,43 +7,43 @@ import termo.component.Component;
  *
  * @author Hugo Redon Rivera
  */
-public class CommonAlphaEquation extends Alpha implements Serializable{
+public abstract class CommonAlphaEquation extends Alpha implements Serializable{
     private double r1;
     private double r2;
     private double r3;
     private double r4;
     
-    private double x;
 
-
+    public abstract double get_q(Component component);
 
     @Override
-    public double alpha(double temperature, Component component) {
-           double criticalTemperature = component.getCriticalTemperature();
-        double q = component.getPrsvKappa();
-        
-        double reducedTemperature = temperature / criticalTemperature;
+    public  double alpha(double temperature, Component component){
+	double q = get_q(component);
+	double omega = component.getAcentricFactor();
+	double reducedTemperature = temperature  / component.getCriticalTemperature();
 
-            double calc = 1 + m(component)* (1 - Math.sqrt(reducedTemperature)) 
-                    +getX()*q*(1-reducedTemperature)*(0.7-reducedTemperature) ;
+            double calc = 1 + m(omega)* (1 - Math.sqrt(reducedTemperature)) 
+                    +q*(1-reducedTemperature)*(0.7-reducedTemperature) ;
             return Math.pow( calc, 2);
     
             
     }
 
     
-    protected double m(Component component){
-        double acentricFactor = component.getAcentricFactor();
+    protected double m(double acentricFactor){
+        //double acentricFactor = component.getAcentricFactor();
         
         return getR1() + getR2() * acentricFactor +getR3() * Math.pow(acentricFactor, 2) + getR4() * Math.pow(acentricFactor, 3);
     }
 
     @Override
-    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Component component) {
-         double tr = temperature /component.getCriticalTemperature();      
-        double q = component.getPrsvKappa(); 
-            return (1d/ Math.sqrt(alpha(temperature,component)))*(- m(component) * Math.sqrt(tr) 
-                    - x* q * ( 3.4*tr - 4*Math.pow(tr, 2) ));
+    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Component component){
+	double tr = temperature /component.getCriticalTemperature();    
+	double omega = component.getAcentricFactor();
+	double q = get_q(component); 
+	
+	return (1d/ Math.sqrt(alpha(temperature,component)))*(- m(omega) * Math.sqrt(tr) 
+                    -  q * ( 3.4*tr - 4*Math.pow(tr, 2) ));
     }
 
     /**
@@ -105,16 +105,16 @@ public class CommonAlphaEquation extends Alpha implements Serializable{
     /**
      * @return the x
      */
-    public double getX() {
-        return x;
-    }
-
-    /**
-     * @param x the x to set
-     */
-    public void setX(double x) {
-        this.x = x;
-    }
+//    public double getX() {
+//        return x;
+//    }
+//
+//    /**
+//     * @param x the x to set
+//     */
+//    public void setX(double x) {
+//        this.x = x;
+//    }
     
         @Override
     public int hashCode() {
@@ -123,7 +123,7 @@ public class CommonAlphaEquation extends Alpha implements Serializable{
         hash = 59 * hash + (int) (Double.doubleToLongBits(this.r2) ^ (Double.doubleToLongBits(this.r2) >>> 32));
         hash = 59 * hash + (int) (Double.doubleToLongBits(this.r3) ^ (Double.doubleToLongBits(this.r3) >>> 32));
         hash = 59 * hash + (int) (Double.doubleToLongBits(this.r4) ^ (Double.doubleToLongBits(this.r4) >>> 32));
-        hash = 59 * hash + (int) (Double.doubleToLongBits(this.x) ^ (Double.doubleToLongBits(this.x) >>> 32));
+       // hash = 59 * hash + (int) (Double.doubleToLongBits(this.x) ^ (Double.doubleToLongBits(this.x) >>> 32));
         return hash;
     }
 
@@ -148,10 +148,76 @@ public class CommonAlphaEquation extends Alpha implements Serializable{
         if (Double.doubleToLongBits(this.r4) != Double.doubleToLongBits(other.r4)) {
             return false;
         }
-        if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x)) {
-            return false;
-        }
+//        if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x)) {
+//            return false;
+//        }
         return true;
     }
+
+  
     
 }
+
+
+
+
+
+
+class StryjekAndVera extends CommonAlphaEquation {
+    public StryjekAndVera(){
+	setName(AlphaNames.StryjekAndVera);
+	setR1(0.378893);
+        setR2(1.4897153);
+        setR3(-0.17131848);
+        setR4(0.0196554);
+    }
+    @Override
+    public double get_q(Component component) {
+	return component.getPrsvKappa();
+    }
+}
+
+class SoaveAlpha extends CommonAlphaEquation{
+    public SoaveAlpha(){
+	setName(AlphaNames.Soave); 
+        setR1(0.48508);
+        setR2(1.55171);
+        setR3(-0.15613);
+        setR4(0);
+    }
+    @Override
+    public double get_q(Component component) {
+	return 0;
+    }
+}
+
+class MathiasAlpha extends CommonAlphaEquation{
+    public MathiasAlpha(){
+	setName(AlphaNames.Mathias);
+	setR1(0.48508);
+        setR2(1.55171);
+        setR3(-0.15613);
+        setR4(0);
+    }
+    @Override
+    public double get_q(Component component) {
+	return -component.getSRK_A();
+    }
+}
+
+
+class PengAndRobinsonAlpha extends CommonAlphaEquation{
+    public PengAndRobinsonAlpha(){
+	setName(AlphaNames.PengAndRobinson);
+        
+        setR1(0.37464);
+        setR2(1.54226);
+        setR3(-0.2699);
+        setR4(0);
+    }
+    @Override
+    public double get_q(Component component) {
+	return 0;
+    } 
+}
+

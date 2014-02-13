@@ -3,14 +3,11 @@ package termo.substance;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import termo.binaryParameter.BinaryInteractionParameter;
 import termo.component.Component;
 import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
 import termo.eos.mixingRule.MixingRule;
 import termo.equilibrium.EquilibriaSolution;
-import termo.equilibrium.EquilibriumFunctions;
-import termo.equilibrium.FlashSolution;
 import termo.equilibrium.MixtureEquilibriaPhaseSolution;
 import termo.phase.Phase;
 
@@ -255,20 +252,16 @@ public class HeterogeneousMixtureSubstance extends Substance{
 	return minimizePressure(function, temperature, pressureEstimate, Phase.LIQUID);
     }
     
-    public double flash(
-	    double temperature,
-	    double pressure, 
-            double vF
-            ){
+    public double flash(double temperature,double pressure){
+	
+	double vF = flashEstimate(temperature, pressure);
 	
 	double tolerance  = 1e-4;
             HashMap<PureSubstance,Double> K;
             double error=100;
             HashMap<PureSubstance,Double> x_;
-            //HashMap<Component,Double> x;
-            
+
             HashMap<PureSubstance,Double> y_;
-           // HashMap<Component,Double> y;
             while(error >= tolerance){
                 K = equilibriumRelations(temperature, pressure);
                 error = calculateError(pressure, temperature);
@@ -287,11 +280,110 @@ public class HeterogeneousMixtureSubstance extends Substance{
     
     
     
+//    public double flashEstimate(double temperature, double pressure){
+//	double vF = 0.5;
+//	double sx = 0;
+//	double sy = 0;
+//	HashMap<PureSubstance,Double> X = new HashMap<>();
+//	HashMap<PureSubstance,Double> Y = new HashMap<>();
+//	for (PureSubstance component :vapor.getPureSubstances()){
+//	    double vaporPressure = component.getAcentricFactorBasedVaporPressure(temperature);
+//	    
+//	    double xi = zFractions.get(component.getComponent())*pressure / vaporPressure;
+//	    X.put(component, xi);
+//	    sx += xi;
+//	}
+//	
+//	
+//	for(PureSubstance component : liquid.getPureSubstances()){
+//	    double xi = X.get(component);
+//	    double normXi = xi/sx;
+//	    liquid.getMolarFractions().put(component, normXi);
+//	}
+//	
+//	
+//	
+//	
+//	
+//	HashMap<PureSubstance,Double> k = new HashMap();
+//	
+//	for(PureSubstance component: liquid.getPureSubstances()){
+//	    double vaporPressure = component.getAcentricFactorBasedVaporPressure(temperature);
+//	    double ki =  vaporPressure/ pressure;
+//	    k.put(component, ki);
+//	}
+//	
+//
+//	vF = rachfordRice(k, vF, 1e-4);
+//	
+//	
+//	HashMap<PureSubstance, Double> y_ = y_(X, k);
+//	vapor.setMolarFractions( newFractions(y_));
+//	
+//	//calculateSy(k);
+//	
+//	return vF;
+//    }
     
     
     
+     public double flashEstimate(double temperature,double pressure){
+	double vF = 0.5;
+	flashEstimateLiquidFractions(temperature, pressure);
+	
+	double tolerance  = 1e-4;
+            HashMap<PureSubstance,Double> K;           
+            HashMap<PureSubstance,Double> x_;
+
+            HashMap<PureSubstance,Double> y_;
+           
+	    K = flashEstimateEquilibriumRelations(temperature, pressure);
+	   // error = calculateError(pressure, temperature);
+	    vF = rachfordRice(K, vF,tolerance);
+	    x_=x_( K, vF);
+
+	    liquid.setMolarFractions(newFractions(x_));
+
+	    y_ = y_(x_, K);
+	    vapor.setMolarFractions( newFractions(y_));
+                
+            
+        
+        return  vF;
+    }
     
-    
+     
+     public void flashEstimateLiquidFractions(double temperature, double pressure){
+	double sx = 0;
+	
+	HashMap<PureSubstance,Double> X = new HashMap<>();
+	
+	for (PureSubstance component :vapor.getPureSubstances()){
+	    double vaporPressure = component.getAcentricFactorBasedVaporPressure(temperature);
+	    
+	    double xi = zFractions.get(component.getComponent())*pressure / vaporPressure;
+	    X.put(component, xi);
+	    sx += xi;
+	}
+	
+	
+	for(PureSubstance component : liquid.getPureSubstances()){
+	    double xi = X.get(component);
+	    double normXi = xi/sx;
+	    liquid.getMolarFractions().put(component, normXi);
+	}
+     }
+     
+     public HashMap<PureSubstance,Double> flashEstimateEquilibriumRelations(double temperature, double pressure){
+	 HashMap<PureSubstance,Double> k = new HashMap();
+	
+	for(PureSubstance component: liquid.getPureSubstances()){
+	    double vaporPressure = component.getAcentricFactorBasedVaporPressure(temperature);
+	    double ki =  vaporPressure/ pressure;
+	    k.put(component, ki);
+	}
+	return k;
+     }
     
     
     

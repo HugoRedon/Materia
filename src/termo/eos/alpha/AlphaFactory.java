@@ -13,49 +13,28 @@ public class AlphaFactory {
     }
 
     public static Alpha getSoaveExpression(){
-        double r1 = 0.48508;
-        double r2=1.55171;
-        double r3 = -0.15613;
-        double r4 = 0.0;
+       
         
-        CommonAlphaEquation soave = new CommonAlphaEquation();
+        CommonAlphaEquation soave = new SoaveAlpha();
         
-        soave.setName(AlphaNames.Soave); 
-        soave.setR1(r1);
-        soave.setR2(r2);
-        soave.setR3(r3);
-        soave.setR4(r4);
+      
         
-        soave.setX(0);  
         return soave;     
     }
     public static Alpha getPengAndRobinsonExpression(){
-        CommonAlphaEquation pr = new CommonAlphaEquation();
-        
-        pr.setName(AlphaNames.PengAndRobinson);
-        
-        pr.setR1(0.37464);
-        pr.setR2(1.54226);
-        pr.setR3(-0.2699);
-        pr.setR4(0);
-        
-        pr.setX(0);
+        CommonAlphaEquation pr = new PengAndRobinsonAlpha();
+ 
         return pr;    
     }
     
     public static Alpha getMathiasExpression(){
         TwoEquationsAlphaExpression mathias = new TwoEquationsAlphaExpression();    
         
-        mathias.setName(AlphaNames.Mathias);
-        
-        CommonAlphaEquation mathiasBelow = new CommonAlphaEquation();
+        CommonAlphaEquation mathiasBelow = new MathiasAlpha();
    
-        mathiasBelow.setR1(0.48508);
-        mathiasBelow.setR2(1.55171);
-        mathiasBelow.setR3(-0.15613);
-        mathiasBelow.setR4(0);
+      
         
-        mathiasBelow.setX(-1);  
+        //mathiasBelow.setX(-1);  
         
         MathiasAboveTcAlphaEquation mathiasAbove = new MathiasAboveTcAlphaEquation(mathiasBelow);
         
@@ -72,25 +51,19 @@ public class AlphaFactory {
             
         TwoEquationsAlphaExpression stryjek = new TwoEquationsAlphaExpression();    
         
-        stryjek.setName(AlphaNames.StryjekAndVera);
         
-        CommonAlphaEquation stryjekveraBelow = new CommonAlphaEquation();
+        
+        CommonAlphaEquation stryjekveraBelow = new StryjekAndVera();
    
-        stryjekveraBelow.setR1(r1);
-        stryjekveraBelow.setR2(r2);
-        stryjekveraBelow.setR3(r3);
-        stryjekveraBelow.setR4(r4);
+      
         
-        stryjekveraBelow.setX(1);  
+        //stryjekveraBelow.setX(1);  
         
-        CommonAlphaEquation stryjekVeraAbove = new CommonAlphaEquation();
+        CommonAlphaEquation stryjekVeraAbove = new StryjekAndVera();
         
-        stryjekVeraAbove.setR1(r1);
-        stryjekVeraAbove.setR2(r2);
-        stryjekVeraAbove.setR3(r3);
-        stryjekVeraAbove.setR4(r4);
+       
         
-        stryjekVeraAbove.setX(0);  
+       // stryjekVeraAbove.setX(0);  
         
         stryjek.setAlphaBelowTc(stryjekveraBelow);
         stryjek.setAlphaAboveTc(stryjekVeraAbove);

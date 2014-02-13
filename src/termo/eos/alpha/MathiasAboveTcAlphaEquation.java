@@ -26,8 +26,9 @@ public class MathiasAboveTcAlphaEquation extends Alpha{
     }
      
     private double c(Component component){
-        double q = component.getPrsvKappa();
-        return 1+0.5*belowTcAlphaEquation.m(component)+0.3*q;
+        double q = belowTcAlphaEquation.get_q(component);
+	double omega = component.getAcentricFactor();
+        return 1+0.5*belowTcAlphaEquation.m(omega)+0.3*q;
     }
 
     @Override
