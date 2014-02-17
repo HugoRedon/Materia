@@ -13,18 +13,18 @@ import termo.component.Component;
 public class UNIQUACActivityModel implements ActivityModel{
     private double z = 10; // default value
 
-    @Override
-    public double excessGibbsEnergy(
-            ArrayList<Component> components, 
-            HashMap<Component, Double> fractions, 
-            ActivityModelBinaryParameter k, 
-            double temperature) {
-        double excess =0;
-        double combE = combinatorialExcessGibbsEnergy(components, fractions);
-        double resE = residualExcessGibbsEnergyOverRT(temperature,components,fractions,k);
-        excess = combE + resE;
-        return excess * Constants.R *temperature;
-    }
+//    @Override
+//    public double excessGibbsEnergy(
+//            
+//            HashMap<Component, Double> fractions, 
+//            ActivityModelBinaryParameter k, 
+//            double temperature) {
+//        double excess =0;
+//        double combE = combinatorialExcessGibbsEnergy(components, fractions);
+//        double resE = residualExcessGibbsEnergyOverRT(temperature,components,fractions,k);
+//        excess = combE + resE;
+//        return excess * Constants.R *temperature;
+//    }
 
     @Override
     public double activityCoefficient(
@@ -249,6 +249,11 @@ public class UNIQUACActivityModel implements ActivityModel{
         
         return combinatorial + residual;
         
+    }
+
+    @Override
+    public double excessGibbsEnergy(HashMap<Component, Double> fractions, ActivityModelBinaryParameter k, double temperature) {
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

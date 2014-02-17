@@ -20,7 +20,8 @@ public class PureSubstance extends HomogeneousSubstance {
     }
     public PureSubstance(Cubic eos,Alpha alpha,Component component){
 	super(eos);
-	
+	this.alpha = alpha;
+	this.component = component;
     }
     private PureSubstance(Alpha alpha , Component component){
 	this.alpha = alpha;
@@ -33,6 +34,7 @@ public class PureSubstance extends HomogeneousSubstance {
 	this.alpha = alpha;
 	this.component = component;
     }
+    
     
 
     @Override

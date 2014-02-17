@@ -121,14 +121,14 @@ public class VDWMixingRuleTest {
 
     @Test
     public void testB() {
-	System.out.println("b");
-	HashMap<Component, Double> singleBs = null;
-	ArrayList<Component> components = null;
-	HashMap<Component, Double> fractions = null;
-	VDWMixingRule instance = new VDWMixingRule();
-	double expResult = 0.0;
-	double result = instance.b(singleBs, components, fractions);
-	assertEquals(expResult, result, 0.0);
+//	System.out.println("b");
+//	HashMap<Component, Double> singleBs = null;
+//	ArrayList<Component> components = null;
+//	HashMap<Component, Double> fractions = null;
+//	VDWMixingRule instance = new VDWMixingRule();
+//	double expResult = 0.0;
+//	double result = instance.b(singleBs, components, fractions);
+//	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
     }

@@ -21,7 +21,8 @@ public class MathiasAboveTcAlphaEquation extends Alpha{
         double reducedTemperature = temperature / criticalTemperature;
         
              double c = c(component);
-            double calc = (2*(c-1)/c)*(1-Math.pow(reducedTemperature, c));
+            //double calc = (2*(c-1)/c)*(1-Math.pow(reducedTemperature, c));
+	     double calc = (2*(c-1)/c)*(1-Math.pow(reducedTemperature, c));
             return Math.exp(calc);
     }
      
@@ -36,7 +37,7 @@ public class MathiasAboveTcAlphaEquation extends Alpha{
         
           double c = c(component);
            double tr = temperature /component.getCriticalTemperature();      
-            return - (c-1) * (Math.pow(tr,c));
+            return - 2*(c-1) * (Math.pow(tr,c));
     }
 
     /**

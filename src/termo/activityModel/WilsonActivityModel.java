@@ -5,34 +5,34 @@ import java.util.HashMap;
 import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.component.Component;
+import termo.substance.PureSubstance;
 
 /**
  *
  * @author Hugo Redon Rivera
  */
-public class WilsonActivityModel implements ActivityModel{
+public class WilsonActivityModel {
 
-    @Override
+    boolean calculateWith_b = true;
     public double excessGibbsEnergy(
-            ArrayList<Component> components, 
-            HashMap<Component, Double> fractions, 
+            HashMap<PureSubstance, Double> fractions, 
             ActivityModelBinaryParameter k,
             double temperature) {
        
         double excessGibbs = 0;
         
-        for (Component ci : components){
+        for (PureSubstance ci : fractions.keySet()){
             double xi = fractions.get(ci);
-            excessGibbs -= xi * Math.log( summa(ci, components, fractions,k,temperature));
+            excessGibbs -= xi * Math.log( summa(ci, fractions,k,temperature));
         }
-        return excessGibbs;
+        return excessGibbs*termo.Constants.R*temperature;
     }
 
-    @Override
+    
     public double activityCoefficient(
-            ArrayList<Component> components, 
-            Component ci,
-            HashMap<Component, Double> fractions, 
+            
+            PureSubstance ci,
+            HashMap<PureSubstance, Double> fractions, 
             ActivityModelBinaryParameter k,
             double temperature) {
           
@@ -50,37 +50,46 @@ public class WilsonActivityModel implements ActivityModel{
         double denominator = 0;
         double thirdTerm = 0;
         
-        for(Component cj: components){
+        for(PureSubstance cj: fractions.keySet()){
             xj = fractions.get(cj);
-            denominator = summa(cj, components, fractions, k, temperature);
+            denominator = summa(cj, fractions, k, temperature);
            
-            thirdTerm += xj * lambda(cj, ci, k, xk) / denominator;
+            thirdTerm += xj * lambda(cj, ci, k, temperature) / denominator;
         }
-        double logGamma =  - Math.log(summa(ci, components, fractions, k, temperature))+1 - thirdTerm;
+        double logGamma =  - Math.log(summa(ci, fractions, k, temperature))+1 - thirdTerm;
         return Math.exp(logGamma);
     }
 
-    private double summa(Component ci, ArrayList<Component> components, HashMap<Component, Double> fractions, ActivityModelBinaryParameter k, double temperature) {
- 
+    private double summa(PureSubstance ci,  HashMap<PureSubstance, Double> fractions, ActivityModelBinaryParameter k, double temperature) {
+	    
         double summa = 0;
-         for(Component cj: components){
+         for(PureSubstance cj: fractions.keySet()){
                 double xj = fractions.get(cj);
                 summa += xj * lambda( ci, cj, k,temperature);
             }
         return summa;
     }
     
-    public double lambda (Component ci,Component cj, ActivityModelBinaryParameter k ,double T){
-            double Vj = cj.getLiquidMolarVolumeat298_15K();
-            double Vi = ci.getLiquidMolarVolumeat298_15K();
-        
+    public double lambda (PureSubstance ci,PureSubstance cj, ActivityModelBinaryParameter k ,double T){
+	
+	double Vj;
+	double Vi;
+		
+	if(calculateWith_b){
+	    Vj = cj.calculate_b_cubicParameter();
+	    Vi = ci.calculate_b_cubicParameter();
+	}else{
+	
+             Vj = cj.getComponent().getLiquidMolarVolumeat298_15K();
+             Vi = ci.getComponent().getLiquidMolarVolumeat298_15K();
+	}
 //            if(ci.equals(cj)){
 //                return 1;
 //            }else{
 //            double lambdaij = k.getValue(ci,cj);
 //            double lambdaii = k.getValue(ci,ci);
 //            double deltaLambda = - (lambdaij - lambdaii);
-            double tau = tau(ci, cj, k, T);
+            double tau = tau(ci.getComponent(), cj.getComponent(), k, T);
                 return (Vj / Vi) * Math.exp(-tau  /(termo.Constants.R * T));               
 //            }  
     }
@@ -91,7 +100,7 @@ public class WilsonActivityModel implements ActivityModel{
         return (aij + bij * T)/(Constants.R * T);
     }
 
-    @Override
+    
     public double parcialExcessGibbsRespectTemperature(
             ArrayList<Component> components, 
             HashMap<Component, Double> fractions, 
@@ -121,7 +130,7 @@ public class WilsonActivityModel implements ActivityModel{
             for(Component cj : components){
                 
                 xj = fractions.get(cj);
-                lambda = lambda(ci, cj, k, temperature);
+//                lambda = lambda(ci, cj, k, temperature);
                         
                 tau = tau(ci, cj, k, temperature);
                 bji = k.getB().getValue(cj, ci);

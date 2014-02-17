@@ -98,19 +98,15 @@ public class VDWMixingRule extends MixingRule{
 
 
     @Override
-    public double b(HashMap<Component, Double> singleBs,ArrayList<Component> components,HashMap<Component,Double> fractions) {
+    public double b(HashMap<PureSubstance,Double> fractions) {
          double b = 0;
-       
-      for(Component iComponent:components){
-         
+      for(PureSubstance iComponent:fractions.keySet()){
             double xi = fractions.get(iComponent);
-            double bi = singleBs.get(iComponent);
+            double bi = iComponent.calculate_b_cubicParameter();//singleBs.get(iComponent);
             b += xi * bi ;
       }
-       
        return b;
     }
-
     @Override
     public double temperatureParcial_a(double temperature, ArrayList<Component> components, HashMap<Component, Double> fractions, HashMap<Component, Double> single_as, HashMap<Component, Double> single_bs, HashMap<Component, Double> alphaDerivatives, BinaryInteractionParameter k) {
 	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

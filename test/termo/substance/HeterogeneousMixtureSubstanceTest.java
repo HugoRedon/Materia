@@ -47,8 +47,8 @@ public class HeterogeneousMixtureSubstanceTest {
 	components.add(ethane);
 	components.add(propane);
 	
-	InteractionParameter b = new InteractionParameter();
-	b.setValue(propane, ethane, 0, true);
+//	InteractionParameter b = new InteractionParameter();
+//	b.setValue(propane, ethane, 0, true);
 	MixingRule mr = new VDWMixingRule();
 	
 	substance = new HeterogeneousMixtureSubstance(eos,alpha,mr,components);

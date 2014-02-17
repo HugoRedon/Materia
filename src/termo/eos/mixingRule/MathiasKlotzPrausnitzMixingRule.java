@@ -16,7 +16,7 @@ public class MathiasKlotzPrausnitzMixingRule extends MixingRule {
   
 
     @Override
-    public double b(HashMap<Component, Double> singleBs, ArrayList<Component> components, HashMap<Component, Double> fractions) {
+    public double b( HashMap<PureSubstance, Double> fractions) {
 	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

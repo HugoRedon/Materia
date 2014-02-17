@@ -13,7 +13,7 @@ public abstract class CommonAlphaEquation extends Alpha implements Serializable{
     private double r3;
     private double r4;
     
-
+    private double x = 1;
     public abstract double get_q(Component component);
 
     @Override
@@ -23,7 +23,7 @@ public abstract class CommonAlphaEquation extends Alpha implements Serializable{
 	double reducedTemperature = temperature  / component.getCriticalTemperature();
 
             double calc = 1 + m(omega)* (1 - Math.sqrt(reducedTemperature)) 
-                    +q*(1-reducedTemperature)*(0.7-reducedTemperature) ;
+                    +x *q*(1-reducedTemperature)*(0.7-reducedTemperature) ;
             return Math.pow( calc, 2);
     
             
@@ -43,7 +43,7 @@ public abstract class CommonAlphaEquation extends Alpha implements Serializable{
 	double q = get_q(component); 
 	
 	return (1d/ Math.sqrt(alpha(temperature,component)))*(- m(omega) * Math.sqrt(tr) 
-                    -  q * ( 3.4*tr - 4*Math.pow(tr, 2) ));
+                    - x * q * ( 3.4*tr - 4*Math.pow(tr, 2) ));
     }
 
     /**
@@ -105,16 +105,16 @@ public abstract class CommonAlphaEquation extends Alpha implements Serializable{
     /**
      * @return the x
      */
-//    public double getX() {
-//        return x;
-//    }
-//
-//    /**
-//     * @param x the x to set
-//     */
-//    public void setX(double x) {
-//        this.x = x;
-//    }
+    public double getX() {
+        return x;
+    }
+
+    /**
+     * @param x the x to set
+     */
+    public void setX(double x) {
+        this.x = x;
+    }
     
         @Override
     public int hashCode() {
@@ -152,10 +152,7 @@ public abstract class CommonAlphaEquation extends Alpha implements Serializable{
 //            return false;
 //        }
         return true;
-    }
-
-  
-    
+    }  
 }
 
 
@@ -198,10 +195,11 @@ class MathiasAlpha extends CommonAlphaEquation{
         setR2(1.55171);
         setR3(-0.15613);
         setR4(0);
+	setX(-1);
     }
     @Override
     public double get_q(Component component) {
-	return -component.getSRK_A();
+	return component.getSRK_A();
     }
 }
 

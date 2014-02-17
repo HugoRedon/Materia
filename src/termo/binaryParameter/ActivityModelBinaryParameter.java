@@ -1,9 +1,9 @@
 package termo.binaryParameter;
 
-public class ActivityModelBinaryParameter extends BinaryInteractionParameter{
-    private BinaryInteractionParameter a;
-    private BinaryInteractionParameter b;
-    private BinaryInteractionParameter alpha;
+public class ActivityModelBinaryParameter extends InteractionParameter{
+    private BinaryInteractionParameter a = new BinaryInteractionParameter();
+    private BinaryInteractionParameter b= new BinaryInteractionParameter();
+    private BinaryInteractionParameter alpha= new BinaryInteractionParameter();
 
     public BinaryInteractionParameter getA() {
         return a;

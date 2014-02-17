@@ -163,7 +163,7 @@ public  class Cubic extends EOS{
            double volume = calculateVolume(temperature, pressure, z);
    
         double L = calculateL(volume, b);
-         
+	
         double lnfug = -Math.log((volume-b)/volume) + (z-1) * (bi/b) + (a / (Constants.R * temperature * b))*((bi/b) - (parciala/a))* L - Math.log(z);
         return Math.exp(lnfug);
 

@@ -11,7 +11,7 @@ import termo.component.Component;
  * @author Hugo Redon Rivera
  */
 public interface ActivityModel {
-   public double excessGibbsEnergy(ArrayList<Component> components,
+   public double excessGibbsEnergy(
             HashMap<Component,Double> fractions,
             ActivityModelBinaryParameter k,
             double temperature);

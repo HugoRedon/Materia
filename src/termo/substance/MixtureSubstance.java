@@ -33,6 +33,15 @@ public class MixtureSubstance extends HomogeneousSubstance{
 	    pureSubstances.add(sub);
 	}
     }
+    public MixtureSubstance(Cubic equationOfState,Alpha alpha, MixingRule mixingRule, ArrayList<Component> components,Phase phase, InteractionParameter k){
+	super(equationOfState,phase);
+	this.mixingRule = mixingRule;
+	for (Component component:components){
+	    PureSubstance sub = new PureSubstance(equationOfState, alpha, component, phase);
+	    pureSubstances.add(sub);
+	}
+	this.binaryParameters = k;
+    }
 
     @Override
     public void setPhase(Phase phase) {
@@ -133,7 +142,7 @@ public class MixtureSubstance extends HomogeneousSubstance{
     
      @Override
     public double calculate_b_cubicParameter() {       
-        return getMixingRule().b(single_bs(), getComponents(), getFractions());
+        return getMixingRule().b(molarFractions);
     }
     
     

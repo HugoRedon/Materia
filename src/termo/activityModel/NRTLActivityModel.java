@@ -14,20 +14,20 @@ public class NRTLActivityModel implements ActivityModel{
 
     @Override
     public double excessGibbsEnergy(
-            ArrayList<Component> components,
+            
             HashMap<Component, Double> fractions,
             ActivityModelBinaryParameter param, 
             double temperature) {
         double gibbsExcess =0;
 //        ActivityModelBinaryParameter param = (NRTLBinaryParameter) k;
         
-        for(Component ci: components){
+        for(Component ci: fractions.keySet()){
             double xi = fractions.get(ci);
             
             double numerator = 0;
             double denominator = 0;
             
-            for ( Component cj : components){
+            for ( Component cj : fractions.keySet()){
                 double xj = fractions.get(cj);
                 double  tau = tau(cj, ci, param, temperature);// param.get_gji(cj,ci) / (Constants.R * temperature);
                 double Gji = G(cj, ci, param, temperature);//= Math.exp(- param.getAlpha().getValue(cj,ci) * tau);

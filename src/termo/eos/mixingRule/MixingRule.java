@@ -20,9 +20,7 @@ public abstract class MixingRule {
              HashMap<PureSubstance,Double> fractions,
              InteractionParameter k);
      
-     public abstract double b(HashMap<Component,Double>singleBs,
-             ArrayList<Component> components,
-             HashMap<Component,Double> fractions);
+     public abstract double b(HashMap<PureSubstance,Double> fractions);
      
      public abstract double oneOverNParcial_aN2RespectN(
              double temperature,

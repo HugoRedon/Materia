@@ -13,12 +13,12 @@ import termo.component.Component;
  */
 public class BinaryInteractionParameter {
       
-  private HashMap<ArrayList<Component>,Double> param ;
+  private HashMap<ArrayList<Component>,Double> param  = new HashMap(); ;
 //    private boolean symmetric;
     //private HashMap<ArrayList<Component>,Double> k21Value;
 
     public BinaryInteractionParameter() {
-        param = new HashMap();
+        
     }
   
    

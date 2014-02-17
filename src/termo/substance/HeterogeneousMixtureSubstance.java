@@ -3,6 +3,7 @@ package termo.substance;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
@@ -23,8 +24,8 @@ public class HeterogeneousMixtureSubstance extends Substance{
     
     private ArrayList<Component> components;
     
-    MixtureSubstance vapor;
-    MixtureSubstance liquid;
+    private MixtureSubstance vapor;
+    private MixtureSubstance liquid;
     
     
     HashMap<Component,Double> zFractions = new HashMap(); 
@@ -42,6 +43,20 @@ public class HeterogeneousMixtureSubstance extends Substance{
 	vapor = new MixtureSubstance(equationOfState, alpha,mixingrule, components,Phase.VAPOR);
 	liquid = new MixtureSubstance(equationOfState,alpha,mixingrule,components,Phase.LIQUID);
     }
+    public HeterogeneousMixtureSubstance(
+	    Cubic eos,
+	    Alpha alpha,
+	    MixingRule mixingrule, 
+	    ArrayList<Component> components, InteractionParameter k){
+	this.equationOfState = eos;
+	this.alpha = alpha;
+	this.components = components;
+	this.mixingRule = mixingrule;
+	
+	vapor = new MixtureSubstance(equationOfState, alpha,mixingrule, components,Phase.VAPOR,k);
+	liquid = new MixtureSubstance(equationOfState,alpha,mixingrule,components,Phase.LIQUID,k);
+    }
+    
     
     public double bubbleTemperatureEstimate(double pressure) {
 	copyZfractionsToliquid();
@@ -61,10 +76,10 @@ public class HeterogeneousMixtureSubstance extends Substance{
 	     double error_ = Math.log(vaporPressure_ / pressure);
 	     temperature = (temperature * T_ *(error_ - error)) / (T_ * error_ - temperature * error);
 	} 
-	for(PureSubstance component: vapor.getPureSubstances()){
+	for(PureSubstance component: getVapor().getPureSubstances()){
 	    double vp = component.getAcentricFactorBasedVaporPressure(temperature);
-	    double yi = vp * liquid.getMolarFractions().get(component) / pressure;
-	    vapor.getMolarFractions().put(component, yi);
+	    double yi = vp * getLiquid().getMolarFractions().get(component) / pressure;
+	    getVapor().getMolarFractions().put(component, yi);
 	}
 	return temperature;
     }
@@ -89,22 +104,22 @@ public class HeterogeneousMixtureSubstance extends Substance{
 	    temperature = temperature * T_ * (e_ - e) / (T_ * e_ - temperature * e);
 	    calculateNewYFractions(K, sy);
 	}
-	return new MixtureEquilibriaPhaseSolution(temperature, pressure, (HashMap<Component,Double>)liquid.getFractions().clone(), (HashMap<Component,Double>)vapor.getFractions().clone(), count);
+	return new MixtureEquilibriaPhaseSolution(temperature, pressure, (HashMap<Component,Double>)getLiquid().getFractions().clone(), (HashMap<Component,Double>)getVapor().getFractions().clone(), count);
     }
 
     public double bubblePressureEstimate(double temperature) {
 	copyZfractionsToliquid();
 	for (Component component:getComponents()){
-	    liquid.setFraction(component, zFractions.get(component));
+	    getLiquid().setFraction(component, zFractions.get(component));
 	}
 
 	  HashMap<PureSubstance,Double> vaporPressures = new HashMap<>();
       double pressure= 0;
       int  iterations = 0;
-      for( PureSubstance component : liquid.getPureSubstances()){
+      for( PureSubstance component : getLiquid().getPureSubstances()){
 	  double vaporP =  component.getAcentricFactorBasedVaporPressure(temperature);
 	  vaporPressures.put(component, vaporP);
-	  pressure += vaporP * liquid.getMolarFractions().get(component);  
+	  pressure += vaporP * getLiquid().getMolarFractions().get(component);  
       }
       setVaporFractionsRaoultsLaw(pressure, vaporPressures);
      // return new EquilibriaSolution(temperature,pressure,liquidFractions, vaporFractions, iterations);   
@@ -169,13 +184,13 @@ public class HeterogeneousMixtureSubstance extends Substance{
             denominator_ = 0;
             
             T_  = temperature + deltaT;
-           for (PureSubstance component : vapor.getPureSubstances() ){
+           for (PureSubstance component : getVapor().getPureSubstances() ){
                double vaporPressure =component.getAcentricFactorBasedVaporPressure(temperature);
 	       vaporPressures.put(component, vaporPressure);
-               denominator += vapor.getMolarFractions().get(component) / vaporPressure;
+               denominator += getVapor().getMolarFractions().get(component) / vaporPressure;
                
                double vaporPressure_ =component.getAcentricFactorBasedVaporPressure(T_);
-               denominator_ += vapor.getMolarFractions().get(component) / vaporPressure_;
+               denominator_ += getVapor().getMolarFractions().get(component) / vaporPressure_;
            }
            
            calcPressure = 1/denominator;
@@ -232,10 +247,10 @@ public class HeterogeneousMixtureSubstance extends Substance{
 	HashMap<PureSubstance,Double> vaporPressures = new HashMap<>();
 	int  iterations = 0;
 	double denominator=0;
-	for( PureSubstance component : vapor.getPureSubstances()){
+	for( PureSubstance component : getVapor().getPureSubstances()){
 	      double vaporP =  component.getAcentricFactorBasedVaporPressure(temperature);
 	      vaporPressures.put(component, vaporP);
-	      denominator += vapor.getMolarFractions().get(component) / vaporP;
+	      denominator += getVapor().getMolarFractions().get(component) / vaporP;
 	}
        double pressure = 1/denominator;
        
@@ -268,10 +283,10 @@ public class HeterogeneousMixtureSubstance extends Substance{
                 vF = rachfordRice(K, vF,tolerance);
                 x_=x_( K, vF);
 		
-		liquid.setMolarFractions(newFractions(x_));
+		getLiquid().setMolarFractions(newFractions(x_));
                 
 		y_ = y_(x_, K);
-		vapor.setMolarFractions( newFractions(y_));
+		getVapor().setMolarFractions( newFractions(y_));
                 
             }
         
@@ -342,10 +357,10 @@ public class HeterogeneousMixtureSubstance extends Substance{
 	    vF = rachfordRice(K, vF,tolerance);
 	    x_=x_( K, vF);
 
-	    liquid.setMolarFractions(newFractions(x_));
+	    getLiquid().setMolarFractions(newFractions(x_));
 
 	    y_ = y_(x_, K);
-	    vapor.setMolarFractions( newFractions(y_));
+	    getVapor().setMolarFractions( newFractions(y_));
                 
             
         
@@ -358,7 +373,7 @@ public class HeterogeneousMixtureSubstance extends Substance{
 	
 	HashMap<PureSubstance,Double> X = new HashMap<>();
 	
-	for (PureSubstance component :vapor.getPureSubstances()){
+	for (PureSubstance component :getVapor().getPureSubstances()){
 	    double vaporPressure = component.getAcentricFactorBasedVaporPressure(temperature);
 	    
 	    double xi = zFractions.get(component.getComponent())*pressure / vaporPressure;
@@ -367,17 +382,17 @@ public class HeterogeneousMixtureSubstance extends Substance{
 	}
 	
 	
-	for(PureSubstance component : liquid.getPureSubstances()){
+	for(PureSubstance component : getLiquid().getPureSubstances()){
 	    double xi = X.get(component);
 	    double normXi = xi/sx;
-	    liquid.getMolarFractions().put(component, normXi);
+	    getLiquid().getMolarFractions().put(component, normXi);
 	}
      }
      
      public HashMap<PureSubstance,Double> flashEstimateEquilibriumRelations(double temperature, double pressure){
 	 HashMap<PureSubstance,Double> k = new HashMap();
 	
-	for(PureSubstance component: liquid.getPureSubstances()){
+	for(PureSubstance component: getLiquid().getPureSubstances()){
 	    double vaporPressure = component.getAcentricFactorBasedVaporPressure(temperature);
 	    double ki =  vaporPressure/ pressure;
 	    k.put(component, ki);
@@ -392,7 +407,7 @@ public class HeterogeneousMixtureSubstance extends Substance{
     
     private double sumS(HashMap<PureSubstance,Double> x_){
 	double s =0;
-        for(PureSubstance component: vapor.getPureSubstances()){
+        for(PureSubstance component: getVapor().getPureSubstances()){
             s += x_.get(component);
         }
 	return s;
@@ -403,7 +418,7 @@ public class HeterogeneousMixtureSubstance extends Substance{
             HashMap<PureSubstance,Double> k){
         HashMap<PureSubstance,Double> y_ = new HashMap<>();
         
-        for(PureSubstance component: vapor.getPureSubstances()){
+        for(PureSubstance component: getVapor().getPureSubstances()){
             double ki = k.get(component);
             double x_i = x_.get(component);
             y_.put(component, x_i * ki);
@@ -415,7 +430,7 @@ public class HeterogeneousMixtureSubstance extends Substance{
         HashMap<PureSubstance,Double> x = new HashMap<>();
         double s = sumS(x_);
         
-        for(PureSubstance component: vapor.getPureSubstances()){
+        for(PureSubstance component: getVapor().getPureSubstances()){
             
             double x_i = x_.get(component);
             x.put(component, x_i /s);
@@ -432,7 +447,7 @@ public class HeterogeneousMixtureSubstance extends Substance{
         
         HashMap<PureSubstance,Double> x_ = new HashMap<>();
         
-        for(PureSubstance component : vapor.getPureSubstances()){
+        for(PureSubstance component : getVapor().getPureSubstances()){
             double zi = zFractions.get(component.getComponent());
             double ki = k.get(component);
             
@@ -451,11 +466,11 @@ public class HeterogeneousMixtureSubstance extends Substance{
     
     private  double calculateError(double pressure,double temperature){
 	double result=0;
-	for(PureSubstance component: vapor.getPureSubstances()){
-	    double xi = liquid.getMolarFractions().get(component);
-	    double yi = vapor.getMolarFractions().get(component);
-	    double liquidFug = liquid.calculateFugacity(component,temperature,pressure);
-	    double vaporFug = vapor.calculateFugacity(component, temperature, pressure) ;
+	for(PureSubstance component: getVapor().getPureSubstances()){
+	    double xi = getLiquid().getMolarFractions().get(component);
+	    double yi = getVapor().getMolarFractions().get(component);
+	    double liquidFug = getLiquid().calculateFugacity(component,temperature,pressure);
+	    double vaporFug = getVapor().calculateFugacity(component, temperature, pressure) ;
 	    result += Math.abs(xi* liquidFug - yi * vaporFug    );
 	}
 	return result;
@@ -481,7 +496,7 @@ public class HeterogeneousMixtureSubstance extends Substance{
       private  double s(HashMap<PureSubstance,Double> k,double vF){
         
         double result =0;
-        for(PureSubstance component :vapor.getPureSubstances()){
+        for(PureSubstance component :getVapor().getPureSubstances()){
             
             double zi = zFractions.get(component.getComponent());
             double ki = k.get(component);
@@ -520,9 +535,9 @@ public class HeterogeneousMixtureSubstance extends Substance{
  
 public void setVaporFractionsRaoultsLaw(double pressure, 
         HashMap<PureSubstance,Double> vaporPressures){ 
-      for( PureSubstance component : liquid.getPureSubstances()){
-          double y = vaporPressures.get(component) * liquid.getMolarFractions().get(component)/pressure;
-          vapor.getMolarFractions().put(component, y);  
+      for( PureSubstance component : getLiquid().getPureSubstances()){
+          double y = vaporPressures.get(component) * getLiquid().getMolarFractions().get(component)/pressure;
+            getVapor().getMolarFractions().put(component, y);  
       }
 }
         
@@ -534,7 +549,7 @@ public void setVaporFractionsRaoultsLaw(double pressure,
     
     public double calculateVaporPressure(double temperature){
 	double vaporPressure = 0;
-	 for (PureSubstance component : vapor.getPureSubstances() ){
+	 for (PureSubstance component : getVapor().getPureSubstances() ){
                vaporPressure += component.getAcentricFactorBasedVaporPressure(temperature)*zFractions.get(component.getComponent());     
            }
 	 
@@ -546,10 +561,10 @@ public void setVaporFractionsRaoultsLaw(double pressure,
 	     HashMap<PureSubstance,Double> equilibriumRelations, 
 	     double s){
          
-        for (PureSubstance aComponent: vapor.getPureSubstances()){
+        for (PureSubstance aComponent: getVapor().getPureSubstances()){
             double ki = equilibriumRelations.get(aComponent);
-            double x = liquid.getMolarFractions().get(aComponent);
-            vapor.getMolarFractions().put(aComponent, ki * x / s);
+            double x = getLiquid().getMolarFractions().get(aComponent);
+            getVapor().getMolarFractions().put(aComponent, ki * x / s);
         }
         
         
@@ -594,10 +609,10 @@ public void setVaporFractionsRaoultsLaw(double pressure,
 	    HashMap<PureSubstance,Double> equilibriumRelations, 
 	    double s){
          HashMap<PureSubstance,Double> newFractions = new  HashMap<>();
-        for (PureSubstance aComponent: liquid.getPureSubstances()){
+        for (PureSubstance aComponent: getLiquid().getPureSubstances()){
             double ki = equilibriumRelations.get(aComponent);
-            double y = vapor.getMolarFractions().get(aComponent);
-            liquid.getMolarFractions().put(aComponent,   y / (ki*s));
+            double y = getVapor().getMolarFractions().get(aComponent);
+            getLiquid().getMolarFractions().put(aComponent,   y / (ki*s));
         }
     }
 
@@ -613,6 +628,34 @@ public void setVaporFractionsRaoultsLaw(double pressure,
      */
     public void setComponents(ArrayList<Component> components) {
 	this.components = components;
+    }
+
+    /**
+     * @return the vapor
+     */
+    public MixtureSubstance getVapor() {
+	return vapor;
+    }
+
+    /**
+     * @param vapor the vapor to set
+     */
+    public void setVapor(MixtureSubstance vapor) {
+	this.vapor = vapor;
+    }
+
+    /**
+     * @return the liquid
+     */
+    public MixtureSubstance getLiquid() {
+	return liquid;
+    }
+
+    /**
+     * @param liquid the liquid to set
+     */
+    public void setLiquid(MixtureSubstance liquid) {
+	this.liquid = liquid;
     }
     
       
@@ -651,7 +694,7 @@ public void setVaporFractionsRaoultsLaw(double pressure,
    
     private void copyZfractionsToliquid(){
 	for (Component component:getComponents()){
-	    liquid.setFraction(component, zFractions.get(component));
+	    getLiquid().setFraction(component, zFractions.get(component));
 	}
     }
    
@@ -662,16 +705,16 @@ public void setVaporFractionsRaoultsLaw(double pressure,
       public  void setLiquidFractionsRaoultsLaw(double pressure,
         HashMap<PureSubstance,Double> vaporPressures){
     
-        for( PureSubstance component : vapor.getPureSubstances()){
-            double x =  vapor.getMolarFractions().get(component)*pressure/vaporPressures.get(component) ;
-            liquid.getMolarFractions().put(component, x);  
+        for( PureSubstance component : getVapor().getPureSubstances()){
+            double x =  getVapor().getMolarFractions().get(component)*pressure/vaporPressures.get(component) ;
+            getLiquid().getMolarFractions().put(component, x);  
         }   
       
     }
 
     private void copyZfractionsToVapor(){
 	for (Component component:getComponents()){
-	    vapor.setFraction(component, zFractions.get(component));
+	    getVapor().setFraction(component, zFractions.get(component));
 	}
     }
     
@@ -690,10 +733,10 @@ public void setVaporFractionsRaoultsLaw(double pressure,
             ){
          HashMap<PureSubstance,Double> equilibriumRelations  = new HashMap<>();
          
-         for (PureSubstance aComponent : liquid.getPureSubstances()){
+         for (PureSubstance aComponent : getLiquid().getPureSubstances()){
 	   
-	    double liquidFug = liquid.calculateFugacity(aComponent,temperature,pressure);
-           double vaporFug = vapor.calculateFugacity(aComponent, temperature, pressure);     
+	    double liquidFug = getLiquid().calculateFugacity(aComponent,temperature,pressure);
+           double vaporFug = getVapor().calculateFugacity(aComponent, temperature, pressure);     
            double equilRel = liquidFug/ vaporFug;
            equilibriumRelations.put(aComponent, equilRel);
          }
@@ -702,9 +745,9 @@ public void setVaporFractionsRaoultsLaw(double pressure,
     public  double calculateSx(HashMap<PureSubstance,Double> equilibriumRelations){
         
          double s = 0;
-        for (PureSubstance aComponent : vapor.getPureSubstances()){
+        for (PureSubstance aComponent : getVapor().getPureSubstances()){
               double equilRel = equilibriumRelations.get(aComponent);
-           s +=  vapor.getMolarFractions().get(aComponent)/equilRel;
+           s +=  getVapor().getMolarFractions().get(aComponent)/equilRel;
             
         }
         
@@ -714,9 +757,9 @@ public void setVaporFractionsRaoultsLaw(double pressure,
     public double calculateSy(HashMap<PureSubstance,Double> equilibriumRelations){
         
          double s = 0;
-        for (PureSubstance aComponent : liquid.getMolarFractions().keySet()){
+        for (PureSubstance aComponent : getLiquid().getMolarFractions().keySet()){
               double equilRel = equilibriumRelations.get(aComponent);
-           s += equilRel * liquid.getMolarFractions().get(aComponent);
+           s += equilRel * getLiquid().getMolarFractions().get(aComponent);
         }
         
         return s;

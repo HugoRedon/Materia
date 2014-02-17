@@ -31,10 +31,6 @@ public class AlphaFactory {
         TwoEquationsAlphaExpression mathias = new TwoEquationsAlphaExpression();    
         
         CommonAlphaEquation mathiasBelow = new MathiasAlpha();
-   
-      
-        
-        //mathiasBelow.setX(-1);  
         
         MathiasAboveTcAlphaEquation mathiasAbove = new MathiasAboveTcAlphaEquation(mathiasBelow);
         
@@ -54,16 +50,11 @@ public class AlphaFactory {
         
         
         CommonAlphaEquation stryjekveraBelow = new StryjekAndVera();
-   
-      
-        
-        //stryjekveraBelow.setX(1);  
         
         CommonAlphaEquation stryjekVeraAbove = new StryjekAndVera();
-        
+        stryjekVeraAbove.setX(0);
        
-        
-       // stryjekVeraAbove.setX(0);  
+     
         
         stryjek.setAlphaBelowTc(stryjekveraBelow);
         stryjek.setAlphaAboveTc(stryjekVeraAbove);
