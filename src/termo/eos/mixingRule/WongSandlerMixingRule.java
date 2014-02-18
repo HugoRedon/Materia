@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import termo.Constants;
 import termo.activityModel.ActivityModel;
-import termo.activityModel.WilsonActivityModel;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.BinaryInteractionParameter;
 import termo.binaryParameter.InteractionParameter;
@@ -21,12 +20,11 @@ import termo.substance.PureSubstance;
  * @author
  * Hugo
  */
-public class HuronVidalMixingRule extends MixingRule{
-
-    ActivityModel activityModel;
+public class WongSandlerMixingRule extends MixingRule {
+       ActivityModel activityModel;
     
     private double L;
-    public HuronVidalMixingRule(ActivityModel activityModel,Cubic eos){
+    public WongSandlerMixingRule(ActivityModel activityModel,Cubic eos){
 	this.activityModel = activityModel;
 	
 	L = eos.calculateL(1, 1);
@@ -37,7 +35,7 @@ public class HuronVidalMixingRule extends MixingRule{
     
     
 
-    @Override
+    
     public double a(double temperature, HashMap<PureSubstance, Double> fractions, InteractionParameter k) {
         
 //            ArrayList<PureSubstance> components = new ArrayList();
@@ -47,8 +45,10 @@ public class HuronVidalMixingRule extends MixingRule{
 //		fra.put(pure.getComponent(), fractions.get(pure));
 //	    }
             
-            double b = b( fractions, temperature,k);
-            double excessGibbs = activityModel.excessGibbsEnergy( fractions, (ActivityModelBinaryParameter)k, temperature);
+	ActivityModelBinaryParameter params = (ActivityModelBinaryParameter)k;
+	
+            double b = b( fractions,temperature,params);
+            double excessGibbs = activityModel.excessGibbsEnergy( fractions,params , temperature);
             
             double firstTerm = 0;
            
@@ -64,19 +64,63 @@ public class HuronVidalMixingRule extends MixingRule{
     }
 
     
-    @Override
-    public double b(HashMap<PureSubstance,Double> fractions,double temperature,InteractionParameter k) {
-         double b = 0;
-      for(PureSubstance iComponent:fractions.keySet()){
-            double xi = fractions.get(iComponent);
-            double bi = iComponent.calculate_b_cubicParameter(temperature);//singleBs.get(iComponent);
-            b += xi * bi ;
-      }
-       return b;
+    
+    public double b(
+	    HashMap<PureSubstance,Double> fractions,
+	    double temperature,
+	    InteractionParameter k) {
+//         double b = 0;
+//      for(PureSubstance iComponent:fractions.keySet()){
+//            double xi = fractions.get(iComponent);
+//            double bi = iComponent.calculate_b_cubicParameter();//singleBs.get(iComponent);
+//            b += xi * bi ;
+//      }
+//       return b;
+	
+	ActivityModelBinaryParameter params = (ActivityModelBinaryParameter)k;
+	
+	double b = 0;
+	
+	double numer = 0;
+	double denomSum =0;
+	
+	for(PureSubstance ci: fractions.keySet()){
+	    for(PureSubstance cj: fractions.keySet()){
+		double xi = fractions.get(ci);
+		double xj = fractions.get(cj);
+		
+		double bi = ci.calculate_b_cubicParameter(temperature);
+		double ai = ci.calculate_a_cubicParameter(temperature);
+		
+		double bj = cj.calculate_b_cubicParameter(temperature);
+		double aj = cj.calculate_a_cubicParameter(temperature);
+		
+		double kij = params.getK().getValue(ci.getComponent(), cj.getComponent());
+		
+		double R = Constants.R;
+		
+		denomSum += xi*(ai/(bi*R*temperature));
+		
+		
+		double isum = bi - ai/(R*temperature);
+		double jsum = bj - aj/(R*temperature);
+		
+		numer+= xi*xj*((isum+jsum)/2)*(1-kij);
+		
+	    }
+	}
+	
+	
+	double ge = activityModel.excessGibbsEnergy(fractions, params, temperature);
+	
+	double denom = 1 - ge/(L*temperature * Constants.R) - denomSum;
+	
+	return numer/denom;
+	
     }
 
     
-    @Override
+    
     public double oneOverNParcial_aN2RespectN(
             double temperature, 
             
@@ -84,7 +128,7 @@ public class HuronVidalMixingRule extends MixingRule{
             HashMap<PureSubstance, Double> fractions, 
             InteractionParameter k) {
          
-        double b = b( fractions,temperature,k);
+        double b = b( fractions, temperature, (ActivityModelBinaryParameter)k);
         double a =a(temperature,  fractions, k);
         
         ActivityModelBinaryParameter param = (ActivityModelBinaryParameter)k;
@@ -101,7 +145,10 @@ public class HuronVidalMixingRule extends MixingRule{
     }
 
     
-   
+    
+    public double temperatureParcial_a(double temperature, ArrayList<Component> components, HashMap<Component, Double> fractions, HashMap<Component, Double> single_as, HashMap<Component, Double> single_bs, HashMap<Component, Double> alphaDerivatives, BinaryInteractionParameter k) {
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     /**
      * @return the L
@@ -123,7 +170,4 @@ public class HuronVidalMixingRule extends MixingRule{
     }
 
    
- 
-    
-    
 }

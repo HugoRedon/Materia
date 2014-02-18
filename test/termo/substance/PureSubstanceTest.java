@@ -24,6 +24,15 @@ public class PureSubstanceTest {
 	ethane.setCriticalPressure(48.1595*101325);
 	ethane.setPrsvKappa(0.02669);//en eqfases2 tiene un signo negativo ...
 	
+	ethane.setEnthalpyofFormationofIdealgasat298_15Kand101325Pa(-83767.2);
+	
+	
+	ethane.setA_Cp(5.40056);
+	ethane.setB_Cp(0.177817);
+	ethane.setC_Cp(-6.9262e-5);
+	ethane.setD_Cp(8.69858e-9);
+	
+	
 	Cubic eos = EquationOfStateFactory.pengRobinsonBase();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
@@ -99,13 +108,12 @@ public class PureSubstanceTest {
     @Test
     public void testCalculateIdealGasEnthalpy() {
 	System.out.println("calculateIdealGasEnthalpy");
-	double temperature = 0.0;
-	PureSubstance instance = new PureSubstance();
-	double expResult = 0.0;
-	double result = instance.calculateIdealGasEnthalpy(temperature);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	double temperature = 298;
+	
+	double expResult = -6035.229347;
+	double result = substance.calculateIdealGasEnthalpy(temperature);
+	assertEquals(expResult, result, 1e-3);
+
     }
 
     @Test
@@ -150,7 +158,7 @@ public class PureSubstanceTest {
 	System.out.println("calculate_b_cubicParameter");
 	PureSubstance instance = new PureSubstance();
 	double expResult = 0.0;
-	double result = instance.calculate_b_cubicParameter();
+	double result = instance.calculate_b_cubicParameter(0);
 	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");

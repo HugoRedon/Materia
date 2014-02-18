@@ -91,15 +91,15 @@ public class MixtureSubstance extends HomogeneousSubstance{
         }
         return singleAs;
     }
-    public HashMap<Component,Double> single_bs(){
-         HashMap<Component,Double> singleBs = new HashMap<>();
-           for(PureSubstance pureSubstance : getPureSubstances()){
-            Component component = pureSubstance.getComponent();
-            double b = pureSubstance.calculate_b_cubicParameter();
-            singleBs.put(component,b);
-        }
-          return singleBs;
-    }
+//    public HashMap<Component,Double> single_bs(){
+//         HashMap<Component,Double> singleBs = new HashMap<>();
+//           for(PureSubstance pureSubstance : getPureSubstances()){
+//            Component component = pureSubstance.getComponent();
+//            double b = pureSubstance.calculate_b_cubicParameter();
+//            singleBs.put(component,b);
+//        }
+//          return singleBs;
+//    }
         public HashMap<Component,Double> single_Alphas(double temperature){
          HashMap<Component,Double> singleAlphas = new HashMap<>();
          
@@ -126,13 +126,7 @@ public class MixtureSubstance extends HomogeneousSubstance{
     
     @Override
     public double temperatureParcial_a(double temperature) {
-        return getMixingRule().temperatureParcial_a(
-                temperature,
-                getComponents(),
-                getFractions(),
-                single_as(temperature), 
-                single_bs(),
-                alphaDerivatives(temperature), getBinaryParameters());
+        return getMixingRule().temperatureParcial_a(temperature, molarFractions,binaryParameters );
     }
 
     @Override
@@ -141,8 +135,8 @@ public class MixtureSubstance extends HomogeneousSubstance{
     }
     
      @Override
-    public double calculate_b_cubicParameter() {       
-        return getMixingRule().b(molarFractions);
+    public double calculate_b_cubicParameter(double temperature) {       
+        return getMixingRule().b(molarFractions,temperature, binaryParameters);
     }
     
     

@@ -3,6 +3,7 @@ package termo.component;
 import java.io.Serializable;
 import java.util.Objects;
 import termo.cp.CpEquation;
+import termo.cp.DIPPR_107_Equation;
 
 /**
  *
@@ -36,7 +37,7 @@ public class Component implements Serializable {
     private double refractiveIndexat298_15K;
     private double flashPoint;
     private double autoIgnitionTermperature;
-    private double enthalpyofFormationinStandardStateat298_15Kand101325Pa;
+   // private double enthalpyofFormationinStandardStateat298_15Kand101325Pa;
     private double absoluteEntropyinStandardStateat298_15Kand101325Pa;
     private double meltingPoint_1atm;
     private double triplePointPressure;
@@ -60,6 +61,15 @@ public class Component implements Serializable {
 //    private double qq_UNIQUAC;
     
     private CpEquation cp;
+    
+    private double A_Cp;
+    private double B_Cp;
+    private double C_Cp;
+    private double D_Cp;
+    private double E_Cp;
+    
+		    
+    
     
     private int dipprChemID;
     private String name;
@@ -101,7 +111,7 @@ public class Component implements Serializable {
         hash = 97 * hash + (int) (Double.doubleToLongBits(this.refractiveIndexat298_15K) ^ (Double.doubleToLongBits(this.refractiveIndexat298_15K) >>> 32));
         hash = 97 * hash + (int) (Double.doubleToLongBits(this.flashPoint) ^ (Double.doubleToLongBits(this.flashPoint) >>> 32));
         hash = 97 * hash + (int) (Double.doubleToLongBits(this.autoIgnitionTermperature) ^ (Double.doubleToLongBits(this.autoIgnitionTermperature) >>> 32));
-        hash = 97 * hash + (int) (Double.doubleToLongBits(this.enthalpyofFormationinStandardStateat298_15Kand101325Pa) ^ (Double.doubleToLongBits(this.enthalpyofFormationinStandardStateat298_15Kand101325Pa) >>> 32));
+//        hash = 97 * hash + (int) (Double.doubleToLongBits(this.enthalpyofFormationinStandardStateat298_15Kand101325Pa) ^ (Double.doubleToLongBits(this.enthalpyofFormationinStandardStateat298_15Kand101325Pa) >>> 32));
         hash = 97 * hash + (int) (Double.doubleToLongBits(this.absoluteEntropyinStandardStateat298_15Kand101325Pa) ^ (Double.doubleToLongBits(this.absoluteEntropyinStandardStateat298_15Kand101325Pa) >>> 32));
         hash = 97 * hash + (int) (Double.doubleToLongBits(this.meltingPoint_1atm) ^ (Double.doubleToLongBits(this.meltingPoint_1atm) >>> 32));
         hash = 97 * hash + (int) (Double.doubleToLongBits(this.triplePointPressure) ^ (Double.doubleToLongBits(this.triplePointPressure) >>> 32));
@@ -217,9 +227,9 @@ public class Component implements Serializable {
         if (Double.doubleToLongBits(this.autoIgnitionTermperature) != Double.doubleToLongBits(other.autoIgnitionTermperature)) {
             return false;
         }
-        if (Double.doubleToLongBits(this.enthalpyofFormationinStandardStateat298_15Kand101325Pa) != Double.doubleToLongBits(other.enthalpyofFormationinStandardStateat298_15Kand101325Pa)) {
-            return false;
-        }
+//        if (Double.doubleToLongBits(this.enthalpyofFormationinStandardStateat298_15Kand101325Pa) != Double.doubleToLongBits(other.enthalpyofFormationinStandardStateat298_15Kand101325Pa)) {
+//            return false;
+//        }
         if (Double.doubleToLongBits(this.absoluteEntropyinStandardStateat298_15Kand101325Pa) != Double.doubleToLongBits(other.absoluteEntropyinStandardStateat298_15Kand101325Pa)) {
             return false;
         }
@@ -674,19 +684,19 @@ public class Component implements Serializable {
         this.autoIgnitionTermperature = autoIgnitionTermperature;
     }
 
-    /**
-     * @return the enthalpyofFormationinStandardStateat298_15Kand101325Pa
-     */
-    public double getEnthalpyofFormationinStandardStateat298_15Kand101325Pa() {
-        return enthalpyofFormationinStandardStateat298_15Kand101325Pa;
-    }
+//    /**
+//     * @return the enthalpyofFormationinStandardStateat298_15Kand101325Pa
+//     */
+//    public double getEnthalpyofFormationinStandardStateat298_15Kand101325Pa() {
+//        return enthalpyofFormationinStandardStateat298_15Kand101325Pa;
+//    }
 
-    /**
-     * @param enthalpyofFormationinStandardStateat298_15Kand101325Pa the enthalpyofFormationinStandardStateat298_15Kand101325Pa to set
-     */
-    public void setEnthalpyofFormationinStandardStateat298_15Kand101325Pa(double enthalpyofFormationinStandardStateat298_15Kand101325Pa) {
-        this.enthalpyofFormationinStandardStateat298_15Kand101325Pa = enthalpyofFormationinStandardStateat298_15Kand101325Pa;
-    }
+//    /**
+//     * @param enthalpyofFormationinStandardStateat298_15Kand101325Pa the enthalpyofFormationinStandardStateat298_15Kand101325Pa to set
+//     */
+//    public void setEnthalpyofFormationinStandardStateat298_15Kand101325Pa(double enthalpyofFormationinStandardStateat298_15Kand101325Pa) {
+//        this.enthalpyofFormationinStandardStateat298_15Kand101325Pa = enthalpyofFormationinStandardStateat298_15Kand101325Pa;
+//    }
 
     /**
      * @return the absoluteEntropyinStandardStateat298_15Kand101325Pa
@@ -1039,6 +1049,9 @@ public class Component implements Serializable {
 //    }
 
     public CpEquation getCp() {
+	if(cp ==null){
+	    cp = new DIPPR_107_Equation(this);
+	}
         return cp;
     }
 
@@ -1051,6 +1064,76 @@ public class Component implements Serializable {
     }
     public double getSRK_A() {
 	return this.SRK_A;
+    }
+
+    /**
+     * @return the A_Cp
+     */
+    public double getA_Cp() {
+	return A_Cp;
+    }
+
+    /**
+     * @param A_Cp the A_Cp to set
+     */
+    public void setA_Cp(double A_Cp) {
+	this.A_Cp = A_Cp;
+    }
+
+    /**
+     * @return the B_Cp
+     */
+    public double getB_Cp() {
+	return B_Cp;
+    }
+
+    /**
+     * @param B_Cp the B_Cp to set
+     */
+    public void setB_Cp(double B_Cp) {
+	this.B_Cp = B_Cp;
+    }
+
+    /**
+     * @return the C_Cp
+     */
+    public double getC_Cp() {
+	return C_Cp;
+    }
+
+    /**
+     * @param C_Cp the C_Cp to set
+     */
+    public void setC_Cp(double C_Cp) {
+	this.C_Cp = C_Cp;
+    }
+
+    /**
+     * @return the D_Cp
+     */
+    public double getD_Cp() {
+	return D_Cp;
+    }
+
+    /**
+     * @param D_Cp the D_Cp to set
+     */
+    public void setD_Cp(double D_Cp) {
+	this.D_Cp = D_Cp;
+    }
+
+    /**
+     * @return the E_Cp
+     */
+    public double getE_Cp() {
+	return E_Cp;
+    }
+
+    /**
+     * @param E_Cp the E_Cp to set
+     */
+    public void setE_Cp(double E_Cp) {
+	this.E_Cp = E_Cp;
     }
 
 

@@ -42,34 +42,30 @@ public class VDWMixingRule extends MixingRule{
        return a;
   }
    
-//    @Override
-//   public double temperatureParcial_a(
-//            double temperature,
-//           ArrayList<Component> components, 
-//           HashMap<Component,Double> fractions,
-//            HashMap<Component,Double> single_as,
-//            HashMap<Component, Double> single_bs, 
-//             HashMap<Component,Double> alphaDerivatives,
-//             BinaryInteractionParameter k
-//           ){
-//       
-//       double result = 0;
-//       for(Component ci: components){
-//            for (Component cj: components){
-//                double xi = fractions.get(ci);
-//                double ai = single_as.get(ci);
-//                double tempAlphaDerivativeAlphai = alphaDerivatives.get(ci);
-//                
-//                double xj = fractions.get(cj);
-//                  double aj = single_as.get(cj);
-//                double tempAlphaDerivativeAlphaj = alphaDerivatives.get(cj);
-//                
-//                result += (1d/2d) * xi * xj * Math.sqrt(ai * aj )*(1- k.getValue(ci, cj))*(tempAlphaDerivativeAlphai + tempAlphaDerivativeAlphaj);
-//                
-//            }
-//       }
-//       return result;
-//   }
+    @Override
+   public double temperatureParcial_a(
+            double temperature,
+           HashMap<PureSubstance,Double> fractions,
+             InteractionParameter k
+           ){
+       
+       double result = 0;
+       for(PureSubstance ci: fractions.keySet()){
+            for (PureSubstance cj: fractions.keySet()){
+                double xi = fractions.get(ci);
+                double ai = ci.calculate_a_cubicParameter(temperature);//single_as.get(ci);
+                double tempAlphaDerivativeAlphai =ci.getAlpha().TempOverAlphaTimesDerivativeAlphaRespectTemperature(temperature, ci.getComponent()) ;//alphaDerivatives.get(ci);
+                
+                double xj = fractions.get(cj);
+                  double aj = cj.calculate_a_cubicParameter(temperature);//single_as.get(cj);
+                double tempAlphaDerivativeAlphaj = cj.getAlpha().TempOverAlphaTimesDerivativeAlphaRespectTemperature(temperature, cj.getComponent());//alphaDerivatives.get(cj);
+                
+                result += (1d/2d) * xi * xj * Math.sqrt(ai * aj )*(1- k.getValue(ci.getComponent(), cj.getComponent()))*(tempAlphaDerivativeAlphai + tempAlphaDerivativeAlphaj);
+                
+            }
+       }
+       return result;
+   }
    
     @Override
    public double oneOverNParcial_aN2RespectN(
@@ -98,19 +94,19 @@ public class VDWMixingRule extends MixingRule{
 
 
     @Override
-    public double b(HashMap<PureSubstance,Double> fractions) {
+    public double b(HashMap<PureSubstance,Double> fractions,double temperature,InteractionParameter k) {
          double b = 0;
       for(PureSubstance iComponent:fractions.keySet()){
             double xi = fractions.get(iComponent);
-            double bi = iComponent.calculate_b_cubicParameter();//singleBs.get(iComponent);
+            double bi = iComponent.calculate_b_cubicParameter(temperature);//singleBs.get(iComponent);
             b += xi * bi ;
       }
        return b;
     }
-    @Override
-    public double temperatureParcial_a(double temperature, ArrayList<Component> components, HashMap<Component, Double> fractions, HashMap<Component, Double> single_as, HashMap<Component, Double> single_bs, HashMap<Component, Double> alphaDerivatives, BinaryInteractionParameter k) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    @Override
+//    public double temperatureParcial_a(double temperature, ArrayList<Component> components, HashMap<Component, Double> fractions, HashMap<Component, Double> single_as, HashMap<Component, Double> single_bs, HashMap<Component, Double> alphaDerivatives, BinaryInteractionParameter k) {
+//	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
  
 

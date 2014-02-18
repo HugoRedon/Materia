@@ -29,7 +29,7 @@ public abstract class  HomogeneousSubstance extends Substance {
     public abstract double temperatureParcial_a(double temperature);
     public abstract double calculate_a_cubicParameter(double temperature);
     public abstract double calculateIdealGasEnthalpy(double temperature);
-    public abstract double calculate_b_cubicParameter();
+    public abstract double calculate_b_cubicParameter(double temperature);
     public  abstract double calculateIdealGasEntropy(double temperature, double pressure) ;
     public abstract double oneOver_N_Parcial_a(double temperature,PureSubstance pureSubstance);
     
@@ -42,7 +42,7 @@ public abstract class  HomogeneousSubstance extends Substance {
     }
     public double calculateCompresibilityFactor(double temperature,double pressure){
 	double a = calculate_a_cubicParameter(temperature);
-	double b = calculate_b_cubicParameter();
+	double b = calculate_b_cubicParameter(temperature);
 	
 	double A = cubicEquationOfState.get_A(temperature, pressure, a);
 	double B = cubicEquationOfState.get_B(temperature, pressure, b);
@@ -57,11 +57,11 @@ public abstract class  HomogeneousSubstance extends Substance {
         
     public double calculateFugacity( PureSubstance pureSubstance,double temperature, double pressure){
         double a = calculate_a_cubicParameter(temperature);
-        double b = calculate_b_cubicParameter();
+        double b = calculate_b_cubicParameter(temperature);
 
 	
 	
-        double  parcialb = pureSubstance.calculate_b_cubicParameter();//bi(pureSubstance);
+        double  parcialb = pureSubstance.calculate_b_cubicParameter(temperature);//bi(pureSubstance);
         double parciala = oneOver_N_Parcial_a( temperature,pureSubstance);
         
         return getCubicEquationOfState().calculateFugacity(temperature, pressure, a, b, parciala, parcialb, getPhase());
@@ -69,7 +69,7 @@ public abstract class  HomogeneousSubstance extends Substance {
     
     public double calculateEntropy(double temperature, double pressure, double volume){
         double idealGasEntropy = calculateIdealGasEntropy(temperature, pressure);
-        double b = calculate_b_cubicParameter();
+        double b = calculate_b_cubicParameter(temperature);
         double Temp_parcial_a = temperatureParcial_a( temperature);
         
         double L = cubicEquationOfState.calculateL(volume, b);
@@ -79,7 +79,7 @@ public abstract class  HomogeneousSubstance extends Substance {
     public final double calculateEnthalpy(double temperature, double pressure, double volume){
         double idealGasEnthalpy = calculateIdealGasEnthalpy(temperature);
         double a = calculate_a_cubicParameter(temperature);
-        double b = calculate_b_cubicParameter();
+        double b = calculate_b_cubicParameter(temperature);
         double L = cubicEquationOfState.calculateL(volume, b);
         //double alphaValue = alpha.alpha(temperature, component);
         

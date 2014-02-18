@@ -20,7 +20,7 @@ public abstract class MixingRule {
              HashMap<PureSubstance,Double> fractions,
              InteractionParameter k);
      
-     public abstract double b(HashMap<PureSubstance,Double> fractions);
+     public abstract double b(HashMap<PureSubstance,Double> fractions,double temperature,InteractionParameter k );
      
      public abstract double oneOverNParcial_aN2RespectN(
              double temperature,
@@ -32,13 +32,9 @@ public abstract class MixingRule {
          return this.name;
      }
      public abstract double temperatureParcial_a(
-             double temperature,
-           ArrayList<Component> components, 
-           HashMap<Component,Double> fractions,
-            HashMap<Component,Double> single_as,
-            HashMap<Component, Double> single_bs, 
-             HashMap<Component,Double> alphaDerivatives,
-             BinaryInteractionParameter k
+             double temperature,        
+           HashMap<PureSubstance,Double> fractions,
+             InteractionParameter k
            );
      
      public String getName(){

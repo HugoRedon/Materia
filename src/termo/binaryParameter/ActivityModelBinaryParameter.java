@@ -4,7 +4,8 @@ public class ActivityModelBinaryParameter extends InteractionParameter{
     private BinaryInteractionParameter a = new BinaryInteractionParameter();
     private BinaryInteractionParameter b= new BinaryInteractionParameter();
     private BinaryInteractionParameter alpha= new BinaryInteractionParameter();
-
+    private BinaryInteractionParameter k = new BinaryInteractionParameter();
+    
     public BinaryInteractionParameter getA() {
         return a;
     }
@@ -27,6 +28,20 @@ public class ActivityModelBinaryParameter extends InteractionParameter{
 
     public void setAlpha(BinaryInteractionParameter alpha) {
         this.alpha = alpha;
+    }
+
+    /**
+     * @return the k
+     */
+    public BinaryInteractionParameter getK() {
+	return k;
+    }
+
+    /**
+     * @param k the k to set
+     */
+    public void setK(BinaryInteractionParameter k) {
+	this.k = k;
     }
 
     

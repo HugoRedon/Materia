@@ -15,18 +15,6 @@ public class MathiasKlotzPrausnitzMixingRule extends MixingRule {
 
   
 
-    @Override
-    public double b( HashMap<PureSubstance, Double> fractions) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
- 
-
-    @Override
-    public double temperatureParcial_a(double temperature, ArrayList<Component> components, HashMap<Component, Double> fractions, HashMap<Component, Double> single_as, HashMap<Component, Double> single_bs, HashMap<Component, Double> alphaDerivatives, BinaryInteractionParameter k) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 //    @Override
 //    public double a(
 //            double temperature,
@@ -189,6 +177,16 @@ public class MathiasKlotzPrausnitzMixingRule extends MixingRule {
 
     @Override
     public double a(double temperature, HashMap<PureSubstance, Double> fractions, InteractionParameter k) {
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double b(HashMap<PureSubstance, Double> fractions, double temperature, InteractionParameter k) {
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double temperatureParcial_a(double temperature, HashMap<PureSubstance, Double> fractions, InteractionParameter k) {
 	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -158,7 +158,7 @@ public class MixtureSubstanceTest {
 	System.out.println("calculate_b_cubicParameter");
 	MixtureSubstance instance = new MixtureSubstance();
 	double expResult = 0.0;
-	double result = instance.calculate_b_cubicParameter();
+	double result = instance.calculate_b_cubicParameter(0);
 	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");

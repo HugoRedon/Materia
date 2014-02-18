@@ -94,8 +94,8 @@ public class VDWMixingRuleTest {
 	BinaryInteractionParameter k = null;
 	VDWMixingRule instance = new VDWMixingRule();
 	double expResult = 0.0;
-	double result = instance.temperatureParcial_a(temperature, components, fractions, single_as, single_bs, alphaDerivatives, k);
-	assertEquals(expResult, result, 0.0);
+//	double result = instance.temperatureParcial_a(temperature, components, fractions, single_as, single_bs, alphaDerivatives, k);
+//	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
     }

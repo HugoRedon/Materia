@@ -14,6 +14,9 @@ public abstract class CommonAlphaEquation extends Alpha implements Serializable{
     private double r4;
     
     private double x = 1;
+    
+    
+    
     public abstract double get_q(Component component);
 
     @Override

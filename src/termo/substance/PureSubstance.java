@@ -129,7 +129,7 @@ public class PureSubstance extends HomogeneousSubstance {
     }
 
     @Override
-    public double calculate_b_cubicParameter(){
+    public double calculate_b_cubicParameter(double temperature){
          
         double omega_b = getCubicEquationOfState().getOmega_b();
         

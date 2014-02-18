@@ -112,7 +112,7 @@ public final class ComponentManager {
         aComponent.setDielectricConstant(getPropertyValue(CasNumber, dielectricConstant));
         aComponent.setDipoleMoment(getPropertyValue(CasNumber,dipoleMoment));
 
-        aComponent.setEnthalpyofFormationinStandardStateat298_15Kand101325Pa(getPropertyValue(CasNumber,enthalpyofFormationinStandardStateat298_15Kand101325Pa));
+//        aComponent.setEnthalpyofFormationinStandardStateat298_15Kand101325Pa(getPropertyValue(CasNumber,enthalpyofFormationinStandardStateat298_15Kand101325Pa));
         aComponent.setEnthalpyofFormationofIdealgasat298_15Kand101325Pa(getPropertyValue(CasNumber,enthalpyofFormationofIdealgasat298_15Kand101325Pa));
         aComponent.setEnthalpyofFusionatMeltingPoint(getPropertyValue(CasNumber,enthalpyofFusionatMeltingPoint));
         aComponent.setEnthalpyorHeatofSublimation(getPropertyValue(CasNumber,enthalpyorHeatofSublimation));
