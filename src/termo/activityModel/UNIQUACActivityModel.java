@@ -10,7 +10,7 @@ import termo.component.Component;
  *
  * @author Hugo Redon Rivera
  */
-public class UNIQUACActivityModel implements ActivityModel{
+public class UNIQUACActivityModel {
     private double z = 10; // default value
 
 //    @Override
@@ -26,7 +26,7 @@ public class UNIQUACActivityModel implements ActivityModel{
 //        return excess * Constants.R *temperature;
 //    }
 
-    @Override
+    
     public double activityCoefficient(
             ArrayList<Component> components,
             Component ci, 
@@ -203,7 +203,7 @@ public class UNIQUACActivityModel implements ActivityModel{
     }
 
 
-    @Override
+    
     public double parcialExcessGibbsRespectTemperature(
             ArrayList<Component> components, 
             HashMap<Component, Double> fractions, 
@@ -251,7 +251,7 @@ public class UNIQUACActivityModel implements ActivityModel{
         
     }
 
-    @Override
+   
     public double excessGibbsEnergy(HashMap<Component, Double> fractions, ActivityModelBinaryParameter k, double temperature) {
 	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

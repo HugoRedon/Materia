@@ -7,6 +7,7 @@ package termo.eos.mixingRule;
 import java.util.ArrayList;
 import java.util.HashMap;
 import termo.Constants;
+import termo.activityModel.ActivityModel;
 import termo.activityModel.WilsonActivityModel;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.BinaryInteractionParameter;
@@ -22,10 +23,10 @@ import termo.substance.PureSubstance;
  */
 public class HuronVidalMixingRule extends MixingRule{
 
-    WilsonActivityModel activityModel;
+    ActivityModel activityModel;
     
     private double L;
-    public HuronVidalMixingRule(WilsonActivityModel activityModel,Cubic eos){
+    public HuronVidalMixingRule(ActivityModel activityModel,Cubic eos){
 	this.activityModel = activityModel;
 	
 	L = eos.calculateL(1, 1);
@@ -36,6 +37,7 @@ public class HuronVidalMixingRule extends MixingRule{
     
     
 
+    @Override
     public double a(double temperature, HashMap<PureSubstance, Double> fractions, InteractionParameter k) {
         
 //            ArrayList<PureSubstance> components = new ArrayList();
@@ -62,6 +64,7 @@ public class HuronVidalMixingRule extends MixingRule{
     }
 
     
+    @Override
     public double b(HashMap<PureSubstance,Double> fractions) {
          double b = 0;
       for(PureSubstance iComponent:fractions.keySet()){
@@ -73,6 +76,7 @@ public class HuronVidalMixingRule extends MixingRule{
     }
 
     
+    @Override
     public double oneOverNParcial_aN2RespectN(
             double temperature, 
             
@@ -97,6 +101,7 @@ public class HuronVidalMixingRule extends MixingRule{
     }
 
     
+    @Override
     public double temperatureParcial_a(double temperature, ArrayList<Component> components, HashMap<Component, Double> fractions, HashMap<Component, Double> single_as, HashMap<Component, Double> single_bs, HashMap<Component, Double> alphaDerivatives, BinaryInteractionParameter k) {
 	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

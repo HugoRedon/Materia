@@ -5,32 +5,33 @@ import java.util.HashMap;
 import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.component.Component;
+import termo.substance.PureSubstance;
 
 /**
  *
  * @author Hugo Redon Rivera
  */
-public class NRTLActivityModel implements ActivityModel{
+public class NRTLActivityModel extends ActivityModel{
 
+    
     @Override
     public double excessGibbsEnergy(
-            
-            HashMap<Component, Double> fractions,
+            HashMap<PureSubstance, Double> fractions,
             ActivityModelBinaryParameter param, 
             double temperature) {
         double gibbsExcess =0;
 //        ActivityModelBinaryParameter param = (NRTLBinaryParameter) k;
         
-        for(Component ci: fractions.keySet()){
+        for(PureSubstance ci: fractions.keySet()){
             double xi = fractions.get(ci);
             
             double numerator = 0;
             double denominator = 0;
             
-            for ( Component cj : fractions.keySet()){
+            for ( PureSubstance cj : fractions.keySet()){
                 double xj = fractions.get(cj);
-                double  tau = tau(cj, ci, param, temperature);// param.get_gji(cj,ci) / (Constants.R * temperature);
-                double Gji = G(cj, ci, param, temperature);//= Math.exp(- param.getAlpha().getValue(cj,ci) * tau);
+                double  tau = tau(cj.getComponent(), ci.getComponent(), param, temperature);// param.get_gji(cj,ci) / (Constants.R * temperature);
+                double Gji = G(cj.getComponent(), ci.getComponent(), param, temperature);//= Math.exp(- param.getAlpha().getValue(cj,ci) * tau);
                 
                 numerator += xj * tau * Gji;
                 denominator += xj * Gji;
@@ -44,12 +45,20 @@ public class NRTLActivityModel implements ActivityModel{
 
     @Override
     public double activityCoefficient(
-            ArrayList<Component> components, 
-            Component ci, 
-            HashMap<Component, Double> fractions,
+            //ArrayList<Component> components, 
+            PureSubstance cip, 
+            HashMap<PureSubstance, Double> fractionsP,
             ActivityModelBinaryParameter k, 
             double temperature) {
         
+	ArrayList<Component> components = new ArrayList<>();
+	HashMap<Component,Double> fractions = new HashMap();
+	for(PureSubstance c: fractionsP.keySet()){
+	    components.add(c.getComponent());
+	    fractions.put(c.getComponent(), fractionsP.get(c));
+	}
+	
+	Component ci = cip.getComponent();
         double xj = 0;
         double tauij = 0;
         double gij = 0;
@@ -72,7 +81,9 @@ public class NRTLActivityModel implements ActivityModel{
             
         }
         double firstTerm = summa2 / summa1;     
-        return firstTerm - secondTerm;
+        double result= firstTerm - secondTerm;
+	
+	return Math.exp(result);
     }
     
     private double summa1 (Component ci, ArrayList<Component> components, HashMap<Component, Double> fractions, ActivityModelBinaryParameter k, double temperature){
@@ -96,18 +107,18 @@ public class NRTLActivityModel implements ActivityModel{
     }
     
     
-    public double tau(Component cj,Component ci, ActivityModelBinaryParameter param,double temperature){
-//        double gji = param.get_gji(cj, ci);
-//        double gii = param.get_gji(ci, ci);
-//        double delta = gji - gii;
+//    public double tau(Component cj,Component ci, ActivityModelBinaryParameter param,double temperature){
+////        double gji = param.get_gji(cj, ci);
+////        double gii = param.get_gji(ci, ci);
+////        double delta = gji - gii;
+////        
+////        return delta/ (Constants.R * temperature);
 //        
-//        return delta/ (Constants.R * temperature);
-        
-        double aji = param.getA().getValue(cj, ci);
-        double bji = param.getB().getValue(cj, ci);
-        
-        return (aji + bji * temperature)/(Constants.R * temperature);
-    }
+//        double aji = param.getA().getValue(cj, ci);
+//        double bji = param.getB().getValue(cj, ci);
+//        
+//        return (aji + bji * temperature)/(Constants.R * temperature);
+//    }
     public double G(Component cj,Component ci, ActivityModelBinaryParameter param,double temperature){
          double tau =tau(cj, ci, param, temperature);
         return Math.exp(- param.getAlpha().getValue(cj,ci) * tau);

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import termo.activityModel.NRTLActivityModel;
 import termo.activityModel.WilsonActivityModel;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.BinaryInteractionParameter;
@@ -36,6 +37,9 @@ public class HuronVidalMixingRuleTest {
     
     ArrayList<Component> components = new ArrayList<>();
     PureSubstance ci;
+    
+    Cubic eos;
+    
     public HuronVidalMixingRuleTest() {
 	ethane = new Component();
 	
@@ -59,7 +63,7 @@ public class HuronVidalMixingRuleTest {
 	
 	fractions = new HashMap();
 	
-	Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+	eos = EquationOfStateFactory.pengRobinsonBase();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
 	ci = new PureSubstance(eos, alpha, ethane, Phase.VAPOR);
@@ -139,6 +143,23 @@ public class HuronVidalMixingRuleTest {
 	double result = ms.calculateFugacity(ci, 298, 101325);
 	assertEquals(expResult, result,1e-3);
 	
+    }
+    
+    
+    @Test public void nrtlHuronFugacity(){
+	InteractionParameter k = new ActivityModelBinaryParameter();
+	NRTLActivityModel nrtl = new NRTLActivityModel();
+	
+	
+	HuronVidalMixingRule hv = new HuronVidalMixingRule(nrtl, eos);
+	
+	MixtureSubstance ms = new MixtureSubstance(EquationOfStateFactory.pengRobinsonBase(), AlphaFactory.getStryjekAndVeraExpression(), hv, components, Phase.LIQUID, k);
+	
+	ms.setMolarFractions(fractions);
+	double expResult = 25.3062;
+	double result = ms.calculateFugacity(ci, 298, 101325);
+	
+	assertEquals(expResult, result, 1e-3);
     }
 
     @Test

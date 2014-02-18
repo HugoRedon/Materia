@@ -11,9 +11,11 @@ import termo.substance.PureSubstance;
  *
  * @author Hugo Redon Rivera
  */
-public class WilsonActivityModel {
+public class WilsonActivityModel extends ActivityModel{
 
     boolean calculateWith_b = true;
+    
+    @Override
     public double excessGibbsEnergy(
             HashMap<PureSubstance, Double> fractions, 
             ActivityModelBinaryParameter k,
@@ -28,9 +30,8 @@ public class WilsonActivityModel {
         return excessGibbs*termo.Constants.R*temperature;
     }
 
-    
+    @Override
     public double activityCoefficient(
-            
             PureSubstance ci,
             HashMap<PureSubstance, Double> fractions, 
             ActivityModelBinaryParameter k,
@@ -79,7 +80,6 @@ public class WilsonActivityModel {
 	    Vj = cj.calculate_b_cubicParameter();
 	    Vi = ci.calculate_b_cubicParameter();
 	}else{
-	
              Vj = cj.getComponent().getLiquidMolarVolumeat298_15K();
              Vi = ci.getComponent().getLiquidMolarVolumeat298_15K();
 	}
@@ -93,14 +93,9 @@ public class WilsonActivityModel {
                 return (Vj / Vi) * Math.exp(-tau  /(termo.Constants.R * T));               
 //            }  
     }
-    public double tau(Component ci,Component cj, ActivityModelBinaryParameter k ,double T){
-        double aij = k.getA().getValue(ci, cj);
-        double bij = k.getB().getValue(ci, cj);
-        
-        return (aij + bij * T)/(Constants.R * T);
-    }
 
-    
+
+    @Override
     public double parcialExcessGibbsRespectTemperature(
             ArrayList<Component> components, 
             HashMap<Component, Double> fractions, 
