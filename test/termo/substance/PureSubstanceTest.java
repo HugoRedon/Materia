@@ -24,14 +24,21 @@ public class PureSubstanceTest {
 	ethane.setCriticalPressure(48.1595*101325);
 	ethane.setPrsvKappa(0.02669);//en eqfases2 tiene un signo negativo ...
 	
-	ethane.setEnthalpyofFormationofIdealgasat298_15Kand101325Pa(-83767.2);
+//	ethane.setEnthalpyofFormationofIdealgasat298_15Kand101325Pa(-83767.2);
+//	
+//	
+//	ethane.setA_Cp(5.40056);
+//	ethane.setB_Cp(0.177817);
+//	ethane.setC_Cp(-6.92626e-5);
+//	ethane.setD_Cp(8.69858e-9);
 	
+	ethane.setEnthalpyofFormationofIdealgasat298_15Kand101325Pa(-8.38200E+07);
 	
-	ethane.setA_Cp(5.40056);
-	ethane.setB_Cp(0.177817);
-	ethane.setC_Cp(-6.9262e-5);
-	ethane.setD_Cp(8.69858e-9);
-	
+	ethane.setA_Cp(4.4256E+04);
+	ethane.setB_Cp(8.4737E+04);
+	ethane.setC_Cp(8.7224E+02);
+	ethane.setD_Cp(6.7130E+04);
+	ethane.setE_Cp(2.4304E+03);
 	
 	Cubic eos = EquationOfStateFactory.pengRobinsonBase();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
@@ -108,13 +115,32 @@ public class PureSubstanceTest {
     @Test
     public void testCalculateIdealGasEnthalpy() {
 	System.out.println("calculateIdealGasEnthalpy");
-	double temperature = 298;
+	double temperature = 350;
 	
-	double expResult = -6035.229347;
+	
+	
+	double expResult = -8.347796115e4;
 	double result = substance.calculateIdealGasEnthalpy(temperature);
 	assertEquals(expResult, result, 1e-3);
 
     }
+    
+        @Test
+    public void testCalculateEnthalpy() {
+	System.out.println("calculateIdealGasEnthalpy");
+	double temperature = 298.15;
+	double pressure = 101325;
+	
+	
+	double expResult = -3379.253883;
+	double volume = substance.calculateMolarVolume(temperature, pressure);///
+	
+	double result = substance.calculateEnthalpy(temperature,pressure,volume);
+	assertEquals(expResult, result/1000, 1e-3);
+
+    }
+    
+    
 
     @Test
     public void testTemperatureParcial_a() {

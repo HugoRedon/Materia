@@ -83,43 +83,6 @@ public class VDWMixingRuleTest {
     }
 
     @Test
-    public void testTemperatureParcial_a() {
-	System.out.println("temperatureParcial_a");
-	double temperature = 0.0;
-	ArrayList<Component> components = null;
-	HashMap<Component, Double> fractions = null;
-	HashMap<Component, Double> single_as = null;
-	HashMap<Component, Double> single_bs = null;
-	HashMap<Component, Double> alphaDerivatives = null;
-	BinaryInteractionParameter k = null;
-	VDWMixingRule instance = new VDWMixingRule();
-	double expResult = 0.0;
-//	double result = instance.temperatureParcial_a(temperature, components, fractions, single_as, single_bs, alphaDerivatives, k);
-//	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testOneOverNParcial_aN2RespectN() {
-	System.out.println("oneOverNParcial_aN2RespectN");
-	double temperature = 0.0;
-	HashMap<Component, Double> singleAs = null;
-	HashMap<Component, Double> singleBs = null;
-	HashMap<Component, Double> singleAlphas = null;
-	ArrayList<Component> components = null;
-	Component iComponent = null;
-	HashMap<Component, Double> fractions = null;
-	BinaryInteractionParameter k = null;
-	VDWMixingRule instance = new VDWMixingRule();
-//	double expResult = 0.0;
-//	double result = instance.oneOverNParcial_aN2RespectN(temperature, singleAs, singleBs, singleAlphas, components, iComponent, fractions, k);
-//	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    @Test
     public void testB() {
 //	System.out.println("b");
 //	HashMap<Component, Double> singleBs = null;
@@ -129,6 +92,35 @@ public class VDWMixingRuleTest {
 //	double expResult = 0.0;
 //	double result = instance.b(singleBs, components, fractions);
 //	assertEquals(expResult, result, 0.0);
+	// TODO review the generated test code and remove the default call to fail.
+	fail("The test case is a prototype.");
+    }
+
+    @Test
+    public void testTemperatureParcial_a() {
+	System.out.println("temperatureParcial_a");
+	double temperature = 350;
+	
+	InteractionParameter k = new InteractionParameter();
+	VDWMixingRule instance = new VDWMixingRule();
+	double expResult = 0.0;
+	double result = instance.temperatureParcial_a(temperature, fractions, k);
+	assertEquals(expResult, result, 0.0);
+	// TODO review the generated test code and remove the default call to fail.
+	fail("The test case is a prototype.");
+    }
+
+    @Test
+    public void testOneOverNParcial_aN2RespectN() {
+	System.out.println("oneOverNParcial_aN2RespectN");
+	double temperature = 0.0;
+	PureSubstance iComponent = null;
+	HashMap<PureSubstance, Double> fractions = null;
+	InteractionParameter k = null;
+	VDWMixingRule instance = new VDWMixingRule();
+	double expResult = 0.0;
+	double result = instance.oneOverNParcial_aN2RespectN(temperature, iComponent, fractions, k);
+	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
     }

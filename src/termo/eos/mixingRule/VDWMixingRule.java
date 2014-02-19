@@ -53,14 +53,16 @@ public class VDWMixingRule extends MixingRule{
        for(PureSubstance ci: fractions.keySet()){
             for (PureSubstance cj: fractions.keySet()){
                 double xi = fractions.get(ci);
-                double ai = ci.calculate_a_cubicParameter(temperature);//single_as.get(ci);
+               // double ai = ci.calculate_a_cubicParameter(temperature);//single_as.get(ci);
                 double tempAlphaDerivativeAlphai =ci.getAlpha().TempOverAlphaTimesDerivativeAlphaRespectTemperature(temperature, ci.getComponent()) ;//alphaDerivatives.get(ci);
                 
+		double a = a(temperature, fractions, k);
+		
                 double xj = fractions.get(cj);
-                  double aj = cj.calculate_a_cubicParameter(temperature);//single_as.get(cj);
+		//double aj = cj.calculate_a_cubicParameter(temperature);//single_as.get(cj);
                 double tempAlphaDerivativeAlphaj = cj.getAlpha().TempOverAlphaTimesDerivativeAlphaRespectTemperature(temperature, cj.getComponent());//alphaDerivatives.get(cj);
                 
-                result += (1d/2d) * xi * xj * Math.sqrt(ai * aj )*(1- k.getValue(ci.getComponent(), cj.getComponent()))*(tempAlphaDerivativeAlphai + tempAlphaDerivativeAlphaj);
+                result += (1d/2d) * xi * xj * a*(tempAlphaDerivativeAlphai + tempAlphaDerivativeAlphaj);
                 
             }
        }
