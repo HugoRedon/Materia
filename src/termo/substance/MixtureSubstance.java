@@ -162,7 +162,7 @@ public class MixtureSubstance extends HomogeneousSubstance{
         }
         return components;
     }
-    public HashMap<Component,Double> getFractions(){
+    public HashMap<Component,Double> getReadOnlyFractions(){
         HashMap<Component,Double> fractions = new HashMap<>();
         for (PureSubstance pureSubstance : getPureSubstances()){
             Component component = pureSubstance.getComponent();
@@ -283,6 +283,12 @@ public class MixtureSubstance extends HomogeneousSubstance{
 	    if(pure.getComponent().equals(component)){
 		molarFractions.put(pure, fraction);
 	    }
+	}
+    }
+    
+    void setFractions(HashMap<Component,Double> fractions){
+	for(PureSubstance pure: pureSubstances){
+	    molarFractions.put(pure, fractions.get(pure.getComponent()));
 	}
     }
 }
