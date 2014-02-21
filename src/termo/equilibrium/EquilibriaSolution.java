@@ -8,6 +8,7 @@ public class EquilibriaSolution {
     private double Temperature;
     private double pressure;
     private int iterations;
+    private double vFRelation;
     
     public EquilibriaSolution( 
 	    double temperature, 
@@ -21,7 +22,7 @@ public class EquilibriaSolution {
     /**
      * @return the pressure
      */
-    public double getTemperature() {
+    public Double getTemperature() {
 	return Temperature;
     }
 
@@ -35,7 +36,7 @@ public class EquilibriaSolution {
     /**
      * @return the iterations
      */
-    public int getIterations() {
+    public Integer getIterations() {
 	return iterations;
     }
 
@@ -49,7 +50,7 @@ public class EquilibriaSolution {
     /**
      * @return the pressure
      */
-    public double getPressure() {
+    public Double getPressure() {
         return pressure;
     }
 
@@ -58,6 +59,20 @@ public class EquilibriaSolution {
      */
     public void setPressure(double pressure) {
         this.pressure = pressure;
+    }
+
+    /**
+     * @return the vFRelation
+     */
+    public Double getvFRelation() {
+	return vFRelation;
+    }
+
+    /**
+     * @param vFRelation the vFRelation to set
+     */
+    public void setvFRelation(Double vFRelation) {
+	this.vFRelation = vFRelation;
     }
         
 }

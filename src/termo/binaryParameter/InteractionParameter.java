@@ -16,12 +16,15 @@ import termo.substance.PureSubstance;
  */
 public class InteractionParameter {
     
-  private HashMap<ArrayList<Component>,Double> param ;
-//    private boolean symmetric;
+  private HashMap<ArrayList<Component>,Double> param = new HashMap();;
+  private boolean symmetric;
     //private HashMap<ArrayList<Component>,Double> k21Value;
 
-    public InteractionParameter() {
-        param = new HashMap();
+    public InteractionParameter(boolean isSymmetric) {
+        symmetric = isSymmetric;
+    }
+    public InteractionParameter(){
+	
     }
   
    
@@ -37,7 +40,7 @@ public class InteractionParameter {
         }
     }
     
-    public void setValue(Component component1,Component component2,double value,boolean isSymmetric){
+    public void setValue(Component component1,Component component2,double value){
         
         ArrayList<Component> components = new ArrayList<>();
         components.add(component1);
@@ -48,7 +51,7 @@ public class InteractionParameter {
          
 //         this.symmetric = isSymmetric;
 	  ArrayList<Component> components1 = new ArrayList<>();
-        if(isSymmetric){
+        if(symmetric){
             
             components1.add(component2);
             components1.add(component1);

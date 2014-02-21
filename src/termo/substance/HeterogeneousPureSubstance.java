@@ -12,7 +12,7 @@ import termo.phase.Phase;
  * @author
  * Hugo
  */
-public class HeterogeneousPureSubstance {
+public class HeterogeneousPureSubstance implements HeterogenousSubstance{
 
     private Cubic cubicEquationOfState;
     private Alpha alpha;
@@ -37,7 +37,22 @@ public class HeterogeneousPureSubstance {
     public EquilibriaSolution bubbleTemperatureEstimate(double pressure){
 	return temperatureEstimate(pressure);
     }
+
+    @Override
+    public PureSubstance getLiquid() {
+	return liquid;
+    }
+
+    @Override
+    public PureSubstance getVapor() {
+	return vapor;
+    }
     
+    
+  
+    
+    
+    @Override
     public EquilibriaSolution bubbleTemperature(double pressure) {
 	
 	EquilibriaFunction function = new BubbleTemperatureFunctions();

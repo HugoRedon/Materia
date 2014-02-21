@@ -33,7 +33,7 @@ public class PureSubstanceTest {
 //	ethane.setD_Cp(8.69858e-9);
 	
 	ethane.setEnthalpyofFormationofIdealgasat298_15Kand101325Pa(-8.38200E+07);
-	
+	ethane.setAbsoluteEntropyofIdealGasat298_15Kand101325Pa(-32896.6);
 	ethane.setA_Cp(4.4256E+04);
 	ethane.setB_Cp(8.4737E+04);
 	ethane.setC_Cp(8.7224E+02);
@@ -132,10 +132,38 @@ public class PureSubstanceTest {
 	double pressure = 101325;
 	
 	
-	double expResult = -3379.253883;
+	double expResult = -5967.021343;
 	double volume = substance.calculateMolarVolume(temperature, pressure);///
 	
-	double result = substance.calculateEnthalpy(temperature,pressure,volume);
+	double result = substance.calculateEnthalpy(temperature,pressure);
+	assertEquals(expResult, result/1000, 1e-3);
+
+    }
+    
+    @Test
+    public void testCalculateEntropy() {
+	System.out.println("calculateIdealGasEntropy");
+	double temperature = 298.15;
+	double pressure = 101325;
+	
+	
+	double expResult = -44.5770145;
+	double volume = substance.calculateMolarVolume(temperature, pressure);///
+	
+	double result = substance.calculateEntropy(temperature,pressure);
+	assertEquals(expResult, result/1000, 1e-3);
+
+    }
+    @Test
+    public void testCalculateGibbs() {
+	System.out.println("calculateIdealGasEntropy");
+	double temperature = 298.15;
+	double pressure = 101325;
+	
+	
+	double expResult = 73321.567419;
+	
+	double result = substance.calculateGibbs(temperature,pressure);
 	assertEquals(expResult, result/1000, 1e-3);
 
     }

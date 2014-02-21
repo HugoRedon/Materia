@@ -3,14 +3,13 @@ package termo.substance;
 
 import termo.Constants;
 import termo.eos.Cubic;
-import termo.equilibrium.EquilibriaSolution;
 import termo.phase.Phase;
 
 /**
  *
  * @author Hugo Redon Rivera
  */
-public abstract class  HomogeneousSubstance extends Substance {
+public abstract class  HomogeneousSubstance  {
     
     private Cubic cubicEquationOfState;    
     private Phase phase;
@@ -67,16 +66,22 @@ public abstract class  HomogeneousSubstance extends Substance {
         return getCubicEquationOfState().calculateFugacity(temperature, pressure, a, b, parciala, parcialb, getPhase());
     }
     
-    public double calculateEntropy(double temperature, double pressure, double volume){
+    private double calculateEntropy(double temperature, double pressure, double volume){
         double idealGasEntropy = calculateIdealGasEntropy(temperature, pressure);
         double b = calculate_b_cubicParameter(temperature);
         double Temp_parcial_a = temperatureParcial_a( temperature);
         
         double L = cubicEquationOfState.calculateL(volume, b);
+	double z = calculateCompresibilityFactor(temperature, pressure);
         
-        return idealGasEntropy +  Constants.R * Math.log( (pressure *(volume - b))/(Constants.R * temperature)) + L * (Temp_parcial_a)/(b);
+        //return idealGasEntropy +  Constants.R * Math.log( (pressure *(volume - b))/(Constants.R * temperature)) + L * (Temp_parcial_a)/(b);
+	return idealGasEntropy +  Constants.R * Math.log( (z *(volume - b))/(volume)) + L * (Temp_parcial_a)/(temperature*b);
     }
-    public final double calculateEnthalpy(double temperature, double pressure, double volume){
+    public double calculateEntropy(double temperature,double pressure){
+	double volume = calculateMolarVolume(temperature, pressure);
+	return calculateEntropy(temperature, pressure, volume);
+    }
+    private  double calculateEnthalpy(double temperature, double pressure, double volume){
         double idealGasEnthalpy = calculateIdealGasEnthalpy(temperature);
         double a = calculate_a_cubicParameter(temperature);
         double b = calculate_b_cubicParameter(temperature);
@@ -86,6 +91,10 @@ public abstract class  HomogeneousSubstance extends Substance {
         double Temp_parcial_a = temperatureParcial_a( temperature);
         
         return idealGasEnthalpy + ((Temp_parcial_a - a)/b) * L  + pressure * volume - Constants.R *temperature;
+    }
+    public final double calculateEnthalpy(double temperature, double pressure){
+	double volume = calculateMolarVolume(temperature, pressure);
+	return calculateEnthalpy(temperature, pressure, volume);
     }
         
             /**
@@ -124,5 +133,12 @@ public abstract class  HomogeneousSubstance extends Substance {
      */
     public void setPhase(Phase phase) {
 	this.phase = phase;
+    }
+
+    public double calculateGibbs(Double temperature, double pressure) {
+	double enthalpy = calculateEnthalpy(temperature, pressure);
+	double entropy = calculateEntropy(temperature, pressure);
+	
+	return enthalpy - temperature * entropy;
     }
 }

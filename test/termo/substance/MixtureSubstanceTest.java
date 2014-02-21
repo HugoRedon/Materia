@@ -56,12 +56,13 @@ public class MixtureSubstanceTest {
 	
 	
 	substance.setCubicEquationOfState(eos);
+	
 	substance.addComponent(propanePure, 0.7);
 	substance.addComponent(ethanePure, 0.3);
 	
 	
 	InteractionParameter b = new InteractionParameter();
-	b.setValue(propane, ethane, 0, true);
+	b.setValue(propane, ethane, 0);
 	MixingRule mr = new VDWMixingRule();
 	
 	

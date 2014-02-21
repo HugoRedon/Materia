@@ -51,7 +51,22 @@ public class MixtureSubstance extends HomogeneousSubstance{
 	}
     }
     
+    private PureSubstance getPureSubstance(Component component){
+	PureSubstance result = new PureSubstance();
+	for(PureSubstance pure: pureSubstances){
+	    if(component.equals(pure.getComponent())){
+		result = pure;
+	    }
+	}
+	return result;
+    }
     
+    public double calculateFugacity(Component component, double temperature, double pressure){
+	PureSubstance pure = getPureSubstance(component);
+	return calculateFugacity(pure, temperature, pressure);
+	//throw new Exception("La mezcla no contiene el componente " + component.toString());
+	
+    }
     
     
     

@@ -62,8 +62,8 @@ public class VDWMixingRuleTest {
 	fractions.put(ethanePure, 0.3);
 	
 	
-	 b = new InteractionParameter();
-	b.setValue(propane, ethane, 0.05, true);
+	 b = new InteractionParameter(true);
+	b.setValue(propane, ethane, 0.05);
 	MixingRule mr = new VDWMixingRule();
 	
 	
