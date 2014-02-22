@@ -10,6 +10,10 @@ public class EquilibriaSolution {
     private int iterations;
     private double vFRelation;
     
+    
+    
+    private EquilibriaSolution estimateSolution;
+    
     public EquilibriaSolution( 
 	    double temperature, 
 	    double pressure,
@@ -73,6 +77,20 @@ public class EquilibriaSolution {
      */
     public void setvFRelation(Double vFRelation) {
 	this.vFRelation = vFRelation;
+    }
+
+    /**
+     * @return the estimateSolution
+     */
+    public EquilibriaSolution getEstimateSolution() {
+	return estimateSolution;
+    }
+
+    /**
+     * @param estimateSolution the estimateSolution to set
+     */
+    public void setEstimateSolution(EquilibriaSolution estimateSolution) {
+	this.estimateSolution = estimateSolution;
     }
         
 }
