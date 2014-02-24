@@ -29,7 +29,13 @@ public class MixtureSubstance extends HomogeneousSubstance{
 	}
     }
 
-    
+    @Override
+    public void setPressure(double pressure){
+	super.setPressure(pressure); 
+	for(PureSubstance pure: pureSubstances){
+	    pure.setPressure(pressure);
+	}
+    }
     
     
     
@@ -71,6 +77,7 @@ public class MixtureSubstance extends HomogeneousSubstance{
 	}
 	return result;
     }
+    
     
     public double calculateFugacity(Component component){
 	PureSubstance pure = getPureSubstance(component);
@@ -245,12 +252,12 @@ public class MixtureSubstance extends HomogeneousSubstance{
 	return pureSubstances;
     }
 
-    /**
-     * @param pureSubstances the pureSubstances to set
-     */
-    public void setPureSubstances(ArrayList<PureSubstance> pureSubstances) {
-	this.pureSubstances = pureSubstances;
-    }
+//    /**
+//     * @param pureSubstances the pureSubstances to set
+//     */
+//    private void setPureSubstances(ArrayList<PureSubstance> pureSubstances) {
+//	this.pureSubstances = pureSubstances;
+//    }
 
     /**
      * @return the molarFractions
@@ -262,9 +269,9 @@ public class MixtureSubstance extends HomogeneousSubstance{
     /**
      * @param molarFractions the molarFractions to set
      */
-    public void setMolarFractions(HashMap<PureSubstance,Double> molarFractions) {
-	this.molarFractions = molarFractions;
-    }
+//    private void setMolarFractions(HashMap<PureSubstance,Double> molarFractions) {
+//	this.molarFractions = molarFractions;
+//    }
 
 //    /**
 //     * @return the binaryParameters
@@ -285,11 +292,11 @@ public class MixtureSubstance extends HomogeneousSubstance{
 
     
 
-    public void setFraction(PureSubstance component, double i) {
+    private void setFraction(PureSubstance component, double i) {
 	molarFractions.put(component, i);
     }
 
-    void setFraction(Component component, Double fraction) {
+    public void setFraction(Component component, Double fraction) {
 	for (PureSubstance pure : pureSubstances){
 	    if(pure.getComponent().equals(component)){
 		molarFractions.put(pure, fraction);
@@ -297,7 +304,7 @@ public class MixtureSubstance extends HomogeneousSubstance{
 	}
     }
     
-    void setFractions(HashMap<Component,Double> fractions){
+    public void setFractions(HashMap<Component,Double> fractions){
 	for(PureSubstance pure: pureSubstances){
 	    molarFractions.put(pure, fractions.get(pure.getComponent()));
 	}

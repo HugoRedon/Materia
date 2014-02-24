@@ -75,6 +75,9 @@ public class VDWMixingRuleTest {
 	System.out.println("a");
 	double temperature =298;
 
+	for(PureSubstance pure: fractions.keySet()){
+	    pure.setTemperature(temperature);
+	}
 	
 	double expResult = 950499.221;
 	double result = rule.a(temperature, fractions, b);
@@ -100,6 +103,11 @@ public class VDWMixingRuleTest {
     public void testTemperatureParcial_a() {
 	System.out.println("temperatureParcial_a");
 	double temperature = 350;
+	
+	for(PureSubstance pure: fractions.keySet()){
+	    pure.setTemperature(temperature);
+	}
+	
 	
 	InteractionParameter k = new InteractionParameter();
 	VDWMixingRule instance = new VDWMixingRule();

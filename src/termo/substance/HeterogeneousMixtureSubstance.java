@@ -497,13 +497,13 @@ public class HeterogeneousMixtureSubstance extends HeterogeneousSubstance{
     
     
     
-    private  double calculateError(double pressure,double temperature){
+    private  double calculateError(double pressure,double temperature){//for flash
 	double result=0;
 	setTemperature(temperature);
 	setPressure(pressure);
-	for(PureSubstance component: getVapor().getPureSubstances()){
-	    double xi = getLiquid().getMolarFractions().get(component);
-	    double yi = getVapor().getMolarFractions().get(component);
+	for(Component component: getComponents()){
+	    double xi = getLiquid().getReadOnlyFractions().get(component);
+	    double yi = getVapor().getReadOnlyFractions().get(component);
 	    double liquidFug = getLiquid().calculateFugacity(component);
 	    double vaporFug = getVapor().calculateFugacity(component);
 	    result += Math.abs(xi* liquidFug - yi * vaporFug    );
@@ -564,6 +564,8 @@ public class HeterogeneousMixtureSubstance extends HeterogeneousSubstance{
     
    public void setZFraction(Component component, double d) {
 	getzFractions().put(component, d);
+	getLiquid().setFraction(component, d);
+	getVapor().setFraction(component, d);
     }
     
 
@@ -710,6 +712,9 @@ public void setVaporFractionsRaoultsLaw(HashMap<PureSubstance,Double> vaporPress
      */
     public void setzFractions(HashMap<Component,Double> zFractions) {
 	this.zFractions = zFractions;
+	
+	getLiquid().setFractions(zFractions);
+	getVapor().setFractions(zFractions);
     }
 
     

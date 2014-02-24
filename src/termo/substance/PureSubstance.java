@@ -68,6 +68,11 @@ public class PureSubstance extends HomogeneousSubstance {
 	return super.calculateFugacity(this);
 	
     }
+//    @Override
+//    public double calculateFugacity(Component component) {
+//	
+//    }
+    
     
     public boolean equals(PureSubstance substance){
         if(substance.getComponent().equals(component) &&
@@ -183,6 +188,8 @@ public class PureSubstance extends HomogeneousSubstance {
 
 	return  pc * Math.pow(10,(-7d/3d)* (1+w) * ((tc/temperature) - 1 ) );
     }
+
+    
     
        
 }

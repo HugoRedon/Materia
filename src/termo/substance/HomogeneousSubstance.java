@@ -2,6 +2,7 @@
 package termo.substance;
 
 import termo.Constants;
+import termo.component.Component;
 import termo.eos.Cubic;
 import termo.phase.Phase;
 
@@ -55,8 +56,8 @@ public abstract class  HomogeneousSubstance  {
 //        return pureSubstance.calculate_b_cubicParameter();
 //    }
     
-        
-    public double calculateFugacity( PureSubstance pureSubstance){
+       
+    protected double calculateFugacity( PureSubstance pureSubstance){
         double a = calculate_a_cubicParameter();
         double b = calculate_b_cubicParameter();
 

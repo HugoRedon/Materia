@@ -91,11 +91,13 @@ public class WongSandlerMixingRuleTest {
 	
 	
 	MixtureSubstance ms = new MixtureSubstance(eos, AlphaFactory.getStryjekAndVeraExpression(), ws, components, Phase.LIQUID, k);
-	ms.setMolarFractions(fractions);
+	//ms.setMolarFractions(fractions);
+	ms.setFraction(ethane, 0.3);
+	ms.setFraction(propane, 0.7);
 	ms.setTemperature(temperature);
 	ms.setPressure(pressure);
 	double expResult = 23.7019;//quien sabe
-	double resutl = ms.calculateFugacity(ci);
+	double resutl = ms.calculateFugacity(ethane);
 	assertEquals(expResult, resutl,1e-3);
     }
     
@@ -109,11 +111,17 @@ public class WongSandlerMixingRuleTest {
 	WongSandlerMixingRule ws = new WongSandlerMixingRule(nrtl, eos);
 	
 	MixtureSubstance ms = new MixtureSubstance(eos, AlphaFactory.getStryjekAndVeraExpression(), ws, components, Phase.LIQUID, k);
+	
+	//ms.setMolarFractions(fractions);
+	ms.setFraction(ethane, 0.3);
+	ms.setFraction(propane, 0.7);
+	
+	
 	ms.setTemperature(temperature);
 	ms.setPressure(pressure);
-	ms.setMolarFractions(fractions);
+	
 	double expResult = 23.7019;//quien sabe
-	double resutl = ms.calculateFugacity(ci);
+	double resutl = ms.calculateFugacity(ethane);
 	assertEquals(expResult, resutl,1e-3);
     }
     

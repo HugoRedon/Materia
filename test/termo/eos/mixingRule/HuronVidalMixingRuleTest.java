@@ -83,7 +83,9 @@ public class HuronVidalMixingRuleTest {
 	System.out.println("a");
 	double temperature = 298;
 
-	
+	for(PureSubstance pure: fractions.keySet()){
+	    pure.setTemperature(temperature);
+	}
 	
 	double expResult = 9.70355653e5;
 	double result = instance.a(temperature, fractions, k);
@@ -126,9 +128,12 @@ public class HuronVidalMixingRuleTest {
 	MixtureSubstance ms = new MixtureSubstance(EquationOfStateFactory.pengRobinsonBase(), AlphaFactory.getStryjekAndVeraExpression(), vdw, components, Phase.LIQUID, k);
 	ms.setTemperature(298);
 	ms.setPressure(101325);
-	ms.setMolarFractions(fractions);
+	//ms.setMolarFractions(fractions);
+	ms.setFraction(ethane, 0.3);
+	ms.setFraction(propane, 0.7);
+	
 	double expResult = 0;
-	double result = ms.calculateFugacity(ci);
+	double result = ms.calculateFugacity(ethane);
 		
 	fail();
     }
@@ -139,11 +144,14 @@ public class HuronVidalMixingRuleTest {
 	
 	MixtureSubstance ms = new MixtureSubstance(EquationOfStateFactory.pengRobinsonBase(), AlphaFactory.getStryjekAndVeraExpression(), instance, components,Phase.LIQUID,k);
 	
-	ms.setMolarFractions(fractions);
+	//ms.setMolarFractions(fractions);
+	ms.setFraction(ethane, 0.3);
+	ms.setFraction(propane, 0.7);
+	
 	ms.setTemperature(298);
 	ms.setPressure(101325);
 	double expResult = 24.8948;
-	double result = ms.calculateFugacity(ci);
+	double result = ms.calculateFugacity(ethane);
 	assertEquals(expResult, result,1e-3);
 	
     }
@@ -158,11 +166,14 @@ public class HuronVidalMixingRuleTest {
 	
 	MixtureSubstance ms = new MixtureSubstance(EquationOfStateFactory.pengRobinsonBase(), AlphaFactory.getStryjekAndVeraExpression(), hv, components, Phase.LIQUID, k);
 	
-	ms.setMolarFractions(fractions);
+	//ms.setMolarFractions(fractions);
+	ms.setFraction(ethane, 0.3);
+	ms.setFraction(propane, 0.7);
+	
 	ms.setTemperature(298);
 	ms.setPressure(101325);
 	double expResult = 25.3062;
-	double result = ms.calculateFugacity(ci);
+	double result = ms.calculateFugacity(ethane);
 	
 	assertEquals(expResult, result, 1e-3);
     }

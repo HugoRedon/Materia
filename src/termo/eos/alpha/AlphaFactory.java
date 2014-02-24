@@ -46,7 +46,7 @@ public class AlphaFactory {
                                     
             
         TwoEquationsAlphaExpression stryjek = new TwoEquationsAlphaExpression();    
-        
+        stryjek.setName(AlphaNames.StryjekAndVera);
         
         
         CommonAlphaEquation stryjekveraBelow = new StryjekAndVera();
