@@ -62,7 +62,8 @@ public class HeterogeneousMixtureSubstanceTest {
 	System.out.println("bubbleTemperature");
 	double pressure = 101325;
 	double expResult =205.780184;
-	double result = substance.bubbleTemperature();
+	substance.bubbleTemperature(pressure);
+	double result = substance.getTemperature();
 	assertEquals(expResult, result, 1e-3);
     }
 
@@ -72,7 +73,8 @@ public class HeterogeneousMixtureSubstanceTest {
 	
 	double pressure = 101325;
 	double expResult = 204.911544;
-	double result = substance.bubbleTemperatureEstimate(pressure);
+	substance.bubbleTemperatureEstimate(pressure);
+	double result = substance.getTemperature();
 	assertEquals(expResult, result, 1e-3);
     }
 
@@ -82,7 +84,8 @@ public class HeterogeneousMixtureSubstanceTest {
 	double temperature = 298;
 	
 	double expResult = 17.126777;
-	double result = substance.bubblePressure(temperature);
+	substance.bubblePressure(temperature);
+	double result = substance.getPressure();
 	assertEquals(expResult, result/101325, 1e-3);
 	
     }
@@ -105,7 +108,8 @@ public class HeterogeneousMixtureSubstanceTest {
 	System.out.println("dewTemperature");
 	double pressure = 101325;
 	double expResult =224.493492;
-	double result = substance.dewTemperature(pressure);
+	substance.dewTemperature(pressure);
+	double result = substance.getTemperature();
 	assertEquals(expResult, result, 1e-3);
     }
 
@@ -114,7 +118,8 @@ public class HeterogeneousMixtureSubstanceTest {
 	System.out.println("dewTemperatureEstimate");
 	double pressure = 101325;
 	double expResult = 223.967265;
-	double result = substance.dewTemperatureEstimate(pressure);
+	substance.dewTemperatureEstimate(pressure);
+	double result = substance.getTemperature();
 	assertEquals(expResult, result, 1e-3);
     }
 
@@ -124,7 +129,7 @@ public class HeterogeneousMixtureSubstanceTest {
 	double temperature = 298;
 	
 	double expResult = 12.253971;
-	substance.dewPressureEstimate();
+	substance.dewPressureEstimate(temperature);
 	double result = substance.getPressure();
 	assertEquals(expResult, result/101325, 1e-3);
 
@@ -135,7 +140,8 @@ public class HeterogeneousMixtureSubstanceTest {
 	System.out.println("dewPressure");
 	double temperature = 298;
 	double expResult = 12.584984;
-	double result = substance.dewPressure(temperature);
+	substance.dewPressure(temperature);
+	double result = substance.getPressure();
 	assertEquals(expResult, result/101325, 1e-3);
 
     }

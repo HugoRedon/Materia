@@ -68,11 +68,18 @@ public class HeterogeneousPureSubstance extends HeterogeneousSubstance{
     }
     
 
+    @Override
     public int dewTemperatureEstimate() {
 	return temperatureEstimate();
     }
+    
 
-    public int dewTemperature(double pressure) {
+    /**
+     *
+     * @return
+     */
+    @Override
+    public int dewTemperature() {
 	EquilibriaFunction function = new DewTemperatureFunctions();
 	return minimizeTemperature(function);
     }
@@ -83,7 +90,8 @@ public class HeterogeneousPureSubstance extends HeterogeneousSubstance{
 	//return new EquilibriaSolution(temperature, vapor.calculatetAcentricFactorBasedVaporPressure(), 0);
     }
     
-    public int dewPressure(double temperature) {
+    @Override
+    public int dewPressure() {
 	
 	EquilibriaFunction function = new DewPressureFunctions();
 	return minimizePressure(function);
@@ -95,23 +103,26 @@ public class HeterogeneousPureSubstance extends HeterogeneousSubstance{
     
     public int temperatureEstimate(){
 	
-	setTemperature(300);
-	
+	//setTemperature(300);
+	double temp = 300;
 	double error = 100;
 	double deltaT =1;
 	double tol = 1e-3; 
 	int iterations =0;
 	while (Math.abs(error) >tol && iterations < 1000 ){
 	    iterations++;
-	    double T_  = temperature + deltaT;
+	    double T_  = temp + deltaT;
 	    
+	    setTemperature(temp);
 	    double vaporPressure = vapor.calculatetAcentricFactorBasedVaporPressure();
 	    setTemperature(T_);
 	    double vaporPressure_ = vapor.calculatetAcentricFactorBasedVaporPressure();
 	    error = Math.log(vaporPressure / pressure);
 	    double error_ = Math.log(vaporPressure_ / pressure);
-	    setTemperature((temperature * T_ *(error_ - error)) / (T_ * error_ - temperature * error));
+	    temp = (temp * T_ *(error_ - error)) / (T_ * error_ - temp * error);
 	} 
+	//temperature = temp;
+	setTemperature(temp);
 	return  iterations;
     }
     
@@ -159,6 +170,7 @@ public class HeterogeneousPureSubstance extends HeterogeneousSubstance{
 	temperatureEstimate();
 	result.setEstimateTemperature(temperature);
 	
+	double temp = temperature;
 	double tolerance = 1e-4;
         double e = 100;
         double deltaT = 1;
@@ -166,11 +178,13 @@ public class HeterogeneousPureSubstance extends HeterogeneousSubstance{
 	
         while(Math.abs(e) > tolerance && count < 1000){
 	    count++;
-            e = function.errorFunction(equilibriaRelation(temperature, pressure));
-            double temperature_ = temperature + deltaT;
+            e = function.errorFunction(equilibriaRelation(temp, pressure));
+            double temperature_ = temp + deltaT;
             double e_ = function.errorFunction(equilibriaRelation(temperature_, pressure));
-            temperature = function.newVariableFunction(temperature, temperature_, e, e_);
+            temp = function.newVariableFunction(temp, temperature_, e, e_);
         }
+	
+	setTemperature(temp);
 	result.setTemperature(temperature);
 	result.setPressure(pressure);
 	result.setIterations(count);
@@ -182,19 +196,22 @@ public class HeterogeneousPureSubstance extends HeterogeneousSubstance{
     
     private int minimizePressure(EquilibriaFunction function){
 	bubblePressureEstimate(temperature);
-	double tolerance = 1e-4; 
+	double tolerance = 1e-5; 
 	double deltaP = 0.0001;
 	double e = 100;
  
+	
+	double p=pressure;
 	int count = 0;
 	while(Math.abs(e) > tolerance && count < 1000 ){         
 	    count++;
-	    e =  function.errorFunction(equilibriaRelation(temperature, pressure));
-	    double pressure_ = pressure * (1 + deltaP); 
+	    e =  function.errorFunction(equilibriaRelation(temperature, p));
+	    double pressure_ = p * (1 + deltaP); 
 	    double e_ = function.errorFunction(equilibriaRelation(temperature, pressure_));
-	    pressure =  function.newVariableFunction(pressure, pressure_, e, e_);
+	    p =  function.newVariableFunction(p, pressure_, e, e_);
 	}  
-	setPressure(pressure);
+	
+	setPressure(p);
 	return count;
 	//return new EquilibriaSolution(temperature, pressure, count);
      

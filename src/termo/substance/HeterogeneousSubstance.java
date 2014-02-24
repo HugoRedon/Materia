@@ -21,7 +21,7 @@ public abstract class HeterogeneousSubstance {
     
     
     public void setTemperature(double temperature){
-	
+	this.temperature = temperature;
 	vapor.setTemperature(temperature);
 	liquid.setTemperature(temperature);
 	
@@ -57,10 +57,10 @@ public abstract class HeterogeneousSubstance {
 	return bubblePressure();
     }
     
-    public abstract void bubblePressureEstimate();
-    public abstract int bubbleTemperatureEstimate();
-    public abstract int bubbleTemperature();
-    public abstract int bubblePressure();
+    protected abstract void bubblePressureEstimate();
+    protected abstract int bubbleTemperatureEstimate();
+    protected abstract int bubbleTemperature();
+    protected abstract int bubblePressure();
     
     
     
@@ -69,9 +69,23 @@ public abstract class HeterogeneousSubstance {
 	setTemperature(temperature);
 	dewPressureEstimate();
     }
+    public final int dewTemperatureEstimate(double pressure){
+	setPressure(pressure);
+	return dewTemperatureEstimate();
+    }
+    public final int dewPressure(double temperature){
+	setTemperature(temperature);
+	return dewPressure();
+    }
+    public final int dewTemperature(double pressure){
+	setPressure(pressure);
+	return dewTemperature();
+    }
     
-    public abstract void dewPressureEstimate();
-    
+    protected abstract void dewPressureEstimate();
+    protected abstract int dewTemperatureEstimate();
+    protected abstract int dewPressure();
+    protected abstract int dewTemperature();
     
     
     public abstract HomogeneousSubstance getLiquid();

@@ -157,7 +157,7 @@ public class MixtureSubstance extends HomogeneousSubstance{
 
     @Override
     public double calculate_a_cubicParameter() {
-        return getMixingRule().a(super.getTemperature(), molarFractions, binaryParameters);
+        return getMixingRule().a(temperature, molarFractions, binaryParameters);
     }
     
      @Override
