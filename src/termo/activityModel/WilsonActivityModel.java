@@ -77,8 +77,8 @@ public class WilsonActivityModel extends ActivityModel{
 	double Vi;
 		
 	if(calculateWith_b){
-	    Vj = cj.calculate_b_cubicParameter(T);
-	    Vi = ci.calculate_b_cubicParameter(T);
+	    Vj = cj.calculate_b_cubicParameter();
+	    Vi = ci.calculate_b_cubicParameter();
 	}else{
              Vj = cj.getComponent().getLiquidMolarVolumeat298_15K();
              Vi = ci.getComponent().getLiquidMolarVolumeat298_15K();

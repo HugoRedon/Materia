@@ -40,7 +40,7 @@ public class TutorialTest {
 	System.out.println("bubbleTemp");
 	double pressure = 101325;
 	double expResult = 184.933865;
-	double result = substance.bubbleTemperature(pressure).getTemperature();
+	double result = substance.bubbleTemperature();
 	
 	
 	assertEquals(expResult,result,1e-3);

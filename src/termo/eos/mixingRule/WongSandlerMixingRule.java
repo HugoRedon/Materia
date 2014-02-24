@@ -54,8 +54,8 @@ public class WongSandlerMixingRule extends MixingRule {
            
             for(PureSubstance ci : fractions.keySet()){
                  double xi = fractions.get(ci);
-                 double ai = ci.calculate_a_cubicParameter(temperature);//singleAs.get(ci);
-                 double bi = ci.calculate_b_cubicParameter(temperature);//singleBs.get(ci);
+                 double ai = ci.calculate_a_cubicParameter();//singleAs.get(ci);
+                 double bi = ci.calculate_b_cubicParameter();//singleBs.get(ci);
                 
                 firstTerm += xi * (ai) / bi ;
                // secondTerm = Constants.R * temperature * c1 *xi * Math.log(b / bi);
@@ -89,11 +89,11 @@ public class WongSandlerMixingRule extends MixingRule {
 		double xi = fractions.get(ci);
 		double xj = fractions.get(cj);
 		
-		double bi = ci.calculate_b_cubicParameter(temperature);
-		double ai = ci.calculate_a_cubicParameter(temperature);
+		double bi = ci.calculate_b_cubicParameter();
+		double ai = ci.calculate_a_cubicParameter();
 		
-		double bj = cj.calculate_b_cubicParameter(temperature);
-		double aj = cj.calculate_a_cubicParameter(temperature);
+		double bj = cj.calculate_b_cubicParameter();
+		double aj = cj.calculate_a_cubicParameter();
 		
 		double kij = params.getK().getValue(ci.getComponent(), cj.getComponent());
 		
@@ -134,8 +134,8 @@ public class WongSandlerMixingRule extends MixingRule {
         ActivityModelBinaryParameter param = (ActivityModelBinaryParameter)k;
         //double alphai = ci.getAlpha().alpha(temperature, ci.getComponent());//singleAlphas.get( ci);
 	
-	double ai = ci.calculate_a_cubicParameter(temperature);
-	double bi = ci.calculate_b_cubicParameter(temperature);
+	double ai = ci.calculate_a_cubicParameter();
+	double bi = ci.calculate_b_cubicParameter();
 	double alphai = ai/(bi*Constants.R * temperature);
 	
         double gammai = activityModel.activityCoefficient( ci, fractions, param, temperature);

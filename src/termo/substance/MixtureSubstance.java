@@ -21,6 +21,17 @@ public class MixtureSubstance extends HomogeneousSubstance{
     private HashMap<PureSubstance,Double> molarFractions = new HashMap<>();
     private InteractionParameter binaryParameters = new InteractionParameter();
 
+    @Override
+    public void setTemperature(double temperature) {
+	super.setTemperature(temperature); 
+	for(PureSubstance pure: pureSubstances){
+	    pure.setTemperature(temperature);
+	}
+    }
+
+    
+    
+    
     
     public MixtureSubstance(){
 	
@@ -61,9 +72,9 @@ public class MixtureSubstance extends HomogeneousSubstance{
 	return result;
     }
     
-    public double calculateFugacity(Component component, double temperature, double pressure){
+    public double calculateFugacity(Component component){
 	PureSubstance pure = getPureSubstance(component);
-	return calculateFugacity(pure, temperature, pressure);
+	return calculateFugacity(pure);
 	//throw new Exception("La mezcla no contiene el componente " + component.toString());
 	
     }
@@ -101,7 +112,7 @@ public class MixtureSubstance extends HomogeneousSubstance{
        
         for(PureSubstance pureSubstance : getPureSubstances()){
             Component component = pureSubstance.getComponent();
-            double a = pureSubstance.calculate_a_cubicParameter(aTemperature);
+            double a = pureSubstance.calculate_a_cubicParameter();
             singleAs.put(component, a);
         }
         return singleAs;
@@ -140,18 +151,18 @@ public class MixtureSubstance extends HomogeneousSubstance{
     }
     
     @Override
-    public double temperatureParcial_a(double temperature) {
-        return getMixingRule().temperatureParcial_a(temperature, molarFractions,binaryParameters );
+    public double temperatureParcial_a() {
+        return getMixingRule().temperatureParcial_a(super.getTemperature(), molarFractions,binaryParameters );
     }
 
     @Override
-    public double calculate_a_cubicParameter(double temperature) {
-        return getMixingRule().a(temperature, molarFractions, binaryParameters);
+    public double calculate_a_cubicParameter() {
+        return getMixingRule().a(super.getTemperature(), molarFractions, binaryParameters);
     }
     
      @Override
-    public double calculate_b_cubicParameter(double temperature) {       
-        return getMixingRule().b(molarFractions,temperature, binaryParameters);
+    public double calculate_b_cubicParameter() {       
+        return getMixingRule().b(molarFractions,super.getTemperature(), binaryParameters);
     }
     
     
@@ -173,11 +184,11 @@ public class MixtureSubstance extends HomogeneousSubstance{
     }
 
     @Override
-    public double calculateIdealGasEnthalpy(double temperature) {
+    public double calculateIdealGasEnthalpy() {
         double idealGasEnthalpy = 0;
         for(PureSubstance pureSubstance: getPureSubstances()){
             double xi = getMolarFractions().get(pureSubstance);
-            double idealGasEnthalpyFori = pureSubstance.calculateIdealGasEnthalpy(temperature);
+            double idealGasEnthalpyFori = pureSubstance.calculateIdealGasEnthalpy();
             
             idealGasEnthalpy += xi *idealGasEnthalpyFori;
         }
@@ -185,14 +196,14 @@ public class MixtureSubstance extends HomogeneousSubstance{
     }
 
     @Override
-    public double calculateIdealGasEntropy(double temperature, double pressure) {
+    public double calculateIdealGasEntropy() {
 
            double term1 = 0;
            double term2 = 0;
         
         for(PureSubstance pureSubstance: getPureSubstances()){
             double xi = getMolarFractions().get(pureSubstance);
-            double entropyFori = pureSubstance.calculateIdealGasEntropy(temperature, pressure);
+            double entropyFori = pureSubstance.calculateIdealGasEntropy();
             
             term1 += xi * entropyFori;
             
@@ -204,10 +215,10 @@ public class MixtureSubstance extends HomogeneousSubstance{
     }
 
     @Override
-    public double oneOver_N_Parcial_a(double temperature,PureSubstance pureSubstance) {
+    public double oneOver_N_Parcial_a(PureSubstance pureSubstance) {
         Component component = pureSubstance.getComponent();
        return getMixingRule().oneOverNParcial_aN2RespectN(
-               temperature, 
+               super.getTemperature(), 
                pureSubstance, 
                molarFractions,
 	       binaryParameters);
@@ -290,6 +301,16 @@ public class MixtureSubstance extends HomogeneousSubstance{
 	for(PureSubstance pure: pureSubstances){
 	    molarFractions.put(pure, fractions.get(pure.getComponent()));
 	}
+    }
+
+    @Override
+    public double calculatetAcentricFactorBasedVaporPressure() {
+	double result = 0;
+	for( PureSubstance component : pureSubstances){
+	    double vaporP =  component.calculatetAcentricFactorBasedVaporPressure();
+	    result += vaporP * molarFractions.get(component);  
+	}
+	return result;
     }
 }
 

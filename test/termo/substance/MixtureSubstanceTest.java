@@ -122,7 +122,7 @@ public class MixtureSubstanceTest {
 	double temperature = 0.0;
 	MixtureSubstance instance = new MixtureSubstance();
 	double expResult = 0.0;
-	double result = instance.temperatureParcial_a(temperature);
+	double result = instance.temperatureParcial_a();
 	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
@@ -148,7 +148,7 @@ public class MixtureSubstanceTest {
 	double temperature = 0.0;
 	MixtureSubstance instance = new MixtureSubstance();
 	double expResult = 0.0;
-	double result = instance.calculateIdealGasEnthalpy(temperature);
+	double result = instance.calculateIdealGasEnthalpy();
 	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
@@ -159,7 +159,7 @@ public class MixtureSubstanceTest {
 	System.out.println("calculate_b_cubicParameter");
 	MixtureSubstance instance = new MixtureSubstance();
 	double expResult = 0.0;
-	double result = instance.calculate_b_cubicParameter(0);
+	double result = instance.calculate_b_cubicParameter();
 	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
@@ -172,7 +172,7 @@ public class MixtureSubstanceTest {
 	double pressure = 0.0;
 	MixtureSubstance instance = new MixtureSubstance();
 	double expResult = 0.0;
-	double result = instance.calculateIdealGasEntropy(temperature, pressure);
+	double result = instance.calculateIdealGasEntropy();
 	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
@@ -185,7 +185,7 @@ public class MixtureSubstanceTest {
 	PureSubstance pureSubstance = null;
 	MixtureSubstance instance = new MixtureSubstance();
 	double expResult = 0.0;
-	double result = instance.oneOver_N_Parcial_a(temperature, pureSubstance);
+	double result = instance.oneOver_N_Parcial_a(pureSubstance);
 	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");

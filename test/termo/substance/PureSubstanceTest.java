@@ -60,7 +60,7 @@ public class PureSubstanceTest {
 	Phase aPhase = null;
 	PureSubstance instance = new PureSubstance();
 	double expResult = 0.0;
-	double result = instance.calculateFugacity(temperature, pressure);
+	double result = instance.calculateFugacity();
 	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
@@ -96,7 +96,10 @@ public class PureSubstanceTest {
 	double pressure = 1*101325;
 	
 	double expResult = 52.815879/1000;
-	double result = substance.calculateMolarVolume(temperature, pressure);
+	
+	substance.setTemperature(temperature);
+	substance.setPressure(pressure);
+	double result = substance.calculateMolarVolume();
 	assertEquals(expResult, result, 1e-3);
 	
     }
@@ -106,9 +109,10 @@ public class PureSubstanceTest {
 	System.out.println("calculateCompresibilityFactor :in PureSubstance it is not a formal test");
 	double temperature = 200;
 	double pressure = 1*101325;
-	
+	substance.setTemperature(temperature);
+	substance.setPressure(pressure);
 	double expResult = 0.003218;
-	double result = substance.calculateCompresibilityFactor(temperature, pressure);
+	double result = substance.calculateCompresibilityFactor();
 	assertEquals(expResult, result, 1e-3);
     }
     
@@ -120,7 +124,8 @@ public class PureSubstanceTest {
 	
 	
 	double expResult = -8.347796115e4;
-	double result = substance.calculateIdealGasEnthalpy(temperature);
+	substance.setTemperature(temperature);
+	double result = substance.calculateIdealGasEnthalpy();
 	assertEquals(expResult, result, 1e-3);
 
     }
@@ -131,11 +136,11 @@ public class PureSubstanceTest {
 	double temperature = 298.15;
 	double pressure = 101325;
 	
+	substance.setTemperature(temperature);
+	substance.setPressure(pressure);
 	
 	double expResult = -5967.021343;
-	double volume = substance.calculateMolarVolume(temperature, pressure);///
-	
-	double result = substance.calculateEnthalpy(temperature,pressure);
+	double result = substance.calculateEnthalpy();
 	assertEquals(expResult, result/1000, 1e-3);
 
     }
@@ -146,11 +151,12 @@ public class PureSubstanceTest {
 	double temperature = 298.15;
 	double pressure = 101325;
 	
-	
+	substance.setTemperature(temperature);
+	substance.setPressure(pressure);
 	double expResult = -44.5770145;
-	double volume = substance.calculateMolarVolume(temperature, pressure);///
+	//double volume = substance.calculateMolarVolume(temperature, pressure);///
 	
-	double result = substance.calculateEntropy(temperature,pressure);
+	double result = substance.calculateEntropy();
 	assertEquals(expResult, result/1000, 1e-3);
 
     }
@@ -160,10 +166,12 @@ public class PureSubstanceTest {
 	double temperature = 298.15;
 	double pressure = 101325;
 	
+	substance.setTemperature(temperature);
+	substance.setPressure(pressure);
 	
 	double expResult = 73321.567419;
 	
-	double result = substance.calculateGibbs(temperature,pressure);
+	double result = substance.calculateGibbs();
 	assertEquals(expResult, result/1000, 1e-3);
 
     }
@@ -176,7 +184,7 @@ public class PureSubstanceTest {
 	double temperature = 0.0;
 	PureSubstance instance = new PureSubstance();
 	double expResult = 0.0;
-	double result = instance.temperatureParcial_a(temperature);
+	double result = instance.temperatureParcial_a();
 	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
@@ -189,7 +197,7 @@ public class PureSubstanceTest {
 	PureSubstance pureSubstance = null;
 	PureSubstance instance = new PureSubstance();
 	double expResult = 0.0;
-	double result = instance.oneOver_N_Parcial_a(temperature, pureSubstance);
+	double result = instance.oneOver_N_Parcial_a( pureSubstance);
 	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
@@ -201,7 +209,7 @@ public class PureSubstanceTest {
 	double temperature = 0.0;
 	PureSubstance instance = new PureSubstance();
 	double expResult = 0.0;
-	double result = instance.calculate_a_cubicParameter(temperature);
+	double result = instance.calculate_a_cubicParameter();
 	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
@@ -212,7 +220,7 @@ public class PureSubstanceTest {
 	System.out.println("calculate_b_cubicParameter");
 	PureSubstance instance = new PureSubstance();
 	double expResult = 0.0;
-	double result = instance.calculate_b_cubicParameter(0);
+	double result = instance.calculate_b_cubicParameter();
 	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
@@ -225,7 +233,7 @@ public class PureSubstanceTest {
 	double pressure = 0.0;
 	PureSubstance instance = new PureSubstance();
 	double expResult = 0.0;
-	double result = instance.calculateIdealGasEntropy(temperature, pressure);
+	double result = instance.calculateIdealGasEntropy( );
 	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
@@ -238,9 +246,9 @@ public class PureSubstanceTest {
     public void testGetAcentricFactorBasedVaporPressure() {
 	System.out.println("getAcentricFactorBasedVaporPressure");
 	double temperature = 298;
-	
+	substance.setTemperature(temperature);
 	double expResult = 41.57334499;
-	double result = substance.getAcentricFactorBasedVaporPressure(temperature);
+	double result = substance.calculatetAcentricFactorBasedVaporPressure();
 	assertEquals(expResult, result/101325, 1e-3);
 	
     }

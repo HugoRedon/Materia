@@ -124,10 +124,11 @@ public class HuronVidalMixingRuleTest {
 	
 	
 	MixtureSubstance ms = new MixtureSubstance(EquationOfStateFactory.pengRobinsonBase(), AlphaFactory.getStryjekAndVeraExpression(), vdw, components, Phase.LIQUID, k);
-	
+	ms.setTemperature(298);
+	ms.setPressure(101325);
 	ms.setMolarFractions(fractions);
 	double expResult = 0;
-	double result = ms.calculateFugacity(ci, 298, 101325);
+	double result = ms.calculateFugacity(ci);
 		
 	fail();
     }
@@ -139,8 +140,10 @@ public class HuronVidalMixingRuleTest {
 	MixtureSubstance ms = new MixtureSubstance(EquationOfStateFactory.pengRobinsonBase(), AlphaFactory.getStryjekAndVeraExpression(), instance, components,Phase.LIQUID,k);
 	
 	ms.setMolarFractions(fractions);
+	ms.setTemperature(298);
+	ms.setPressure(101325);
 	double expResult = 24.8948;
-	double result = ms.calculateFugacity(ci, 298, 101325);
+	double result = ms.calculateFugacity(ci);
 	assertEquals(expResult, result,1e-3);
 	
     }
@@ -156,8 +159,10 @@ public class HuronVidalMixingRuleTest {
 	MixtureSubstance ms = new MixtureSubstance(EquationOfStateFactory.pengRobinsonBase(), AlphaFactory.getStryjekAndVeraExpression(), hv, components, Phase.LIQUID, k);
 	
 	ms.setMolarFractions(fractions);
+	ms.setTemperature(298);
+	ms.setPressure(101325);
 	double expResult = 25.3062;
-	double result = ms.calculateFugacity(ci, 298, 101325);
+	double result = ms.calculateFugacity(ci);
 	
 	assertEquals(expResult, result, 1e-3);
     }

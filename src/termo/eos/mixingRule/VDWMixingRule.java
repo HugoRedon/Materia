@@ -31,8 +31,8 @@ public class VDWMixingRule extends MixingRule{
               double xi = fractions.get(iComponent);
               double xj = fractions.get(jComponent);
               
-              double ai = iComponent.calculate_a_cubicParameter(temperature);
-              double aj = jComponent.calculate_a_cubicParameter(temperature);
+              double ai = iComponent.calculate_a_cubicParameter();
+              double aj = jComponent.calculate_a_cubicParameter();
               
               double kij = k.getValue(iComponent.getComponent(), jComponent.getComponent());
              
@@ -77,11 +77,11 @@ public class VDWMixingRule extends MixingRule{
         InteractionParameter k){
 
        double sum = 0;
-       double ai = iComponent.calculate_a_cubicParameter(temperature);
+       double ai = iComponent.calculate_a_cubicParameter();
        
        for(PureSubstance kComponent : fractions.keySet()){
            double xk = fractions.get(kComponent);          
-           double ak = kComponent.calculate_a_cubicParameter(temperature);//singleAs.get(kComponent);        
+           double ak = kComponent.calculate_a_cubicParameter();//singleAs.get(kComponent);        
            
            double kik = k.getValue(iComponent.getComponent(), kComponent.getComponent());
            //double kik = BinaryInteractionParameter.getk(iComponent, kComponent);
@@ -100,7 +100,7 @@ public class VDWMixingRule extends MixingRule{
          double b = 0;
       for(PureSubstance iComponent:fractions.keySet()){
             double xi = fractions.get(iComponent);
-            double bi = iComponent.calculate_b_cubicParameter(temperature);//singleBs.get(iComponent);
+            double bi = iComponent.calculate_b_cubicParameter();//singleBs.get(iComponent);
             b += xi * bi ;
       }
        return b;

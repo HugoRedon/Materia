@@ -64,8 +64,8 @@ public class PureSubstance extends HomogeneousSubstance {
     }
     
     
-    public double calculateFugacity(double temperature, double pressure){
-	return super.calculateFugacity(this, temperature, pressure);
+    public double calculateFugacity(){
+	return super.calculateFugacity(this);
 	
     }
     
@@ -92,44 +92,44 @@ public class PureSubstance extends HomogeneousSubstance {
     }
     
     @Override
-    public double calculateIdealGasEnthalpy(double temperature){
+    public double calculateIdealGasEnthalpy(){
         double enthalpyReference = component.getEnthalpyofFormationofIdealgasat298_15Kand101325Pa();
         double referenceTemp = 298.15;
-         return  component.getCp().Enthalpy(temperature, referenceTemp, enthalpyReference);
+         return  component.getCp().Enthalpy(super.getTemperature(), referenceTemp, enthalpyReference);
     }
 
     @Override
-    public double temperatureParcial_a(double temperature){
-        double a = calculate_a_cubicParameter(temperature);
-        double ToveralphaDerivativeAlpha = alpha.TempOverAlphaTimesDerivativeAlphaRespectTemperature(temperature, component);
+    public double temperatureParcial_a(){
+        double a = calculate_a_cubicParameter();
+        double ToveralphaDerivativeAlpha = alpha.TempOverAlphaTimesDerivativeAlphaRespectTemperature(super.getTemperature(), component);
         return a * ToveralphaDerivativeAlpha;
     }
 
     
     @Override
-    public double oneOver_N_Parcial_a(double temperature, PureSubstance pureSubstance){
-        return 2 * calculate_a_cubicParameter(temperature);
+    public double oneOver_N_Parcial_a( PureSubstance pureSubstance){
+        return 2 * calculate_a_cubicParameter();
     }
     
     
     
 
     @Override
-    public double calculate_a_cubicParameter(double temperature){
+    public double calculate_a_cubicParameter(){
         
         double omega_a = getCubicEquationOfState().getOmega_a();
         
 	double tc = component.getCriticalTemperature();
         double pc = component.getCriticalPressure();
         
-	double alphaE = alpha.alpha(temperature,component);
+	double alphaE = alpha.alpha(super.getTemperature(),component);
 	
 	
         return (omega_a * Math.pow( Constants.R  * tc,2) *alphaE )/ (pc);  
     }
 
     @Override
-    public double calculate_b_cubicParameter(double temperature){
+    public double calculate_b_cubicParameter(){
          
         double omega_b = getCubicEquationOfState().getOmega_b();
         
@@ -166,16 +166,17 @@ public class PureSubstance extends HomogeneousSubstance {
         this.alpha = alpha;
     }
     @Override
-    public  double calculateIdealGasEntropy(double temperature, double pressure) {
+    public  double calculateIdealGasEntropy() {
         double entropyReference = component.getAbsoluteEntropyofIdealGasat298_15Kand101325Pa();
         double referenceTemperature = 298.15;
         double referencePressure = 101325;
-        return component.getCp().idealGasEntropy(temperature, referenceTemperature, pressure, referencePressure, entropyReference);
+        return component.getCp().idealGasEntropy(super.getTemperature(), referenceTemperature, super.getPressure(), referencePressure, entropyReference);
     }
 
     
     
-    public  double getAcentricFactorBasedVaporPressure(double temperature){
+    @Override
+    public  double calculatetAcentricFactorBasedVaporPressure(){
 	double pc = component.getCriticalPressure();
 	double w = component.getAcentricFactor();
 	double tc = component.getCriticalTemperature();

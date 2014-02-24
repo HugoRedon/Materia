@@ -12,14 +12,15 @@ import termo.phase.Phase;
  * @author
  * Hugo
  */
-public class HeterogeneousPureSubstance implements HeterogeneousSubstance{
+public class HeterogeneousPureSubstance extends HeterogeneousSubstance{
 
     private Cubic cubicEquationOfState;
     private Alpha alpha;
 
     private Component component;
-    private PureSubstance liquid;
-    private PureSubstance vapor;
+//    private PureSubstance liquid;
+//    private PureSubstance vapor;
+    
     
     
     public HeterogeneousPureSubstance(
@@ -34,68 +35,68 @@ public class HeterogeneousPureSubstance implements HeterogeneousSubstance{
 	vapor = new PureSubstance(eos, alpha, component, Phase.VAPOR);
     }
         
-    public EquilibriaSolution bubbleTemperatureEstimate(double pressure){
-	return temperatureEstimate(pressure);
-    }
-
-    @Override
-    public PureSubstance getLiquid() {
-	return liquid;
-    }
-
-    @Override
-    public PureSubstance getVapor() {
-	return vapor;
-    }
     
     
+    
+    
+    
+    
+    
+    @Override
+    public int bubbleTemperatureEstimate(){
+	return temperatureEstimate();
+    }
+
   
     
-    
     @Override
-    public EquilibriaSolution bubbleTemperature(double pressure) {
+    public int bubbleTemperature() {
 	
 	EquilibriaFunction function = new BubbleTemperatureFunctions();
-	return minimizeTemperature(function, pressure);
+	return minimizeTemperature(function);
     }
        
-    public double bubblePressureEstimate(double temperature){
-	return liquid.getAcentricFactorBasedVaporPressure(temperature);
+    @Override
+    public void bubblePressureEstimate(){
+	setPressure(liquid.calculatetAcentricFactorBasedVaporPressure());
     }
     
-    public EquilibriaSolution bubblePressure(double temperature) {
+    @Override
+    public int bubblePressure() {
 	EquilibriaFunction function = new BubblePressureFunctions();
-	return minimizePressure(function, temperature);
+	return minimizePressure(function);
     }
     
-    
-    
-    
-    public EquilibriaSolution dewTemperatureEstimate(double pressure) {
-	return temperatureEstimate(pressure);
+
+    public int dewTemperatureEstimate() {
+	return temperatureEstimate();
     }
 
-    public EquilibriaSolution dewTemperature(double pressure) {
+    public int dewTemperature(double pressure) {
 	EquilibriaFunction function = new DewTemperatureFunctions();
-	return minimizeTemperature(function, pressure);
+	return minimizeTemperature(function);
     }
      
-    public EquilibriaSolution dewPressureEstimate(double temperature) {
-	return new EquilibriaSolution(temperature, vapor.getAcentricFactorBasedVaporPressure(temperature), 0);
+    @Override
+    public void dewPressureEstimate() {
+	setPressure(vapor.calculatetAcentricFactorBasedVaporPressure());
+	//return new EquilibriaSolution(temperature, vapor.calculatetAcentricFactorBasedVaporPressure(), 0);
     }
     
-    public EquilibriaSolution dewPressure(double temperature) {
+    public int dewPressure(double temperature) {
 	
 	EquilibriaFunction function = new DewPressureFunctions();
-	return minimizePressure(function, temperature);
+	return minimizePressure(function);
     }
     
     
     
     
     
-    public EquilibriaSolution temperatureEstimate(double pressure){
-	double temperature =  300;	
+    public int temperatureEstimate(){
+	
+	setTemperature(300);
+	
 	double error = 100;
 	double deltaT =1;
 	double tol = 1e-3; 
@@ -103,14 +104,15 @@ public class HeterogeneousPureSubstance implements HeterogeneousSubstance{
 	while (Math.abs(error) >tol && iterations < 1000 ){
 	    iterations++;
 	    double T_  = temperature + deltaT;
-	    double vaporPressure = vapor.getAcentricFactorBasedVaporPressure(temperature);
-	    double vaporPressure_ = vapor.getAcentricFactorBasedVaporPressure(T_);
+	    
+	    double vaporPressure = vapor.calculatetAcentricFactorBasedVaporPressure();
+	    setTemperature(T_);
+	    double vaporPressure_ = vapor.calculatetAcentricFactorBasedVaporPressure();
 	    error = Math.log(vaporPressure / pressure);
 	    double error_ = Math.log(vaporPressure_ / pressure);
-	    temperature = (temperature * T_ *(error_ - error)) / (T_ * error_ - temperature * error);
+	    setTemperature((temperature * T_ *(error_ - error)) / (T_ * error_ - temperature * error));
 	} 
-	return new EquilibriaSolution(temperature, pressure, iterations);
-	//return temperature;
+	return  iterations;
     }
     
     
@@ -125,6 +127,15 @@ public class HeterogeneousPureSubstance implements HeterogeneousSubstance{
     
     
     
+      @Override
+    public PureSubstance getLiquid() {
+	return (PureSubstance)liquid;
+    }
+
+    @Override
+    public PureSubstance getVapor() {
+	return (PureSubstance) vapor;
+    }
     
     
     
@@ -143,9 +154,9 @@ public class HeterogeneousPureSubstance implements HeterogeneousSubstance{
     }
   
 
-    private EquilibriaSolution minimizeTemperature(EquilibriaFunction function,double pressure){
+    private int minimizeTemperature(EquilibriaFunction function){
 	EquilibriaSolution result = new EquilibriaSolution();
-	double temperature = temperatureEstimate(pressure).getTemperature();
+	temperatureEstimate();
 	result.setEstimateTemperature(temperature);
 	
 	double tolerance = 1e-4;
@@ -164,13 +175,13 @@ public class HeterogeneousPureSubstance implements HeterogeneousSubstance{
 	result.setPressure(pressure);
 	result.setIterations(count);
         //return new EquilibriaSolution(temperature, pressure, count);
-	return result;
+	return count;
     }
     
      
     
-    private EquilibriaSolution minimizePressure(EquilibriaFunction function,double temperature){
-	double pressure = bubblePressureEstimate(temperature);
+    private int minimizePressure(EquilibriaFunction function){
+	bubblePressureEstimate(temperature);
 	double tolerance = 1e-4; 
 	double deltaP = 0.0001;
 	double e = 100;
@@ -183,7 +194,9 @@ public class HeterogeneousPureSubstance implements HeterogeneousSubstance{
 	    double e_ = function.errorFunction(equilibriaRelation(temperature, pressure_));
 	    pressure =  function.newVariableFunction(pressure, pressure_, e, e_);
 	}  
-	return new EquilibriaSolution(temperature, pressure, count);
+	setPressure(pressure);
+	return count;
+	//return new EquilibriaSolution(temperature, pressure, count);
      
 }
 
@@ -217,26 +230,15 @@ class BubbleTemperatureFunctions implements EquilibriaFunction{
     
     
     
-      public double equilibriaRelation(double temperature, double pressure){
-	return liquid.calculateFugacity(temperature, pressure)/vapor.calculateFugacity(temperature, pressure);
+    public double equilibriaRelation(double temperature, double pressure){
+	  setTemperature(temperature);
+	  setPressure(pressure);
+	return getLiquid().calculateFugacity()/getVapor().calculateFugacity();
     }
   
     
 
-    
-    
-    
-    
    
-    
-    
-    
-    
- 
-
-  
-    
-    
 }
 class BubblePressureFunctions implements EquilibriaFunction{
     
