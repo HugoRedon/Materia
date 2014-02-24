@@ -1,5 +1,8 @@
 package termo.equilibrium;
 
+import java.util.HashMap;
+import termo.component.Component;
+
 /**
  *
  * @author Hugo Redon Rivera
@@ -10,10 +13,15 @@ public class EquilibriaSolution {
     private int iterations;
     private double vFRelation;
     
+    private double estimateTemperature;
     
     
-    private EquilibriaSolution estimateSolution;
     
+   
+    
+    public EquilibriaSolution(){
+	
+    }
     public EquilibriaSolution( 
 	    double temperature, 
 	    double pressure,
@@ -79,18 +87,32 @@ public class EquilibriaSolution {
 	this.vFRelation = vFRelation;
     }
 
+//    /**
+//     * @return the estimateSolution
+//     */
+//    public EstimateSolution getEstimateSolution() {
+//	return estimateSolution;
+//    }
+//
+//    /**
+//     * @param estimateSolution the estimateSolution to set
+//     */
+//    public void setEstimateSolution(EstimateSolution estimateSolution) {
+//	this.estimateSolution = estimateSolution;
+//    }
+
     /**
-     * @return the estimateSolution
+     * @return the estimateTemperature
      */
-    public EquilibriaSolution getEstimateSolution() {
-	return estimateSolution;
+    public double getEstimateTemperature() {
+	return estimateTemperature;
     }
 
     /**
-     * @param estimateSolution the estimateSolution to set
+     * @param estimateTemperature the estimateTemperature to set
      */
-    public void setEstimateSolution(EquilibriaSolution estimateSolution) {
-	this.estimateSolution = estimateSolution;
+    public void setEstimateTemperature(double estimateTemperature) {
+	this.estimateTemperature = estimateTemperature;
     }
         
 }

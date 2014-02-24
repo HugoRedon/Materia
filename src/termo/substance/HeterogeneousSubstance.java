@@ -11,7 +11,7 @@ import termo.equilibrium.EquilibriaSolution;
  * @author
  * Hugo
  */
-public interface HeterogenousSubstance {
+public interface HeterogeneousSubstance {
     public EquilibriaSolution bubbleTemperature(double pressure);
     
     public HomogeneousSubstance getLiquid();

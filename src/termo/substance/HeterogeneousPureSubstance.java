@@ -12,7 +12,7 @@ import termo.phase.Phase;
  * @author
  * Hugo
  */
-public class HeterogeneousPureSubstance implements HeterogenousSubstance{
+public class HeterogeneousPureSubstance implements HeterogeneousSubstance{
 
     private Cubic cubicEquationOfState;
     private Alpha alpha;
@@ -144,8 +144,10 @@ public class HeterogeneousPureSubstance implements HeterogenousSubstance{
   
 
     private EquilibriaSolution minimizeTemperature(EquilibriaFunction function,double pressure){
-	
+	EquilibriaSolution result = new EquilibriaSolution();
 	double temperature = temperatureEstimate(pressure).getTemperature();
+	result.setEstimateTemperature(temperature);
+	
 	double tolerance = 1e-4;
         double e = 100;
         double deltaT = 1;
@@ -158,7 +160,11 @@ public class HeterogeneousPureSubstance implements HeterogenousSubstance{
             double e_ = function.errorFunction(equilibriaRelation(temperature_, pressure));
             temperature = function.newVariableFunction(temperature, temperature_, e, e_);
         }
-        return new EquilibriaSolution(temperature, pressure, count);
+	result.setTemperature(temperature);
+	result.setPressure(pressure);
+	result.setIterations(count);
+        //return new EquilibriaSolution(temperature, pressure, count);
+	return result;
     }
     
      

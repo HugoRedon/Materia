@@ -17,7 +17,7 @@ import termo.phase.Phase;
  * @author
  * Hugo
  */
-public class HeterogeneousMixtureSubstance implements HeterogenousSubstance{
+public class HeterogeneousMixtureSubstance implements HeterogeneousSubstance{
     Cubic equationOfState;
     Alpha alpha;
     MixingRule mixingRule;
@@ -362,10 +362,7 @@ public class HeterogeneousMixtureSubstance implements HeterogenousSubstance{
 	    getLiquid().setFractions(newFractions(x_));
 
 	    y_ = y_(x_, K);
-	    getVapor().setFractions(newFractions(y_));
-                
-            
-        
+	    getVapor().setFractions(newFractions(y_));  
         return  vF;
     }
     
