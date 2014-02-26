@@ -47,11 +47,11 @@ public class HeterogeneousMixtureSubstanceTest {
 	components.add(ethane);
 	components.add(propane);
 	
-//	InteractionParameter b = new InteractionParameter();
-//	b.setValue(propane, ethane, 0, true);
-	MixingRule mr = new VDWMixingRule();
-	
-	substance = new HeterogeneousMixtureSubstance(eos,alpha,mr,components);
+//	InteractionParameter calculate_b_cubicParameter = new InteractionParameter();
+//	calculate_b_cubicParameter.setValue(propane, ethane, 0, true);
+//	MixingRule mr = new VDWMixingRule();
+//	
+//	substance = new HeterogeneousMixtureSubstance(eos,alpha,mr,components);
 	
 	substance.setZFraction(propane,0.7);
 	substance.setZFraction(ethane, 0.3);

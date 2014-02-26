@@ -65,7 +65,7 @@ public class WilsonActivityModelTest {
 	
 	InteractionParameter param = new ActivityModelBinaryParameter();
 	
-	substance = new HeterogeneousMixtureSubstance(eos, alpha, huronVidal, components,  param);
+//	substance = new HeterogeneousMixtureSubstance(eos, alpha, huronVidal, components,  param);
 	
 	
 	

@@ -11,6 +11,7 @@ import termo.eos.Cubic;
 import termo.eos.EquationOfStateFactory;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
+import termo.phase.Phase;
 import termo.substance.PureSubstance;
 
 /**
@@ -23,7 +24,7 @@ public class VDWMixingRuleTest {
     HashMap<PureSubstance, Double> fractions;
     InteractionParameter b;
     public VDWMixingRuleTest() {
-	rule = new VDWMixingRule();
+	
 	
 	
 	Component ethane = new Component( );
@@ -56,17 +57,23 @@ public class VDWMixingRuleTest {
 	propanePure.setAlpha(alpha);
 	propanePure.setComponent(propane);
 	
-	fractions = new HashMap();
+	//fractions = new HashMap();
 	
-	fractions.put(propanePure, 0.7);
-	fractions.put(ethanePure, 0.3);
+	ArrayList<Component> components = new ArrayList();
+	components.add(ethane);
+	components.add(propane);
 	
 	
 	 b = new InteractionParameter(true);
 	b.setValue(propane, ethane, 0.05);
-	MixingRule mr = new VDWMixingRule();
+	rule = new VDWMixingRule(eos, alpha, components, Phase.VAPOR, b);
+	rule.setFraction(propane, 0.7);
+	rule.setFraction(ethane, 0.3);
 	
+	//fractions.put(propanePure, 0.7);
+	//fractions.put(ethanePure, 0.3);
 	
+	//rule.setFractions(fractions);
 
     }
 
@@ -75,25 +82,27 @@ public class VDWMixingRuleTest {
 	System.out.println("a");
 	double temperature =298;
 
-	for(PureSubstance pure: fractions.keySet()){
-	    pure.setTemperature(temperature);
-	}
+//	for(PureSubstance pure: fractions.keySet()){
+//	    pure.setTemperature(temperature);
+//	}
+	
+	rule.setTemperature(temperature);
 	
 	double expResult = 950499.221;
-	double result = rule.a(temperature, fractions, b);
+	double result = rule.calculate_a_cubicParameter();
 	assertEquals(expResult, result, 1e-3);
 	
     }
 
     @Test
     public void testB() {
-//	System.out.println("b");
+//	System.out.println("calculate_b_cubicParameter");
 //	HashMap<Component, Double> singleBs = null;
 //	ArrayList<Component> components = null;
 //	HashMap<Component, Double> fractions = null;
 //	VDWMixingRule instance = new VDWMixingRule();
 //	double expResult = 0.0;
-//	double result = instance.b(singleBs, components, fractions);
+//	double result = instance.calculate_b_cubicParameter(singleBs, components, fractions);
 //	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
@@ -109,27 +118,27 @@ public class VDWMixingRuleTest {
 	}
 	
 	
-	InteractionParameter k = new InteractionParameter();
-	VDWMixingRule instance = new VDWMixingRule();
-	double expResult = 0.0;
-	double result = instance.temperatureParcial_a(temperature, fractions, k);
-	assertEquals(expResult, result, 0.0);
+//	InteractionParameter k = new InteractionParameter();
+//	VDWMixingRule instance = new VDWMixingRule();
+//	double expResult = 0.0;
+//	double result = instance.temperatureParcial_a(temperature, fractions, k);
+//	assertEquals(expResult, result, 0.0);
 	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
     }
 
     @Test
     public void testOneOverNParcial_aN2RespectN() {
-	System.out.println("oneOverNParcial_aN2RespectN");
-	double temperature = 0.0;
-	PureSubstance iComponent = null;
-	HashMap<PureSubstance, Double> fractions = null;
-	InteractionParameter k = null;
-	VDWMixingRule instance = new VDWMixingRule();
-	double expResult = 0.0;
-	double result = instance.oneOverNParcial_aN2RespectN(temperature, iComponent, fractions, k);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+//	System.out.println("oneOverNParcial_aN2RespectN");
+//	double temperature = 0.0;
+//	PureSubstance iComponent = null;
+//	HashMap<PureSubstance, Double> fractions = null;
+//	InteractionParameter k = null;
+//	VDWMixingRule instance = new VDWMixingRule();
+//	double expResult = 0.0;
+//	double result = instance.oneOver_N_Parcial_a(temperature, iComponent, fractions, k);
+//	assertEquals(expResult, result, 0.0);
+//	// TODO review the generated test code and remove the default call to fail.
+//	fail("The test case is a prototype.");
     }
 }

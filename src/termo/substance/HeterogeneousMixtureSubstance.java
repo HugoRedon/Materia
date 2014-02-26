@@ -33,32 +33,32 @@ public class HeterogeneousMixtureSubstance extends HeterogeneousSubstance{
     
     private HashMap<Component,Double> zFractions = new HashMap(); 
     
-    public HeterogeneousMixtureSubstance(
-	    Cubic eos,
-	    Alpha alpha,
-	    MixingRule mixingrule, 
-	    ArrayList<Component> components){
-	this.equationOfState = eos;
-	this.alpha = alpha;
-	this.components = components;
-	this.mixingRule = mixingrule;
-	
-	vapor = new MixtureSubstance(equationOfState, alpha,mixingrule, components,Phase.VAPOR);
-	liquid = new MixtureSubstance(equationOfState,alpha,mixingrule,components,Phase.LIQUID);
-    }
-    public HeterogeneousMixtureSubstance(
-	    Cubic eos,
-	    Alpha alpha,
-	    MixingRule mixingrule, 
-	    ArrayList<Component> components, InteractionParameter k){
-	this.equationOfState = eos;
-	this.alpha = alpha;
-	this.components = components;
-	this.mixingRule = mixingrule;
-	
-	vapor = new MixtureSubstance(equationOfState, alpha,mixingrule, components,Phase.VAPOR,k);
-	liquid = new MixtureSubstance(equationOfState,alpha,mixingrule,components,Phase.LIQUID,k);
-    }
+//    public HeterogeneousMixtureSubstance(
+//	    Cubic eos,
+//	    Alpha alpha,
+//	    MixingRule mixingrule, 
+//	    ArrayList<Component> components){
+//	this.equationOfState = eos;
+//	this.alpha = alpha;
+//	this.components = components;
+//	this.mixingRule = mixingrule;
+//	
+//	vapor = new MixtureSubstance(equationOfState, alpha,mixingrule, components,Phase.VAPOR);
+//	liquid = new MixtureSubstance(equationOfState,alpha,mixingrule,components,Phase.LIQUID);
+//    }
+//    public HeterogeneousMixtureSubstance(
+//	    Cubic eos,
+//	    Alpha alpha,
+//	    MixingRule mixingrule, 
+//	    ArrayList<Component> components, InteractionParameter k){
+//	this.equationOfState = eos;
+//	this.alpha = alpha;
+//	this.components = components;
+//	this.mixingRule = mixingrule;
+//	
+//	vapor = new MixtureSubstance(equationOfState, alpha,mixingrule, components,Phase.VAPOR,k);
+//	liquid = new MixtureSubstance(equationOfState,alpha,mixingrule,components,Phase.LIQUID,k);
+//    }
     
     
     @Override
