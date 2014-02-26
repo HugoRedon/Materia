@@ -19,11 +19,11 @@ public class DIPPR_107_Equation implements CpEquation,Serializable{
     private double E;
 
     public DIPPR_107_Equation(Component component) {
-	this.A = component.getA_Cp();
-	this.B = component.getB_Cp();
-	this.C = component.getC_Cp();
-	this.D = component.getD_Cp();
-	this.E = component.getE_Cp();
+	this.A = component.getA_dippr107Cp();
+	this.B = component.getB_dippr107Cp();
+	this.C = component.getC_dippr107Cp();
+	this.D = component.getD_dippr107Cp();
+	this.E = component.getE_dippr107Cp();
     }
     
     

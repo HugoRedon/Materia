@@ -172,7 +172,15 @@ public class PureSubstance extends HomogeneousSubstance {
     }
     @Override
     public  double calculateIdealGasEntropy() {
-        double entropyReference = component.getAbsoluteEntropyofIdealGasat298_15Kand101325Pa();
+        double entropyReference = component.getAbsoluteEntropyofIdealGasat298_15Kand101325Pa();//
+	
+	//calculating idealgas of formation from enthalpy and gibbs
+	double enthalpy = component.getEnthalpyofFormationofIdealgasat298_15Kand101325Pa();
+	double gibbs = component.getGibbsEnergyofFormationofIdealGasat298_15Kand101325Pa();
+	double entropyFormation = (enthalpy - gibbs)/temperature;
+	
+	entropyReference = entropyFormation;
+	
         double referenceTemperature = 298.15;
         double referencePressure = 101325;
         return component.getCp().idealGasEntropy(super.getTemperature(), referenceTemperature, super.getPressure(), referencePressure, entropyReference);

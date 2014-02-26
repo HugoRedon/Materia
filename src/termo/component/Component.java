@@ -62,11 +62,18 @@ public class Component implements Serializable {
     
     private CpEquation cp;
     
-    private double A_Cp;
-    private double B_Cp;
-    private double C_Cp;
-    private double D_Cp;
-    private double E_Cp;
+    private double A_dippr107Cp;
+    private double B_dippr107Cp;
+    private double C_dippr107Cp;
+    private double D_dippr107Cp;
+    private double E_dippr107Cp;
+    
+    private double A_PolinomialCp;
+    private double B_PolinomialCp;
+    private double C_PolinomialCp;
+    private double D_PolinomialCp;
+    private double E_PolinomialCp;
+    private double F_PolinomialCp;
     
 		    
     
@@ -1069,71 +1076,155 @@ public class Component implements Serializable {
     /**
      * @return the A_Cp
      */
-    public double getA_Cp() {
-	return A_Cp;
+    public double getA_dippr107Cp() {
+	return A_dippr107Cp;
     }
 
     /**
      * @param A_Cp the A_Cp to set
      */
-    public void setA_Cp(double A_Cp) {
-	this.A_Cp = A_Cp;
+    public void setA_dippr107Cp(double A_Cp) {
+	this.A_dippr107Cp = A_Cp;
     }
 
     /**
      * @return the B_Cp
      */
-    public double getB_Cp() {
-	return B_Cp;
+    public double getB_dippr107Cp() {
+	return B_dippr107Cp;
     }
 
     /**
      * @param B_Cp the B_Cp to set
      */
-    public void setB_Cp(double B_Cp) {
-	this.B_Cp = B_Cp;
+    public void setB_dippr107Cp(double B_Cp) {
+	this.B_dippr107Cp = B_Cp;
     }
 
     /**
      * @return the C_Cp
      */
-    public double getC_Cp() {
-	return C_Cp;
+    public double getC_dippr107Cp() {
+	return C_dippr107Cp;
     }
 
     /**
      * @param C_Cp the C_Cp to set
      */
-    public void setC_Cp(double C_Cp) {
-	this.C_Cp = C_Cp;
+    public void setC_dippr107Cp(double C_Cp) {
+	this.C_dippr107Cp = C_Cp;
     }
 
     /**
      * @return the D_Cp
      */
-    public double getD_Cp() {
-	return D_Cp;
+    public double getD_dippr107Cp() {
+	return D_dippr107Cp;
     }
 
     /**
      * @param D_Cp the D_Cp to set
      */
-    public void setD_Cp(double D_Cp) {
-	this.D_Cp = D_Cp;
+    public void setD_dippr107Cp(double D_Cp) {
+	this.D_dippr107Cp = D_Cp;
     }
 
     /**
      * @return the E_Cp
      */
-    public double getE_Cp() {
-	return E_Cp;
+    public double getE_dippr107Cp() {
+	return E_dippr107Cp;
     }
 
     /**
      * @param E_Cp the E_Cp to set
      */
-    public void setE_Cp(double E_Cp) {
-	this.E_Cp = E_Cp;
+    public void setE_dippr107Cp(double E_Cp) {
+	this.E_dippr107Cp = E_Cp;
+    }
+
+    /**
+     * @return the A_PolinomialCp
+     */
+    public double getA_PolinomialCp() {
+	return A_PolinomialCp;
+    }
+
+    /**
+     * @param A_PolinomialCp the A_PolinomialCp to set
+     */
+    public void setA_PolinomialCp(double A_PolinomialCp) {
+	this.A_PolinomialCp = A_PolinomialCp;
+    }
+
+    /**
+     * @return the B_PolinomialCp
+     */
+    public double getB_PolinomialCp() {
+	return B_PolinomialCp;
+    }
+
+    /**
+     * @param B_PolinomialCp the B_PolinomialCp to set
+     */
+    public void setB_PolinomialCp(double B_PolinomialCp) {
+	this.B_PolinomialCp = B_PolinomialCp;
+    }
+
+    /**
+     * @return the C_PolinomialCp
+     */
+    public double getC_PolinomialCp() {
+	return C_PolinomialCp;
+    }
+
+    /**
+     * @param C_PolinomialCp the C_PolinomialCp to set
+     */
+    public void setC_PolinomialCp(double C_PolinomialCp) {
+	this.C_PolinomialCp = C_PolinomialCp;
+    }
+
+    /**
+     * @return the D_PolinomialCp
+     */
+    public double getD_PolinomialCp() {
+	return D_PolinomialCp;
+    }
+
+    /**
+     * @param D_PolinomialCp the D_PolinomialCp to set
+     */
+    public void setD_PolinomialCp(double D_PolinomialCp) {
+	this.D_PolinomialCp = D_PolinomialCp;
+    }
+
+    /**
+     * @return the E_PolinomialCp
+     */
+    public double getE_PolinomialCp() {
+	return E_PolinomialCp;
+    }
+
+    /**
+     * @param E_PolinomialCp the E_PolinomialCp to set
+     */
+    public void setE_PolinomialCp(double E_PolinomialCp) {
+	this.E_PolinomialCp = E_PolinomialCp;
+    }
+
+    /**
+     * @return the F_PolinomialCp
+     */
+    public double getF_PolinomialCp() {
+	return F_PolinomialCp;
+    }
+
+    /**
+     * @param F_PolinomialCp the F_PolinomialCp to set
+     */
+    public void setF_PolinomialCp(double F_PolinomialCp) {
+	this.F_PolinomialCp = F_PolinomialCp;
     }
 
 
