@@ -4,8 +4,6 @@
  */
 package termo.substance;
 
-import termo.equilibrium.EquilibriaSolution;
-
 /**
  *
  * @author
@@ -19,6 +17,13 @@ public abstract class HeterogeneousSubstance {
     protected double temperature;
     protected double pressure;
     
+//    
+//    public abstract class SubstancePhase {
+//	
+//	double temperature = this.temperature;
+//	double pressure = this.pressure;
+//    }
+//   
     
     public void setTemperature(double temperature){
 	this.temperature = temperature;

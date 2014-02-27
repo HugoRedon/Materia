@@ -73,7 +73,7 @@ public class WongSandlerMixingRuleTest {
 	fractions.put(cj, 0.7);
 	
 	
-	 instance = new HuronVidalMixingRule(new WilsonActivityModel(),eos);
+//	 instance = new HuronVidalMixingRule(new WilsonActivityModel(),eos);
 	
 	
     }
@@ -98,7 +98,8 @@ public class WongSandlerMixingRuleTest {
 //	ms.setPressure(pressure);
 //	double expResult = 23.7019;//quien sabe
 //	double resutl = ms.calculateFugacity(ethane);
-//	assertEquals(expResult, resutl,1e-3);
+//	assertEquals(expResult, resutl,1e-3);+
+	fail();
     }
     
     @Test
@@ -123,6 +124,7 @@ public class WongSandlerMixingRuleTest {
 //	double expResult = 23.7019;//quien sabe
 //	double resutl = ms.calculateFugacity(ethane);
 //	assertEquals(expResult, resutl,1e-3);
+	fail();
     }
     
     

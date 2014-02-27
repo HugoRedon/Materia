@@ -67,7 +67,7 @@ public class NRTLActivityModelTest {
 	fractions.put(cj, 0.7);
 	
 	
-	 hv = new HuronVidalMixingRule(new WilsonActivityModel(),eos);
+//	 hv = new HuronVidalMixingRule(new WilsonActivityModel(),eos);
 	
 	
     }

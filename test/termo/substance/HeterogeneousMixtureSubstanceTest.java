@@ -15,6 +15,7 @@ import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.eos.mixingRule.MixingRule;
 import termo.eos.mixingRule.VDWMixingRule;
+import termo.phase.Phase;
 
 /**
  *
@@ -47,11 +48,19 @@ public class HeterogeneousMixtureSubstanceTest {
 	components.add(ethane);
 	components.add(propane);
 	
-//	InteractionParameter calculate_b_cubicParameter = new InteractionParameter();
+	InteractionParameter k = new InteractionParameter();
 //	calculate_b_cubicParameter.setValue(propane, ethane, 0, true);
 //	MixingRule mr = new VDWMixingRule();
+	substance = new HeterogeneousMixtureSubstance();
+	substance.setComponents(components);
+	VDWMixingRule vdwLiquid = new VDWMixingRule(eos, alpha, components, Phase.LIQUID, k);
+	VDWMixingRule vdwVapor = new VDWMixingRule(eos, alpha, components, Phase.VAPOR, k);
+	substance.setLiquid(vdwLiquid);
+	substance.setVapor(vdwVapor);
 //	
-//	substance = new HeterogeneousMixtureSubstance(eos,alpha,mr,components);
+	//substance = new HeterogeneousMixtureSubstance(eos,alpha,mr,components);
+	
+	
 	
 	substance.setZFraction(propane,0.7);
 	substance.setZFraction(ethane, 0.3);

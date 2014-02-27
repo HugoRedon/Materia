@@ -38,7 +38,15 @@ public abstract class MixtureSubstance extends HomogeneousSubstance{
     }
     
     
-    
+     public MixtureSubstance(Cubic equationOfState,Alpha alpha,  ArrayList<Component> components,Phase phase, InteractionParameter k){
+	super(equationOfState,phase);
+	
+	for (Component component:components){
+	    PureSubstance sub = new PureSubstance(equationOfState, alpha, component, phase);
+	    pureSubstances.add(sub);
+	}
+	this.binaryParameters = k;
+    }
     public MixtureSubstance(Cubic cubic ,Phase phase){
 	super(cubic, phase);
     }
@@ -61,7 +69,7 @@ public abstract class MixtureSubstance extends HomogeneousSubstance{
     }
     
     private PureSubstance getPureSubstance(Component component){
-	PureSubstance result = new PureSubstance();
+	PureSubstance result = null;
 	for(PureSubstance pure: pureSubstances){
 	    if(component.equals(pure.getComponent())){
 		result = pure;

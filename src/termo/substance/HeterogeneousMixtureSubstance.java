@@ -18,15 +18,15 @@ import termo.phase.Phase;
  * Hugo
  */
 public class HeterogeneousMixtureSubstance extends HeterogeneousSubstance{
-    Cubic equationOfState;
-    Alpha alpha;
-    MixingRule mixingRule;
+//    Cubic equationOfState;
+//    Alpha alpha;
+//    MixingRule mixingRule;
     
     private ArrayList<Component> components;
     
 //    private MixtureSubstance vapor;
 //    private MixtureSubstance liquid;
-    
+//    
    
     
     

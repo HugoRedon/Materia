@@ -66,7 +66,7 @@ public class VDWMixingRuleTest {
 	
 	 b = new InteractionParameter(true);
 	b.setValue(propane, ethane, 0.05);
-	rule = new VDWMixingRule(eos, alpha, components, Phase.VAPOR, b);
+	rule = new VDWMixingRuleBuilder().setEquationOfState(eos).setAlpha(alpha).setComponents(components).setPhase(Phase.VAPOR).setK(b).createVDWMixingRule();
 	rule.setFraction(propane, 0.7);
 	rule.setFraction(ethane, 0.3);
 	

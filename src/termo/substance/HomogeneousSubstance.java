@@ -2,7 +2,6 @@
 package termo.substance;
 
 import termo.Constants;
-import termo.component.Component;
 import termo.eos.Cubic;
 import termo.phase.Phase;
 
@@ -51,12 +50,6 @@ public abstract class  HomogeneousSubstance  {
 	
 	return  cubicEquationOfState.calculateCompresibilityFactor(A, B, getPhase());
     }
-    
-//     public double bi(PureSubstance pureSubstance){
-//        return pureSubstance.calculate_b_cubicParameter();
-//    }
-    
-       
     protected double calculateFugacity( PureSubstance pureSubstance){
         double a = calculate_a_cubicParameter();
         double b = calculate_b_cubicParameter();
@@ -67,8 +60,7 @@ public abstract class  HomogeneousSubstance  {
         double parciala = oneOver_N_Parcial_a( pureSubstance);
         
         return getCubicEquationOfState().calculateFugacity(temperature, pressure, a, b, parciala, parcialb, getPhase());
-    }
-    
+    }  
     private double calculateEntropy( double volume){
         double idealGasEntropy = calculateIdealGasEntropy();
         double b = calculate_b_cubicParameter();
@@ -99,76 +91,34 @@ public abstract class  HomogeneousSubstance  {
 	double volume = calculateMolarVolume();
 	return calculateEnthalpy( volume);
     }
-        
-            /**
-     * @return the cubicEquationOfState
-     */
     public Cubic getCubicEquationOfState() {
         return cubicEquationOfState;
     }
-
-    /**
-     * @param cubicEquationOfState the cubicEquationOfState to set
-     */
     public void setCubicEquationOfState(Cubic cubicEquationOfState) {
         this.cubicEquationOfState = cubicEquationOfState;
     }
-
     public abstract double calculatetAcentricFactorBasedVaporPressure();
-//    public abstract EquilibriaSolution bubbleTemperature(double pressure);
-//    public abstract EquilibriaSolution bubblePressure(double temperature);
-//    public abstract EquilibriaSolution bubbleTemperatureEstimate(double pressure);
-//    public abstract double bubblePressureEstimate(double temperature);
-//    public abstract EquilibriaSolution dewTemperature(double pressure);
-//    public abstract EquilibriaSolution dewTemperatureEstimate(double pressure);
-//    public abstract EquilibriaSolution dewPressureEstimate(double temperature);
-//    public abstract EquilibriaSolution dewPressure(double temperature);
-
-    /**
-     * @return the phase
-     */
     public Phase getPhase() {
 	return phase;
     }
-
-    /**
-     * @param phase the phase to set
-     */
     public void setPhase(Phase phase) {
 	this.phase = phase;
     }
-
     public double calculateGibbs() {
 	double enthalpy = calculateEnthalpy();
 	double entropy = calculateEntropy();
 	
 	return enthalpy - temperature * entropy;
     }
-
-    /**
-     * @return the temperature
-     */
     public double getTemperature() {
 	return temperature;
     }
-
-    /**
-     * @param temperature the temperature to set
-     */
     public void setTemperature(double temperature) {
 	this.temperature = temperature;
     }
-
-    /**
-     * @return the pressure
-     */
     public double getPressure() {
 	return pressure;
     }
-
-    /**
-     * @param pressure the pressure to set
-     */
     public void setPressure(double pressure) {
 	this.pressure = pressure;
     }

@@ -23,10 +23,10 @@ public class PureSubstance extends HomogeneousSubstance {
 	this.alpha = alpha;
 	this.component = component;
     }
-    private PureSubstance(Alpha alpha , Component component){
-	this.alpha = alpha;
-	this.component = component;
-    }
+//    private PureSubstance(Alpha alpha , Component component){
+//	this.alpha = alpha;
+//	this.component = component;
+//    }
     
     public PureSubstance(Cubic eos,Alpha alpha,Component component,Phase phase ){
 	super(eos,phase);

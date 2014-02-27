@@ -61,7 +61,7 @@ public class WilsonActivityModelTest {
 	
 	
 	WilsonActivityModel activity = new WilsonActivityModel();
-	MixingRule huronVidal = new HuronVidalMixingRule(activity,eos);
+//	MixingRule huronVidal = new HuronVidalMixingRule(activity,eos);
 	
 	InteractionParameter param = new ActivityModelBinaryParameter();
 	

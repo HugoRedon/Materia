@@ -36,11 +36,13 @@ public class HuronVidalMixingRuleTest {
     InteractionParameter k = new ActivityModelBinaryParameter();
     
     ArrayList<Component> components = new ArrayList<>();
-    PureSubstance ci;
+    PureSubstance ethanePure;
+    PureSubstance propanePure;
     
     Cubic eos;
     
-    public HuronVidalMixingRuleTest() {
+    
+    public final void createComponents(){
 	ethane = new Component();
 	
 	ethane.setName("Ethane");
@@ -60,22 +62,27 @@ public class HuronVidalMixingRuleTest {
 	components.add(ethane);
 	components.add(propane);
 	
+    }
+//    public final void createPureSubstaces(){
+//	eos = EquationOfStateFactory.pengRobinsonBase();
+//	
+//	ethanePure = new PureSubstance(eos, alpha, ethane, Phase.VAPOR);
+//	propanePure = new PureSubstance(eos, alpha, propane, Phase.VAPOR);
+//    }
+    
+    public HuronVidalMixingRuleTest() {
 	
-	fractions = new HashMap();
-	
-	eos = EquationOfStateFactory.pengRobinsonBase();
+	createComponents();
+//	createPureSubstaces();
+	eos =EquationOfStateFactory.pengRobinsonBase();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
-	
-	ci = new PureSubstance(eos, alpha, ethane, Phase.VAPOR);
-	PureSubstance cj = new PureSubstance(eos, alpha, propane, Phase.VAPOR);
-	
-	fractions.put(ci, 0.3);
-	fractions.put(cj, 0.7);
+	ethanePure = new PureSubstance(eos, alpha, ethane, Phase.VAPOR);
 	
 	
-	 instance = new HuronVidalMixingRule(new WilsonActivityModel(),eos);
-	
-	
+	instance = new HuronVidalMixingRule(eos, alpha, components, Phase.VAPOR, k, new WilsonActivityModel());
+	instance.setBinaryParameters(k);
+	instance.setFraction(propane, 0.7);
+	instance.setFraction(ethane, 0.3);
     }
 
     @Test
@@ -83,25 +90,25 @@ public class HuronVidalMixingRuleTest {
 	System.out.println("a");
 	double temperature = 298;
 
-	for(PureSubstance pure: fractions.keySet()){
-	    pure.setTemperature(temperature);
-	}
-	
+//	for(PureSubstance pure: fractions.keySet()){
+//	    pure.setTemperature(temperature);
+//	}
+	instance.setTemperature(temperature);
 	double expResult = 9.70355653e5;
-	double result = instance.a(temperature, fractions, k);
+	double result = instance.calculate_a_cubicParameter();
 	assertEquals(expResult, result, 1e-3);
 
     }
 
     @Test
     public void testB() {
-	System.out.println("b");
-	HashMap<PureSubstance, Double> fractions = null;
-	HuronVidalMixingRule instance = null;
-	double expResult = 0.0;
-	double result = instance.b(fractions, 0,null);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
+//	System.out.println("b");
+//	HashMap<PureSubstance, Double> fractions = null;
+//	HuronVidalMixingRule instance = null;
+//	double expResult = 0.0;
+//	double result = instance.calculate_b_cubicParameter(fractions, 0,null);
+//	assertEquals(expResult, result, 0.0);
+//	// TODO review the generated test code and remove the default call to fail.
 	fail("The test case is a prototype.");
     }
 
@@ -111,9 +118,11 @@ public class HuronVidalMixingRuleTest {
 	double temperature = 298;
 	
 
-	
+	    
 	double expResult = 0.0;
-	double result = instance.oneOverNParcial_aN2RespectN(temperature, ci, fractions, k);
+	instance.setTemperature(temperature);
+	ethanePure.setTemperature(temperature);
+	double result = instance.oneOver_N_Parcial_a( ethanePure);
 	assertEquals(expResult, result, 1e-3);
 
     }
@@ -144,7 +153,7 @@ public class HuronVidalMixingRuleTest {
 //	double expResult = 0;
 //	double result = vdw.calculateFugacity(ethane);
 //		
-//	fail();
+	fail();
     }
     
     
@@ -157,12 +166,14 @@ public class HuronVidalMixingRuleTest {
 //	ms.setFraction(ethane, 0.3);
 //	ms.setFraction(propane, 0.7);
 //	
-//	ms.setTemperature(298);
-//	ms.setPressure(101325);
-//	double expResult = 24.8948;
-//	double result = ms.calculateFugacity(ethane);
-//	assertEquals(expResult, result,1e-3);
+	instance.setTemperature(298);
+	instance.setPressure(101325);
+	instance.setPhase(Phase.LIQUID);
+	double expResult = 24.8948;
 	
+	double result = instance.calculateFugacity(ethane);
+	assertEquals(expResult, result,1e-3);
+//	fail();
     }
     
     
@@ -173,18 +184,20 @@ public class HuronVidalMixingRuleTest {
 //	
 //	HuronVidalMixingRule hv = new HuronVidalMixingRule(nrtl, eos);
 //	
-//	MixtureSubstance ms = new MixtureSubstance(EquationOfStateFactory.pengRobinsonBase(), AlphaFactory.getStryjekAndVeraExpression(), hv, components, Phase.LIQUID, k);
+	NRTLActivityModel nrtl = new NRTLActivityModel();
+	MixtureSubstance ms = new HuronVidalMixingRule(EquationOfStateFactory.pengRobinsonBase(), AlphaFactory.getStryjekAndVeraExpression(), components, Phase.LIQUID, k,nrtl);
 //	
 //	//ms.setMolarFractions(fractions);
-//	ms.setFraction(ethane, 0.3);
-//	ms.setFraction(propane, 0.7);
+	ms.setFraction(ethane, 0.3);
+	ms.setFraction(propane, 0.7);
 //	
-//	ms.setTemperature(298);
-//	ms.setPressure(101325);
-//	double expResult = 25.3062;
-//	double result = ms.calculateFugacity(ethane);
-//	
-//	assertEquals(expResult, result, 1e-3);
+	ms.setTemperature(298);
+	ms.setPressure(101325);
+	double expResult = 25.3062;
+	double result = ms.calculateFugacity(ethane);
+	
+	assertEquals(expResult, result, 1e-3);
+//	fail();
     }
 
     @Test
