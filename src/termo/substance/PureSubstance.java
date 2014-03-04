@@ -197,9 +197,9 @@ public class PureSubstance extends HomogeneousSubstance {
 	return  pc * Math.pow(10,(-7d/3d)* (1+w) * ((tc/temperature) - 1 ) );
     }
 
+  
+
     
-    
-       
 }
 
 

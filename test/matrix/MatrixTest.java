@@ -1,0 +1,156 @@
+package matrix;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class MatrixTest {
+    
+    double[][] matrix ={
+        {1,0,2},
+        {2,-1,3},
+        {4,1,8}
+    };
+    public MatrixTest() {
+        
+        
+    }
+    
+
+
+    /**
+     * Test of inverse method, of class Matrix.
+     */
+    @Test
+    public void testInverse() {
+        System.out.println("inverse");
+        
+        Matrix instance = new Matrix(matrix);
+        double[][] expResult  ={
+            {-11,2,2},
+            {-4,0,1},
+            {6,-1,-1}
+        };
+        double[][] result = instance.inverse();
+        assertArrayEquals(expResult, result);
+    }
+
+    /**
+     * Test of cofactorMatrix method, of class Matrix.
+     */
+    @Test
+    public void testCofactorMatrix() {
+        System.out.println("cofactorMatrix");
+        
+        Matrix instance = new Matrix(matrix);
+        double[][] expResult ={
+            {-11,-4,6},
+            {2,0,-1},
+            {2,1,-1}
+        };
+        double[][] result = instance.cofactorMatrix();
+        assertArrayEquals(expResult, result);
+       
+        
+    }
+
+    /**
+     * Test of menor method, of class Matrix.
+     */
+    @Test
+    public void testMenor11() {
+        System.out.println("menor");
+        int i = 1;
+        int j = 1;
+        Matrix instance = new Matrix(matrix);
+        double expResult = -11;
+        double result = instance.menor(i, j);
+        assertEquals(expResult, result, 0.0);
+       
+    }
+    
+        @Test
+    public void testMenor12() {
+        System.out.println("menor");
+        int i = 1;
+        int j = 2;
+        Matrix instance = new Matrix(matrix);
+        double expResult = -4;
+        double result = instance.menor(i, j);
+        assertEquals(expResult, result, 0.0);
+       
+    }
+
+    @Test
+    public void testMenor13() {
+        System.out.println("menor");
+        int i = 1;
+        int j = 3;
+        Matrix instance = new Matrix(matrix);
+        double expResult = 6;
+        double result = instance.menor(i, j);
+        assertEquals(expResult, result, 0.0);
+       
+    }
+    @Test
+    public void testMenor21() {
+        System.out.println("menor");
+        int i = 2;
+        int j = 1;
+        Matrix instance = new Matrix(matrix);
+        double expResult = 2;
+        double result = instance.menor(i, j);
+        assertEquals(expResult, result, 0.0);
+       
+    }
+     @Test
+    public void testMenor22() {
+        System.out.println("menor");
+        int i = 2;
+        int j = 2;
+        Matrix instance = new Matrix(matrix);
+        double expResult = 0;
+        double result = instance.menor(i, j);
+        assertEquals(expResult, result, 0.0);
+       
+    }
+    
+    /**
+     * Test of determinant method, of class Matrix.
+     */
+    @Test
+    public void testDeterminant() {
+        System.out.println("determinant");
+        
+        Matrix instance = new Matrix(matrix);
+        double expResult = 1;
+        double result = instance.determinant();
+        assertEquals(expResult, result, 0.0);
+    
+    }
+
+    /**
+     * Test of transposeMatrix method, of class Matrix.
+     */
+    @Test
+    public void testTransposeMatrix() {
+         System.out.println("transpose");
+        
+        Matrix instance = new Matrix(matrix);
+        double[][] expResult ={
+            {1,2,4},
+            {0,-1,1},
+            {2,3,8}
+        };
+        double[][] result = instance.transposeMatrix();
+        assertArrayEquals(expResult, result);
+       
+        
+    }
+
+
+    
+}

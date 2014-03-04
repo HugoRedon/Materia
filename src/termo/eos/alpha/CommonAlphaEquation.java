@@ -15,7 +15,7 @@ public abstract class CommonAlphaEquation extends Alpha implements Serializable{
     
     private double x = 1;
     
-    
+
     
     public abstract double get_q(Component component);
 
@@ -175,7 +175,7 @@ class StryjekAndVera extends CommonAlphaEquation {
     public double get_q(Component component) {
 	return component.getPrsvKappa();
     }
-}
+    }
 
 class SoaveAlpha extends CommonAlphaEquation{
     public SoaveAlpha(){
@@ -189,7 +189,7 @@ class SoaveAlpha extends CommonAlphaEquation{
     public double get_q(Component component) {
 	return 0;
     }
-}
+    }
 
 class MathiasAlpha extends CommonAlphaEquation{
     public MathiasAlpha(){
@@ -204,8 +204,8 @@ class MathiasAlpha extends CommonAlphaEquation{
     public double get_q(Component component) {
 	return component.getSRK_A();
     }
-}
-
+    }
+    
 
 class PengAndRobinsonAlpha extends CommonAlphaEquation{
     public PengAndRobinsonAlpha(){
@@ -220,5 +220,5 @@ class PengAndRobinsonAlpha extends CommonAlphaEquation{
     public double get_q(Component component) {
 	return 0;
     } 
-}
-
+    }
+    

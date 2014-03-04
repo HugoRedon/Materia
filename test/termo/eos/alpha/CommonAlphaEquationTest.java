@@ -41,8 +41,8 @@ public class CommonAlphaEquationTest {
 	public double get_q(Component component) {
 	    return 0;
 	}
-	
-    }
+
+        }
       /**
      * Test of m method, of class CommonAlphaEquation.
      */
