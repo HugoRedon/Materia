@@ -14,6 +14,23 @@ public class Matrix {//implementation for 3X3 matrix
         this.matrix = matrix;
     }
     
+    public double[] matrixVectorMultiplication(double[] vector){
+        double[] result = new double[vector.length];
+        for(int i = 1; i <=3; i++){
+            
+            double sum =0 ;
+            
+            for(int j = 1; j <=3; j++){
+                sum+= a(i,j) * vector[j-1];
+            }
+            
+            result[i-1] = sum;
+            
+        }
+        
+        return result;
+    }
+    
     public double[][] inverse(){
         double det = determinant();
         Matrix cofMatrix =new Matrix( cofactorMatrix());

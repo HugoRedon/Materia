@@ -1,9 +1,5 @@
 package matrix;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -14,11 +10,23 @@ public class MatrixTest {
         {2,-1,3},
         {4,1,8}
     };
-    public MatrixTest() {
-        
-        
-    }
+ 
     
+     @Test
+    public void testMatrixVectorMultiplication() {
+        System.out.println("matrixVectorMultiplication");
+        
+        Matrix instance = new Matrix(matrix);
+        double[] vector = {5,3,2};
+        
+        double[] expResult  ={
+            9,
+            13,
+            39
+        };
+        double[] result = instance.matrixVectorMultiplication(vector);
+        assertArrayEquals(expResult, result,0);
+    }
 
 
     /**

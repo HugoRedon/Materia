@@ -3,7 +3,6 @@ package termo.substance;
 import termo.component.Component;
 import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
-import termo.eos.alpha.CommonAlphaEquation;
 import termo.equilibrium.EquilibriaFunction;
 import termo.equilibrium.EquilibriaSolution;
 import termo.phase.Phase;
@@ -254,73 +253,27 @@ class BubbleTemperatureFunctions implements EquilibriaFunction{
 	return getLiquid().calculateFugacity()/getVapor().calculateFugacity();
     }
   
-    public double vaporPressureError(double[][] experimental, double paramValue) {
-        
-      
-        component.setPrsvKappa(paramValue);
-        
-        
-        double error =0;
-        for (double[] pair: experimental){
-            //bubblePressure();
-            dewPressure(pair[0]);
-            double expP = pair[1];
-            
-            error += Math.pow((pressure - expP)/expP,2);
-        }
-        
-        return error;
-        //return 0.102104;
-    }
     
     
     
-    public double derivativeVaporPressureError(double[][] experimental, double value){
-        
-        double pass  = 0.0001;
-        double error = vaporPressureError(experimental, value);
-        double error_ = vaporPressureError(experimental, value+pass);
-        
-        double deriv = (error_- error)/pass;
-        
-        return deriv;
-        
-    }
-    public double secondDerivativeVaporPressureError(double[][] experimental, double value){
-        double pass = 0.0001;
-        double de = derivativeVaporPressureError(experimental, value);
-        double de_ =derivativeVaporPressureError(experimental, value+pass);
-        
-        double deriv = (de_ - de)/pass;
-        return deriv;
-    }
-    
-    
-    public double nextValue(double[][] experimental , double before){
-        return before -derivativeVaporPressureError(experimental, before)/secondDerivativeVaporPressureError(experimental, before);
-    }
-    
-    public double solveVapoPressureRegression (double[][] experimental,double firstEstimate){
-        
-        double beforeError;
-        double error;
-        double q =firstEstimate;
-        
-        double criteria =50;
-        while(Math.abs(criteria) > 1e-4){
-            
-            beforeError = vaporPressureError(experimental, q);
-            q = nextValue(experimental,q );
-            
-            error = vaporPressureError(experimental, q);
-            
-            criteria = error-beforeError;
-        }
-        return q;
-    }
 
    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class BubblePressureFunctions implements EquilibriaFunction{
     
     @Override
