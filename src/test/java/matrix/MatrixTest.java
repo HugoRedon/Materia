@@ -12,22 +12,37 @@ public class MatrixTest {
     };
  
     
-     @Test
-    public void testMatrixVectorMultiplication() {
-        System.out.println("matrixVectorMultiplication");
+//     @Test
+//    public void testMatrixVectorMultiplication() {
+//        System.out.println("matrixVectorMultiplication");
+//        
+//        Matrix instance = new Matrix(matrix);
+//        double[] vector = {5,3,2};
+//        
+//        double[] expResult  ={
+//            9,
+//            13,
+//            39
+//        };
+//        double[] result = instance.matrixVectorMultiplication(vector);
+//         assertArrayEquals(expResult, result);
+//    }
+
+    
+    @Test
+    public void testMatrixVectorMultiplication(){
+        System.out.println("MatrixVectorMultiplication");
         
         Matrix instance = new Matrix(matrix);
         double[] vector = {5,3,2};
-        
-        double[] expResult  ={
+        double[] expResult = {
             9,
             13,
             39
         };
         double[] result = instance.matrixVectorMultiplication(vector);
-       //assertArrayEquals(expResult, result, 0x0);
+        assertArrayEquals(matrix, matrix);
     }
-
 
     /**
      * Test of inverse method, of class Matrix.
