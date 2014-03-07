@@ -1,4 +1,4 @@
-package matrix;
+package termo.matrix;
 
 import org.junit.Test;
 import static org.junit.Assert.*;

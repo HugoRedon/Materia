@@ -1,6 +1,6 @@
 
 
-package matrix;
+package termo.matrix;
 
 /**
  *

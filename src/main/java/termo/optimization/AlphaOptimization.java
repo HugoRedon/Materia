@@ -1,7 +1,7 @@
 
 package termo.optimization;
 
-import matrix.Matrix;
+import termo.matrix.Matrix;
 import termo.substance.HeterogeneousPureSubstance;
 
 /**
@@ -188,7 +188,7 @@ public class AlphaOptimization {
     }
     
     public double[] nextValueMathias(double A, double B, double C){
-        matrix.Matrix hessian = new Matrix(hessian(A,B,C));
+        Matrix hessian = new Matrix(hessian(A,B,C));
         Matrix hessianInverse = new Matrix(hessian.inverse());
         double[] gradient = gradient(A, B, C);
         return hessianInverse.matrixVectorMultiplication(gradient);
