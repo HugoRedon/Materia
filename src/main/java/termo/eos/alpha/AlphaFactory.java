@@ -23,13 +23,13 @@ public class AlphaFactory {
     }
     public static Alpha getPengAndRobinsonExpression(){
         CommonAlphaEquation pr = new PengAndRobinsonAlpha();
- 
+        pr.setName(AlphaNames.PengAndRobinson);
         return pr;    
     }
     
     public static Alpha getMathiasExpression(){
         TwoEquationsAlphaExpression mathias = new TwoEquationsAlphaExpression();    
-        
+        mathias.setName(AlphaNames.Mathias);
         CommonAlphaEquation mathiasBelow = new MathiasAlpha();
         
         MathiasAboveTcAlphaEquation mathiasAbove = new MathiasAboveTcAlphaEquation(mathiasBelow);
