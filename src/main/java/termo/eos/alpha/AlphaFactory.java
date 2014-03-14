@@ -1,16 +1,43 @@
 package termo.eos.alpha;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Hugo Redon Rivera
  */
 public class AlphaFactory {
+    
+    public static ArrayList<Alpha> getAllAvailableAlphas() {
+        ArrayList<Alpha> alphas = new ArrayList();
+        Method[] methods = AlphaFactory.class.getDeclaredMethods();
+        for (Method method : methods){
+            if( method.getName().equals("getAllAvailableAlphas")){
+                continue;
+            }
+            try {
+                method.setAccessible(true);
+                Alpha a = (Alpha)method.invoke(null);
+                alphas.add(a);
+            } catch (Exception ex) {
+                System.out.println("Error "  + ex.getMessage());
+            }
+        }
+        return alphas;
+    }
     public static Alpha getVanDerWaalsIndependent(){
         Alpha vdw = new UnitAlpha();
         vdw.setName(AlphaNames.vdwIndependent);
         return vdw;
         
     }
+    
+    
+
 
     public static Alpha getSoaveExpression(){
        
@@ -109,10 +136,10 @@ public class AlphaFactory {
              return mathiasAndCopeman;             
         }
         
-//        public static Alpha getGCEOS_Expression(double A,double B,double C, double D, double k1,double k2 ,double k3, double k4, double k5){
-//            GCEOSEquation alpha = new GCEOSEquation();
-//            alpha.setName(AlphaNames.GCEOS);
-//            
+        public static Alpha getGCEOS_Expression(){
+            GCEOSEquation alpha = new GCEOSEquation();
+            alpha.setName(AlphaNames.GCEOS);
+            
 //            alpha.setA(A);
 //            alpha.setB(B);
 //            alpha.setC(C);
@@ -122,8 +149,8 @@ public class AlphaFactory {
 //            alpha.setK3(k3);
 //            alpha.setK4(k4);
 //            alpha.setK5(k5);
-//            
-//            return alpha;
-//        }
+            
+            return alpha;
+        }
         
 }
