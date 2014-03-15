@@ -26,7 +26,7 @@ public class TutorialTest {
 	ethane.setAcentricFactor(0.09781);
 	ethane.setCriticalTemperature(305.43);
 	ethane.setCriticalPressure(48.1595*101325);
-	ethane.setPrsvKappa(0.02669);//en eqfases2 tiene un signo negativo ...
+	ethane.setK_StryjekAndVera(0.02669);//en eqfases2 tiene un signo negativo ...
 	
 	Cubic eos = EquationOfStateFactory.redlichKwongSoaveBase();
 	Alpha alpha = AlphaFactory.getMathiasExpression();

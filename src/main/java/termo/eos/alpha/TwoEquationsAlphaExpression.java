@@ -22,7 +22,7 @@ public class TwoEquationsAlphaExpression extends Alpha{
        
        public Alpha getProperAlpha(double temperature ,Component component){
                 double criticalTemperature = component.getCriticalTemperature();
-        double q = component.getPrsvKappa();
+        double q = component.getK_StryjekAndVera();
         
         double reducedTemperature = temperature / criticalTemperature;
         

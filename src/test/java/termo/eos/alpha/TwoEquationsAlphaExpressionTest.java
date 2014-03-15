@@ -21,7 +21,7 @@ public class TwoEquationsAlphaExpressionTest {
 	component.setAcentricFactor(0.09781);
 	component.setCriticalTemperature(305.43);
 	component.setCriticalPressure(48.1595*101325);
-	component.setPrsvKappa(0.02669);
+	component.setK_StryjekAndVera(0.02669);
 	component.setSRK_A(-2);//solo para pruebas
     }
 

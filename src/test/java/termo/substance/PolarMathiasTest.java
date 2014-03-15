@@ -22,7 +22,7 @@ public class PolarMathiasTest {
         ethanol.setAcentricFactor(0.64439);
         ethanol.setCriticalTemperature(513.92);
         ethanol.setCriticalPressure(60.676*101325);
-        ethanol.setPrsvKappa(0.9);
+        ethanol.setK_StryjekAndVera(0.9);
         
         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
         Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();

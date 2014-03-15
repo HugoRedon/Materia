@@ -19,7 +19,7 @@ public class ComponentsForTests {
         methanol.setAcentricFactor(0.565831);
         
         //data from hysys
-        methanol.setPrsvKappa(0.39379);
+        methanol.setK_StryjekAndVera(0.39379);
         
         return methanol;
     }
@@ -34,7 +34,7 @@ public class ComponentsForTests {
         water.setAcentricFactor(0.344861);
         
         //data from hysys
-        water.setPrsvKappa(-0.0767);
+        water.setK_StryjekAndVera(-0.0767);
  
         return water;
     }

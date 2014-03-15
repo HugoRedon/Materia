@@ -18,7 +18,8 @@ public class AlphaNames {
     public static String AndroulakisEtAl = "Androulakis, et al.";
     public static String GeneralTwu = "General Twu";
     public static String Mathias_Copeman = "Mathias and Copeman";
+    public static String YuAndLu = "Yu and Lu";
     public static String Twu = "Twu";
     public static String GCEOS = "GCEOS";
-    public static String vdwIndependent = "Expresión ndependiente de T";
+    public static String vdwIndependent = "Expresión independiente de T (Van Der Waals";
 }

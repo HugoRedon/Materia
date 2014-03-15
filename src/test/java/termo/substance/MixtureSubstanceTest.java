@@ -30,7 +30,7 @@ public class MixtureSubstanceTest {
 	ethane.setAcentricFactor(0.09781);
 	ethane.setCriticalTemperature(305.43);
 	ethane.setCriticalPressure(48.1595*101325);
-	ethane.setPrsvKappa(0.02669);
+	ethane.setK_StryjekAndVera(0.02669);
 	
 	Cubic eos = EquationOfStateFactory.pengRobinsonBase();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
@@ -45,7 +45,7 @@ public class MixtureSubstanceTest {
 	propane.setAcentricFactor(0.15416);
 	propane.setCriticalTemperature(369.82);
 	propane.setCriticalPressure(41.9396*101325);
-	propane.setPrsvKappa(0.03136);
+	propane.setK_StryjekAndVera(0.03136);
 	
 	
 	

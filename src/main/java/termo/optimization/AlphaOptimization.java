@@ -23,7 +23,7 @@ public class AlphaOptimization {
     }
     
     public double vaporPressureError( double paramValue) {
-        substance.getComponent().setPrsvKappa(paramValue);
+        substance.getComponent().setK_StryjekAndVera(paramValue);
         double error =0;
         for (double[] pair: experimental){
             substance.dewPressure(pair[0]);

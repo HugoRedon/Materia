@@ -36,16 +36,13 @@ public class AlphaFactory {
         
     }
     
-    
-
-
     public static Alpha getSoaveExpression(){
        
         
         CommonAlphaEquation soave = new SoaveAlpha();
         
       
-        
+      
         return soave;     
     }
     public static Alpha getPengAndRobinsonExpression(){
@@ -66,28 +63,54 @@ public class AlphaFactory {
         return mathias;     
     }
     public static Alpha getStryjekAndVeraExpression(){
-            double r1 = 0.378893;
-            double r2=1.4897153;
-            double r3 = -0.17131848;
-            double r4 = 0.0196554;
-                                    
-            
         TwoEquationsAlphaExpression stryjek = new TwoEquationsAlphaExpression();    
-        stryjek.setName(AlphaNames.StryjekAndVera);
-        
-        
+        stryjek.setName(AlphaNames.StryjekAndVera);           
         CommonAlphaEquation stryjekveraBelow = new StryjekAndVera();
-        
         CommonAlphaEquation stryjekVeraAbove = new StryjekAndVera();
-        stryjekVeraAbove.setX(0);
-       
-     
-        
+        stryjekVeraAbove.setX(0);        
         stryjek.setAlphaBelowTc(stryjekveraBelow);
         stryjek.setAlphaAboveTc(stryjekVeraAbove);
         return stryjek;     
     }
+    
+    public static Alpha getAdachiAndLu(){
+        AdachiAndLuAlphaExpresion lu= new AdachiAndLuAlphaExpresion();
+        lu.setName(AlphaNames.AdachiAndLu);
+        return lu;
+    }
+    public static Alpha getSoave2Parameters(){
+        Soave2Parameters soave = new Soave2Parameters();
+        soave.setName(AlphaNames.Soave2);
+        return soave;
+    }
+    public static Alpha getMelhemEtAl(){
+        MelhemEtAl melhem = new MelhemEtAl();
+        melhem.setName(AlphaNames.MelhemEtAl);
+        return melhem;
+    }
+    public static Alpha getAndroulakisEtAl(){
+        TwoEquationsAlphaExpression androulakistwo = new TwoEquationsAlphaExpression();
+        AndroulakisEtAl androulakis = new AndroulakisEtAl(); 
+        androulakistwo.setAlphaBelowTc(androulakis);
+        AndroulakisEtAlAboveTc above = new AndroulakisEtAlAboveTc();
+        androulakistwo.setAlphaAboveTc(above);
         
+        androulakistwo.setName(AlphaNames.AndroulakisEtAl);
+        return androulakistwo;
+    }
+    public static Alpha getYuAndLu(){
+        YuAndLu yu = new YuAndLu();
+        YuAndLuAboveTc above = new YuAndLuAboveTc();
+        
+        TwoEquationsAlphaExpression two = new TwoEquationsAlphaExpression();
+        
+        two.setAlphaBelowTc(yu);
+        two.setAlphaAboveTc(above);
+        
+        two.setName(AlphaNames.YuAndLu);
+        return two;
+    }
+    
         public static Alpha getTwuExpression(){
             Alpha twu = new TwuEquation();
             twu.setName(AlphaNames.Twu);

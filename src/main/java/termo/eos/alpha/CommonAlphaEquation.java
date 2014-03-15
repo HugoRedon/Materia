@@ -15,7 +15,15 @@ public abstract class CommonAlphaEquation extends Alpha implements Serializable{
     
     private double x = 1;
     
-
+    protected String m (){
+	
+	String regex = "  m = " + r1 + " + " + r2 + " \\omega " + r3 + " \\omega ^2  ";
+	if( r4 != 0){
+	    regex  = regex +  "+" + r4 + " \\omega ^3";
+	}
+	regex = regex  + "";
+	return regex;
+    }
     
     public abstract double get_q(Component component);
 
@@ -173,7 +181,7 @@ class StryjekAndVera extends CommonAlphaEquation {
     }
     @Override
     public double get_q(Component component) {
-	return component.getPrsvKappa();
+	return component.getK_StryjekAndVera();
     }
     }
 
@@ -184,12 +192,21 @@ class SoaveAlpha extends CommonAlphaEquation{
         setR2(1.55171);
         setR3(-0.15613);
         setR4(0);
+        
+        setEquation(
+                "\\( " + 
+                        " \\alpha(T)    =    \\left[{   1 +   m \\left({    1-     \\sqrt{  \\frac{T}{T_{c}}   } }\\right)   }\\right] ^2 " + 
+                 " \\\\ " +
+                 m() +
+                  " \\)" 
+        );
+        
     }
     @Override
     public double get_q(Component component) {
 	return 0;
     }
-    }
+}
 
 class MathiasAlpha extends CommonAlphaEquation{
     public MathiasAlpha(){

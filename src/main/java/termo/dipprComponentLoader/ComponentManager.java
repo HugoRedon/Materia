@@ -150,7 +150,7 @@ public final class ComponentManager {
         aComponent.setFormula(getFromChemInfo(CasNumber, ChemInfoColumn.Formula));
         aComponent.setFamily(getFromChemInfo(CasNumber, ChemInfoColumn.Family));
         
-        aComponent.setPrsvKappa(0);
+        aComponent.setK_StryjekAndVera(0);
         
         return aComponent;
     }

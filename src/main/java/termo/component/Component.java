@@ -45,7 +45,7 @@ public class Component implements Serializable {
     private double liquidMolarVolumeat298_15K;
     private double lowerFlammabilityLimit;
     
-    private double prsvKappa;
+    private double k_StryjekAndVera;
     private double SRK_A;
     
     private double L_Twu;
@@ -59,6 +59,23 @@ public class Component implements Serializable {
     private double r_UNIQUAC;
     private double q_UNIQUAC;
 //    private double qq_UNIQUAC;
+    
+    private double A_AdachiAndLu;
+    private double B_AdachiAndLu;
+    
+    private double A_Soave;
+    private double B_Soave;
+    
+    private double A_MelhemEtAl;
+    private double B_MelhemEtAl;
+    
+    private double A_AndroulakisEtAl;
+    private double B_AndroulakisEtAl;
+    private double C_AndroulakisEtAl;
+    
+    private double A_YuAndLu;
+    private double B_YuAndLu;
+    private double C_YuAndLu;
     
     private CpEquation cp;
     
@@ -125,7 +142,7 @@ public class Component implements Serializable {
         hash = 97 * hash + (int) (Double.doubleToLongBits(this.upperFlammabilityLimit) ^ (Double.doubleToLongBits(this.upperFlammabilityLimit) >>> 32));
         hash = 97 * hash + (int) (Double.doubleToLongBits(this.liquidMolarVolumeat298_15K) ^ (Double.doubleToLongBits(this.liquidMolarVolumeat298_15K) >>> 32));
         hash = 97 * hash + (int) (Double.doubleToLongBits(this.lowerFlammabilityLimit) ^ (Double.doubleToLongBits(this.lowerFlammabilityLimit) >>> 32));
-        hash = 97 * hash + (int) (Double.doubleToLongBits(this.prsvKappa) ^ (Double.doubleToLongBits(this.prsvKappa) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.k_StryjekAndVera) ^ (Double.doubleToLongBits(this.k_StryjekAndVera) >>> 32));
         hash = 97 * hash + (int) (Double.doubleToLongBits(this.L_Twu) ^ (Double.doubleToLongBits(this.L_Twu) >>> 32));
         hash = 97 * hash + (int) (Double.doubleToLongBits(this.M_Twu) ^ (Double.doubleToLongBits(this.M_Twu) >>> 32));
         hash = 97 * hash + (int) (Double.doubleToLongBits(this.N_Twu) ^ (Double.doubleToLongBits(this.N_Twu) >>> 32));
@@ -255,7 +272,7 @@ public class Component implements Serializable {
         if (Double.doubleToLongBits(this.lowerFlammabilityLimit) != Double.doubleToLongBits(other.lowerFlammabilityLimit)) {
             return false;
         }
-        if (Double.doubleToLongBits(this.prsvKappa) != Double.doubleToLongBits(other.prsvKappa)) {
+        if (Double.doubleToLongBits(this.k_StryjekAndVera) != Double.doubleToLongBits(other.k_StryjekAndVera)) {
             return false;
         }
         if (Double.doubleToLongBits(this.L_Twu) != Double.doubleToLongBits(other.L_Twu)) {
@@ -792,15 +809,15 @@ public class Component implements Serializable {
     /**
      * @return the prsvKappa
      */
-    public double getPrsvKappa() {
-        return prsvKappa;
+    public double getK_StryjekAndVera() {
+        return k_StryjekAndVera;
     }
 
     /**
      * @param prsvKappa the prsvKappa to set
      */
-    public void setPrsvKappa(double prsvKappa) {
-        this.prsvKappa = prsvKappa;
+    public void setK_StryjekAndVera(double prsvKappa) {
+        this.k_StryjekAndVera = prsvKappa;
     }
 
     /**
@@ -1225,6 +1242,175 @@ public class Component implements Serializable {
      */
     public void setF_PolinomialCp(double F_PolinomialCp) {
 	this.F_PolinomialCp = F_PolinomialCp;
+    }
+
+
+    /**
+     * @return the A_AdachiAndLu
+     */
+    public double getA_AdachiAndLu() {
+        return A_AdachiAndLu;
+    }
+
+    /**
+     * @param A_AdachiAndLu the A_AdachiAndLu to set
+     */
+    public void setA_AdachiAndLu(double A_AdachiAndLu) {
+        this.A_AdachiAndLu = A_AdachiAndLu;
+    }
+
+    /**
+     * @return the B_AdachiAndLu
+     */
+    public double getB_AdachiAndLu() {
+        return B_AdachiAndLu;
+    }
+
+    /**
+     * @param B_AdachiAndLu the B_AdachiAndLu to set
+     */
+    public void setB_AdachiAndLu(double B_AdachiAndLu) {
+        this.B_AdachiAndLu = B_AdachiAndLu;
+    }
+
+    /**
+     * @return the A_Soave
+     */
+    public double getA_Soave() {
+        return A_Soave;
+    }
+
+    /**
+     * @param A_Soave the A_Soave to set
+     */
+    public void setA_Soave(double A_Soave) {
+        this.A_Soave = A_Soave;
+    }
+
+    /**
+     * @return the B_Soave
+     */
+    public double getB_Soave() {
+        return B_Soave;
+    }
+
+    /**
+     * @param B_Soave the B_Soave to set
+     */
+    public void setB_Soave(double B_Soave) {
+        this.B_Soave = B_Soave;
+    }
+
+    /**
+     * @return the A_MelhemEtAl
+     */
+    public double getA_MelhemEtAl() {
+        return A_MelhemEtAl;
+    }
+
+    /**
+     * @param A_MelhemEtAl the A_MelhemEtAl to set
+     */
+    public void setA_MelhemEtAl(double A_MelhemEtAl) {
+        this.A_MelhemEtAl = A_MelhemEtAl;
+    }
+
+    /**
+     * @return the B_MelhemEtAl
+     */
+    public double getB_MelhemEtAl() {
+        return B_MelhemEtAl;
+    }
+
+    /**
+     * @param B_MelhemEtAl the B_MelhemEtAl to set
+     */
+    public void setB_MelhemEtAl(double B_MelhemEtAl) {
+        this.B_MelhemEtAl = B_MelhemEtAl;
+    }
+
+    /**
+     * @return the A_AndroulakisEtAl
+     */
+    public double getA_AndroulakisEtAl() {
+        return A_AndroulakisEtAl;
+    }
+
+    /**
+     * @param A_AndroulakisEtAl the A_AndroulakisEtAl to set
+     */
+    public void setA_AndroulakisEtAl(double A_AndroulakisEtAl) {
+        this.A_AndroulakisEtAl = A_AndroulakisEtAl;
+    }
+
+    /**
+     * @return the B_AndroulakisEtAl
+     */
+    public double getB_AndroulakisEtAl() {
+        return B_AndroulakisEtAl;
+    }
+
+    /**
+     * @param B_AndroulakisEtAl the B_AndroulakisEtAl to set
+     */
+    public void setB_AndroulakisEtAl(double B_AndroulakisEtAl) {
+        this.B_AndroulakisEtAl = B_AndroulakisEtAl;
+    }
+
+    /**
+     * @return the C_AndroulakisEtAl
+     */
+    public double getC_AndroulakisEtAl() {
+        return C_AndroulakisEtAl;
+    }
+
+    /**
+     * @param C_AndroulakisEtAl the C_AndroulakisEtAl to set
+     */
+    public void setC_AndroulakisEtAl(double C_AndroulakisEtAl) {
+        this.C_AndroulakisEtAl = C_AndroulakisEtAl;
+    }
+
+    /**
+     * @return the A_YuAndLu
+     */
+    public double getA_YuAndLu() {
+        return A_YuAndLu;
+    }
+
+    /**
+     * @param A_YuAndLu the A_YuAndLu to set
+     */
+    public void setA_YuAndLu(double A_YuAndLu) {
+        this.A_YuAndLu = A_YuAndLu;
+    }
+
+    /**
+     * @return the B_YuAndLu
+     */
+    public double getB_YuAndLu() {
+        return B_YuAndLu;
+    }
+
+    /**
+     * @param B_YuAndLu the B_YuAndLu to set
+     */
+    public void setB_YuAndLu(double B_YuAndLu) {
+        this.B_YuAndLu = B_YuAndLu;
+    }
+
+    /**
+     * @return the C_YuAndLu
+     */
+    public double getC_YuAndLu() {
+        return C_YuAndLu;
+    }
+
+    /**
+     * @param C_YuAndLu the C_YuAndLu to set
+     */
+    public void setC_YuAndLu(double C_YuAndLu) {
+        this.C_YuAndLu = C_YuAndLu;
     }
 
 
