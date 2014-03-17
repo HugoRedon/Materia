@@ -182,13 +182,13 @@ class StryjekAndVera extends CommonAlphaEquation {
         StringBuilder b = new StringBuilder();
         b.append("\\(");
         b.append("\\alpha = \\left[ ");
-        b.append("1+ m \\left(1-\\sqrt{T_r})\\right) ");
+        b.append("1+ m \\left(1-\\sqrt{T_r}\\right) ");
         b.append("-k_1 (1-T_r)(0.7-T_r)");
         b.append("\\right]^2  ");
         b.append("\\\\");
         b.append("\\alpha > T_c");
         b.append("\\\\");
-        b.append("\\alpha = \\left[ 1+ m \\left(1-\\sqrt{T_r})\\right)    \\right]^2 ");
+        b.append("\\alpha = \\left[ 1+ m \\left(1-\\sqrt{T_r}\\right)    \\right]^2 ");
         b.append("\\\\");
         b.append("c=\\frac{m}{2} + 0.3A");
         b.append("\\\\");
