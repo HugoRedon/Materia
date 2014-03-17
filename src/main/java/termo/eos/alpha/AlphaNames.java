@@ -13,7 +13,7 @@ public class AlphaNames {
     public static String Mathias = "Mathias";
     public static String StryjekAndVera = "Stryjek and Vera";
     public static String AdachiAndLu = "Adachi and Lu";
-    public static String Soave2 = "Soave 2 parameters";
+    public static String Soave2 = "Soave 2 parámetros";
     public static String MelhemEtAl = "Melhem, et al.";
     public static String AndroulakisEtAl = "Androulakis, et al.";
     public static String GeneralTwu = "General Twu";

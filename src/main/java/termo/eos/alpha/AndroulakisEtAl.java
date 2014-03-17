@@ -8,6 +8,10 @@ import termo.component.Component;
  */
 public class AndroulakisEtAl extends Alpha{
 
+    public AndroulakisEtAl(){
+        String term = "\\left(   1- T_r^{\\frac{2}{3}}\\right)";
+        setEquation("\\alpha(T) = 1 + A" + term +" +  B " +term+"^2 + C"+ term + "^3");
+    }
     @Override
     public double alpha(double temperature, Component component) {
         double A = component.getA_AndroulakisEtAl();

@@ -3,7 +3,9 @@ package termo.eos.alpha;
 import termo.component.Component;
 
 public class TwuEquation extends Alpha {
-
+    public TwuEquation(){
+        setEquation("\\alpha(T) = T_r^{N(M-1)}e^{L\\left( 1-T_r^{NM} \\right)}");
+    }
     
     @Override
     public double alpha(double temperature, Component component) {

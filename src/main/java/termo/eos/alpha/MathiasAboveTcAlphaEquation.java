@@ -11,6 +11,11 @@ public class MathiasAboveTcAlphaEquation extends Alpha{
     
     public MathiasAboveTcAlphaEquation(CommonAlphaEquation belowTcAlphaEquation){
         this.belowTcAlphaEquation = belowTcAlphaEquation;
+        StringBuilder b = new StringBuilder();
+        b.append("\\alpha(T) = e^{\\left[ \\left( \\frac{c-1}{c}\\right) \\left( 1-T_r^c \\right)   \\right]}");
+        b.append("\\\\");
+        b.append("c=\\frac{m}{2} + 0.3A");
+        setEquation(b.toString());
     }
 
     @Override

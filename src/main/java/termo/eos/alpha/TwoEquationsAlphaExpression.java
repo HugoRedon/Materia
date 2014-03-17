@@ -10,6 +10,28 @@ public class TwoEquationsAlphaExpression extends Alpha{
     
     private Alpha alphaAboveTc;
     private Alpha alphaBelowTc;
+
+    @Override
+    public String getEquation() {
+        if(equation == null){
+            StringBuilder b = new StringBuilder();
+            
+            b.append("-----T < T_c ");
+            b.append("\\\\");
+            b.append(alphaBelowTc.getEquation());
+            b.append("\\\\");
+            
+            b.append("-----T > T_c");
+            b.append("\\\\");
+            b.append(alphaAboveTc.getEquation());
+            
+            equation = b.toString();
+        }
+        
+        return equation;
+    }
+    
+   
     
     @Override
      public  double alpha(double temperature,Component component){

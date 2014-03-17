@@ -9,6 +9,27 @@ import termo.component.Component;
 public class MathiasCopemanEquation extends Alpha{
 
     private double x;
+    
+    
+
+    @Override
+    public String getEquation() {
+        String term = " \\left( 1- \\sqrt{T_r}\\right)";
+        
+        StringBuilder b = new StringBuilder();
+        b.append("\\alpha(T) =");
+        b.append("\\left[ 1 +  A");
+        b.append(term);
+        
+        
+        if(x != 0){
+            b.append("+ B").append(term).append("^2");
+            b.append("+ C ").append(term).append("^3");
+        }
+        b.append("\\right]^2");
+        return b.toString();
+    }
+    
 
     @Override
     public double alpha(double temperature, Component component) {

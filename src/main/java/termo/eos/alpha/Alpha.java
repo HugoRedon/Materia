@@ -9,7 +9,7 @@ import termo.component.Component;
 public abstract class Alpha {
     
     private String name ;
-    private String equation;
+    protected String equation;
     
     public void setName(String name){
         this.name = name;

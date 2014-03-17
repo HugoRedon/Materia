@@ -13,7 +13,7 @@ public abstract class CommonAlphaEquation extends Alpha implements Serializable{
     private double r3;
     private double r4;
     
-    private double x = 1;
+    protected double x = 1;
     
     protected String m (){
 	
@@ -134,7 +134,7 @@ public abstract class CommonAlphaEquation extends Alpha implements Serializable{
         hash = 59 * hash + (int) (Double.doubleToLongBits(this.r2) ^ (Double.doubleToLongBits(this.r2) >>> 32));
         hash = 59 * hash + (int) (Double.doubleToLongBits(this.r3) ^ (Double.doubleToLongBits(this.r3) >>> 32));
         hash = 59 * hash + (int) (Double.doubleToLongBits(this.r4) ^ (Double.doubleToLongBits(this.r4) >>> 32));
-       // hash = 59 * hash + (int) (Double.doubleToLongBits(this.x) ^ (Double.doubleToLongBits(this.x) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this.x) ^ (Double.doubleToLongBits(this.x) >>> 32));
         return hash;
     }
 
@@ -159,9 +159,9 @@ public abstract class CommonAlphaEquation extends Alpha implements Serializable{
         if (Double.doubleToLongBits(this.r4) != Double.doubleToLongBits(other.r4)) {
             return false;
         }
-//        if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x)) {
-//            return false;
-//        }
+        if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x)) {
+            return false;
+        }
         return true;
     }  
 }
@@ -178,25 +178,24 @@ class StryjekAndVera extends CommonAlphaEquation {
         setR2(1.4897153);
         setR3(-0.17131848);
         setR4(0.0196554);
-        
+    }
+
+    @Override
+    public String getEquation() {
         StringBuilder b = new StringBuilder();
-        b.append("\\(");
-        b.append("\\alpha = \\left[ ");
+        b.append("\\alpha(T) = \\left[ ");
         b.append("1+ m \\left(1-\\sqrt{T_r}\\right) ");
-        b.append("-k_1 (1-T_r)(0.7-T_r)");
+        if(x != 0 ){
+            b.append("-k_1 (1-T_r)(0.7-T_r)");
+        }
+        
         b.append("\\right]^2  ");
         b.append("\\\\");
-        b.append("\\alpha > T_c");
-        b.append("\\\\");
-        b.append("\\alpha = \\left[ 1+ m \\left(1-\\sqrt{T_r}\\right)    \\right]^2 ");
-        b.append("\\\\");
-        b.append("c=\\frac{m}{2} + 0.3A");
-        b.append("\\\\");
         b.append(m());
-        b.append("\\)");
-        setEquation(b.toString());
-        
+        return b.toString();                
     }
+    
+    
     @Override
     public double get_q(Component component) {
 	return component.getK_StryjekAndVera();
@@ -212,11 +211,9 @@ class SoaveAlpha extends CommonAlphaEquation{
         setR4(0);
         
         setEquation(
-                "\\( " + 
-                        " \\alpha(T)    =    \\left[{   1 +   m \\left({    1-     \\sqrt{  \\frac{T}{T_{c}}   } }\\right)   }\\right] ^2 " + 
+                " \\alpha(T)    =    \\left[{   1 +   m \\left({    1-     \\sqrt{  \\frac{T}{T_{c}}   } }\\right)   }\\right] ^2 " + 
                  " \\\\ " +
-                 m() +
-                  " \\)" 
+                 m() 
         );
         
     }
@@ -230,27 +227,21 @@ class MathiasAlpha extends CommonAlphaEquation{
     public MathiasAlpha(){
 	setName(AlphaNames.Mathias);
 	setR1(0.48508);
-        setR2(1.55171);
+        setR2(1.55191);
         setR3(-0.15613);
         setR4(0);
 	setX(-1);
         
         
         StringBuilder b = new StringBuilder();
-        b.append("\\(");
-        b.append("\\alpha = \\left[ ");
-        b.append("1+ m \\left(1-\\sqrt{T_r})\\right) ");
+        
+        b.append("\\alpha(T) = \\left[ ");
+        b.append("1+ m \\left(1-\\sqrt{T_r}\\right) ");
         b.append("-A (1-T_r)(0.7-T_r)");
         b.append("\\right]^2  ");
         b.append("\\\\");
-        b.append("\\alpha > T_c");
-        b.append("\\\\");
-        b.append("\\alpha = \\exp{\\left[ \\left(\\ \\frac{c-1}{c}right) \\left( 1-T_r^c \\right)   \\right]}");
-        b.append("\\\\");
-        b.append("c=\\frac{m}{2} + 0.3A");
-        b.append("\\\\");
         b.append(m());
-        b.append("\\)");
+        
         setEquation(b.toString());
     }
     @Override
@@ -270,11 +261,11 @@ class PengAndRobinsonAlpha extends CommonAlphaEquation{
         setR4(0);
         
         StringBuilder b = new StringBuilder();
-        b.append("\\(");
-        b.append("\\alpha = \\left[  1+ m \\left(1-\\sqrt{T_r})\\right)     \\right]^2");
+       
+        b.append("\\alpha(T) = \\left[  1+ m \\left(1-\\sqrt{T_r})\\right)     \\right]^2");
         b.append("\\\\");
         b.append(m());
-        b.append("\\)");
+       
         
         setEquation(b.toString());
     }

@@ -8,6 +8,9 @@ import termo.component.Component;
  */
 public class AdachiAndLuAlphaExpresion extends Alpha{
 
+    public AdachiAndLuAlphaExpresion(){
+        setEquation("\\alpha(T) = A10^{B\\left(1-T_r\\right)}");
+    }
     @Override
     public double alpha(double temperature, Component component) {
         double A = component.getA_AdachiAndLu();

@@ -8,6 +8,10 @@ import termo.component.Component;
  */
 public class MelhemEtAl extends Alpha{
 
+    
+    public MelhemEtAl(){
+        setEquation("\\ln{\\alpha(T)} = A\\left( 1- T_r\\right) + B (1-\\sqrt{T_r})^2");
+    }
     @Override
     public double alpha(double temperature, Component component) {
         double A = component.getA_MelhemEtAl();

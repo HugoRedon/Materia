@@ -7,6 +7,9 @@ import termo.component.Component;
  * @author Hugo
  */
 public class AndroulakisEtAlAboveTc extends Alpha{
+    public AndroulakisEtAlAboveTc(){
+        setEquation("\\alpha(T) = e^{A\\left( 1 - T_r^{\\frac{2}{3}} \\right)}");
+    }
     @Override
     public double alpha(double temperature, Component component) {
         double A = component.getA_AndroulakisEtAl();

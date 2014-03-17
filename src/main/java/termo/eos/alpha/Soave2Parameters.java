@@ -8,6 +8,9 @@ import termo.component.Component;
  */
 public class Soave2Parameters extends Alpha{
 
+    public Soave2Parameters(){
+        setEquation("\\alpha(T) = 1+ (1- T_r) \\left( A + \\frac{B}{T_r}   \\right)");
+    }
     @Override
     public double alpha(double temperature, Component component) {
         double A = component.getA_Soave();

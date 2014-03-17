@@ -8,6 +8,9 @@ import termo.component.Component;
  */
 public class YuAndLu extends Alpha{
 
+    public YuAndLu(){
+        setEquation("\\alpha(T) = 10^{\\left(A+BT_r + CT_r^2\\right)\\left(1-T_r \\right)}");
+    }
     @Override
     public double alpha(double temperature, Component component) {
         double A = component.getA_YuAndLu();

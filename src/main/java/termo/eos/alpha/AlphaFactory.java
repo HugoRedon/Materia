@@ -30,19 +30,13 @@ public class AlphaFactory {
         return alphas;
     }
     public static Alpha getVanDerWaalsIndependent(){
-        Alpha vdw = new UnitAlpha();
-        vdw.setName(AlphaNames.vdwIndependent);
+        Alpha vdw = new UnitAlpha();   
         return vdw;
         
     }
     
     public static Alpha getSoaveExpression(){
-       
-        
         CommonAlphaEquation soave = new SoaveAlpha();
-        
-      
-      
         return soave;     
     }
     public static Alpha getPengAndRobinsonExpression(){
