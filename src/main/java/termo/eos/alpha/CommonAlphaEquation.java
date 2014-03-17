@@ -178,6 +178,24 @@ class StryjekAndVera extends CommonAlphaEquation {
         setR2(1.4897153);
         setR3(-0.17131848);
         setR4(0.0196554);
+        
+        StringBuilder b = new StringBuilder();
+        b.append("\\(");
+        b.append("\\alpha = \\left[ ");
+        b.append("1+ m \\left(1-\\sqrt{T_r})\\right) ");
+        b.append("-k_1 (1-T_r)(0.7-T_r)");
+        b.append("\\right]^2  ");
+        b.append("\\\\");
+        b.append("\\alpha > T_c");
+        b.append("\\\\");
+        b.append("\\alpha = \\left[ 1+ m \\left(1-\\sqrt{T_r})\\right)    \\right]^2 ");
+        b.append("\\\\");
+        b.append("c=\\frac{m}{2} + 0.3A");
+        b.append("\\\\");
+        b.append(m());
+        b.append("\\)");
+        setEquation(b.toString());
+        
     }
     @Override
     public double get_q(Component component) {
@@ -216,6 +234,24 @@ class MathiasAlpha extends CommonAlphaEquation{
         setR3(-0.15613);
         setR4(0);
 	setX(-1);
+        
+        
+        StringBuilder b = new StringBuilder();
+        b.append("\\(");
+        b.append("\\alpha = \\left[ ");
+        b.append("1+ m \\left(1-\\sqrt{T_r})\\right) ");
+        b.append("-A (1-T_r)(0.7-T_r)");
+        b.append("\\right]^2  ");
+        b.append("\\\\");
+        b.append("\\alpha > T_c");
+        b.append("\\\\");
+        b.append("\\alpha = \\exp{\\left[ \\left(\\ \\frac{c-1}{c}right) \\left( 1-T_r^c \\right)   \\right]}");
+        b.append("\\\\");
+        b.append("c=\\frac{m}{2} + 0.3A");
+        b.append("\\\\");
+        b.append(m());
+        b.append("\\)");
+        setEquation(b.toString());
     }
     @Override
     public double get_q(Component component) {
@@ -232,10 +268,19 @@ class PengAndRobinsonAlpha extends CommonAlphaEquation{
         setR2(1.54226);
         setR3(-0.2699);
         setR4(0);
+        
+        StringBuilder b = new StringBuilder();
+        b.append("\\(");
+        b.append("\\alpha = \\left[  1+ m \\left(1-\\sqrt{T_r})\\right)     \\right]^2");
+        b.append("\\\\");
+        b.append(m());
+        b.append("\\)");
+        
+        setEquation(b.toString());
     }
     @Override
     public double get_q(Component component) {
 	return 0;
     } 
-    }
+}
     

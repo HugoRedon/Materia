@@ -47,7 +47,6 @@ public class AlphaFactory {
     }
     public static Alpha getPengAndRobinsonExpression(){
         CommonAlphaEquation pr = new PengAndRobinsonAlpha();
-        pr.setName(AlphaNames.PengAndRobinson);
         return pr;    
     }
     
