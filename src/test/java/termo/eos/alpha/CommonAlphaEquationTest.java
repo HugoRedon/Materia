@@ -19,7 +19,7 @@ public class CommonAlphaEquationTest {
 	ethane.setCriticalTemperature(305.43);
 	ethane.setCriticalPressure(48.1595*101325);
 	ethane.setK_StryjekAndVera(0.02669);
-	ethane.setSRK_A(-2);//solo para pruebas
+	ethane.setA_Mathias(-2);//solo para pruebas
 	
 	
 	double r1 = 0.378893;

@@ -51,8 +51,11 @@ public class Component implements Serializable {
     private double liquidMolarVolumeat298_15K;
     private double lowerFlammabilityLimit;
     
+    @AlphaParameter(alphaName = AlphaNames.StryjekAndVera)
     private double k_StryjekAndVera;
-    private double SRK_A;
+    
+    @AlphaParameter(alphaName = AlphaNames.Mathias)
+    private double A_Mathias;
     
     @AlphaParameter(alphaName = AlphaNames.Twu)
     private double L_Twu;
@@ -82,15 +85,23 @@ public class Component implements Serializable {
     @AlphaParameter(alphaName = AlphaNames.Soave2)
     private double B_Soave;
     
+    @AlphaParameter(alphaName = AlphaNames.MelhemEtAl)
     private double A_MelhemEtAl;
+    @AlphaParameter(alphaName = AlphaNames.MelhemEtAl)
     private double B_MelhemEtAl;
     
+    @AlphaParameter(alphaName = AlphaNames.AndroulakisEtAl)
     private double A_AndroulakisEtAl;
+    @AlphaParameter(alphaName = AlphaNames.AndroulakisEtAl)
     private double B_AndroulakisEtAl;
+    @AlphaParameter(alphaName = AlphaNames.AndroulakisEtAl)
     private double C_AndroulakisEtAl;
     
+    @AlphaParameter(alphaName = AlphaNames.YuAndLu)
     private double A_YuAndLu;
+    @AlphaParameter(alphaName = AlphaNames.YuAndLu)
     private double B_YuAndLu;
+    @AlphaParameter(alphaName = AlphaNames.YuAndLu)
     private double C_YuAndLu;
     
     private CpEquation cp;
@@ -1113,11 +1124,11 @@ public class Component implements Serializable {
         this.cp = cp;
     }
 
-    public void setSRK_A(double srk){
-	this.SRK_A = srk;
+    public void setA_Mathias(double srk){
+	this.A_Mathias = srk;
     }
-    public double getSRK_A() {
-	return this.SRK_A;
+    public double getA_Mathias() {
+	return this.A_Mathias;
     }
 
     /**

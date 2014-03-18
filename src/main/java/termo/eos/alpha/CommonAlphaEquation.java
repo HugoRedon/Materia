@@ -246,7 +246,7 @@ class MathiasAlpha extends CommonAlphaEquation{
     }
     @Override
     public double get_q(Component component) {
-	return component.getSRK_A();
+	return component.getA_Mathias();
     }
     }
     
