@@ -1,9 +1,15 @@
 package termo.component;
 
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Objects;
 import termo.cp.CpEquation;
 import termo.cp.DIPPR_107_Equation;
+import termo.eos.alpha.Alpha;
+import termo.eos.alpha.AlphaNames;
+import termo.eos.alpha.annotation.AlphaParameter;
 
 /**
  *
@@ -48,22 +54,32 @@ public class Component implements Serializable {
     private double k_StryjekAndVera;
     private double SRK_A;
     
+    @AlphaParameter(alphaName = AlphaNames.Twu)
     private double L_Twu;
+    @AlphaParameter(alphaName = AlphaNames.Twu)
     private double M_Twu;
+    @AlphaParameter(alphaName = AlphaNames.Twu)
     private double N_Twu;
     
+    @AlphaParameter(alphaName = AlphaNames.Mathias_Copeman)
     private double A_Mathias_Copeman;
+    @AlphaParameter(alphaName = AlphaNames.Mathias_Copeman)
     private double B_Mathias_Copeman;
+    @AlphaParameter(alphaName = AlphaNames.Mathias_Copeman)
     private double C_Mathias_Copeman;
     
     private double r_UNIQUAC;
     private double q_UNIQUAC;
 //    private double qq_UNIQUAC;
     
+    @AlphaParameter(alphaName = AlphaNames.AdachiAndLu)
     private double A_AdachiAndLu;
+    @AlphaParameter(alphaName = AlphaNames.AdachiAndLu)
     private double B_AdachiAndLu;
-    
+
+    @AlphaParameter(alphaName = AlphaNames.Soave2)
     private double A_Soave;
+    @AlphaParameter(alphaName = AlphaNames.Soave2)
     private double B_Soave;
     
     private double A_MelhemEtAl;
@@ -106,6 +122,20 @@ public class Component implements Serializable {
     private String standardState;
     
 
+    public ArrayList<Field> getAlphaParametersFor(Alpha alpha){
+        ArrayList<Field> fields = new ArrayList(); 
+        for(Field field:getClass().getDeclaredFields()){
+            Class clazz = AlphaParameter.class;
+            Annotation annotation = field.getAnnotation(clazz);
+            if(annotation instanceof AlphaParameter ){
+                AlphaParameter alphaAnnotation = (AlphaParameter)annotation;
+                if(alphaAnnotation.alphaName().equals(alpha.getName()))
+                fields.add(field);
+            }
+        }
+        return fields;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;
