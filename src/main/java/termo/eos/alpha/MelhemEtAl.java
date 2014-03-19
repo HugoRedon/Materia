@@ -31,4 +31,39 @@ public class MelhemEtAl extends Alpha{
         return - A * tr - (B/Math.sqrt(tr))* (1-Math.sqrt(tr));
     }
     
+    @Override
+    public int numberOfParameters() {
+        return 2;
+    }
+    
+    @Override
+    public double getAlphaParameterA(Component component) {
+	return component.getA_MelhemEtAl();
+    } 
+    
+    @Override
+    public void setAlphaParameterA(double paramValue, Component component) {
+        component.setA_MelhemEtAl(paramValue);
+    }
+    
+    @Override
+    public void setAlphaParameterB(double paramValue, Component component) {
+        component.setB_MelhemEtAl(paramValue);
+    }
+
+    @Override
+    public double getAlphaParameterB(Component component) {
+        return component.getB_MelhemEtAl();
+    }
+
+    @Override
+    public void setAlphaParameterC(double paramValue, Component component) {
+        
+    }
+
+    @Override
+    public double getAlphaParameterC(Component component) {
+        return 0;
+    }
+    
 }

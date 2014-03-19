@@ -25,6 +25,7 @@ public class AndroulakisEtAl extends Alpha{
         
         
     }
+   
 
     @Override
     public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Component component) {
@@ -36,6 +37,41 @@ public class AndroulakisEtAl extends Alpha{
         
         double oneMinustrPow = (1 - Math.pow(tr, 2d/3d));
         return -(2d/3d)*Math.pow(tr,2d/3d)*(A + 2*B*oneMinustrPow + 3*C*Math.pow(oneMinustrPow,2));
+    }
+
+    @Override
+    public int numberOfParameters() {
+        return 3;
+    }
+
+    @Override
+    public void setAlphaParameterA(double paramValue, Component component) {
+        component.setA_AndroulakisEtAl(paramValue);
+    }
+
+    @Override
+    public double getAlphaParameterA(Component component) {
+        return component.getA_AndroulakisEtAl();
+    }
+
+    @Override
+    public void setAlphaParameterB(double paramValue, Component component) {
+        component.setB_AndroulakisEtAl(paramValue);
+    }
+
+    @Override
+    public double getAlphaParameterB(Component component) {
+        return component.getB_AndroulakisEtAl();
+    }
+
+    @Override
+    public void setAlphaParameterC(double paramValue, Component component) {
+        component.setC_AndroulakisEtAl(paramValue);
+    }
+
+    @Override
+    public double getAlphaParameterC( Component component) {
+        return component.getC_AndroulakisEtAl();
     }
     
 }

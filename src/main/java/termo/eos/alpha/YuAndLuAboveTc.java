@@ -34,4 +34,40 @@ public class YuAndLuAboveTc extends Alpha{
         return -tr*(A+B+C);
     }
     
+      @Override
+    public int numberOfParameters() {
+        return 3;
+    }
+    
+    @Override
+    public double getAlphaParameterA(Component component) {
+	return component.getA_YuAndLu();
+    } 
+    
+    @Override
+    public void setAlphaParameterA(double paramValue, Component component) {
+        component.setA_YuAndLu(paramValue);
+    }
+    
+    @Override
+    public void setAlphaParameterB(double paramValue, Component component) {
+        component.setB_YuAndLu(paramValue);
+    }
+
+    @Override
+    public double getAlphaParameterB(Component component) {
+        return component.getB_YuAndLu();
+    }
+
+    @Override
+    public void setAlphaParameterC(double paramValue, Component component) {
+        component.setC_YuAndLu(paramValue);
+    }
+
+    @Override
+    public double getAlphaParameterC(Component component) {
+        return component.getC_YuAndLu();
+    }
+    
+    
 }

@@ -2,9 +2,11 @@
 
 package termo.substance;
 
+import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import termo.component.Component;
+import termo.data.ExperimentalData;
 import termo.eos.Cubic;
 import termo.eos.EquationOfStateFactory;
 import termo.eos.alpha.Alpha;
@@ -13,7 +15,30 @@ import termo.optimization.AlphaOptimization;
 
 
 public class PolarMathiasTest {
+    ArrayList<ExperimentalData> experimental;
+    public PolarMathiasTest(){
+          double[][] experimentalarray = {//temperature[C], pressure[kPa]
+            {93.48,179.321},
+            {82.36,118.719},
+            {74.98,88.763},
+            {54.66,36.76},
+            {36.61,14.981},
+            {19.62,5.726}
+        };
+         experimentalarray = converToKandPa(experimentalarray);
+         
+         experimental = convertToArrayList(experimentalarray);
+         
+    }
   
+    private ArrayList<ExperimentalData> convertToArrayList(double[][] experimentalarray) {
+        ArrayList<ExperimentalData> result = new ArrayList();
+        for(double[]pair: experimentalarray){
+            result.add(new ExperimentalData(pair[0],pair[1]));
+        }
+        return result;
+    }
+    
     @Test
     public void testPRSV(){
         
@@ -29,15 +54,9 @@ public class PolarMathiasTest {
         
         HeterogeneousPureSubstance substance = new HeterogeneousPureSubstance(eos, alpha, ethanol);
         
-         double[][] experimental = {//temperature[C], pressure[kPa]
-            {93.48,179.321},
-            {82.36,118.719},
-            {74.98,88.763},
-            {54.66,36.76},
-            {36.61,14.981},
-            {19.62,5.726}
-        };
-        experimental = converToKandPa(experimental);
+       
+         
+        
       
         AlphaOptimization op = new AlphaOptimization(substance,experimental);
         
@@ -81,16 +100,6 @@ public class PolarMathiasTest {
         Alpha alpha = AlphaFactory.getMathiasAndCopemanExpression();
         
         HeterogeneousPureSubstance substance = new HeterogeneousPureSubstance(eos, alpha, ethanol);
-        
-        double[][] experimental = {//temperature[C], pressure[kPa]
-            {93.48,179.321},
-            {82.36,118.719},
-            {74.98,88.763},
-            {54.66,36.76},
-            {36.61,14.981},
-            {19.62,5.726}
-        };
-        experimental = converToKandPa(experimental);
       
         
         AlphaOptimization op = new AlphaOptimization(substance,experimental);
@@ -105,6 +114,8 @@ public class PolarMathiasTest {
         
         
     }  
+
+    
     
 
     

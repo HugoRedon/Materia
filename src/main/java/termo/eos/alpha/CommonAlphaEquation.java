@@ -25,11 +25,11 @@ public abstract class CommonAlphaEquation extends Alpha implements Serializable{
 	return regex;
     }
     
-    public abstract double get_q(Component component);
+    public abstract double getAlphaParameterA(Component component);
 
     @Override
     public  double alpha(double temperature, Component component){
-	double q = get_q(component);
+	double q = getAlphaParameterA(component);
 	double omega = component.getAcentricFactor();
 	double reducedTemperature = temperature  / component.getCriticalTemperature();
 
@@ -51,7 +51,7 @@ public abstract class CommonAlphaEquation extends Alpha implements Serializable{
     public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Component component){
 	double tr = temperature /component.getCriticalTemperature();    
 	double omega = component.getAcentricFactor();
-	double q = get_q(component); 
+	double q = getAlphaParameterA(component); 
 	
 	return (1d/ Math.sqrt(alpha(temperature,component)))*(- m(omega) * Math.sqrt(tr) 
                     - x * q * ( 3.4*tr - 4*Math.pow(tr, 2) ));
@@ -197,8 +197,43 @@ class StryjekAndVera extends CommonAlphaEquation {
     
     
     @Override
-    public double get_q(Component component) {
+    public double getAlphaParameterA(Component component) {
 	return component.getK_StryjekAndVera();
+    }
+
+    @Override
+    public int numberOfParameters() {
+        return 1;
+    }
+
+    @Override
+    public void setAlphaParameterA(double paramValue, Component component) {
+        component.setK_StryjekAndVera(paramValue);
+    }
+
+//    @Override
+//    public double getAlphaParameterA(Component component) {
+//        return component.getK_StryjekAndVera();
+//    }
+
+    @Override
+    public void setAlphaParameterB(double paramValue, Component component) {
+        
+    }
+
+    @Override
+    public double getAlphaParameterB(Component component) {
+        return 0;
+    }
+
+    @Override
+    public void setAlphaParameterC(double paramValue, Component component) {
+        
+    }
+
+    @Override
+    public double getAlphaParameterC(Component component) {
+        return 0;
     }
     }
 
@@ -217,10 +252,42 @@ class SoaveAlpha extends CommonAlphaEquation{
         );
         
     }
+    
     @Override
-    public double get_q(Component component) {
+    public int numberOfParameters() {
+        return 0;
+    }
+    
+    @Override
+    public double getAlphaParameterA(Component component) {
 	return 0;
     }
+    
+    @Override
+    public void setAlphaParameterA(double paramValue, Component component) {
+        
+    }
+    
+    @Override
+    public void setAlphaParameterB(double paramValue, Component component) {
+        
+    }
+
+    @Override
+    public double getAlphaParameterB(Component component) {
+        return 0;
+    }
+
+    @Override
+    public void setAlphaParameterC(double paramValue, Component component) {
+        
+    }
+
+    @Override
+    public double getAlphaParameterC(Component component) {
+        return 0;
+    }
+    
 }
 
 class MathiasAlpha extends CommonAlphaEquation{
@@ -244,11 +311,42 @@ class MathiasAlpha extends CommonAlphaEquation{
         
         setEquation(b.toString());
     }
+    
     @Override
-    public double get_q(Component component) {
+    public int numberOfParameters() {
+        return 1;
+    }
+    
+    @Override
+    public double getAlphaParameterA(Component component) {
 	return component.getA_Mathias();
     }
+    
+    @Override
+    public void setAlphaParameterA(double paramValue, Component component) {
+        component.setA_Mathias(paramValue);
     }
+    
+    @Override
+    public void setAlphaParameterB(double paramValue, Component component) {
+        
+    }
+
+    @Override
+    public double getAlphaParameterB(Component component) {
+        return 0;
+    }
+
+    @Override
+    public void setAlphaParameterC(double paramValue, Component component) {
+        
+    }
+
+    @Override
+    public double getAlphaParameterC(Component component) {
+        return 0;
+    }
+}
     
 
 class PengAndRobinsonAlpha extends CommonAlphaEquation{
@@ -269,9 +367,40 @@ class PengAndRobinsonAlpha extends CommonAlphaEquation{
         
         setEquation(b.toString());
     }
+    
     @Override
-    public double get_q(Component component) {
+    public int numberOfParameters() {
+        return 0;
+    }
+    
+    @Override
+    public double getAlphaParameterA(Component component) {
 	return 0;
     } 
+    
+    @Override
+    public void setAlphaParameterA(double paramValue, Component component) {
+        
+    }
+    
+    @Override
+    public void setAlphaParameterB(double paramValue, Component component) {
+        
+    }
+
+    @Override
+    public double getAlphaParameterB(Component component) {
+        return 0;
+    }
+
+    @Override
+    public void setAlphaParameterC(double paramValue, Component component) {
+        
+    }
+
+    @Override
+    public double getAlphaParameterC(Component component) {
+        return 0;
+    }
 }
     

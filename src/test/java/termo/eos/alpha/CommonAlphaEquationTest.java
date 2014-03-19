@@ -38,9 +38,39 @@ public class CommonAlphaEquationTest {
     class TestAlpha extends CommonAlphaEquation{
 
 	@Override
-	public double get_q(Component component) {
+	public double getAlphaParameterA(Component component) {
 	    return 0;
 	}
+
+        @Override
+        public int numberOfParameters() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void setAlphaParameterA(double paramValue, Component component) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void setAlphaParameterB(double paramValue, Component component) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public double getAlphaParameterB(Component component) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void setAlphaParameterC(double paramValue, Component component) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public double getAlphaParameterC(Component component) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
 
         }
       /**

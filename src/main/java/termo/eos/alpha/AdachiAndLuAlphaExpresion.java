@@ -27,5 +27,41 @@ public class AdachiAndLuAlphaExpresion extends Alpha{
         
         return - (B*tr);
     }
+
+    @Override
+    public int numberOfParameters() {
+        return 2;
+    }
+
+    @Override
+    public void setAlphaParameterA(double paramValue, Component component) {
+        component.setA_AdachiAndLu(paramValue);
+    }
+
+    @Override
+    public double getAlphaParameterA(Component component) {
+        return component.getA_AdachiAndLu();
+    }
+
+    @Override
+    public void setAlphaParameterB(double paramValue, Component component) {
+        component.setB_AdachiAndLu(paramValue);
+    }
+
+    @Override
+    public double getAlphaParameterB(Component component) {
+        return component.getB_AdachiAndLu();
+    }
+
+    @Override
+    public void setAlphaParameterC(double paramValue, Component component) {
+        System.out.println("No se debería esta llamando a este método");
+    }
+
+    @Override
+    public double getAlphaParameterC(Component component) {
+        System.out.println("No se debería estar llamando a este método");
+        return 0;
+    }
     
 }

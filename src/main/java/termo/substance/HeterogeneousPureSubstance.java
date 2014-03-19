@@ -1,10 +1,13 @@
 package termo.substance;
 
+import java.util.ArrayList;
 import termo.component.Component;
+import termo.data.ExperimentalData;
 import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
 import termo.equilibrium.EquilibriaFunction;
 import termo.equilibrium.EquilibriaSolution;
+import termo.optimization.AlphaOptimization;
 import termo.phase.Phase;
 
 /**
@@ -230,6 +233,13 @@ public class HeterogeneousPureSubstance extends HeterogeneousSubstance{
     public void setComponent(Component component) {
 	this.component = component;
     }
+
+    public void optimizeTo(ArrayList<ExperimentalData> expData) {
+        AlphaOptimization op = new AlphaOptimization(this, expData);
+        op.solve();
+    }
+
+   
 class BubbleTemperatureFunctions implements EquilibriaFunction{
     
     @Override

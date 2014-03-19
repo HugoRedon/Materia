@@ -47,6 +47,16 @@ public abstract class Alpha {
         this.equation = equation;
     }
 
+    public abstract int numberOfParameters() ;
+
+    public abstract void setAlphaParameterA(double paramValue, Component component) ;
+    public abstract double getAlphaParameterA(Component component);
+    
+    public abstract void setAlphaParameterB(double paramValue, Component component) ;
+    public abstract double getAlphaParameterB( Component component);
+    
+    public abstract void setAlphaParameterC(double paramValue, Component component) ;
+    public abstract double getAlphaParameterC(Component component);
 
 
    

@@ -59,6 +59,42 @@ public class MathiasCopemanEquation extends Alpha{
        double sqrtTr = Math.sqrt(tr);
        return (sqrtTr/Math.sqrt(alpha(temperature, component))) * (- A + x * (- 2 * B*(1- sqrtTr)  - 3 * C * Math.pow(1-sqrtTr, 2)));
     }
+    
+      @Override
+    public int numberOfParameters() {
+        return 3;
+    }
+    
+    @Override
+    public double getAlphaParameterA(Component component) {
+	return component.getA_Mathias_Copeman();
+    } 
+    
+    @Override
+    public void setAlphaParameterA(double paramValue, Component component) {
+        component.setA_Mathias_Copeman(paramValue);
+    }
+    
+    @Override
+    public void setAlphaParameterB(double paramValue, Component component) {
+        component.setB_Mathias_Copeman(paramValue);
+    }
+
+    @Override
+    public double getAlphaParameterB(Component component) {
+        return component.getB_Mathias_Copeman();
+    }
+
+    @Override
+    public void setAlphaParameterC(double paramValue, Component component) {
+        component.setC_Mathias_Copeman(paramValue);
+    }
+
+    @Override
+    public double getAlphaParameterC(Component component) {
+        return component.getC_Mathias_Copeman();
+    }
+    
 
     /**
      * @return the x

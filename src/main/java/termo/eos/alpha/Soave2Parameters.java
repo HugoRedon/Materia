@@ -28,4 +28,39 @@ public class Soave2Parameters extends Alpha{
         return (- (tr) *(A + (B/tr)) - (B/tr) *(1-tr))/ alpha(temperature, component);
     }
     
+         @Override
+    public int numberOfParameters() {
+        return 2;
+    }
+    
+    @Override
+    public double getAlphaParameterA(Component component) {
+	return component.getA_Soave();
+    } 
+    
+    @Override
+    public void setAlphaParameterA(double paramValue, Component component) {
+        component.setA_Soave(paramValue);
+    }
+    
+    @Override
+    public void setAlphaParameterB(double paramValue, Component component) {
+        component.setB_Soave(paramValue);
+    }
+
+    @Override
+    public double getAlphaParameterB(Component component) {
+        return component.getB_Soave();
+    }
+
+    @Override
+    public void setAlphaParameterC(double paramValue, Component component) {
+        
+    }
+
+    @Override
+    public double getAlphaParameterC(Component component) {
+        return 0;
+    }
+    
 }

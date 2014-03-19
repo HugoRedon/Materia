@@ -33,7 +33,40 @@ public class TwuEquation extends Alpha {
     }
     
 
+     @Override
+    public int numberOfParameters() {
+        return 3;
+    }
+    
+    @Override
+    public double getAlphaParameterA(Component component) {
+	return component.getN_Twu();
+    } 
+    
+    @Override
+    public void setAlphaParameterA(double paramValue, Component component) {
+        component.setN_Twu(paramValue);
+    }
+    
+    @Override
+    public void setAlphaParameterB(double paramValue, Component component) {
+        component.setM_Twu(paramValue);
+    }
 
+    @Override
+    public double getAlphaParameterB(Component component) {
+        return component.getM_Twu();
+    }
+
+    @Override
+    public void setAlphaParameterC(double paramValue, Component component) {
+        component.setL_Twu(paramValue);
+    }
+
+    @Override
+    public double getAlphaParameterC(Component component) {
+        return component.getL_Twu();
+    }
 
 
 }

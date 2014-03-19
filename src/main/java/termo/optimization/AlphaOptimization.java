@@ -1,6 +1,8 @@
 
 package termo.optimization;
 
+import java.util.ArrayList;
+import termo.data.ExperimentalData;
 import termo.matrix.Matrix;
 import termo.substance.HeterogeneousPureSubstance;
 
@@ -10,24 +12,53 @@ import termo.substance.HeterogeneousPureSubstance;
  */
 public class AlphaOptimization {
     HeterogeneousPureSubstance substance;
-    double[][] experimental ;
+    //double[][] experimental ;
+    ArrayList<ExperimentalData> experimental;
     double pass = 0.0001;
     
-    public AlphaOptimization(HeterogeneousPureSubstance substance,double[][] experimental){
+    public AlphaOptimization(HeterogeneousPureSubstance substance,ArrayList<ExperimentalData> experimental){
         this.substance = substance ; 
         this.experimental = experimental;
     }
-    public AlphaOptimization(HeterogeneousPureSubstance substance,double[][] experimental, double pass){
+    public AlphaOptimization(HeterogeneousPureSubstance substance,ArrayList<ExperimentalData> experimental, double pass){
        this(substance, experimental);
        this.pass = pass;
     }
     
+    
+    
+    
+    public void solve(){
+        int numberOfParameters = substance.getAlpha().numberOfParameters();
+        if(numberOfParameters == 1){
+            solveVapoPressureRegression(substance.getAlpha().getAlphaParameterA(substance.getComponent()));
+        }else if(numberOfParameters == 2){
+            
+        }else if(numberOfParameters == 3){
+            solveMathiasCopemanVapoPressureRegression(
+                    substance.getAlpha().getAlphaParameterA(substance.getComponent()),
+                    substance.getAlpha().getAlphaParameterB(substance.getComponent()), 
+                    substance.getAlpha().getAlphaParameterC(substance.getComponent()));
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //newton raphson de una variable
     public double vaporPressureError( double paramValue) {
-        substance.getComponent().setK_StryjekAndVera(paramValue);
+        substance.getAlpha().setAlphaParameterA(paramValue,substance.getComponent());
+       // substance.getComponent().setK_StryjekAndVera(paramValue);// generalizar para mathias
         double error =0;
-        for (double[] pair: experimental){
-            substance.dewPressure(pair[0]);
-            double expP = pair[1];
+        for (ExperimentalData pair: experimental){
+            substance.dewPressure(pair.getTemperature());
+            double expP = pair.getPressure();
             
             error += Math.pow((substance.getPressure() - expP)/expP,2);
         }   
@@ -75,14 +106,22 @@ public class AlphaOptimization {
     
     
     
+    
+    
+    //Newton raphson multivariable (3 variables)
+    
+    
     public double vaporPressureErrorMathiasCopeman(double A, double B, double C){
-        substance.getComponent().setA_Mathias_Copeman(A);
-        substance.getComponent().setB_Mathias_Copeman(B);
-        substance.getComponent().setC_Mathias_Copeman(C);
+//        substance.getComponent().setA_Mathias_Copeman(A);
+//        substance.getComponent().setB_Mathias_Copeman(B);
+//        substance.getComponent().setC_Mathias_Copeman(C);
+        substance.getAlpha().setAlphaParameterA(A, substance.getComponent());
+        substance.getAlpha().setAlphaParameterB(B, substance.getComponent());
+        substance.getAlpha().setAlphaParameterC(C, substance.getComponent());
         double error =0;
-        for (double[] pair: experimental){
-            substance.dewPressure(pair[0]);
-            double expP = pair[1];
+        for (ExperimentalData pair: experimental){
+            substance.dewPressure(pair.getTemperature());
+            double expP = pair.getPressure();
             
             error += Math.pow((substance.getPressure() - expP)/expP,2);
         }   

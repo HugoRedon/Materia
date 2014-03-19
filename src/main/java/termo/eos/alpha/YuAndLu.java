@@ -34,5 +34,39 @@ public class YuAndLu extends Alpha{
         return Math.log(10)*((B*tr+2*C*tr)*(1-tr)
                 -tr*(A+B*tr+C*Math.pow(tr, 2)));
     }
+    @Override
+    public int numberOfParameters() {
+        return 3;
+    }
+    
+    @Override
+    public double getAlphaParameterA(Component component) {
+	return component.getA_YuAndLu();
+    } 
+    
+    @Override
+    public void setAlphaParameterA(double paramValue, Component component) {
+        component.setA_YuAndLu(paramValue);
+    }
+    
+    @Override
+    public void setAlphaParameterB(double paramValue, Component component) {
+        component.setB_YuAndLu(paramValue);
+    }
+
+    @Override
+    public double getAlphaParameterB(Component component) {
+        return component.getB_YuAndLu();
+    }
+
+    @Override
+    public void setAlphaParameterC(double paramValue, Component component) {
+        component.setC_YuAndLu(paramValue);
+    }
+
+    @Override
+    public double getAlphaParameterC(Component component) {
+        return component.getC_YuAndLu();
+    }
     
 }
