@@ -24,7 +24,7 @@ public class AlphaFactory {
                 Alpha a = (Alpha)method.invoke(null);
                 alphas.add(a);
             } catch (Exception ex) {
-                System.out.println("Error "  + ex.getMessage());
+                System.out.println("Error ---------------------------------- "  + ex.getMessage());
             }
         }
         return alphas;

@@ -3,7 +3,7 @@ package termo.matrix;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class MatrixTest {
+public class Matrix3x3Test {
     
     double[][] matrix ={
         {1,0,2},
@@ -16,7 +16,7 @@ public class MatrixTest {
 //    public void testMatrixVectorMultiplication() {
 //        System.out.println("matrixVectorMultiplication");
 //        
-//        Matrix instance = new Matrix(matrix);
+//        Matrix3x3 instance = new Matrix3x3(matrix);
 //        double[] vector = {5,3,2};
 //        
 //        double[] expResult  ={
@@ -33,7 +33,7 @@ public class MatrixTest {
     public void testMatrixVectorMultiplication(){
         System.out.println("MatrixVectorMultiplication");
         
-        Matrix instance = new Matrix(matrix);
+        Matrix3x3 instance = new Matrix3x3(matrix);
         double[] vector = {5,3,2};
         double[] expResult = {
             9,
@@ -45,13 +45,13 @@ public class MatrixTest {
     }
 
     /**
-     * Test of inverse method, of class Matrix.
+     * Test of inverse method, of class Matrix3x3.
      */
     @Test
     public void testInverse() {
         System.out.println("inverse");
         
-        Matrix instance = new Matrix(matrix);
+        Matrix3x3 instance = new Matrix3x3(matrix);
         double[][] expResult  ={
             {-11,2,2},
             {-4,0,1},
@@ -62,13 +62,13 @@ public class MatrixTest {
     }
 
     /**
-     * Test of cofactorMatrix method, of class Matrix.
+     * Test of cofactorMatrix method, of class Matrix3x3.
      */
     @Test
     public void testCofactorMatrix() {
         System.out.println("cofactorMatrix");
         
-        Matrix instance = new Matrix(matrix);
+        Matrix3x3 instance = new Matrix3x3(matrix);
         double[][] expResult ={
             {-11,-4,6},
             {2,0,-1},
@@ -81,14 +81,14 @@ public class MatrixTest {
     }
 
     /**
-     * Test of menor method, of class Matrix.
+     * Test of menor method, of class Matrix3x3.
      */
     @Test
     public void testMenor11() {
         System.out.println("menor");
         int i = 1;
         int j = 1;
-        Matrix instance = new Matrix(matrix);
+        Matrix3x3 instance = new Matrix3x3(matrix);
         double expResult = -11;
         double result = instance.menor(i, j);
         assertEquals(expResult, result, 0.0);
@@ -100,7 +100,7 @@ public class MatrixTest {
         System.out.println("menor");
         int i = 1;
         int j = 2;
-        Matrix instance = new Matrix(matrix);
+        Matrix3x3 instance = new Matrix3x3(matrix);
         double expResult = -4;
         double result = instance.menor(i, j);
         assertEquals(expResult, result, 0.0);
@@ -112,7 +112,7 @@ public class MatrixTest {
         System.out.println("menor");
         int i = 1;
         int j = 3;
-        Matrix instance = new Matrix(matrix);
+        Matrix3x3 instance = new Matrix3x3(matrix);
         double expResult = 6;
         double result = instance.menor(i, j);
         assertEquals(expResult, result, 0.0);
@@ -123,7 +123,7 @@ public class MatrixTest {
         System.out.println("menor");
         int i = 2;
         int j = 1;
-        Matrix instance = new Matrix(matrix);
+        Matrix3x3 instance = new Matrix3x3(matrix);
         double expResult = 2;
         double result = instance.menor(i, j);
         assertEquals(expResult, result, 0.0);
@@ -134,7 +134,7 @@ public class MatrixTest {
         System.out.println("menor");
         int i = 2;
         int j = 2;
-        Matrix instance = new Matrix(matrix);
+        Matrix3x3 instance = new Matrix3x3(matrix);
         double expResult = 0;
         double result = instance.menor(i, j);
         assertEquals(expResult, result, 0.0);
@@ -142,13 +142,13 @@ public class MatrixTest {
     }
     
     /**
-     * Test of determinant method, of class Matrix.
+     * Test of determinant method, of class Matrix3x3.
      */
     @Test
     public void testDeterminant() {
         System.out.println("determinant");
         
-        Matrix instance = new Matrix(matrix);
+        Matrix3x3 instance = new Matrix3x3(matrix);
         double expResult = 1;
         double result = instance.determinant();
         assertEquals(expResult, result, 0.0);
@@ -156,13 +156,13 @@ public class MatrixTest {
     }
 
     /**
-     * Test of transposeMatrix method, of class Matrix.
+     * Test of transposeMatrix method, of class Matrix3x3.
      */
     @Test
     public void testTransposeMatrix() {
          System.out.println("transpose");
         
-        Matrix instance = new Matrix(matrix);
+        Matrix3x3 instance = new Matrix3x3(matrix);
         double[][] expResult ={
             {1,2,4},
             {0,-1,1},

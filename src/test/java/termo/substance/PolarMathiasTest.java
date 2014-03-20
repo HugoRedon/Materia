@@ -64,8 +64,8 @@ public class PolarMathiasTest {
         
         double expResult = -0.03858;
         //double expResult = 0.009988;
-        double result = op.solveVapoPressureRegression(0);
-        assertEquals(expResult, result , 1e-3);
+        double[] result = op.solveVapoPressureRegression(0);
+        assertEquals(expResult, result[0] , 1e-3);
         
         
     }  
@@ -108,7 +108,7 @@ public class PolarMathiasTest {
         
         double[] expResult = {0,0,0};
         
-        double[] result = op.solveMathiasCopemanVapoPressureRegression( 0,0,0);
+        double[] result = op.solveVapoPressureRegression( 0,0,0);
         
         assertEquals(expResult, result );
         

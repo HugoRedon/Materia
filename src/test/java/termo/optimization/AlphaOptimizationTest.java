@@ -1,7 +1,7 @@
 package termo.optimization;
 
 import java.util.ArrayList;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import termo.component.Component;
 import termo.cp.DIPPR_107_Equation;
@@ -68,9 +68,19 @@ public class AlphaOptimizationTest {
         
         HeterogeneousPureSubstance substance = new HeterogeneousPureSubstance(eos, alpha, component);
         substance.optimizeTo(list);
-        //compila se ejecuta y no entra en un loop infinito... para eso es esta prueba.
+        assertEquals(5.559239095754101,component.getA_AndroulakisEtAl(),1e-4);
+        //compila se ejecuta y no entra en un loop infinito
     }
     
+    @Test public void test2VariableOptimization(){
+        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Alpha alpha = AlphaFactory.getSoave2Parameters();
+        
+        
+        HeterogeneousPureSubstance substance = new HeterogeneousPureSubstance(eos, alpha, component);
+        substance.optimizeTo(list);
+        assertEquals(2.715531696763059/*este no es el valor*/, component.getA_Soave(),1e-4);
+    }
     @Test
     public void test1VariableOptimization() {
         
@@ -80,7 +90,8 @@ public class AlphaOptimizationTest {
         
         HeterogeneousPureSubstance substance = new HeterogeneousPureSubstance(eos, alpha, component);
         substance.optimizeTo(list);
-        //compila se ejecuta y no entra en un loop infinito... para eso es esta prueba.
+        assertEquals(2.715531696763059, component.getK_StryjekAndVera(),1e-4);
+        //compila se ejecuta y no entra en un loop infinito
     }
     
 }
