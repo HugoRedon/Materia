@@ -19,7 +19,15 @@ public  class Cubic extends EOS{
     public String getEquation(){
         return "P = \\frac{RT}{v - b} - \\frac{a} { v^2 + u b v + w b^2}";
     }
+    
+    public String evaluateLatexCubic(double R,double T, double v,double a, double b){
+        return "P = \\frac{"+R+"*" +T+"}{"+v+" - " + b+"} - \\frac{"+a+"} {("+ v+")^2 + "+u+ "*"+ b+"*"+ v + " + "+ w+"*("+ b+")^2}";
+    }
 
+    public String a_cubicParameterLatexEquation(){
+        return "a = \\Omega_a \\frac{\\left(RT_c\\right)^2}{p_c}\\alpha(T)";
+    }
+    
     /**
      *
      * @param temperature Temperature in Kelvin

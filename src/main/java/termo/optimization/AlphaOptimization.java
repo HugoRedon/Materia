@@ -30,21 +30,21 @@ public class AlphaOptimization {
     
     
     public void solve(){
-        int numberOfParameters = substance.getAlpha().numberOfParameters();
+        int numberOfParameters = substance.getVapor().getAlpha().numberOfParameters();
         if(numberOfParameters == 1){
             solveVapoPressureRegression(
-                    substance.getAlpha().getAlphaParameterA(substance.getComponent())
+                    substance.getVapor().getAlpha().getAlphaParameterA(substance.getVapor().getComponent())
             );
         }else if(numberOfParameters == 2){
             solveVapoPressureRegression(
-                    substance.getAlpha().getAlphaParameterA(substance.getComponent()),
-                    substance.getAlpha().getAlphaParameterB(substance.getComponent())
+                    substance.getVapor().getAlpha().getAlphaParameterA(substance.getVapor().getComponent()),
+                    substance.getVapor().getAlpha().getAlphaParameterB(substance.getVapor().getComponent())
             );
         }else if(numberOfParameters == 3){
             solveVapoPressureRegression(
-                    substance.getAlpha().getAlphaParameterA(substance.getComponent()),
-                    substance.getAlpha().getAlphaParameterB(substance.getComponent()), 
-                    substance.getAlpha().getAlphaParameterC(substance.getComponent())
+                    substance.getVapor().getAlpha().getAlphaParameterA(substance.getVapor().getComponent()),
+                    substance.getVapor().getAlpha().getAlphaParameterB(substance.getVapor().getComponent()), 
+                    substance.getVapor().getAlpha().getAlphaParameterC(substance.getVapor().getComponent())
             );
         }
     }
@@ -121,11 +121,11 @@ public class AlphaOptimization {
     
     public double vaporPressureError(double... params){
         if(params.length >= 1){
-            substance.getAlpha().setAlphaParameterA(params[0], substance.getComponent());
+            substance.getVapor().getAlpha().setAlphaParameterA(params[0], substance.getVapor().getComponent());
         } if(params.length >=2){
-            substance.getAlpha().setAlphaParameterB(params[1], substance.getComponent());
+            substance.getVapor().getAlpha().setAlphaParameterB(params[1], substance.getVapor().getComponent());
         }if(params.length >=3){
-            substance.getAlpha().setAlphaParameterC(params[2], substance.getComponent());
+            substance.getVapor().getAlpha().setAlphaParameterC(params[2], substance.getVapor().getComponent());
         }
         double error =0;
         for (ExperimentalData pair: experimental){

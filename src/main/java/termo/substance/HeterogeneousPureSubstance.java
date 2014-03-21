@@ -17,10 +17,10 @@ import termo.phase.Phase;
  */
 public class HeterogeneousPureSubstance extends HeterogeneousSubstance{
 
-    private Cubic cubicEquationOfState;
-    private Alpha alpha;
-
-    private Component component;
+//    private Cubic cubicEquationOfState;
+//    private Alpha alpha;
+//
+//    private Component component;
 //    private PureSubstance liquid;
 //    private PureSubstance vapor;
     
@@ -30,14 +30,20 @@ public class HeterogeneousPureSubstance extends HeterogeneousSubstance{
 	    Cubic eos,
 	    Alpha alpha,
 	    Component component){
-	this.cubicEquationOfState = eos;
-	this.alpha = alpha;
-	this.component = component;
-	
+//	this.cubicEquationOfState = eos;
+//	this.alpha = alpha;
+//	this.component = component;
+//	
 	liquid = new PureSubstance(eos, alpha, component, Phase.LIQUID);
 	vapor = new PureSubstance(eos, alpha, component, Phase.VAPOR);
     }
         
+    public HeterogeneousPureSubstance(PureSubstance pure){
+        liquid = new PureSubstance(
+                pure.getCubicEquationOfState(), pure.getAlpha(), pure.getComponent(), Phase.LIQUID);
+        vapor = new PureSubstance(
+                pure.getCubicEquationOfState(), pure.getAlpha(), pure.getComponent(), Phase.VAPOR);
+    }
     
     
     
@@ -154,18 +160,18 @@ public class HeterogeneousPureSubstance extends HeterogeneousSubstance{
     
     
     
-    public Cubic getCubicEquationOfState() {
-	return cubicEquationOfState;
-    }   
-    void setCubicEquationOfState(Cubic eos) {
-	this.cubicEquationOfState = eos;
-    }
-    void setAlpha(Alpha alpha) {
-	this.alpha = alpha;
-    }
-    public Alpha getAlpha() {
-	return alpha;
-    }
+//    public Cubic getCubicEquationOfState() {
+//	return cubicEquationOfState;
+//    }   
+//    void setCubicEquationOfState(Cubic eos) {
+//	this.cubicEquationOfState = eos;
+//    }
+//    void setAlpha(Alpha alpha) {
+//	this.alpha = alpha;
+//    }
+//    public Alpha getAlpha() {
+//	return alpha;
+//    }
   
 
     private int minimizeTemperature(EquilibriaFunction function){
@@ -220,19 +226,19 @@ public class HeterogeneousPureSubstance extends HeterogeneousSubstance{
              
 }
 
-    /**
-     * @return the component
-     */
-    public Component getComponent() {
-	return component;
-    }
-
-    /**
-     * @param component the component to set
-     */
-    public void setComponent(Component component) {
-	this.component = component;
-    }
+//    /**
+//     * @return the component
+//     */
+//    public Component getComponent() {
+//	return component;
+//    }
+//
+//    /**
+//     * @param component the component to set
+//     */
+//    public void setComponent(Component component) {
+//	this.component = component;
+//    }
 
     public void optimizeTo(ArrayList<ExperimentalData> expData) {
         AlphaOptimization op = new AlphaOptimization(this, expData);

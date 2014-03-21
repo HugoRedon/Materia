@@ -1,11 +1,47 @@
 package termo.eos;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import termo.eos.alpha.Alpha;
+import termo.eos.alpha.AlphaFactory;
+
 /**
  *
  * @author Hugo Redon Rivera
  */
 public class EquationOfStateFactory {
 
+    public static ArrayList<EOS> getAllAvailableEquations(){
+        ArrayList<EOS> eos = new ArrayList();
+    
+        for(Method method :EquationOfStateFactory.class.getDeclaredMethods()){
+            if( method.getName().equals("getAllAvailableEquations") ||
+                    method.getName().equals("getAllAvailableCubicEquations")){
+                continue;
+            }
+            try {
+                method.setAccessible(true);
+                EOS a = (EOS)method.invoke(null);
+                eos.add(a);
+            } catch (Exception ex) {
+                System.out.println("Error ---------------------------------- "  + ex.getMessage());
+            }
+        }
+        return eos;
+    }
+    public static ArrayList<Cubic> getAllAvailableCubicEquations(){
+        ArrayList<Cubic> cubics = new ArrayList();
+        for(EOS eos: getAllAvailableEquations()){
+            if(eos.isCubic()){
+                cubics.add((Cubic)eos);
+            }
+        }
+        return cubics;
+    }
+    
+    
+    
+    
     public static Cubic pengRobinsonBase(){
         Cubic pengRobinson = new Cubic();
         pengRobinson.setName(EOSNames.PengRobinson);

@@ -26,6 +26,41 @@ public abstract class  HomogeneousSubstance  {
 	this.cubicEquationOfState = eos;
 	this.phase = phase;
     }
+    
+    public String enthalpyLatexEquation(){
+        StringBuilder b = new StringBuilder();
+        b.append("h= h_{ideal }");
+        b.append("+ \\left[" );
+        b.append("\\frac{ T \\left(   \\frac{\\partial a }{\\partial T}  \\right)  - a }{b  \\sqrt{u^2 -4 w}}");
+        b.append("\\right]");
+        b.append("\\ln{" );
+        b.append("\\left[" );
+        b.append("\\frac{2 v + b \\left(u + \\sqrt{u^2 - 4w}\\right)}");
+        b.append("{2 v + b \\left(u - \\sqrt{u^2 - 4w}\\right)}");
+        b.append("\\right]");
+        b.append("}");
+        b.append("+ pv - RT");
+        return b.toString();
+    }
+    public String entropyLatexEquation(){
+        StringBuilder b = new StringBuilder();
+        b.append("s= s_{ideal }");
+        b.append("+ R  \\ln{\\frac{z \\left(v-b\\right) }{v}}");
+        b.append("+ \\left[");
+        b.append("\\frac{ \\frac{\\partial a }{\\partial T} }{b  \\sqrt{u^2 -4 w}}");
+        b.append("\\right]");
+        b.append("\\ln{");
+        b.append("\\left[");
+        b.append("\\frac{2 v + b \\left(u + \\sqrt{u^2 - 4w}\\right)}");
+        b.append("{2 v + b \\left(u - \\sqrt{u^2 - 4w}\\right)}");
+        b.append("\\right]");
+        b.append("}");
+        return b.toString();
+    }
+    public String gibbsLatexEquation(){
+        return "  g = h - T * s";
+    }
+    
 
     public abstract double temperatureParcial_a();
     public abstract double calculate_a_cubicParameter();

@@ -66,7 +66,13 @@ public class VDWMixingRuleTest {
 	
 	 b = new InteractionParameter(true);
 	b.setValue(propane, ethane, 0.05);
-	rule = new VDWMixingRuleBuilder().setEquationOfState(eos).setAlpha(alpha).setComponents(components).setPhase(Phase.VAPOR).setK(b).createVDWMixingRule();
+	rule = new VDWMixingRuleBuilder()
+                .setEquationOfState(eos)
+                .setAlpha(alpha)
+                .setComponents(components)
+                .setPhase(Phase.VAPOR)
+                .setInteractionParameters(b)
+                .createVDWMixingRule();
 	rule.setFraction(propane, 0.7);
 	rule.setFraction(ethane, 0.3);
 	
@@ -81,31 +87,22 @@ public class VDWMixingRuleTest {
     public void testA() {
 	System.out.println("a");
 	double temperature =298;
-
-//	for(PureSubstance pure: fractions.keySet()){
-//	    pure.setTemperature(temperature);
-//	}
-	
 	rule.setTemperature(temperature);
 	
 	double expResult = 950499.221;
 	double result = rule.calculate_a_cubicParameter();
 	assertEquals(expResult, result, 1e-3);
-	
     }
 
     @Test
     public void testB() {
 //	System.out.println("calculate_b_cubicParameter");
-//	HashMap<Component, Double> singleBs = null;
-//	ArrayList<Component> components = null;
-//	HashMap<Component, Double> fractions = null;
-//	VDWMixingRule instance = new VDWMixingRule();
-//	double expResult = 0.0;
-//	double result = instance.calculate_b_cubicParameter(singleBs, components, fractions);
+//	
+//	double expResult = ;
+//	double result = rule.calculate_b_cubicParameter();
 //	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+        fail();
+	 
     }
 
     @Test

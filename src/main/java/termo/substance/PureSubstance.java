@@ -1,5 +1,7 @@
 package termo.substance;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Objects;
 import termo.Constants;
 import termo.component.Component;
@@ -35,7 +37,9 @@ public class PureSubstance extends HomogeneousSubstance {
 	this.component = component;
     }
     
-    
+    public ArrayList<Field> getComponentAlphaParameters(){
+        return this.component.getAlphaParametersFor(alpha);
+    }
 
     @Override
     public int hashCode() {

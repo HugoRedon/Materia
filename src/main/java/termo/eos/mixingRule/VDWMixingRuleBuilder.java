@@ -17,7 +17,7 @@ public class VDWMixingRuleBuilder {
     private Alpha alpha;
     private ArrayList<Component> components;
     private Phase phase;
-    private InteractionParameter k;
+    private InteractionParameter interactionParameters;
 
     public VDWMixingRuleBuilder() {
     }
@@ -42,13 +42,13 @@ public class VDWMixingRuleBuilder {
 	return this;
     }
 
-    public VDWMixingRuleBuilder setK(InteractionParameter k) {
-	this.k = k;
+    public VDWMixingRuleBuilder setInteractionParameters(InteractionParameter k) {
+	this.interactionParameters = k;
 	return this;
     }
 
     public VDWMixingRule createVDWMixingRule() {
-	return new VDWMixingRule(equationOfState, alpha, components, phase, k);
+	return new VDWMixingRule(equationOfState, alpha, components, phase, interactionParameters);
     }
     
 }
