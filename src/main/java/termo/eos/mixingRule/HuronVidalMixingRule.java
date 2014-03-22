@@ -24,8 +24,12 @@ import termo.substance.PureSubstance;
 public class HuronVidalMixingRule extends MixtureSubstance{
 
     ActivityModel activityModel;
-    
     private double L;
+    
+    public HuronVidalMixingRule(){
+       super(null, null, null, Phase.VAPOR, null, null);
+    }
+    
 //    public HuronVidalMixingRule(ActivityModel activityModel,Cubic eos,Phase aPhase){
 //	super(eos, aPhase);
 //	this.activityModel = activityModel;
@@ -34,19 +38,19 @@ public class HuronVidalMixingRule extends MixtureSubstance{
 //	
 //    }
 
-    public HuronVidalMixingRule(
-	    Cubic equationOfState, 
-	    Alpha alpha, 
-	    ArrayList<Component> components, 
-	    Phase phase, 
-	    InteractionParameter k, 
-	    ActivityModel activityModel
-	    ) {
-	super(equationOfState, alpha, components, phase, k);
-	
-	this.activityModel = activityModel;
-	L =equationOfState.calculateL(1, 1);
-    }
+//    public HuronVidalMixingRule(
+//	    Cubic equationOfState, 
+//	    Alpha alpha, 
+//	    ArrayList<Component> components, 
+//	    Phase phase, 
+//	    InteractionParameter k, 
+//	    ActivityModel activityModel
+//	    ) {
+//	super(equationOfState, alpha, components, phase, k);
+//	
+//	this.activityModel = activityModel;
+//	L =equationOfState.calculateL(1, 1);
+//    }
 
     
     

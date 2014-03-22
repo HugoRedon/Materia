@@ -9,12 +9,9 @@ import java.util.HashMap;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import termo.activityModel.NRTLActivityModel;
-import termo.activityModel.WilsonActivityModel;
 import termo.binaryParameter.ActivityModelBinaryParameter;
-import termo.binaryParameter.BinaryInteractionParameter;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
-import termo.component.VanDerWaalsParameters;
 import termo.eos.Cubic;
 import termo.eos.EquationOfStateFactory;
 import termo.eos.alpha.Alpha;
@@ -79,7 +76,7 @@ public class HuronVidalMixingRuleTest {
 	ethanePure = new PureSubstance(eos, alpha, ethane, Phase.VAPOR);
 	
 	
-	instance = new HuronVidalMixingRule(eos, alpha, components, Phase.VAPOR, k, new WilsonActivityModel());
+//	instance = new HuronVidalMixingRule(eos, alpha, components, Phase.VAPOR, k, new WilsonActivityModel());
 	instance.setBinaryParameters(k);
 	instance.setFraction(propane, 0.7);
 	instance.setFraction(ethane, 0.3);
@@ -185,7 +182,14 @@ public class HuronVidalMixingRuleTest {
 //	HuronVidalMixingRule hv = new HuronVidalMixingRule(nrtl, eos);
 //	
 	NRTLActivityModel nrtl = new NRTLActivityModel();
-	MixtureSubstance ms = new HuronVidalMixingRule(EquationOfStateFactory.pengRobinsonBase(), AlphaFactory.getStryjekAndVeraExpression(), components, Phase.LIQUID, k,nrtl);
+        MixtureSubstance ms = new MixtureSubstance(eos, null, components, Phase.VAPOR, null, k);
+	//MixtureSubstance ms = new HuronVidalMixingRule(
+//                EquationOfStateFactory.pengRobinsonBase(), 
+//                AlphaFactory.getStryjekAndVeraExpression(),
+//                components, 
+//                Phase.LIQUID,
+//                
+//                k,nrtl);
 //	
 //	//ms.setMolarFractions(fractions);
 	ms.setFraction(ethane, 0.3);

@@ -46,19 +46,19 @@ public class HeterogeneousMixtureSubstance extends HeterogeneousSubstance{
 //	vapor = new MixtureSubstance(equationOfState, alpha,mixingrule, components,Phase.VAPOR);
 //	liquid = new MixtureSubstance(equationOfState,alpha,mixingrule,components,Phase.LIQUID);
 //    }
-//    public HeterogeneousMixtureSubstance(
-//	    Cubic eos,
-//	    Alpha alpha,
-//	    MixingRule mixingrule, 
-//	    ArrayList<Component> components, InteractionParameter k){
+    public HeterogeneousMixtureSubstance(
+	    Cubic eos,
+	    Alpha alpha,
+	    MixingRule mixingrule, 
+	    ArrayList<Component> components, InteractionParameter k){
 //	this.equationOfState = eos;
 //	this.alpha = alpha;
 //	this.components = components;
 //	this.mixingRule = mixingrule;
-//	
-//	vapor = new MixtureSubstance(equationOfState, alpha,mixingrule, components,Phase.VAPOR,k);
-//	liquid = new MixtureSubstance(equationOfState,alpha,mixingrule,components,Phase.LIQUID,k);
-//    }
+	
+	vapor = new MixtureSubstance(eos, alpha,components,Phase.VAPOR,mixingrule ,k);
+	liquid = new MixtureSubstance(eos,alpha,components,Phase.LIQUID,mixingrule,k);
+    }
     
     
     @Override

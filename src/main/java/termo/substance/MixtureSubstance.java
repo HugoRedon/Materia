@@ -15,12 +15,24 @@ import termo.phase.Phase;
  *
  * @author Hugo Redon Rivera
  */
-public abstract class MixtureSubstance extends HomogeneousSubstance{
-    //private MixingRule mixingRule;
+public class MixtureSubstance extends HomogeneousSubstance{
+    private MixingRule mixingRule;
     protected ArrayList<PureSubstance> pureSubstances = new ArrayList<>();
     protected HashMap<PureSubstance,Double> molarFractions = new HashMap<>();
     protected InteractionParameter binaryParameters = new InteractionParameter();
 
+    
+     public MixtureSubstance(Cubic equationOfState,Alpha alpha,  ArrayList<Component> components,Phase phase,MixingRule mixingRule ,InteractionParameter k){
+	super(equationOfState,phase);
+	this.mixingRule = mixingRule;
+	for (Component component:components){
+	    PureSubstance sub = new PureSubstance(equationOfState, alpha, component, phase);
+	    pureSubstances.add(sub);
+	}
+	this.binaryParameters = k;
+    }
+     
+    
     @Override
     public void setTemperature(double temperature) {
 	super.setTemperature(temperature); 
@@ -38,21 +50,13 @@ public abstract class MixtureSubstance extends HomogeneousSubstance{
     }
     
     
-     public MixtureSubstance(Cubic equationOfState,Alpha alpha,  ArrayList<Component> components,Phase phase, InteractionParameter k){
-	super(equationOfState,phase);
-	
-	for (Component component:components){
-	    PureSubstance sub = new PureSubstance(equationOfState, alpha, component, phase);
-	    pureSubstances.add(sub);
-	}
-	this.binaryParameters = k;
-    }
-    public MixtureSubstance(Cubic cubic ,Phase phase){
-	super(cubic, phase);
-    }
+    
+//    public MixtureSubstance(Cubic cubic ,Phase phase){
+//	super(cubic, phase);
+//    }
 //    public MixtureSubstance(Cubic equationOfState, Alpha alpha,MixingRule mixingRule, ArrayList<Component> components, Phase phase) {
 //	super(equationOfState,phase);
-//	//this.mixingRule = mixingRule;
+//	this.mixingRule = mixingRule;
 //	for (Component component:components){
 //	    PureSubstance sub = new PureSubstance(equationOfState, alpha, component, phase);
 //	    pureSubstances.add(sub);
@@ -88,14 +92,14 @@ public abstract class MixtureSubstance extends HomogeneousSubstance{
     
     
     
-    public MixtureSubstance(Cubic eos, Alpha alpha, MixingRule mixingRule, ArrayList<Component> components){
-	super(eos);
-	//this.mixingRule = mixingRule;
-	for(Component component: components){
-	    PureSubstance sub = new PureSubstance(eos, alpha, component);
-	    pureSubstances.add(sub);
-	}
-    }
+//    public MixtureSubstance(Cubic eos, Alpha alpha, MixingRule mixingRule, ArrayList<Component> components){
+//	super(eos);
+//	this.mixingRule = mixingRule;
+//	for(Component component: components){
+//	    PureSubstance sub = new PureSubstance(eos, alpha, component);
+//	    pureSubstances.add(sub);
+//	}
+//    }
     
     public void addComponent(PureSubstance pureSubstance, double molarFraction){
         pureSubstance.setCubicEquationOfState(getCubicEquationOfState());
@@ -114,61 +118,21 @@ public abstract class MixtureSubstance extends HomogeneousSubstance{
         }
     }
 
-    public HashMap<Component,Double> single_as(double aTemperature){
-        HashMap<Component, Double> singleAs = new HashMap<>();
-       
-        for(PureSubstance pureSubstance : getPureSubstances()){
-            Component component = pureSubstance.getComponent();
-            double a = pureSubstance.calculate_a_cubicParameter();
-            singleAs.put(component, a);
-        }
-        return singleAs;
-    }
-//    public HashMap<Component,Double> single_bs(){
-//         HashMap<Component,Double> singleBs = new HashMap<>();
-//           for(PureSubstance pureSubstance : getPureSubstances()){
-//            Component component = pureSubstance.getComponent();
-//            double b = pureSubstance.calculate_b_cubicParameter();
-//            singleBs.put(component,b);
-//        }
-//          return singleBs;
-//    }
-        public HashMap<Component,Double> single_Alphas(double temperature){
-         HashMap<Component,Double> singleAlphas = new HashMap<>();
-         
-        for(PureSubstance pureSubstance : getPureSubstances()){
-            Component component = pureSubstance.getComponent();
-            
-            double alpha = pureSubstance.getAlpha().alpha(temperature, component);
-            singleAlphas.put(component,alpha);
-        }
-           
-          return singleAlphas;
-    }
-    
-    public HashMap<Component,Double> alphaDerivatives(double temperature){
-        HashMap<Component,Double> alphaDerivatives = new HashMap<>();
-        for(PureSubstance pureSubstance: getPureSubstances()){
-            Component component = pureSubstance.getComponent();
-            double alphaDerivative = pureSubstance.getAlpha().TempOverAlphaTimesDerivativeAlphaRespectTemperature(temperature, component);
-            
-            alphaDerivatives.put(component, alphaDerivative);
-        }
-        return alphaDerivatives;
-    }
-    
-//    @Override
-//    public double temperatureParcial_a() {
-//        return getMixingRule().temperatureParcial_a(super.getTemperature(), molarFractions,binaryParameters );
-//    }
 
-//    @Override
-//    public abstract double calculate_a_cubicParameter();
-//    
-//     @Override
-//    public double calculate_b_cubicParameter() {       
-//        return getMixingRule().b(molarFractions,super.getTemperature(), binaryParameters);
-//    }
+    @Override
+    public double temperatureParcial_a() {
+        return getMixingRule().temperatureParcial_a(super.getTemperature(), molarFractions,binaryParameters );
+    }
+
+    @Override
+    public double calculate_a_cubicParameter(){
+        return mixingRule.a(temperature, molarFractions, binaryParameters);
+    }
+    
+     @Override
+    public double calculate_b_cubicParameter() {       
+        return getMixingRule().b(molarFractions,temperature, binaryParameters);
+    }
     
     
     public ArrayList<Component> getComponents(){
@@ -219,29 +183,29 @@ public abstract class MixtureSubstance extends HomogeneousSubstance{
         return term1  - Constants.R * term2;
     }
 
-//    @Override
-//    public double oneOver_N_Parcial_a(PureSubstance pureSubstance) {
-//        Component component = pureSubstance.getComponent();
-//       return getMixingRule().oneOverNParcial_aN2RespectN(
-//               super.getTemperature(), 
-//               pureSubstance, 
-//               molarFractions,
-//	       binaryParameters);
-//    }
+    @Override
+    public double oneOver_N_Parcial_a(PureSubstance pureSubstance) {
+        Component component = pureSubstance.getComponent();
+       return getMixingRule().oneOverNParcial_aN2RespectN(
+               super.getTemperature(), 
+               pureSubstance, 
+               molarFractions,
+	       binaryParameters);
+    }
 
-//    /**
-//     * @return the mixingRule
-//     */
-//    public MixingRule getMixingRule() {
-//	return mixingRule;
-//    }
-//
-//    /**
-//     * @param mixingRule the mixingRule to set
-//     */
-//    public void setMixingRule(MixingRule mixingRule) {
-//	this.mixingRule = mixingRule;
-//    }
+    /**
+     * @return the mixingRule
+     */
+    public MixingRule getMixingRule() {
+	return mixingRule;
+    }
+
+    /**
+     * @param mixingRule the mixingRule to set
+     */
+    public void setMixingRule(MixingRule mixingRule) {
+	this.mixingRule = mixingRule;
+    }
 
     /**
      * @return the pureSubstances
@@ -271,15 +235,15 @@ public abstract class MixtureSubstance extends HomogeneousSubstance{
 //	this.molarFractions = molarFractions;
 //    }
 
-//    /**
-//     * @return the binaryParameters
-//     */
-//    public InteractionParameter getBinaryParameters() {
-//	return binaryParameters;
-//    }
-      public BinaryInteractionParameter getBinaryParameters() {
-	return null;
+    /**
+     * @return the binaryParameters
+     */
+    public InteractionParameter getBinaryParameters() {
+	return binaryParameters;
     }
+//      public BinaryInteractionParameter getBinaryParameters() {
+//	return null;
+//    }
 
     /**
      * @param binaryParameters the binaryParameters to set

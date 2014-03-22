@@ -48,7 +48,7 @@ public class VDWMixingRuleBuilder {
     }
 
     public VDWMixingRule createVDWMixingRule() {
-	return new VDWMixingRule(equationOfState, alpha, components, phase, interactionParameters);
+	return new VDWMixingRule();
     }
     
 }

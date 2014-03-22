@@ -50,13 +50,18 @@ public class HeterogeneousMixtureSubstanceTest {
 	
 	InteractionParameter k = new InteractionParameter();
 //	calculate_b_cubicParameter.setValue(propane, ethane, 0, true);
-//	MixingRule mr = new VDWMixingRule();
-	substance = new HeterogeneousMixtureSubstance();
+	MixingRule mr = new VDWMixingRule();
+        substance = new HeterogeneousMixtureSubstance(eos, alpha, mr, components, k);
+	//substance = new HeterogeneousMixtureSubstance();
 	substance.setComponents(components);
-	VDWMixingRule vdwLiquid = new VDWMixingRule(eos, alpha, components, Phase.LIQUID, k);
-	VDWMixingRule vdwVapor = new VDWMixingRule(eos, alpha, components, Phase.VAPOR, k);
-	substance.setLiquid(vdwLiquid);
-	substance.setVapor(vdwVapor);
+        VDWMixingRule vdw = new VDWMixingRule();
+        
+        
+        
+//	VDWMixingRule vdwLiquid = new VDWMixingRule(eos, alpha, components, Phase.LIQUID, k);
+//	VDWMixingRule vdwVapor = new VDWMixingRule(eos, alpha, components, Phase.VAPOR, k);
+//	substance.setLiquid(vdwLiquid);
+//	substance.setVapor(vdwVapor);
 //	
 	//substance = new HeterogeneousMixtureSubstance(eos,alpha,mr,components);
 	

@@ -15,6 +15,7 @@ import termo.eos.Cubic;
 import termo.eos.EquationOfStateFactory;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
+import termo.eos.mixingRule.MixingRule;
 import termo.eos.mixingRule.VDWMixingRule;
 import termo.phase.Phase;
 
@@ -27,7 +28,7 @@ public class MultiComponentTest {
     Component propane;
     Component nHeptane;
     
-    VDWMixingRule vdw ;
+    MixtureSubstance vdw ;
     
     public MultiComponentTest(){
         
@@ -68,7 +69,8 @@ public class MultiComponentTest {
         components.add(propane);
         components.add(nHeptane);
         
-        vdw = new VDWMixingRule(eos, alpha, components, Phase.VAPOR, k);
+        MixingRule mr = new VDWMixingRule();
+        vdw = new MixtureSubstance(eos, alpha, components, Phase.VAPOR,mr, k);
         vdw.setFraction(ethane, 0.3);
         vdw.setFraction(propane, 0.3);
         vdw.setFraction(nHeptane, 0.4);

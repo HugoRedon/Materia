@@ -19,9 +19,9 @@ public abstract class  HomogeneousSubstance  {
     public HomogeneousSubstance(){
 	
     }
-    public HomogeneousSubstance(Cubic eos){
-	this.cubicEquationOfState= eos;
-    }
+//    public HomogeneousSubstance(Cubic eos){
+//	this.cubicEquationOfState= eos;
+//    }
     public HomogeneousSubstance(Cubic eos,Phase phase){
 	this.cubicEquationOfState = eos;
 	this.phase = phase;

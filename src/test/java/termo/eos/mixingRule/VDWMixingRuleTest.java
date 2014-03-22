@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import termo.binaryParameter.BinaryInteractionParameter;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.eos.Cubic;
@@ -12,6 +11,7 @@ import termo.eos.EquationOfStateFactory;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.phase.Phase;
+import termo.substance.MixtureSubstance;
 import termo.substance.PureSubstance;
 
 /**
@@ -20,7 +20,7 @@ import termo.substance.PureSubstance;
  * Hugo
  */
 public class VDWMixingRuleTest {
-    VDWMixingRule rule ; 
+    MixtureSubstance mixture ; 
     HashMap<PureSubstance, Double> fractions;
     InteractionParameter b;
     public VDWMixingRuleTest() {
@@ -66,15 +66,13 @@ public class VDWMixingRuleTest {
 	
 	 b = new InteractionParameter(true);
 	b.setValue(propane, ethane, 0.05);
-	rule = new VDWMixingRuleBuilder()
-                .setEquationOfState(eos)
-                .setAlpha(alpha)
-                .setComponents(components)
-                .setPhase(Phase.VAPOR)
-                .setInteractionParameters(b)
-                .createVDWMixingRule();
-	rule.setFraction(propane, 0.7);
-	rule.setFraction(ethane, 0.3);
+        
+        VDWMixingRule vdw = new VDWMixingRule();
+        mixture = new MixtureSubstance(eos, alpha, components, Phase.VAPOR, vdw, b);
+        
+	
+	mixture.setFraction(propane, 0.7);
+	mixture.setFraction(ethane, 0.3);
 	
 	//fractions.put(propanePure, 0.7);
 	//fractions.put(ethanePure, 0.3);
@@ -87,10 +85,10 @@ public class VDWMixingRuleTest {
     public void testA() {
 	System.out.println("a");
 	double temperature =298;
-	rule.setTemperature(temperature);
+	mixture.setTemperature(temperature);
 	
 	double expResult = 950499.221;
-	double result = rule.calculate_a_cubicParameter();
+	double result = mixture.calculate_a_cubicParameter();
 	assertEquals(expResult, result, 1e-3);
     }
 
