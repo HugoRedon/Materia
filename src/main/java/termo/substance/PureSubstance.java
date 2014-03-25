@@ -1,5 +1,6 @@
 package termo.substance;
 
+import java.beans.PropertyChangeEvent;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -20,6 +21,7 @@ public class PureSubstance extends HomogeneousSubstance {
     public PureSubstance(){
 	
     }
+
 //    public PureSubstance(Cubic eos,Alpha alpha,Component component){
 //	super(eos);
 //	this.alpha = alpha;
@@ -29,6 +31,20 @@ public class PureSubstance extends HomogeneousSubstance {
 //	this.alpha = alpha;
 //	this.component = component;
 //    }
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        super.propertyChange(evt); //To change body of generated methods, choose Tools | Templates.
+        switch(evt.getPropertyName()){
+            case "alpha":
+                this.alpha = (Alpha)evt.getNewValue();
+                break;
+            case "component":
+                this.component =(Component)evt.getNewValue();
+                break;
+        }
+    }
+    
+    
     
     public PureSubstance(Cubic eos,Alpha alpha,Component component,Phase phase ){
 	super(eos,phase);

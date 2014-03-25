@@ -68,6 +68,7 @@ public class AlphaOptimizationTest {
         
         HeterogeneousPureSubstance substance = new HeterogeneousPureSubstance(eos, alpha, component);
         substance.optimizeTo(list);
+
         assertEquals(5.559239095754101,component.getA_AndroulakisEtAl(),1e-4);
         //compila se ejecuta y no entra en un loop infinito
     }

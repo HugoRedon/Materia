@@ -24,7 +24,9 @@ public class HeterogeneousPureSubstance extends HeterogeneousSubstance{
 //    private PureSubstance liquid;
 //    private PureSubstance vapor;
     
-    
+    public HeterogeneousPureSubstance(){
+        
+    }
     
     public HeterogeneousPureSubstance(
 	    Cubic eos,
@@ -240,9 +242,24 @@ public class HeterogeneousPureSubstance extends HeterogeneousSubstance{
 //	this.component = component;
 //    }
 
+    private AlphaOptimization alphaOptimizer = new AlphaOptimization(this);
     public void optimizeTo(ArrayList<ExperimentalData> expData) {
-        AlphaOptimization op = new AlphaOptimization(this, expData);
-        op.solve();
+        alphaOptimizer.setExperimental(expData);
+        alphaOptimizer.solve();
+    }
+
+    /**
+     * @return the alphaOptimizer
+     */
+    public AlphaOptimization getAlphaOptimizer() {
+        return alphaOptimizer;
+    }
+
+    /**
+     * @param alphaOptimizer the alphaOptimizer to set
+     */
+    public void setAlphaOptimizer(AlphaOptimization alphaOptimizer) {
+        this.alphaOptimizer = alphaOptimizer;
     }
 
    

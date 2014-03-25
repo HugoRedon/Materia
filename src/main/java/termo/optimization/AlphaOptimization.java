@@ -14,8 +14,12 @@ import termo.substance.HeterogeneousPureSubstance;
 public class AlphaOptimization {
     HeterogeneousPureSubstance substance;
     //double[][] experimental ;
-    ArrayList<ExperimentalData> experimental;
-    double pass = 0.0001;
+    private ArrayList<ExperimentalData> experimental;
+    private double numericalDerivativeDelta = 0.0001;
+    
+    public AlphaOptimization(HeterogeneousPureSubstance substance){
+        this.substance = substance;
+    }
     
     public AlphaOptimization(HeterogeneousPureSubstance substance,ArrayList<ExperimentalData> experimental){
         this.substance = substance ; 
@@ -23,7 +27,7 @@ public class AlphaOptimization {
     }
     public AlphaOptimization(HeterogeneousPureSubstance substance,ArrayList<ExperimentalData> experimental, double pass){
        this(substance, experimental);
-       this.pass = pass;
+       this.numericalDerivativeDelta = pass;
     }
     
     
@@ -74,9 +78,9 @@ public class AlphaOptimization {
     public double derivativeVaporPressureError( double value){
         
         double error = AlphaOptimization.this.vaporPressureError( value);
-        double error_ = AlphaOptimization.this.vaporPressureError( value+pass);
+        double error_ = AlphaOptimization.this.vaporPressureError( value+numericalDerivativeDelta);
         
-        double deriv = (error_- error)/pass;
+        double deriv = (error_- error)/numericalDerivativeDelta;
         
         return deriv;
         
@@ -84,9 +88,9 @@ public class AlphaOptimization {
     public double secondDerivativeVaporPressureError( double value){
         
         double de = derivativeVaporPressureError( value);
-        double de_ =derivativeVaporPressureError( value+pass);
+        double de_ =derivativeVaporPressureError( value+numericalDerivativeDelta);
         
-        double deriv = (de_ - de)/pass;
+        double deriv = (de_ - de)/numericalDerivativeDelta;
         return deriv;
     }
     public double nextValue( double before){
@@ -138,29 +142,29 @@ public class AlphaOptimization {
     }
 //    public double derivative_A( double A, double B, double C){
 //        double error = vaporPressureError( A,B,C);
-//        double error_ = vaporPressureError( A+pass,B,C);
+//        double error_ = vaporPressureError( A+numericalDerivativeDelta,B,C);
 //        return (error_- error)/pass;
 //    }
     public double derivative_A(double... args){
         double error = vaporPressureError(args);
         args = applyDeltaOnA(args);
         double error_ = vaporPressureError(args);
-        return(error_ - error)/pass;
+        return(error_ - error)/numericalDerivativeDelta;
     }
     
     public double[] applyDeltaOnA(double... args){
-        args[0] = args[0] + pass;
+        args[0] = args[0] + numericalDerivativeDelta;
         return args;
     }
     public double[] applyDeltaOnB(double... args){
-        args[1] = args[1] + pass;
+        args[1] = args[1] + numericalDerivativeDelta;
         return args;
     }
    
 //    
 //    public double derivative_B( double A, double B, double C){
 //        double error = vaporPressureError( A,B,C);
-//        double error_ = vaporPressureError( A,B+pass,C);
+//        double error_ = vaporPressureError( A,B+numericalDerivativeDelta,C);
 //        return (error_- error)/pass;
 //    }
     
@@ -168,18 +172,18 @@ public class AlphaOptimization {
         double error = vaporPressureError(args);
         args = applyDeltaOnB(args);
         double error_ = vaporPressureError(args);
-        return(error_ - error)/pass;
+        return(error_ - error)/numericalDerivativeDelta;
     }
     
 //    public double derivative_C(double A, double B, double C){
 //        double error = vaporPressureError( A,B,C);
-//        double error_ = vaporPressureError( A,B,C+ pass);
+//        double error_ = vaporPressureError( A,B,C+ numericalDerivativeDelta);
 //        return (error_- error)/pass;
 //    }
     public double derivative_C(double... args){
         double error = vaporPressureError(args);
-        double error_ = vaporPressureError(args[0] , args[1],args[2]+ pass);
-        return(error_ - error)/pass;
+        double error_ = vaporPressureError(args[0] , args[1],args[2]+ numericalDerivativeDelta);
+        return(error_ - error)/numericalDerivativeDelta;
     }
     
     
@@ -212,20 +216,20 @@ public class AlphaOptimization {
         args = applyDeltaOnA(args);
         double deriv_ = derivative_A(args);
         
-        return (deriv_-deriv)/pass;
+        return (deriv_-deriv)/numericalDerivativeDelta;
     }
     public double doubleDerivAB(double... args){
         double deriv = derivative_B(args);
         args = applyDeltaOnA(args);
         double deriv_ = derivative_B(args);
         
-        return (deriv_-deriv)/pass;
+        return (deriv_-deriv)/numericalDerivativeDelta;
     }
     public double doubleDerivAC(double... args){
         double deriv = derivative_C(args);
-        double deriv_ = derivative_C(args[0] +pass, args[1], args[2]);
+        double deriv_ = derivative_C(args[0] +numericalDerivativeDelta, args[1], args[2]);
         
-        return (deriv_-deriv)/pass;
+        return (deriv_-deriv)/numericalDerivativeDelta;
     }
     
     
@@ -236,20 +240,20 @@ public class AlphaOptimization {
         args = applyDeltaOnB(args);
         double deriv_ = derivative_A(args);
         
-        return (deriv_-deriv)/pass;
+        return (deriv_-deriv)/numericalDerivativeDelta;
     }
     public double doubleDerivBB(double...args){
         double deriv = derivative_B(args);
         args = applyDeltaOnB(args);
         double deriv_ = derivative_B(args);
         
-        return (deriv_-deriv)/pass;
+        return (deriv_-deriv)/numericalDerivativeDelta;
     }
     public double doubleDerivBC(double... args){
         double deriv = derivative_C(args);
-        double deriv_ = derivative_C(args[0], args[1]+pass, args[2]);
+        double deriv_ = derivative_C(args[0], args[1]+numericalDerivativeDelta, args[2]);
         
-        return (deriv_ - deriv)/pass;
+        return (deriv_ - deriv)/numericalDerivativeDelta;
     }
     
     
@@ -258,21 +262,21 @@ public class AlphaOptimization {
     
       public double doubleDerivCA(double...args){
         double deriv = derivative_A(args);
-        double deriv_ = derivative_A(args[0], args[1], args[2]+pass);
+        double deriv_ = derivative_A(args[0], args[1], args[2]+numericalDerivativeDelta);
         
-        return (deriv_-deriv)/pass;
+        return (deriv_-deriv)/numericalDerivativeDelta;
     }
     public double doubleDerivCB(double... args){
         double deriv = derivative_B(args);
-        double deriv_ = derivative_B(args[0], args[1] , args[2]+pass);
+        double deriv_ = derivative_B(args[0], args[1] , args[2]+numericalDerivativeDelta);
         
-        return (deriv_-deriv)/pass;
+        return (deriv_-deriv)/numericalDerivativeDelta;
     }
     public double doubleDerivCC(double...args){
         double deriv = derivative_C(args);
-        double deriv_ = derivative_C(args[0], args[1] , args[2]+pass);
+        double deriv_ = derivative_C(args[0], args[1] , args[2]+numericalDerivativeDelta);
         
-        return (deriv_ - deriv)/pass;
+        return (deriv_ - deriv)/numericalDerivativeDelta;
     }
        
 //    public double[][] hessian(double A, double B, double C){
@@ -317,7 +321,7 @@ public class AlphaOptimization {
         
     }
     
-    public double[] nextValueMathias(double... args){
+    public double[] nextValue(double... args){
         if(args.length ==1){
             double[] result = {args[0] -derivative_A(args)/doubleDerivAA(args)};
             return result;
@@ -341,18 +345,22 @@ public class AlphaOptimization {
         return null;
     }
     
-    
+    private int iterations;
     public double[] solveVapoPressureRegression (double...args){
         
         double beforeError;
         double error;
         
         double criteria =50;
+        
+        iterations = 0;
+        
         while(Math.abs(criteria) > 1e-4){
-            
+            iterations++;
             beforeError = vaporPressureError( args);
-            args = nextValueMathias(args );
-            
+            double[] before = args;
+            args = nextValue(args );
+            args = applyDamping(before, args);
 //            if(args.length >=1){
 //                args[0] = args[0]- x[0];
 //            }if(args.length >=2){
@@ -376,5 +384,71 @@ public class AlphaOptimization {
         }
         
         return null;
+    }
+    private double damp = .5;
+    public double[] applyDamping(double[] before, double[]newValues ){
+        double[] result = new double[before.length];
+        for(int i = 0; i < result.length;i++){
+            double step = newValues[i] - before[i];
+            result[i] = before[i] + step* getDamp();
+            
+        }
+        return result;
+    }
+
+    /**
+     * @return the damp
+     */
+    public double getDamp() {
+        return damp;
+    }
+
+    /**
+     * @param damp the damp to set
+     */
+    public void setDamp(double damp) {
+        this.damp = damp;
+    }
+
+    /**
+     * @return the numericalDerivativeDelta
+     */
+    public double getNumericalDerivativeDelta() {
+        return numericalDerivativeDelta;
+    }
+
+    /**
+     * @param numericalDerivativeDelta the numericalDerivativeDelta to set
+     */
+    public void setNumericalDerivativeDelta(double numericalDerivativeDelta) {
+        this.numericalDerivativeDelta = numericalDerivativeDelta;
+    }
+
+    /**
+     * @return the experimental
+     */
+    public ArrayList<ExperimentalData> getExperimental() {
+        return experimental;
+    }
+
+    /**
+     * @param experimental the experimental to set
+     */
+    public void setExperimental(ArrayList<ExperimentalData> experimental) {
+        this.experimental = experimental;
+    }
+
+    /**
+     * @return the iterations
+     */
+    public int getIterations() {
+        return iterations;
+    }
+
+    /**
+     * @param iterations the iterations to set
+     */
+    public void setIterations(int iterations) {
+        this.iterations = iterations;
     }
 }

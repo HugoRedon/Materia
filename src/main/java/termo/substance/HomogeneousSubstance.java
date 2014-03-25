@@ -1,24 +1,54 @@
 
 package termo.substance;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import termo.Constants;
+import termo.component.Component;
 import termo.eos.Cubic;
+import termo.eos.alpha.Alpha;
 import termo.phase.Phase;
 
 /**
  *
  * @author Hugo Redon Rivera
  */
-public abstract class  HomogeneousSubstance  {
+public abstract class  HomogeneousSubstance  implements PropertyChangeListener{
     
     private Cubic cubicEquationOfState;    
     private Phase phase;
     protected double temperature;
     protected double pressure;
     
+    protected PropertyChangeSupport mpcs = new PropertyChangeSupport(this);
+    
+      @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String propertyName = evt.getPropertyName();
+        switch(propertyName){
+            case "cubic":
+                setCubicEquationOfState((Cubic)evt.getNewValue());
+                break;
+            case "phase":
+                setPhase((Phase)evt.getNewValue());
+                break;
+            case "temperature":
+                setTemperature((Double)evt.getNewValue());
+                break;
+            case "pressure":
+                setPressure((Double)evt.getNewValue());
+                break;
+        }
+    }
+    
+    
+    
     public HomogeneousSubstance(){
 	
     }
+    
+    
 //    public HomogeneousSubstance(Cubic eos){
 //	this.cubicEquationOfState= eos;
 //    }
@@ -130,14 +160,18 @@ public abstract class  HomogeneousSubstance  {
         return cubicEquationOfState;
     }
     public void setCubicEquationOfState(Cubic cubicEquationOfState) {
+        Cubic oldCubic = this.cubicEquationOfState;
         this.cubicEquationOfState = cubicEquationOfState;
+        mpcs.firePropertyChange("cubic", oldCubic, cubicEquationOfState);
     }
     public abstract double calculatetAcentricFactorBasedVaporPressure();
     public Phase getPhase() {
 	return phase;
     }
     public void setPhase(Phase phase) {
+        Phase oldPhase = this.phase;
 	this.phase = phase;
+        mpcs.firePropertyChange("phase", oldPhase, phase);
     }
     public double calculateGibbs() {
 	double enthalpy = calculateEnthalpy();
@@ -149,12 +183,16 @@ public abstract class  HomogeneousSubstance  {
 	return temperature;
     }
     public void setTemperature(double temperature) {
+        double oldTemperature = this.temperature;
 	this.temperature = temperature;
+        mpcs.firePropertyChange("temperature", oldTemperature, temperature);
     }
     public double getPressure() {
 	return pressure;
     }
     public void setPressure(double pressure) {
+        double oldPressure = this.pressure;
 	this.pressure = pressure;
+        mpcs.firePropertyChange("pressure",oldPressure,pressure);
     }
 }

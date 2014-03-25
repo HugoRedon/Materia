@@ -1,9 +1,9 @@
 package termo.substance;
 
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import termo.Constants;
-import termo.binaryParameter.BinaryInteractionParameter;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.eos.Cubic;
@@ -21,56 +21,35 @@ public class MixtureSubstance extends HomogeneousSubstance{
     protected HashMap<PureSubstance,Double> molarFractions = new HashMap<>();
     protected InteractionParameter binaryParameters = new InteractionParameter();
 
+    private Alpha alpha;
     
-     public MixtureSubstance(Cubic equationOfState,Alpha alpha,  ArrayList<Component> components,Phase phase,MixingRule mixingRule ,InteractionParameter k){
+    public MixtureSubstance(){
+        
+    }
+
+ 
+    public MixtureSubstance(Cubic equationOfState,Alpha alpha,  ArrayList<Component> components,Phase phase,MixingRule mixingRule ,InteractionParameter k){
 	super(equationOfState,phase);
 	this.mixingRule = mixingRule;
 	for (Component component:components){
 	    PureSubstance sub = new PureSubstance(equationOfState, alpha, component, phase);
+            mpcs.addPropertyChangeListener(sub);
 	    pureSubstances.add(sub);
 	}
 	this.binaryParameters = k;
     }
      
-    
-    @Override
-    public void setTemperature(double temperature) {
-	super.setTemperature(temperature); 
-	for(PureSubstance pure: pureSubstances){
-	    pure.setTemperature(temperature);
-	}
+
+
+    public void setComponents(ArrayList<Component> components){
+        pureSubstances.clear();
+        for(Component component : components){ //implement property change listener
+            PureSubstance pure = new PureSubstance(super.getCubicEquationOfState(), alpha, component, super.getPhase());
+            mpcs.addPropertyChangeListener(pure);
+            pureSubstances.add(pure);
+        }
     }
 
-    @Override
-    public void setPressure(double pressure){
-	super.setPressure(pressure); 
-	for(PureSubstance pure: pureSubstances){
-	    pure.setPressure(pressure);
-	}
-    }
-    
-    
-    
-//    public MixtureSubstance(Cubic cubic ,Phase phase){
-//	super(cubic, phase);
-//    }
-//    public MixtureSubstance(Cubic equationOfState, Alpha alpha,MixingRule mixingRule, ArrayList<Component> components, Phase phase) {
-//	super(equationOfState,phase);
-//	this.mixingRule = mixingRule;
-//	for (Component component:components){
-//	    PureSubstance sub = new PureSubstance(equationOfState, alpha, component, phase);
-//	    pureSubstances.add(sub);
-//	}
-//    }
-  
-
-    @Override
-    public void setPhase(Phase phase) {
-	super.setPhase(phase); 
-	for (PureSubstance pure : pureSubstances){
-	    pure.setPhase(phase);
-	}
-    }
     
     private PureSubstance getPureSubstance(Component component){
 	PureSubstance result = null;
@@ -89,17 +68,7 @@ public class MixtureSubstance extends HomogeneousSubstance{
 	//throw new Exception("La mezcla no contiene el componente " + component.toString());
 	
     }
-    
-    
-    
-//    public MixtureSubstance(Cubic eos, Alpha alpha, MixingRule mixingRule, ArrayList<Component> components){
-//	super(eos);
-//	this.mixingRule = mixingRule;
-//	for(Component component: components){
-//	    PureSubstance sub = new PureSubstance(eos, alpha, component);
-//	    pureSubstances.add(sub);
-//	}
-//    }
+
     
     public void addComponent(PureSubstance pureSubstance, double molarFraction){
         pureSubstance.setCubicEquationOfState(getCubicEquationOfState());
@@ -109,13 +78,6 @@ public class MixtureSubstance extends HomogeneousSubstance{
     public void removeComponent(PureSubstance pureSubstance){
       	getPureSubstances().remove(pureSubstance);
       	getMolarFractions().remove(pureSubstance);
-    }
-    @Override
-    public void setCubicEquationOfState(Cubic cubic){
-        super.setCubicEquationOfState(cubic);
-            for (PureSubstance pureSubstance: getPureSubstances()){
-            pureSubstance.setCubicEquationOfState(cubic);
-        }
     }
 
 
@@ -281,5 +243,19 @@ public class MixtureSubstance extends HomogeneousSubstance{
 	}
 	return result;
     }
+
+    /**
+     * @return the alpha
+     */
+    public Alpha getAlpha() {
+        return alpha;
+    }
+    public void setAlpha(Alpha alpha){
+        Alpha oldAlpha = this.alpha;
+        this.alpha = alpha;
+        mpcs.firePropertyChange("alpha", oldAlpha, alpha);
+    }
+
+
 }
 
