@@ -17,14 +17,9 @@ import termo.phase.Phase;
  */
 public class HeterogeneousPureSubstance extends HeterogeneousSubstance{
 
-//    private Cubic cubicEquationOfState;
-//    private Alpha alpha;
-//
-//    private Component component;
-//    private PureSubstance liquid;
-//    private PureSubstance vapor;
-    
+
     public HeterogeneousPureSubstance(){
+       
         
     }
     
@@ -35,18 +30,33 @@ public class HeterogeneousPureSubstance extends HeterogeneousSubstance{
 //	this.cubicEquationOfState = eos;
 //	this.alpha = alpha;
 //	this.component = component;
-//	
-	liquid = new PureSubstance(eos, alpha, component, Phase.LIQUID);
-	vapor = new PureSubstance(eos, alpha, component, Phase.VAPOR);
+
+        PureSubstance liquidImplementation  =(PureSubstance)liquid;
+        liquidImplementation.setCubicEquationOfState(eos);
+        liquidImplementation.setAlpha(alpha);
+        liquidImplementation.setComponent(component);
+        
+	PureSubstance vaporImplementation  =(PureSubstance)vapor;
+        vaporImplementation.setCubicEquationOfState(eos);
+        vaporImplementation.setAlpha(alpha);
+        vaporImplementation.setComponent(component);
+	
     }
         
-    public HeterogeneousPureSubstance(PureSubstance pure){
-        liquid = new PureSubstance(
-                pure.getCubicEquationOfState(), pure.getAlpha(), pure.getComponent(), Phase.LIQUID);
-        vapor = new PureSubstance(
-                pure.getCubicEquationOfState(), pure.getAlpha(), pure.getComponent(), Phase.VAPOR);
-    }
-    
+//    public HeterogeneousPureSubstance(PureSubstance pure){
+//        
+//        PureSubstance liquidImplementation  =(PureSubstance)liquid;
+//        liquidImplementation.setCubicEquationOfState(pure.getCubicEquationOfState());
+//        liquidImplementation.setAlpha(pure.getAlpha());
+//        liquidImplementation.setComponent(pure.getComponent());
+//        
+//	PureSubstance vaporImplementation  =(PureSubstance)vapor;
+//        vaporImplementation.setCubicEquationOfState(pure.getCubicEquationOfState());
+//        vaporImplementation.setAlpha(pure.getAlpha());
+//        vaporImplementation.setComponent(pure.getComponent());
+//        
+//    }
+//    
     
     
     

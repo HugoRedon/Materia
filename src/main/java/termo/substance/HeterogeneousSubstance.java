@@ -4,12 +4,17 @@
  */
 package termo.substance;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import termo.phase.Phase;
+
 /**
  *
  * @author
  * Hugo
  */
-public abstract class HeterogeneousSubstance {
+public abstract class HeterogeneousSubstance implements PropertyChangeListener{
     
     protected  HomogeneousSubstance liquid;
     protected HomogeneousSubstance vapor;
@@ -17,24 +22,50 @@ public abstract class HeterogeneousSubstance {
     protected double temperature;
     protected double pressure;
     
-//    
-//    public abstract class SubstancePhase {
-//	
-//	double temperature = this.temperature;
-//	double pressure = this.pressure;
-//    }
-//   
+    PropertyChangeSupport mpcs = new PropertyChangeSupport(this);
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        switch(evt.getPropertyName()){
+            case "temperature":
+                setTemperature((double)evt.getNewValue());
+                break;
+            case "pressure":
+                setPressure((double)evt.getNewValue());
+                break;
+            case "phase":
+                //do nothing we dont want to change phase property. They are already set and not changing
+                break;
+            default:
+                mpcs.firePropertyChange(evt);
+                break;
+        }
+        
+    }
     
+    
+    
+    public HeterogeneousSubstance(){
+        liquid = new PureSubstance();
+        liquid.setPhase(Phase.LIQUID);
+        vapor = new PureSubstance();
+        vapor.setPhase(Phase.VAPOR);
+        
+        mpcs.addPropertyChangeListener(liquid);
+        mpcs.addPropertyChangeListener(vapor);
+        
+    }
+
     public void setTemperature(double temperature){
+        double oldTemperature = this.temperature;
 	this.temperature = temperature;
-	vapor.setTemperature(temperature);
-	liquid.setTemperature(temperature);
+	mpcs.firePropertyChange("temperature", oldTemperature, temperature);
 	
     }
     public void setPressure(double pressure){
-	this.pressure = pressure;
-	vapor.setPressure(pressure);
-	liquid.setPressure(pressure);
+	double oldPressure = this.pressure;
+        this.pressure = pressure;
+	mpcs.firePropertyChange("pressure", oldPressure, pressure);
     }
     public double getTemperature(){
 	return temperature;

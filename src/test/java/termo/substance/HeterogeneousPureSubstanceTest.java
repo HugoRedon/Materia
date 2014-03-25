@@ -4,6 +4,7 @@
  */
 package termo.substance;
 
+import java.beans.PropertyChangeSupport;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import termo.component.Component;
@@ -38,7 +39,17 @@ public class HeterogeneousPureSubstanceTest {
 	
 	
     }
-
+    @Test public void testAlphaChangeForLiquidAndVaporWithPropertyChangeListener(){
+        System.out.println("propertyChangeListener for alpha");
+        HeterogeneousPureSubstance impl = new HeterogeneousPureSubstance(null, AlphaFactory.getAdachiAndLu(), null);
+        PropertyChangeSupport mpcs = new PropertyChangeSupport(this);
+        mpcs.addPropertyChangeListener(impl);
+        mpcs.firePropertyChange("alpha", AlphaFactory.getAdachiAndLu(), AlphaFactory.getPengAndRobinsonExpression());
+        
+        assertEquals(impl.getLiquid().getAlpha(), AlphaFactory.getPengAndRobinsonExpression());
+    }
+    
+    
      /**
      * Test of getTemperature method, of class BubblePoint.
      */
