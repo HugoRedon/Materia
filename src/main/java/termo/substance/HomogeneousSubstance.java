@@ -4,6 +4,7 @@ package termo.substance;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Objects;
 import termo.Constants;
 import termo.component.Component;
 import termo.eos.Cubic;
@@ -41,7 +42,46 @@ public abstract class  HomogeneousSubstance  implements PropertyChangeListener{
                 break;
         }
     }
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 41 * hash + Objects.hashCode(this.cubicEquationOfState);
+        hash = 41 * hash + Objects.hashCode(this.phase);
+        hash = 41 * hash + (int) (Double.doubleToLongBits(this.temperature) ^ (Double.doubleToLongBits(this.temperature) >>> 32));
+        hash = 41 * hash + (int) (Double.doubleToLongBits(this.pressure) ^ (Double.doubleToLongBits(this.pressure) >>> 32));
+        hash = 41 * hash + Objects.hashCode(this.mpcs);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final HomogeneousSubstance other = (HomogeneousSubstance) obj;
+        if (!Objects.equals(this.cubicEquationOfState, other.cubicEquationOfState)) {
+            return false;
+        }
+        if (this.phase != other.phase) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.temperature) != Double.doubleToLongBits(other.temperature)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.pressure) != Double.doubleToLongBits(other.pressure)) {
+            return false;
+        }
+        if (!Objects.equals(this.mpcs, other.mpcs)) {
+            return false;
+        }
+        return true;
+    }
+
+ 
     
     
     public HomogeneousSubstance(){

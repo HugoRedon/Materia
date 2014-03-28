@@ -21,7 +21,7 @@ import termo.eos.mixingRule.VDWMixingRule;
  */
 public class MixtureSubstanceTest {
     MixtureSubstance substance ;
-    
+    PureSubstance propanePure ;
     public MixtureSubstanceTest() {
 //	substance = new MixtureSubstance();
 	
@@ -49,17 +49,17 @@ public class MixtureSubstanceTest {
 	
 	
 	
-	PureSubstance propanePure = new PureSubstance();
+	 propanePure = new PureSubstance();
 	//propanePure.setCubicEquationOfState(eos);
 	propanePure.setAlpha(alpha);
 	propanePure.setComponent(propane);
 	
+	substance = new MixtureSubstance();
 	
-	substance.setCubicEquationOfState(eos);
 	
 	substance.addComponent(propanePure, 0.7);
 	substance.addComponent(ethanePure, 0.3);
-	
+	substance.setCubicEquationOfState(eos);
 	
 	InteractionParameter b = new InteractionParameter();
 	b.setValue(propane, ethane, 0);
@@ -69,6 +69,18 @@ public class MixtureSubstanceTest {
 //	substance.setBinaryParameters(b);
 //	//substance.setCubicEquationOfState(eos);
 //	substance.setMixingRule(mr);
+    }
+    
+    @Test 
+    public void testChangeAlphaAndMolarFractionsStillWork(){
+        System.out.println("change alpha");
+        substance.setAlpha(AlphaFactory.getAdachiAndLu());
+        System.out.println("propane pure alpha should be adachi" + propanePure.getAlpha());
+        
+        
+        substance.getMolarFractions().keySet();
+        double fraction = substance.getMolarFractions().get(propanePure);
+        assertEquals(fraction, 0.7,0.000001);
     }
 
     @Test
@@ -113,7 +125,7 @@ public class MixtureSubstanceTest {
 //	HashMap result = instance.alphaDerivatives(temperature);
 //	assertEquals(expResult, result);
 //	// TODO review the generated test code and remove the default call to fail.
-//	fail("The test case is a prototype.");
+	fail("The test case is a prototype.");
     }
 
     @Test
@@ -125,7 +137,7 @@ public class MixtureSubstanceTest {
 //	double result = instance.temperatureParcial_a();
 //	assertEquals(expResult, result, 0.0);
 //	// TODO review the generated test code and remove the default call to fail.
-//	fail("The test case is a prototype.");
+	fail("The test case is a prototype.");
     }
 
  
@@ -137,7 +149,7 @@ public class MixtureSubstanceTest {
 //	ArrayList result = instance.getComponents();
 //	assertEquals(expResult, result);
 //	// TODO review the generated test code and remove the default call to fail.
-//	fail("The test case is a prototype.");
+	fail("The test case is a prototype.");
     }
 
     

@@ -1,13 +1,7 @@
 package termo.eos.mixingRule;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import termo.binaryParameter.InteractionParameter;
-import termo.component.Component;
-import termo.eos.Cubic;
-import termo.eos.alpha.Alpha;
-import termo.phase.Phase;
-import termo.substance.MixtureSubstance;
 import termo.substance.PureSubstance;
 
 /**
@@ -15,21 +9,13 @@ import termo.substance.PureSubstance;
  * @author Hugo Redon Rivera
  */
 public class VDWMixingRule extends MixingRule{
-//
+
     public VDWMixingRule(){
         this.name = "Van Der Waals";
  
     }
 
-//      public VDWMixingRule(Cubic equationOfState,Alpha alpha,  ArrayList<Component> components,Phase phase, InteractionParameter k){
-//	super(equationOfState,phase);
-////	//this.mixingRule = mixingRule;
-//	for (Component component:components){
-//	    PureSubstance sub = new PureSubstance(equationOfState, alpha, component, phase);
-//	    pureSubstances.add(sub);
-//	}
-//	this.binaryParameters = k;
-//    }
+
     @Override
     public double a(double temperature, HashMap<PureSubstance, Double> molarFractions, InteractionParameter binaryParameters) {
          double a = 0;

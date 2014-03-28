@@ -346,6 +346,7 @@ public class AlphaOptimization {
     }
     
     private int iterations;
+    private double tolerance = 1e-4;
     public double[] solveVapoPressureRegression (double...args){
         
         double beforeError;
@@ -355,7 +356,7 @@ public class AlphaOptimization {
         
         iterations = 0;
         
-        while(Math.abs(criteria) > 1e-4){
+        while(Math.abs(criteria) > tolerance){
             iterations++;
             beforeError = vaporPressureError( args);
             double[] before = args;
@@ -385,7 +386,7 @@ public class AlphaOptimization {
         
         return null;
     }
-    private double damp = .5;
+    private double damp = 1;
     public double[] applyDamping(double[] before, double[]newValues ){
         double[] result = new double[before.length];
         for(int i = 0; i < result.length;i++){
@@ -450,5 +451,19 @@ public class AlphaOptimization {
      */
     public void setIterations(int iterations) {
         this.iterations = iterations;
+    }
+
+    /**
+     * @return the tolerance
+     */
+    public double getTolerance() {
+        return tolerance;
+    }
+
+    /**
+     * @param tolerance the tolerance to set
+     */
+    public void setTolerance(double tolerance) {
+        this.tolerance = tolerance;
     }
 }

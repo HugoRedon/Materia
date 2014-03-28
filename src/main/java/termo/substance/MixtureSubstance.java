@@ -27,15 +27,30 @@ public class MixtureSubstance extends HomogeneousSubstance{
         
     }
 
- 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        super.propertyChange(evt); 
+         String propertyName = evt.getPropertyName();
+        switch(propertyName){
+            case "alpha":
+                setAlpha((Alpha)evt.getNewValue());
+                break;
+            case "components":
+                setComponents((ArrayList<Component>)evt.getNewValue());
+                break;
+          
+            case"mixingRule":
+                setMixingRule((MixingRule)evt.getNewValue());
+                break;
+        }
+    }
+
     public MixtureSubstance(Cubic equationOfState,Alpha alpha,  ArrayList<Component> components,Phase phase,MixingRule mixingRule ,InteractionParameter k){
 	super(equationOfState,phase);
 	this.mixingRule = mixingRule;
-	for (Component component:components){
-	    PureSubstance sub = new PureSubstance(equationOfState, alpha, component, phase);
-            mpcs.addPropertyChangeListener(sub);
-	    pureSubstances.add(sub);
-	}
+        this.alpha = alpha;
+        
+        setComponents(components);
 	this.binaryParameters = k;
     }
      
@@ -43,10 +58,13 @@ public class MixtureSubstance extends HomogeneousSubstance{
 
     public void setComponents(ArrayList<Component> components){
         pureSubstances.clear();
+        molarFractions.clear();
+        double fraction = 1d/components.size();
         for(Component component : components){ //implement property change listener
             PureSubstance pure = new PureSubstance(super.getCubicEquationOfState(), alpha, component, super.getPhase());
             mpcs.addPropertyChangeListener(pure);
             pureSubstances.add(pure);
+            setFraction(pure, fraction);
         }
     }
 
@@ -71,11 +89,14 @@ public class MixtureSubstance extends HomogeneousSubstance{
 
     
     public void addComponent(PureSubstance pureSubstance, double molarFraction){
-        pureSubstance.setCubicEquationOfState(getCubicEquationOfState());
+        
+        //pureSubstance.setCubicEquationOfState(getCubicEquationOfState());
+        mpcs.addPropertyChangeListener(pureSubstance);
         getPureSubstances().add(pureSubstance);
         getMolarFractions().put(pureSubstance, molarFraction);
     }
     public void removeComponent(PureSubstance pureSubstance){
+        mpcs.removePropertyChangeListener(pureSubstance);
       	getPureSubstances().remove(pureSubstance);
       	getMolarFractions().remove(pureSubstance);
     }
@@ -88,6 +109,7 @@ public class MixtureSubstance extends HomogeneousSubstance{
 
     @Override
     public double calculate_a_cubicParameter(){
+        System.out.println("molarFractions"  + molarFractions);
         return mixingRule.a(temperature, molarFractions, binaryParameters);
     }
     
@@ -166,7 +188,9 @@ public class MixtureSubstance extends HomogeneousSubstance{
      * @param mixingRule the mixingRule to set
      */
     public void setMixingRule(MixingRule mixingRule) {
+        MixingRule oldMixingRule = this.mixingRule;
 	this.mixingRule = mixingRule;
+        mpcs.firePropertyChange("mixingRule", oldMixingRule, mixingRule);
     }
 
     /**
