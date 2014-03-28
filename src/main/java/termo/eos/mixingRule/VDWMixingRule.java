@@ -1,7 +1,9 @@
 package termo.eos.mixingRule;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import termo.binaryParameter.InteractionParameter;
+import termo.substance.MixtureSubstance;
 import termo.substance.PureSubstance;
 
 /**
@@ -16,35 +18,41 @@ public class VDWMixingRule extends MixingRule{
     }
 
 
-    @Override
-    public double a(double temperature, HashMap<PureSubstance, Double> molarFractions, InteractionParameter binaryParameters) {
-         double a = 0;
-      for(PureSubstance iComponent: molarFractions.keySet()){
-          for(PureSubstance jComponent: molarFractions.keySet()){
-              double xi = molarFractions.get(iComponent);
-              double xj = molarFractions.get(jComponent);
+    public double a(MixtureSubstance mixture){
+        double a= 0;
+        for(PureSubstance iComponent: mixture.getPureSubstances()){
+               for(PureSubstance jComponent: mixture.getPureSubstances()){
+              double xi = mixture.getFraction(iComponent);
+              double xj = mixture.getFraction(jComponent);
               
               double ai = iComponent.calculate_a_cubicParameter();
               double aj = jComponent.calculate_a_cubicParameter();
               
-              double kij = binaryParameters.getValue(iComponent.getComponent(), jComponent.getComponent());
+              
+              double kij = mixture.getBinaryParameters().getValue(iComponent.getComponent(), jComponent.getComponent());
              
               a += xi * xj * Math.sqrt(ai * aj) * (1-kij);
           }
-      }
-       return a;
+        }
+        return a;
     }
+    
+
 
     @Override
-    public double temperatureParcial_a(double temperature, HashMap<PureSubstance, Double> molarFractions, InteractionParameter k) {
+    public double temperatureParcial_a(MixtureSubstance mixture) {
         double result = 0;
-       for(PureSubstance ci: molarFractions.keySet()){
-            for (PureSubstance cj: molarFractions.keySet()){
-                double xi = molarFractions.get(ci);
-                double tempAlphaDerivativeAlphai =ci.getAlpha().TempOverAlphaTimesDerivativeAlphaRespectTemperature(temperature, ci.getComponent()) ;
-		double a = this.a(temperature, molarFractions, k);
-                double xj = molarFractions.get(cj);
-                double tempAlphaDerivativeAlphaj = cj.getAlpha().TempOverAlphaTimesDerivativeAlphaRespectTemperature(temperature, cj.getComponent());
+       for(PureSubstance ci: mixture.getPureSubstances()){
+            for (PureSubstance cj: mixture.getPureSubstances()){
+                double xi = mixture.getFraction(ci);
+                double tempAlphaDerivativeAlphai =ci.getAlpha()
+                        .TempOverAlphaTimesDerivativeAlphaRespectTemperature(
+                                mixture.getTemperature(), ci.getComponent()) ;
+		double a = this.a(mixture);
+                double xj =mixture.getFraction(cj);
+                double tempAlphaDerivativeAlphaj = cj.getAlpha()
+                        .TempOverAlphaTimesDerivativeAlphaRespectTemperature(
+                                mixture.getTemperature(), cj.getComponent());
                 result += (1d/2d) * xi * xj * a*(tempAlphaDerivativeAlphai + tempAlphaDerivativeAlphaj);
             }
        }
@@ -52,13 +60,14 @@ public class VDWMixingRule extends MixingRule{
     }
 
     @Override
-    public double oneOverNParcial_aN2RespectN(double temperature, PureSubstance iComponent, HashMap<PureSubstance, Double> molarFractions, InteractionParameter binaryParameters) {
+    public double oneOverNParcial_aN2RespectN( PureSubstance iComponent, 
+            MixtureSubstance mixture) {
         double sum = 0;
         double ai = iComponent.calculate_a_cubicParameter();
-        for(PureSubstance kComponent : molarFractions.keySet()){
-            double xk = molarFractions.get(kComponent);          
+        for(PureSubstance kComponent : mixture.getPureSubstances()){
+            double xk = mixture.getFraction(kComponent);          
             double ak = kComponent.calculate_a_cubicParameter();//singleAs.get(kComponent);        
-            double kik = binaryParameters.getValue(iComponent.getComponent(), kComponent.getComponent());
+            double kik = mixture.getBinaryParameters().getValue(iComponent.getComponent(), kComponent.getComponent());
             sum += xk * Math.sqrt(ai * ak ) * (1- kik);
         }
 
@@ -66,10 +75,10 @@ public class VDWMixingRule extends MixingRule{
     }
 
     @Override
-    public double b(HashMap<PureSubstance, Double> molarFractions, double temperature, InteractionParameter k) {
+    public double b(MixtureSubstance mixture) {
         double b = 0;
-        for(PureSubstance iComponent:molarFractions.keySet()){
-              double xi = molarFractions.get(iComponent);
+        for(PureSubstance iComponent:mixture.getPureSubstances()){
+              double xi = mixture.getFraction(iComponent);
               double bi = iComponent.calculate_b_cubicParameter();
               b += xi * bi ;
         }

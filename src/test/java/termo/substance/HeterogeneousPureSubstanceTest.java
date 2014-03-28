@@ -22,7 +22,7 @@ public class HeterogeneousPureSubstanceTest {
     HeterogeneousPureSubstance substance;
     public HeterogeneousPureSubstanceTest() {
 	
-	Component ethane = new Component();
+	Component ethane = new Component("ethane");
 	ethane.setAcentricFactor(0.09781);
 	ethane.setCriticalTemperature(305.43);
 	ethane.setCriticalPressure(48.1595*101325);

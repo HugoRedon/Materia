@@ -27,9 +27,9 @@ public class VDWMixingRuleTest {
 	
 	
 	
-	Component ethane = new Component( );
+	Component ethane = new Component("ethane");
 	
-	ethane.setName("ethane");
+	//ethane.setName();
 	ethane.setAcentricFactor(0.09781);
 	ethane.setCriticalTemperature(305.43);
 	ethane.setCriticalPressure(48.1595*101325);
@@ -43,8 +43,8 @@ public class VDWMixingRuleTest {
 	ethanePure.setAlpha(alpha);
 	ethanePure.setComponent(ethane);
 	
-	Component propane = new Component();
-	propane.setName("propane");
+	Component propane = new Component("propane");
+	//propane.setName();
 	propane.setAcentricFactor(0.15416);
 	propane.setCriticalTemperature(369.82);
 	propane.setCriticalPressure(41.9396*101325);

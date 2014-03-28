@@ -17,7 +17,7 @@ import termo.substance.HeterogeneousPureSubstance;
  * @author Hugo
  */
 public class AlphaOptimizationTest {
-    Component component = new Component();
+    Component component = new Component("Acetaldehído");
     
      private ArrayList<ExperimentalData> list;
     
@@ -38,7 +38,7 @@ public class AlphaOptimizationTest {
         }
         
         
-        component.setName("Acetaldehído");
+       // component.setName();
         component.setCriticalPressure(5.57e6);
         component.setCriticalTemperature(466);
         component.setAcentricFactor(0.262493);

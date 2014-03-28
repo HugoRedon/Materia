@@ -1,7 +1,9 @@
 package termo.eos.mixingRule;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import termo.binaryParameter.InteractionParameter;
+import termo.substance.MixtureSubstance;
 import termo.substance.PureSubstance;
 
 /**
@@ -12,26 +14,19 @@ public abstract class MixingRule {
     protected String name;
      
 
-     public abstract double a(double temperature,
-           
-             HashMap<PureSubstance,Double> fractions,
-             InteractionParameter k);
+     public abstract double a(MixtureSubstance mixture);
      
-     public abstract double b(HashMap<PureSubstance,Double> fractions,double temperature,InteractionParameter k );
+     public abstract double b(MixtureSubstance mixture);
      
      public abstract double oneOverNParcial_aN2RespectN(
-             double temperature,
              PureSubstance iComponent,
-             HashMap<PureSubstance,Double> fractions, 
-             InteractionParameter k);
+             MixtureSubstance mixture);
      
      @Override public String toString(){
          return this.name;
      }
      public abstract double temperatureParcial_a(
-             double temperature,        
-           HashMap<PureSubstance,Double> fractions,
-             InteractionParameter k
+             MixtureSubstance mixture
            );
      
      public String getName(){

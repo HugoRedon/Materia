@@ -40,17 +40,17 @@ public class HuronVidalMixingRuleTest {
     
     
     public final void createComponents(){
-	ethane = new Component();
+	ethane = new Component("Ethane");
 	
-	ethane.setName("Ethane");
+	//ethane.setName();
 	ethane.setAcentricFactor(0.09781);
 	ethane.setCriticalTemperature(305.43);
 	ethane.setCriticalPressure(48.1595*101325);
 	ethane.setK_StryjekAndVera(0.02669);
 	
-	propane = new Component();
+	propane = new Component("Propane");
 	
-	 propane.setName("Propane");
+	 //propane.setName();
 	propane.setAcentricFactor(0.15416);
 	propane.setCriticalTemperature(369.82);
 	propane.setCriticalPressure(41.9396*101325);
@@ -182,7 +182,7 @@ public class HuronVidalMixingRuleTest {
 //	HuronVidalMixingRule hv = new HuronVidalMixingRule(nrtl, eos);
 //	
 	NRTLActivityModel nrtl = new NRTLActivityModel();
-        MixtureSubstance ms = new MixtureSubstance(eos, null, components, Phase.VAPOR, null, k);
+        MixtureSubstance ms = new MixtureSubstance();
 	//MixtureSubstance ms = new HuronVidalMixingRule(
 //                EquationOfStateFactory.pengRobinsonBase(), 
 //                AlphaFactory.getStryjekAndVeraExpression(),

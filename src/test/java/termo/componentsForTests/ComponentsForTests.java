@@ -9,8 +9,8 @@ import termo.component.Component;
 public class ComponentsForTests {
 
     public static Component getMethanol (){
-        Component methanol = new Component();
-        methanol.setName("Methanol");
+        Component methanol = new Component("Methanol");
+//        methanol.setName();
         methanol.setCasNumber("67-56-1");
         
         //data from dippr
@@ -24,8 +24,8 @@ public class ComponentsForTests {
         return methanol;
     }
     public static Component getWater(){
-        Component water = new Component();
-        water.setName("Water");
+        Component water = new Component("Water");
+       // water.setName("Water");
         water.setCasNumber("7732-18-5");
         
         ///data from dippr

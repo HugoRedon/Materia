@@ -25,7 +25,7 @@ public class MixtureSubstanceTest {
     public MixtureSubstanceTest() {
 //	substance = new MixtureSubstance();
 	
-	Component ethane = new Component();
+	Component ethane = new Component("ethane");
 	
 	ethane.setAcentricFactor(0.09781);
 	ethane.setCriticalTemperature(305.43);
@@ -40,7 +40,7 @@ public class MixtureSubstanceTest {
 	ethanePure.setAlpha(alpha);
 	ethanePure.setComponent(ethane);
 	
-	Component propane = new Component();
+	Component propane = new Component("propane");
 	
 	propane.setAcentricFactor(0.15416);
 	propane.setCriticalTemperature(369.82);
@@ -78,8 +78,8 @@ public class MixtureSubstanceTest {
         System.out.println("propane pure alpha should be adachi" + propanePure.getAlpha());
         
         
-        substance.getMolarFractions().keySet();
-        double fraction = substance.getMolarFractions().get(propanePure);
+        
+        double fraction = substance.getFraction(propanePure);
         assertEquals(fraction, 0.7,0.000001);
     }
 

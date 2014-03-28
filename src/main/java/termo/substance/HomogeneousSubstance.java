@@ -6,9 +6,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Objects;
 import termo.Constants;
-import termo.component.Component;
 import termo.eos.Cubic;
-import termo.eos.alpha.Alpha;
 import termo.phase.Phase;
 
 /**

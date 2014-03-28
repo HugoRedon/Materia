@@ -98,7 +98,7 @@ public final class ComponentManager {
     
     
     public Component getComponentByCasNumber(String CasNumber){
-        Component aComponent = new Component();
+        Component aComponent = new Component(getFromChemInfo(CasNumber, ChemInfoColumn.Name));
         
         aComponent.setAbsoluteEntropyinStandardStateat298_15Kand101325Pa(getPropertyValue(CasNumber, absoluteEntropyinStandardStateat298_15Kand101325Pa));
         aComponent.setAbsoluteEntropyofIdealGasat298_15Kand101325Pa(getPropertyValue(CasNumber, absoluteEntropyofIdealGasat298_15Kand101325Pa));
@@ -142,7 +142,7 @@ public final class ComponentManager {
         
         aComponent.setCasNumber(CasNumber);
         aComponent.setDipprChemID(Integer.valueOf(getFromChemInfo(CasNumber, ChemInfoColumn.ChemID)));
-        aComponent.setName(getFromChemInfo(CasNumber, ChemInfoColumn.Name));
+        //aComponent.setName();
         aComponent.setStandardState(getFromChemInfo(CasNumber, ChemInfoColumn.StandardState));
         aComponent.setStructure(getFromChemInfo(CasNumber, ChemInfoColumn.Structure));
         aComponent.setSubFamily(getFromChemInfo(CasNumber, ChemInfoColumn.SubFamily));

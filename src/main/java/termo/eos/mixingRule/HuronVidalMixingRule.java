@@ -27,7 +27,7 @@ public class HuronVidalMixingRule extends MixtureSubstance{
     private double L;
     
     public HuronVidalMixingRule(){
-       super(null, null, null, Phase.VAPOR, null, null);
+//       super(null, null, null, Phase.VAPOR, null, null);
     }
     
 //    public HuronVidalMixingRule(ActivityModel activityModel,Cubic eos,Phase aPhase){
@@ -55,57 +55,57 @@ public class HuronVidalMixingRule extends MixtureSubstance{
     
     
 
-    @Override
-    public double calculate_a_cubicParameter() {
-            
-            double b = calculate_b_cubicParameter( );
-            double excessGibbs = activityModel.excessGibbsEnergy( molarFractions, (ActivityModelBinaryParameter)binaryParameters, temperature);
-            
-            double firstTerm = 0;
-           
-            for(PureSubstance ci : molarFractions.keySet()){
-                 double xi = molarFractions.get(ci);
-                 double ai = ci.calculate_a_cubicParameter();//singleAs.get(ci);
-                 double bi = ci.calculate_b_cubicParameter();//singleBs.get(ci);
-                
-                firstTerm += xi * (ai) / bi ;
-            }
-       return b* (firstTerm  - excessGibbs/(getL()));
-    }
+//    @Override
+//    public double calculate_a_cubicParameter() {
+//            
+//            double b = calculate_b_cubicParameter( );
+//            double excessGibbs = activityModel.excessGibbsEnergy( molarFractions, (ActivityModelBinaryParameter)binaryParameters, temperature);
+//            
+//            double firstTerm = 0;
+//           
+//            for(PureSubstance ci : molarFractions.keySet()){
+//                 double xi = molarFractions.get(ci);
+//                 double ai = ci.calculate_a_cubicParameter();//singleAs.get(ci);
+//                 double bi = ci.calculate_b_cubicParameter();//singleBs.get(ci);
+//                
+//                firstTerm += xi * (ai) / bi ;
+//            }
+//       return b* (firstTerm  - excessGibbs/(getL()));
+//    }
 
-    
-    @Override
-    public double calculate_b_cubicParameter() {
-         double b = 0;
-      for(PureSubstance iComponent:molarFractions.keySet()){
-            double xi = molarFractions.get(iComponent);
-            double bi = iComponent.calculate_b_cubicParameter();//singleBs.get(iComponent);
-            b += xi * bi ;
-      }
-       return b;
-    }
-
-    
-    
-    @Override
-    public double oneOver_N_Parcial_a(
-            
-	PureSubstance ci) {
-         
-        double b = calculate_b_cubicParameter();
-        double a =calculate_a_cubicParameter();
-        
-        ActivityModelBinaryParameter param = (ActivityModelBinaryParameter)binaryParameters;
-	double ai = ci.calculate_a_cubicParameter();
-	double bi = ci.calculate_b_cubicParameter();
-	double alphai = ai/(bi*Constants.R * temperature);
-	
-        double gammai = activityModel.activityCoefficient( ci, molarFractions, param, temperature);
-
-        return b * Constants.R * temperature*( alphai -  Math.log(gammai)/L) + a * bi / b;
-    }
-
-    
+//    
+//    @Override
+//    public double calculate_b_cubicParameter() {
+//         double b = 0;
+//      for(PureSubstance iComponent:molarFractions.keySet()){
+//            double xi = molarFractions.get(iComponent);
+//            double bi = iComponent.calculate_b_cubicParameter();//singleBs.get(iComponent);
+//            b += xi * bi ;
+//      }
+//       return b;
+//    }
+//
+//    
+//    
+//    @Override
+//    public double oneOver_N_Parcial_a(
+//            
+//	PureSubstance ci) {
+//         
+//        double b = calculate_b_cubicParameter();
+//        double a =calculate_a_cubicParameter();
+//        
+//        ActivityModelBinaryParameter param = (ActivityModelBinaryParameter)binaryParameters;
+//	double ai = ci.calculate_a_cubicParameter();
+//	double bi = ci.calculate_b_cubicParameter();
+//	double alphai = ai/(bi*Constants.R * temperature);
+//	
+//        double gammai = activityModel.activityCoefficient( ci, molarFractions, param, temperature);
+//
+//        return b * Constants.R * temperature*( alphai -  Math.log(gammai)/L) + a * bi / b;
+//    }
+//
+//    
    
 
     /**

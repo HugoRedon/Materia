@@ -5,6 +5,7 @@ import java.util.HashMap;
 import termo.binaryParameter.BinaryInteractionParameter;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
+import termo.substance.MixtureSubstance;
 import termo.substance.PureSubstance;
 
 /**
@@ -12,6 +13,26 @@ import termo.substance.PureSubstance;
  * @author Hugo Redon Rivera
  */
 public class MathiasKlotzPrausnitzMixingRule extends MixingRule {
+
+    @Override
+    public double a(MixtureSubstance mixture) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double b(MixtureSubstance mixture) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double oneOverNParcial_aN2RespectN(PureSubstance iComponent, MixtureSubstance mixture) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double temperatureParcial_a(MixtureSubstance mixture) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
   
 
@@ -170,24 +191,5 @@ public class MathiasKlotzPrausnitzMixingRule extends MixingRule {
 //        return (1d/2d)*(firstTerm + secondFactor);
 //    }
 
-    @Override
-    public double oneOverNParcial_aN2RespectN(double temperature, PureSubstance iComponent, HashMap<PureSubstance, Double> fractions, InteractionParameter k) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double a(double temperature, HashMap<PureSubstance, Double> fractions, InteractionParameter k) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double b(HashMap<PureSubstance, Double> fractions, double temperature, InteractionParameter k) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double temperatureParcial_a(double temperature, HashMap<PureSubstance, Double> fractions, InteractionParameter k) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }

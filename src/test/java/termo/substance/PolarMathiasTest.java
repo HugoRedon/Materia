@@ -42,8 +42,8 @@ public class PolarMathiasTest {
     @Test
     public void testPRSV(){
         
-        Component ethanol = new Component();
-        ethanol.setName("ethanol");
+        Component ethanol = new Component("ethanol");
+        //ethanol.setName("ethanol");
         ethanol.setAcentricFactor(0.64439);
         ethanol.setCriticalTemperature(513.92);
         ethanol.setCriticalPressure(60.676*101325);
@@ -87,8 +87,8 @@ public class PolarMathiasTest {
      @Test
     public void testPRMathiasCopeman(){
         
-        Component ethanol = new Component();
-        ethanol.setName("ethanol");
+        Component ethanol = new Component("ethanol");
+        //ethanol.setName("ethanol");
         ethanol.setAcentricFactor(0.64439);
         ethanol.setCriticalTemperature(513.92);
         ethanol.setCriticalPressure(60.676*101325);

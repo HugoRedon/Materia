@@ -13,7 +13,7 @@ public class CommonAlphaEquationTest {
 	Component ethane;
 	CommonAlphaEquation alpha;
     public CommonAlphaEquationTest() {
-	ethane = new Component();
+	ethane = new Component("ethane");
 	
 	ethane.setAcentricFactor(0.09781);
 	ethane.setCriticalTemperature(305.43);

@@ -24,7 +24,7 @@ public class ComponentTest {
 
     @Test
     public void testSomeMethod() {
-        Component component = new Component();
+        Component component = new Component("test");
         Alpha alpha = AlphaFactory.getAdachiAndLu();
         System.out.println(alpha.getName());
         ArrayList<Field> fields = component.getAlphaParametersFor(alpha);

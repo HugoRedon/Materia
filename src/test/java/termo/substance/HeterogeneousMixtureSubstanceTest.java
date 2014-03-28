@@ -27,14 +27,14 @@ public class HeterogeneousMixtureSubstanceTest {
     Component ethane;
     Component propane;
     public HeterogeneousMixtureSubstanceTest(){
-	 ethane = new Component();
+	 ethane = new Component("ethane");
 	
 	ethane.setAcentricFactor(0.09781);
 	ethane.setCriticalTemperature(305.43);
 	ethane.setCriticalPressure(48.1595*101325);
 	ethane.setK_StryjekAndVera(0.02669);
 	
-	 propane = new Component();
+	 propane = new Component("propane");
 	
 	propane.setAcentricFactor(0.15416);
 	propane.setCriticalTemperature(369.82);
@@ -52,18 +52,6 @@ public class HeterogeneousMixtureSubstanceTest {
 //	calculate_b_cubicParameter.setValue(propane, ethane, 0, true);
 	MixingRule mr = new VDWMixingRule();
         substance = new HeterogeneousMixtureSubstance(eos, alpha, mr, components, k);
-	//substance = new HeterogeneousMixtureSubstance();
-	substance.setComponents(components);
-        VDWMixingRule vdw = new VDWMixingRule();
-        
-        
-        
-//	VDWMixingRule vdwLiquid = new VDWMixingRule(eos, alpha, components, Phase.LIQUID, k);
-//	VDWMixingRule vdwVapor = new VDWMixingRule(eos, alpha, components, Phase.VAPOR, k);
-//	substance.setLiquid(vdwLiquid);
-//	substance.setVapor(vdwVapor);
-//	
-	//substance = new HeterogeneousMixtureSubstance(eos,alpha,mr,components);
 	
 	
 	

@@ -46,13 +46,7 @@ public abstract class HeterogeneousSubstance implements PropertyChangeListener{
     
     
     public HeterogeneousSubstance(){
-        liquid = new PureSubstance();
-        liquid.setPhase(Phase.LIQUID);
-        vapor = new PureSubstance();
-        vapor.setPhase(Phase.VAPOR);
-        
-        mpcs.addPropertyChangeListener(liquid);
-        mpcs.addPropertyChangeListener(vapor);
+       
         
     }
 

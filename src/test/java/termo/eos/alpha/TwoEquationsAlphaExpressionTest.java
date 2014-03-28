@@ -17,7 +17,7 @@ public class TwoEquationsAlphaExpressionTest {
 	Component component;
 	
     public TwoEquationsAlphaExpressionTest() {
-	component = new Component();
+	component = new Component("component");
 	component.setAcentricFactor(0.09781);
 	component.setCriticalTemperature(305.43);
 	component.setCriticalPressure(48.1595*101325);
@@ -127,7 +127,7 @@ public class TwoEquationsAlphaExpressionTest {
     public void testGetProperAlpha() {
 	System.out.println("getProperAlpha");
 	double temperature = 50;
-	Component component1 = new Component();
+	Component component1 = new Component("component1");
 	component1.setCriticalTemperature(100);
 	
 	Alpha alpha1 = new PengAndRobinsonAlpha();

@@ -20,13 +20,20 @@ public class HeterogeneousPureSubstance extends HeterogeneousSubstance{
 
     public HeterogeneousPureSubstance(){
        
+         liquid = new PureSubstance();
+        liquid.setPhase(Phase.LIQUID);
+        vapor = new PureSubstance();
+        vapor.setPhase(Phase.VAPOR);
         
+        mpcs.addPropertyChangeListener(liquid);
+        mpcs.addPropertyChangeListener(vapor);
     }
     
     public HeterogeneousPureSubstance(
 	    Cubic eos,
 	    Alpha alpha,
 	    Component component){
+        this();
 //	this.cubicEquationOfState = eos;
 //	this.alpha = alpha;
 //	this.component = component;

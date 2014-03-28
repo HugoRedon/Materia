@@ -18,7 +18,7 @@ import termo.phase.Phase;
 public class PureSubstanceTest {
      PureSubstance substance ; 
     public PureSubstanceTest() {
-	Component ethane = new Component();
+	Component ethane = new Component("ethane");
 	
 	ethane.setAcentricFactor(0.09781);
 	ethane.setCriticalTemperature(305.43);

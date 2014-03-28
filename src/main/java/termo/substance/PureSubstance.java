@@ -17,6 +17,7 @@ import termo.phase.Phase;
 public class PureSubstance extends HomogeneousSubstance {
     private Component component;
     private Alpha alpha;
+    private Double molarFraction;
     
     public PureSubstance(){
 	
@@ -215,6 +216,20 @@ public class PureSubstance extends HomogeneousSubstance {
 	double tc = component.getCriticalTemperature();
 
 	return  pc * Math.pow(10,(-7d/3d)* (1+w) * ((tc/temperature) - 1 ) );
+    }
+
+    /**
+     * @return the molarFraction
+     */
+    public Double getMolarFraction() {
+        return molarFraction;
+    }
+
+    /**
+     * @param molarFraction the molarFraction to set
+     */
+    public void setMolarFraction(Double molarFraction) {
+        this.molarFraction = molarFraction;
     }
 
   

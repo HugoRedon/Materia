@@ -17,6 +17,10 @@ import termo.eos.alpha.annotation.AlphaParameter;
  */
 public class Component implements Serializable {
     
+    public Component (String name){
+        this.name  = name.toLowerCase();
+    }
+    
     private double molecularWeight;
     private double lowerFlammabilityLimitTemperature;
     private double upperFlammabilityLimitTemperature;
@@ -123,7 +127,7 @@ public class Component implements Serializable {
     
     
     private int dipprChemID;
-    private String name;
+    final private String name;
     private String casNumber;
     private String formula;
     private String smiles;
@@ -882,12 +886,12 @@ public class Component implements Serializable {
         return name;
     }
 
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
+//    /**
+//     * @param name the name to set
+//     */
+//    public void setName(String name) {
+//        this.name = name;
+//    }
 
     /**
      * @return the casName

@@ -36,17 +36,17 @@ public class WilsonActivityModelTest {
 	
 	
 	
-	ethane = new Component();
+	ethane = new Component("Ethane");
 	
-	ethane.setName("Ethane");
+//	ethane.setName();
 	ethane.setAcentricFactor(0.09781);
 	ethane.setCriticalTemperature(305.43);
 	ethane.setCriticalPressure(48.1595*101325);
 	ethane.setK_StryjekAndVera(0.02669);
 	
-	propane = new Component();
+	propane = new Component("Propane");
 	
-	 propane.setName("Propane");
+//	 propane.setName("Propane");
 	propane.setAcentricFactor(0.15416);
 	propane.setCriticalTemperature(369.82);
 	propane.setCriticalPressure(41.9396*101325);
