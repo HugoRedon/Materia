@@ -5,6 +5,7 @@ import java.util.HashMap;
 import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.component.Component;
+import termo.substance.MixtureSubstance;
 import termo.substance.PureSubstance;
 
 /**
@@ -13,14 +14,10 @@ import termo.substance.PureSubstance;
  */
 public abstract class ActivityModel {
    public abstract double excessGibbsEnergy(
-            HashMap<PureSubstance,Double> fractions,
-            ActivityModelBinaryParameter k,
-            double temperature);
+            MixtureSubstance mixture);
    public abstract double activityCoefficient(
             PureSubstance ci,
-            HashMap<PureSubstance,Double> fractions,
-            ActivityModelBinaryParameter k,
-            double temperature);
+           MixtureSubstance mixture);
    public abstract double parcialExcessGibbsRespectTemperature(ArrayList<Component> components,
             HashMap<Component,Double> fractions,
             ActivityModelBinaryParameter k,

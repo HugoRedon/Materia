@@ -21,91 +21,72 @@ import termo.substance.PureSubstance;
  * @author
  * Hugo
  */
-public class HuronVidalMixingRule extends MixtureSubstance{
+public class HuronVidalMixingRule extends MixingRule{
 
     ActivityModel activityModel;
     private double L;
     
-    public HuronVidalMixingRule(){
-//       super(null, null, null, Phase.VAPOR, null, null);
+    public HuronVidalMixingRule(ActivityModel activityModel, Cubic equationOfState){
+        this.activityModel = activityModel;
+        L = equationOfState.calculateL(1, 1);
     }
-    
-//    public HuronVidalMixingRule(ActivityModel activityModel,Cubic eos,Phase aPhase){
-//	super(eos, aPhase);
-//	this.activityModel = activityModel;
-//	
-//	L = eos.calculateL(1, 1);
-//	
-//    }
 
-//    public HuronVidalMixingRule(
-//	    Cubic equationOfState, 
-//	    Alpha alpha, 
-//	    ArrayList<Component> components, 
-//	    Phase phase, 
-//	    InteractionParameter k, 
-//	    ActivityModel activityModel
-//	    ) {
-//	super(equationOfState, alpha, components, phase, k);
-//	
-//	this.activityModel = activityModel;
-//	L =equationOfState.calculateL(1, 1);
-//    }
 
     
     
 
-//    @Override
-//    public double calculate_a_cubicParameter() {
-//            
-//            double b = calculate_b_cubicParameter( );
-//            double excessGibbs = activityModel.excessGibbsEnergy( molarFractions, (ActivityModelBinaryParameter)binaryParameters, temperature);
-//            
-//            double firstTerm = 0;
-//           
-//            for(PureSubstance ci : molarFractions.keySet()){
-//                 double xi = molarFractions.get(ci);
-//                 double ai = ci.calculate_a_cubicParameter();//singleAs.get(ci);
-//                 double bi = ci.calculate_b_cubicParameter();//singleBs.get(ci);
-//                
-//                firstTerm += xi * (ai) / bi ;
-//            }
-//       return b* (firstTerm  - excessGibbs/(getL()));
-//    }
+    @Override
+    public double a(MixtureSubstance mixture) {
+            
+            double b = b(mixture);
+            double excessGibbs = activityModel.excessGibbsEnergy( mixture);
+            
+            double firstTerm = 0;
+           
+            for(PureSubstance ci :mixture.getPureSubstances()){
+                 double xi = ci.getMolarFraction();
+                 double ai = ci.calculate_a_cubicParameter();//singleAs.get(ci);
+                 double bi = ci.calculate_b_cubicParameter();//singleBs.get(ci);
+                
+                firstTerm += xi * (ai) / bi ;
+            }
+       return b* (firstTerm  - excessGibbs/(getL()));
+    }
 
-//    
-//    @Override
-//    public double calculate_b_cubicParameter() {
-//         double b = 0;
-//      for(PureSubstance iComponent:molarFractions.keySet()){
-//            double xi = molarFractions.get(iComponent);
-//            double bi = iComponent.calculate_b_cubicParameter();//singleBs.get(iComponent);
-//            b += xi * bi ;
-//      }
-//       return b;
-//    }
-//
-//    
-//    
-//    @Override
-//    public double oneOver_N_Parcial_a(
-//            
-//	PureSubstance ci) {
-//         
-//        double b = calculate_b_cubicParameter();
-//        double a =calculate_a_cubicParameter();
-//        
-//        ActivityModelBinaryParameter param = (ActivityModelBinaryParameter)binaryParameters;
-//	double ai = ci.calculate_a_cubicParameter();
-//	double bi = ci.calculate_b_cubicParameter();
-//	double alphai = ai/(bi*Constants.R * temperature);
-//	
-//        double gammai = activityModel.activityCoefficient( ci, molarFractions, param, temperature);
-//
-//        return b * Constants.R * temperature*( alphai -  Math.log(gammai)/L) + a * bi / b;
-//    }
-//
-//    
+    
+    @Override
+    public double b(MixtureSubstance mixture) {
+         double b = 0;
+      for(PureSubstance iComponent:mixture.getPureSubstances()){
+            double xi = iComponent.getMolarFraction();
+            double bi = iComponent.calculate_b_cubicParameter();//singleBs.get(iComponent);
+            b += xi * bi ;
+      }
+       return b;
+    }
+
+
+    
+    
+    @Override
+    public double oneOverNParcial_aN2RespectN(
+	PureSubstance ci,
+        MixtureSubstance mixture) {
+         
+        double b = b(mixture);
+        double a =a(mixture);
+        
+        ActivityModelBinaryParameter param = (ActivityModelBinaryParameter)mixture.getBinaryParameters();
+	double ai = ci.calculate_a_cubicParameter();
+	double bi = ci.calculate_b_cubicParameter();
+	double alphai = ai/(bi*Constants.R * mixture.getTemperature());
+	
+        double gammai = activityModel.activityCoefficient( ci,mixture   );
+
+        return b * Constants.R * mixture.getTemperature()*( alphai -  Math.log(gammai)/L) + a * bi / b;
+    }
+
+    
    
 
     /**
@@ -122,10 +103,11 @@ public class HuronVidalMixingRule extends MixtureSubstance{
 	this.L = L;
     }
 
-  
+
+
     @Override
-    public double temperatureParcial_a() {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public double temperatureParcial_a(MixtureSubstance mixture) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
    

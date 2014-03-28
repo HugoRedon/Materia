@@ -15,7 +15,7 @@ import termo.phase.Phase;
  *
  * @author Hugo Redon Rivera
  */
-public class MixtureSubstance extends HomogeneousSubstance{
+public final class MixtureSubstance extends HomogeneousSubstance{
     private MixingRule mixingRule;
     protected ArrayList<PureSubstance> pureSubstances = new ArrayList<>();
 //    protected HashMap<String,Double> molarFractions = new HashMap<>();
@@ -47,11 +47,12 @@ public class MixtureSubstance extends HomogeneousSubstance{
 
     public MixtureSubstance(Cubic equationOfState,Alpha alpha,  ArrayList<Component> components,Phase phase,MixingRule mixingRule ,InteractionParameter k){
 	super(equationOfState,phase);
-	this.mixingRule = mixingRule;
-        this.alpha = alpha;
+        setMixingRule(mixingRule);
+        setAlpha(alpha);
         
+        setBinaryParameters(k);
         setComponents(components);
-	this.binaryParameters = k;
+	
     }
      
 

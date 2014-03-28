@@ -5,6 +5,7 @@ import java.util.HashMap;
 import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.component.Component;
+import termo.substance.MixtureSubstance;
 import termo.substance.PureSubstance;
 
 /**
@@ -15,23 +16,20 @@ public class NRTLActivityModel extends ActivityModel{
 
     
     @Override
-    public double excessGibbsEnergy(
-            HashMap<PureSubstance, Double> fractions,
-            ActivityModelBinaryParameter param, 
-            double temperature) {
+    public double excessGibbsEnergy(MixtureSubstance mixture) {
         double gibbsExcess =0;
-//        ActivityModelBinaryParameter param = (NRTLBinaryParameter) k;
+        ActivityModelBinaryParameter param = (ActivityModelBinaryParameter) mixture.getBinaryParameters();
         
-        for(PureSubstance ci: fractions.keySet()){
-            double xi = fractions.get(ci);
+        for(PureSubstance ci: mixture.getPureSubstances()){
+            double xi = ci.getMolarFraction();
             
             double numerator = 0;
             double denominator = 0;
             
-            for ( PureSubstance cj : fractions.keySet()){
-                double xj = fractions.get(cj);
-                double  tau = tau(cj.getComponent(), ci.getComponent(), param, temperature);// param.get_gji(cj,ci) / (Constants.R * temperature);
-                double Gji = G(cj.getComponent(), ci.getComponent(), param, temperature);//= Math.exp(- param.getAlpha().getValue(cj,ci) * tau);
+            for ( PureSubstance cj : mixture.getPureSubstances()){
+                double xj = cj.getMolarFraction();
+                double  tau = tau(cj.getComponent(), ci.getComponent(), param, mixture.getTemperature());// param.get_gji(cj,ci) / (Constants.R * temperature);
+                double Gji = G(cj.getComponent(), ci.getComponent(), param, mixture.getTemperature());//= Math.exp(- param.getAlpha().getValue(cj,ci) * tau);
                 
                 numerator += xj * tau * Gji;
                 denominator += xj * Gji;
@@ -40,22 +38,20 @@ public class NRTLActivityModel extends ActivityModel{
             gibbsExcess += xi * numerator / denominator;
         }
 
-        return gibbsExcess *Constants.R * temperature;                
+        return gibbsExcess *Constants.R * mixture.getTemperature();                
     }
 
     @Override
     public double activityCoefficient(
             //ArrayList<Component> components, 
             PureSubstance cip, 
-            HashMap<PureSubstance, Double> fractionsP,
-            ActivityModelBinaryParameter k, 
-            double temperature) {
+            MixtureSubstance mixture) {
         
 	ArrayList<Component> components = new ArrayList<>();
 	HashMap<Component,Double> fractions = new HashMap();
-	for(PureSubstance c: fractionsP.keySet()){
+	for(PureSubstance c: mixture.getPureSubstances()){
 	    components.add(c.getComponent());
-	    fractions.put(c.getComponent(), fractionsP.get(c));
+	    fractions.put(c.getComponent(), c.getMolarFraction());
 	}
 	
 	Component ci = cip.getComponent();
@@ -64,18 +60,19 @@ public class NRTLActivityModel extends ActivityModel{
         double gij = 0;
         
         double t0 = 0;
-        double summa2 = summa2(ci, components, fractions, k, temperature);
-        double summa1 = summa1(ci, components, fractions, k, temperature);
+        ActivityModelBinaryParameter k = (ActivityModelBinaryParameter)mixture.getBinaryParameters();
+        double summa2 = summa2(ci, components, fractions, k, mixture.getTemperature());
+        double summa1 = summa1(ci, components, fractions, k, mixture.getTemperature());
         
         double secondTerm = 0;
 
         for(Component cj : components){
             xj = fractions.get(cj);
-            gij = G(ci, cj, k, temperature);
-            tauij = tau(ci, cj, k, temperature);
+            gij = G(ci, cj, k, mixture.getTemperature());
+            tauij = tau(ci, cj, k, mixture.getTemperature());
             
-            double sum1kj = summa1(cj, components, fractions, k, temperature);
-            double sum2mk = summa2(cj, components, fractions, k, temperature);
+            double sum1kj = summa1(cj, components, fractions, k, mixture.getTemperature());
+            double sum2mk = summa2(cj, components, fractions, k, mixture.getTemperature());
             
             secondTerm += (xj * gij / sum1kj )* (tauij - (sum2mk / sum1kj));
             

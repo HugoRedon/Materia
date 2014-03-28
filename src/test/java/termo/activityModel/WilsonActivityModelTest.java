@@ -16,6 +16,7 @@ import termo.eos.mixingRule.HuronVidalMixingRule;
 import termo.eos.mixingRule.MixingRule;
 import termo.phase.Phase;
 import termo.substance.HeterogeneousMixtureSubstance;
+import termo.substance.MixtureSubstance;
 import termo.substance.PureSubstance;
 
 /**
@@ -25,7 +26,8 @@ import termo.substance.PureSubstance;
  */
 public class WilsonActivityModelTest {
     
-      HeterogeneousMixtureSubstance substance;
+//      HeterogeneousMixtureSubstance substance;
+    MixtureSubstance substance;
        ArrayList<Component> components = new ArrayList();
        Component ethane ;
        Component propane;
@@ -36,7 +38,7 @@ public class WilsonActivityModelTest {
 	
 	
 	
-	ethane = new Component("Ethane");
+	ethane = new Component("ethane");
 	
 //	ethane.setName();
 	ethane.setAcentricFactor(0.09781);
@@ -44,7 +46,7 @@ public class WilsonActivityModelTest {
 	ethane.setCriticalPressure(48.1595*101325);
 	ethane.setK_StryjekAndVera(0.02669);
 	
-	propane = new Component("Propane");
+	propane = new Component("propane");
 	
 //	 propane.setName("Propane");
 	propane.setAcentricFactor(0.15416);
@@ -61,16 +63,21 @@ public class WilsonActivityModelTest {
 	
 	
 	WilsonActivityModel activity = new WilsonActivityModel();
-//	MixingRule huronVidal = new HuronVidalMixingRule(activity,eos);
+	MixingRule huronVidal = new HuronVidalMixingRule(activity,eos);
+        
 	
 	InteractionParameter param = new ActivityModelBinaryParameter();
 	
-//	substance = new HeterogeneousMixtureSubstance(eos, alpha, huronVidal, components,  param);
+        
+        
+	substance = new MixtureSubstance(eos, alpha, components, Phase.LIQUID, huronVidal, param);
+        
 	
+	substance.setFraction(propane, 0.7);
+        substance.setFraction(ethane, 0.3);
 	
-	
-	substance.setZFraction(propane,0.7);
-	substance.setZFraction(ethane, 0.3);
+//	substance.setZFraction(propane,0.7);
+//	substance.setZFraction(ethane, 0.3);
     }
     
     
@@ -81,10 +88,11 @@ public class WilsonActivityModelTest {
 	double temperature = 298;
 	
 	//double result = substance.bubblePressure(temperature);
-	double expResult = 16.885234;
+        
+//	double expResult = 16.885234;
 	substance.setTemperature(temperature);
 	substance.setPressure(101325);
-	double z = substance.getLiquid().calculateCompresibilityFactor();
+	double z = substance.calculateCompresibilityFactor();
 	assertEquals(0.003550,z,1e-3);
 	
 //	for(PureSubstance pure : substance.getLiquid().getPureSubstances()){
@@ -104,20 +112,15 @@ public class WilsonActivityModelTest {
     @Test
     public void testExcessGibbsEnergy() {
 	System.out.println("excessGibbsEnergy");
-	HashMap<PureSubstance, Double> fractions = new HashMap();
 	
-	PureSubstance ci = new PureSubstance(eos, alpha, ethane, Phase.VAPOR);
-	PureSubstance cj = new PureSubstance(eos, alpha, propane, Phase.VAPOR);
+       
 	
-	fractions.put(ci, 0.3);
-	fractions.put(cj, 0.7);
-	
-	
-	ActivityModelBinaryParameter k = new ActivityModelBinaryParameter();
 	double temperature = 298;
-	WilsonActivityModel instance = new WilsonActivityModel();
+        substance.setTemperature(temperature);
+	
 	double expResult = -2.69617643e4;
-	double result = instance.excessGibbsEnergy(fractions, k, temperature);
+        WilsonActivityModel activity =new WilsonActivityModel();
+	double result = activity.excessGibbsEnergy(substance);
 	assertEquals(expResult, result, 1e-3);
 
     }
@@ -125,20 +128,21 @@ public class WilsonActivityModelTest {
     @Test
     public void testActivityCoefficient() {
 	System.out.println("activityCoefficient");
-	HashMap<PureSubstance, Double> fractions = new HashMap();
-	
-	PureSubstance ci = new PureSubstance(eos, alpha, ethane, Phase.VAPOR);
-	PureSubstance cj = new PureSubstance(eos, alpha, propane, Phase.VAPOR);
-	
-	fractions.put(ci, 0.3);
-	fractions.put(cj, 0.7);
 	
 	
-	ActivityModelBinaryParameter k = new ActivityModelBinaryParameter();
+        PureSubstance ci = new PureSubstance();
+        for(PureSubstance pure:  substance.getPureSubstances()){
+            if(pure.getComponent().getName().equals("ethane")){
+                ci = pure;
+            }
+        }	
+
 	double temperature = 298;
+        substance.setTemperature(temperature);
+        
 	WilsonActivityModel instance = new WilsonActivityModel();
 	double expResult = 0.97339;
-	double result = instance.activityCoefficient(ci, fractions, k, temperature);
+	double result = instance.activityCoefficient(ci,substance);
 	assertEquals(expResult, result, 1e-3);
 
     }
@@ -159,33 +163,7 @@ public class WilsonActivityModelTest {
 	
     }
 
-    @Test
-    public void testTau() {
-	System.out.println("tau");
-	Component ci = null;
-	Component cj = null;
-	ActivityModelBinaryParameter k = null;
-	double T = 0.0;
-	WilsonActivityModel instance = new WilsonActivityModel();
-	double expResult = 0.0;
-	double result = instance.tau(ci, cj, k, T);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
+  
 
-    @Test
-    public void testParcialExcessGibbsRespectTemperature() {
-	System.out.println("parcialExcessGibbsRespectTemperature");
-	ArrayList<Component> components = null;
-	HashMap<Component, Double> fractions = null;
-	ActivityModelBinaryParameter k = null;
-	double temperature = 0.0;
-	WilsonActivityModel instance = new WilsonActivityModel();
-	double expResult = 0.0;
-	double result = instance.parcialExcessGibbsRespectTemperature(components, fractions, k, temperature);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
+ 
 }

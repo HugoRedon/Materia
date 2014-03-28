@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package termo.eos.mixingRule;
 
 import java.util.ArrayList;
@@ -37,7 +34,8 @@ public class WongSandlerMixingRule extends MixingRule {
     
 
     
-    public double a(double temperature, HashMap<PureSubstance, Double> fractions, InteractionParameter k) {
+       @Override
+    public double a(MixtureSubstance mixture) {
         
 //            ArrayList<PureSubstance> components = new ArrayList();
 //	    HashMap<Component,Double> fra = new HashMap();
@@ -46,15 +44,15 @@ public class WongSandlerMixingRule extends MixingRule {
 //		fra.put(pure.getComponent(), fractions.get(pure));
 //	    }
             
-	ActivityModelBinaryParameter params = (ActivityModelBinaryParameter)k;
 	
-            double b = b( fractions,temperature,params);
-            double excessGibbs = activityModel.excessGibbsEnergy( fractions,params , temperature);
+	
+            double b = b( mixture);
+            double excessGibbs = activityModel.excessGibbsEnergy( mixture);
             
             double firstTerm = 0;
            
-            for(PureSubstance ci : fractions.keySet()){
-                 double xi = fractions.get(ci);
+            for(PureSubstance ci : mixture.getPureSubstances()){
+                 double xi = ci.getMolarFraction();
                  double ai = ci.calculate_a_cubicParameter();//singleAs.get(ci);
                  double bi = ci.calculate_b_cubicParameter();//singleBs.get(ci);
                 
@@ -66,10 +64,7 @@ public class WongSandlerMixingRule extends MixingRule {
 
     
     
-    public double b(
-	    HashMap<PureSubstance,Double> fractions,
-	    double temperature,
-	    InteractionParameter k) {
+    public double b(MixtureSubstance mixture) {
 //         double b = 0;
 //      for(PureSubstance iComponent:fractions.keySet()){
 //            double xi = fractions.get(iComponent);
@@ -78,17 +73,17 @@ public class WongSandlerMixingRule extends MixingRule {
 //      }
 //       return b;
 	
-	ActivityModelBinaryParameter params = (ActivityModelBinaryParameter)k;
+	ActivityModelBinaryParameter params = (ActivityModelBinaryParameter)mixture.getBinaryParameters();
 	
 	double b = 0;
 	
 	double numer = 0;
 	double denomSum =0;
 	
-	for(PureSubstance ci: fractions.keySet()){
-	    for(PureSubstance cj: fractions.keySet()){
-		double xi = fractions.get(ci);
-		double xj = fractions.get(cj);
+	for(PureSubstance ci: mixture.getPureSubstances()){
+	    for(PureSubstance cj: mixture.getPureSubstances()){
+		double xi = ci.getMolarFraction();
+		double xj = cj.getMolarFraction();
 		
 		double bi = ci.calculate_b_cubicParameter();
 		double ai = ci.calculate_a_cubicParameter();
@@ -100,11 +95,11 @@ public class WongSandlerMixingRule extends MixingRule {
 		
 		double R = Constants.R;
 		
-		denomSum += xi*(ai/(bi*R*temperature));
+		denomSum += xi*(ai/(bi*R*mixture.getTemperature()));
 		
 		
-		double isum = bi - ai/(R*temperature);
-		double jsum = bj - aj/(R*temperature);
+		double isum = bi - ai/(R*mixture.getTemperature());
+		double jsum = bj - aj/(R*mixture.getTemperature());
 		
 		numer+= xi*xj*((isum+jsum)/2)*(1-kij);
 		
@@ -112,9 +107,9 @@ public class WongSandlerMixingRule extends MixingRule {
 	}
 	
 	
-	double ge = activityModel.excessGibbsEnergy(fractions, params, temperature);
+	double ge = activityModel.excessGibbsEnergy(mixture);
 	
-	double denom = 1 - ge/(L*temperature * Constants.R) - denomSum;
+	double denom = 1 - ge/(L*mixture.getTemperature() * Constants.R) - denomSum;
 	
 	return numer/denom;
 	
@@ -122,27 +117,26 @@ public class WongSandlerMixingRule extends MixingRule {
 
     
     
+       @Override
     public double oneOverNParcial_aN2RespectN(
-            double temperature, 
             
-            PureSubstance ci, 
-            HashMap<PureSubstance, Double> fractions, 
-            InteractionParameter k) {
+            
+            PureSubstance ci, MixtureSubstance mixture) {
          
-        double b = b( fractions, temperature, (ActivityModelBinaryParameter)k);
-        double a =a(temperature,  fractions, k);
+        double b = b( mixture);
+        double a =a(mixture);
         
-        ActivityModelBinaryParameter param = (ActivityModelBinaryParameter)k;
+        
         //double alphai = ci.getAlpha().alpha(temperature, ci.getComponent());//singleAlphas.get( ci);
 	
 	double ai = ci.calculate_a_cubicParameter();
 	double bi = ci.calculate_b_cubicParameter();
-	double alphai = ai/(bi*Constants.R * temperature);
+	double alphai = ai/(bi*Constants.R * mixture.getTemperature());
 	
-        double gammai = activityModel.activityCoefficient( ci, fractions, param, temperature);
+        double gammai = activityModel.activityCoefficient( ci,mixture);
 //        double bi = ci.calculate_b_cubicParameter();//singleBs.get(ci);
 //	double ai = ci.calculate_a_cubicParameter(temperature);
-        return b * Constants.R * temperature*( alphai -  Math.log(gammai)/L) + a * bi / b;
+        return b * Constants.R * mixture.getTemperature()*( alphai -  Math.log(gammai)/L) + a * bi / b;
     }
 
     
@@ -170,20 +164,7 @@ public class WongSandlerMixingRule extends MixingRule {
 //	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
 
-    @Override
-    public double a(MixtureSubstance mixture) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    @Override
-    public double b(MixtureSubstance mixture) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double oneOverNParcial_aN2RespectN(PureSubstance iComponent, MixtureSubstance mixture) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public double temperatureParcial_a(MixtureSubstance mixture) {

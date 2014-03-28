@@ -16,6 +16,7 @@ import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.eos.mixingRule.HuronVidalMixingRule;
 import termo.phase.Phase;
+import termo.substance.MixtureSubstance;
 import termo.substance.PureSubstance;
 
 /**
@@ -33,7 +34,7 @@ public class NRTLActivityModelTest {
 	
 	PureSubstance ci ;
 	
-	HuronVidalMixingRule hv ;
+	MixtureSubstance mixture ;
     public NRTLActivityModelTest() {
 	ethane = new Component("Ethane");
 	
@@ -68,7 +69,12 @@ public class NRTLActivityModelTest {
 	
 	
 //	 hv = new HuronVidalMixingRule(new WilsonActivityModel(),eos);
-	
+        
+        ActivityModelBinaryParameter param = new ActivityModelBinaryParameter();
+	mixture = new MixtureSubstance();
+        mixture.setComponents(components);
+        mixture.setFraction(propane, 0.7);
+        mixture.setFraction(ethane, 0.3);
 	
     }
 
@@ -76,11 +82,12 @@ public class NRTLActivityModelTest {
     public void testExcessGibbsEnergy() {
 	System.out.println("excessGibbsEnergy");
 	
-	ActivityModelBinaryParameter param = new ActivityModelBinaryParameter();
+	
 	double temperature = 298;
+        mixture.setTemperature(temperature);
 	NRTLActivityModel instance = new NRTLActivityModel();
 	double expResult = 0.0;
-	double result = instance.excessGibbsEnergy(fractions, param, temperature);
+	double result = instance.excessGibbsEnergy(mixture);
 	assertEquals(expResult, result, 1e-3);
 	
     }
@@ -89,11 +96,12 @@ public class NRTLActivityModelTest {
     public void testActivityCoefficient() {
 	System.out.println("activityCoefficient");
 	
-	ActivityModelBinaryParameter k = new ActivityModelBinaryParameter();
+	
 	double temperature = 298;
+        mixture.setTemperature(temperature);
 	NRTLActivityModel instance = new NRTLActivityModel();
 	double expResult = 1;
-	double result = instance.activityCoefficient(ci, fractions, k, temperature);
+	double result = instance.activityCoefficient(ci,mixture);
 	assertEquals(expResult, result,1e-3);
 	
     }

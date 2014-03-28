@@ -5,6 +5,7 @@ import java.util.HashMap;
 import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.component.Component;
+import termo.substance.MixtureSubstance;
 import termo.substance.PureSubstance;
 
 /**
@@ -17,25 +18,21 @@ public class WilsonActivityModel extends ActivityModel{
     
     @Override
     public double excessGibbsEnergy(
-            HashMap<PureSubstance, Double> fractions, 
-            ActivityModelBinaryParameter k,
-            double temperature) {
+            MixtureSubstance mixture) {
        
         double excessGibbs = 0;
         
-        for (PureSubstance ci : fractions.keySet()){
-            double xi = fractions.get(ci);
-            excessGibbs -= xi * Math.log( summa(ci, fractions,k,temperature));
+        for (PureSubstance ci : mixture.getPureSubstances()){
+            double xi = ci.getMolarFraction();
+            excessGibbs -= xi * Math.log( summa(ci, mixture));
         }
-        return excessGibbs*termo.Constants.R*temperature;
+        return excessGibbs*termo.Constants.R* mixture.getTemperature();
     }
 
     @Override
     public double activityCoefficient(
             PureSubstance ci,
-            HashMap<PureSubstance, Double> fractions, 
-            ActivityModelBinaryParameter k,
-            double temperature) {
+           MixtureSubstance mixture) {
           
 //        double thirdTerm = 0;
 //        for(Component cj: components){
@@ -51,22 +48,25 @@ public class WilsonActivityModel extends ActivityModel{
         double denominator = 0;
         double thirdTerm = 0;
         
-        for(PureSubstance cj: fractions.keySet()){
-            xj = fractions.get(cj);
-            denominator = summa(cj, fractions, k, temperature);
+        for(PureSubstance cj: mixture.getPureSubstances()){
+            xj = cj.getMolarFraction();
+            denominator = summa(cj,mixture);
            
-            thirdTerm += xj * lambda(cj, ci, k, temperature) / denominator;
+            thirdTerm += xj * lambda(cj, ci, (ActivityModelBinaryParameter)mixture.getBinaryParameters()
+                    , mixture.getTemperature()) / denominator;
         }
-        double logGamma =  - Math.log(summa(ci, fractions, k, temperature))+1 - thirdTerm;
+        double logGamma =  - Math.log(summa(ci, mixture))+1 - thirdTerm;
         return Math.exp(logGamma);
     }
 
-    private double summa(PureSubstance ci,  HashMap<PureSubstance, Double> fractions, ActivityModelBinaryParameter k, double temperature) {
+    private double summa(PureSubstance ci,  MixtureSubstance mixture) {
 	    
         double summa = 0;
-         for(PureSubstance cj: fractions.keySet()){
-                double xj = fractions.get(cj);
-                summa += xj * lambda( ci, cj, k,temperature);
+         for(PureSubstance cj: mixture.getPureSubstances()){
+                double xj = cj.getMolarFraction();
+                summa += xj * lambda( ci, cj, 
+                        (ActivityModelBinaryParameter)mixture.getBinaryParameters(),
+                        mixture.getTemperature());
             }
         return summa;
     }
