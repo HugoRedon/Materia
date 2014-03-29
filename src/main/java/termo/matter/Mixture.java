@@ -15,7 +15,7 @@ import termo.phase.Phase;
  *
  * @author Hugo Redon Rivera
  */
-public final class Mixture extends HomogeneousSubstance{
+public final class Mixture extends Homogeneous{
     private MixingRule mixingRule;
     protected ArrayList<PureSubstance> pureSubstances = new ArrayList<>();
 //    protected HashMap<String,Double> molarFractions = new HashMap<>();

@@ -5,27 +5,27 @@ import java.util.ArrayList;
 import termo.data.ExperimentalData;
 import termo.matrix.Matrix2x2;
 import termo.matrix.Matrix3x3;
-import termo.matter.HeterogeneousPureSubstance;
+import termo.matter.HeterogeneousSubstance;
 
 /**
  *
  * @author Hugo
  */
 public class AlphaOptimization {
-    HeterogeneousPureSubstance substance;
+    HeterogeneousSubstance substance;
     //double[][] experimental ;
     private ArrayList<ExperimentalData> experimental;
     private double numericalDerivativeDelta = 0.0001;
     
-    public AlphaOptimization(HeterogeneousPureSubstance substance){
+    public AlphaOptimization(HeterogeneousSubstance substance){
         this.substance = substance;
     }
     
-    public AlphaOptimization(HeterogeneousPureSubstance substance,ArrayList<ExperimentalData> experimental){
+    public AlphaOptimization(HeterogeneousSubstance substance,ArrayList<ExperimentalData> experimental){
         this.substance = substance ; 
         this.experimental = experimental;
     }
-    public AlphaOptimization(HeterogeneousPureSubstance substance,ArrayList<ExperimentalData> experimental, double pass){
+    public AlphaOptimization(HeterogeneousSubstance substance,ArrayList<ExperimentalData> experimental, double pass){
        this(substance, experimental);
        this.numericalDerivativeDelta = pass;
     }

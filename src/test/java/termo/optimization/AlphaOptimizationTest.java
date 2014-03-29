@@ -10,7 +10,7 @@ import termo.eos.Cubic;
 import termo.eos.EquationOfStateFactory;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
-import termo.matter.HeterogeneousPureSubstance;
+import termo.matter.HeterogeneousSubstance;
 
 /**
  *
@@ -68,7 +68,7 @@ public class AlphaOptimizationTest {
         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
         Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
         
-        HeterogeneousPureSubstance substance = new HeterogeneousPureSubstance(eos, alpha, ethanol);
+        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, ethanol);
         
        
          
@@ -95,7 +95,7 @@ public class AlphaOptimizationTest {
         Alpha alpha = AlphaFactory.getAndroulakisEtAl();
         
         
-        HeterogeneousPureSubstance substance = new HeterogeneousPureSubstance(eos, alpha, component);
+        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
         substance.optimizeTo(list);
 
         //assertEquals(5.559239095754101,component.getA_AndroulakisEtAl(),1e-4);
@@ -107,7 +107,7 @@ public class AlphaOptimizationTest {
         Alpha alpha = AlphaFactory.getSoave2Parameters();
         
         
-        HeterogeneousPureSubstance substance = new HeterogeneousPureSubstance(eos, alpha, component);
+        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
         substance.optimizeTo(list);
         //assertEquals(2.715531696763059/*este no es el valor*/, component.getA_Soave(),1e-4);
     }
@@ -118,7 +118,7 @@ public class AlphaOptimizationTest {
         Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
         
         
-        HeterogeneousPureSubstance substance = new HeterogeneousPureSubstance(eos, alpha, component);
+        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
         substance.optimizeTo(list);
        // assertEquals(2.715531696763059, component.getK_StryjekAndVera(),1e-4);
         //compila se ejecuta y no entra en un loop infinito

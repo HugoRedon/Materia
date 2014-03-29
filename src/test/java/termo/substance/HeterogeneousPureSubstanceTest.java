@@ -4,7 +4,7 @@
  */
 package termo.substance;
 
-import termo.matter.HeterogeneousPureSubstance;
+import termo.matter.HeterogeneousSubstance;
 import java.beans.PropertyChangeSupport;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -20,7 +20,7 @@ import termo.eos.alpha.AlphaFactory;
  * Hugo
  */
 public class HeterogeneousPureSubstanceTest {
-    HeterogeneousPureSubstance substance;
+    HeterogeneousSubstance substance;
     public HeterogeneousPureSubstanceTest() {
 	
 	Component ethane = new Component("ethane");
@@ -32,7 +32,7 @@ public class HeterogeneousPureSubstanceTest {
 	Cubic eos = EquationOfStateFactory.pengRobinsonBase();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
-	substance = new HeterogeneousPureSubstance(eos, alpha, ethane);
+	substance = new HeterogeneousSubstance(eos, alpha, ethane);
 //	
 //	substance.setCubicEquationOfState(eos);
 //	substance.setAlpha(alpha);
@@ -42,7 +42,7 @@ public class HeterogeneousPureSubstanceTest {
     }
     @Test public void testAlphaChangeForLiquidAndVaporWithPropertyChangeListener(){
         System.out.println("propertyChangeListener for alpha");
-        HeterogeneousPureSubstance impl = new HeterogeneousPureSubstance(null, AlphaFactory.getAdachiAndLu(), null);
+        HeterogeneousSubstance impl = new HeterogeneousSubstance(null, AlphaFactory.getAdachiAndLu(), null);
         PropertyChangeSupport mpcs = new PropertyChangeSupport(this);
         mpcs.addPropertyChangeListener(impl);
         mpcs.firePropertyChange("alpha", AlphaFactory.getAdachiAndLu(), AlphaFactory.getPengAndRobinsonExpression());

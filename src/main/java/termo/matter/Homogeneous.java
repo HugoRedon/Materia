@@ -13,7 +13,7 @@ import termo.phase.Phase;
  *
  * @author Hugo Redon Rivera
  */
-public abstract class  HomogeneousSubstance  implements PropertyChangeListener{
+public abstract class  Homogeneous  implements PropertyChangeListener{
     
     private Cubic cubicEquationOfState;    
     private Phase phase;
@@ -60,7 +60,7 @@ public abstract class  HomogeneousSubstance  implements PropertyChangeListener{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final HomogeneousSubstance other = (HomogeneousSubstance) obj;
+        final Homogeneous other = (Homogeneous) obj;
         if (!Objects.equals(this.cubicEquationOfState, other.cubicEquationOfState)) {
             return false;
         }
@@ -82,15 +82,15 @@ public abstract class  HomogeneousSubstance  implements PropertyChangeListener{
  
     
     
-    public HomogeneousSubstance(){
+    public Homogeneous(){
 	
     }
     
     
-//    public HomogeneousSubstance(Cubic eos){
+//    public Homogeneous(Cubic eos){
 //	this.cubicEquationOfState= eos;
 //    }
-    public HomogeneousSubstance(Cubic eos,Phase phase){
+    public Homogeneous(Cubic eos,Phase phase){
 	this.cubicEquationOfState = eos;
 	this.phase = phase;
     }

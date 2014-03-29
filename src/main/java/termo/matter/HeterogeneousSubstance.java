@@ -1,12 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package termo.matter;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import termo.component.Component;
+import termo.data.ExperimentalData;
+import termo.eos.Cubic;
+import termo.eos.alpha.Alpha;
+import termo.equilibrium.EquilibriaFunction;
+import termo.equilibrium.EquilibriaSolution;
+import termo.optimization.AlphaOptimization;
 import termo.phase.Phase;
 
 /**
@@ -14,110 +15,346 @@ import termo.phase.Phase;
  * @author
  * Hugo
  */
-public abstract class HeterogeneousSubstance implements PropertyChangeListener{
-    
-    protected  HomogeneousSubstance liquid;
-    protected HomogeneousSubstance vapor;
-    
-    protected double temperature;
-    protected double pressure;
-    
-    PropertyChangeSupport mpcs = new PropertyChangeSupport(this);
+public class HeterogeneousSubstance extends Heterogeneous{
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        switch(evt.getPropertyName()){
-            case "temperature":
-                setTemperature((double)evt.getNewValue());
-                break;
-            case "pressure":
-                setPressure((double)evt.getNewValue());
-                break;
-            case "phase":
-                //do nothing we dont want to change phase property. They are already set and not changing
-                break;
-            default:
-                mpcs.firePropertyChange(evt);
-                break;
-        }
-        
-    }
-    
-    
-    
+
     public HeterogeneousSubstance(){
        
+         liquid = new PureSubstance();
+        liquid.setPhase(Phase.LIQUID);
+        vapor = new PureSubstance();
+        vapor.setPhase(Phase.VAPOR);
         
+        mpcs.addPropertyChangeListener(liquid);
+        mpcs.addPropertyChangeListener(vapor);
     }
+    
+    public HeterogeneousSubstance(
+	    Cubic eos,
+	    Alpha alpha,
+	    Component component){
+        this();
+//	this.cubicEquationOfState = eos;
+//	this.alpha = alpha;
+//	this.component = component;
 
-    public void setTemperature(double temperature){
-        double oldTemperature = this.temperature;
-	this.temperature = temperature;
-	mpcs.firePropertyChange("temperature", oldTemperature, temperature);
+        PureSubstance liquidImplementation  =(PureSubstance)liquid;
+        liquidImplementation.setCubicEquationOfState(eos);
+        liquidImplementation.setAlpha(alpha);
+        liquidImplementation.setComponent(component);
+        
+	PureSubstance vaporImplementation  =(PureSubstance)vapor;
+        vaporImplementation.setCubicEquationOfState(eos);
+        vaporImplementation.setAlpha(alpha);
+        vaporImplementation.setComponent(component);
 	
     }
-    public void setPressure(double pressure){
-	double oldPressure = this.pressure;
-        this.pressure = pressure;
-	mpcs.firePropertyChange("pressure", oldPressure, pressure);
-    }
-    public double getTemperature(){
-	return temperature;
-    }
-    public double getPressure(){
-	return pressure;
-    }
-    
-    
-    
-    public final void bubblePressureEstimate(double temperature){
-	setTemperature(temperature);
-	bubblePressureEstimate();
-    }
-    public final int bubbleTemperature(double pressure){
-	setPressure(pressure);
-	return bubbleTemperature();
-    }
-    public final  int bubbleTemperatureEstimate(double pressure){
-	setPressure(pressure);
-	return bubbleTemperatureEstimate();
-    }
-    public final int bubblePressure(double temperature){
-	setTemperature(temperature);
-	return bubblePressure();
-    }
-    
-    protected abstract void bubblePressureEstimate();
-    protected abstract int bubbleTemperatureEstimate();
-    protected abstract int bubbleTemperature();
-    protected abstract int bubblePressure();
+        
+//    public HeterogeneousSubstance(PureSubstance pure){
+//        
+//        PureSubstance liquidImplementation  =(PureSubstance)liquid;
+//        liquidImplementation.setCubicEquationOfState(pure.getCubicEquationOfState());
+//        liquidImplementation.setAlpha(pure.getAlpha());
+//        liquidImplementation.setComponent(pure.getComponent());
+//        
+//	PureSubstance vaporImplementation  =(PureSubstance)vapor;
+//        vaporImplementation.setCubicEquationOfState(pure.getCubicEquationOfState());
+//        vaporImplementation.setAlpha(pure.getAlpha());
+//        vaporImplementation.setComponent(pure.getComponent());
+//        
+//    }
+//    
     
     
     
     
-    public final void  dewPressureEstimate(double temperature){
-	setTemperature(temperature);
-	dewPressureEstimate();
-    }
-    public final int dewTemperatureEstimate(double pressure){
-	setPressure(pressure);
-	return dewTemperatureEstimate();
-    }
-    public final int dewPressure(double temperature){
-	setTemperature(temperature);
-	return dewPressure();
-    }
-    public final int dewTemperature(double pressure){
-	setPressure(pressure);
-	return dewTemperature();
-    }
-    
-    protected abstract void dewPressureEstimate();
-    protected abstract int dewTemperatureEstimate();
-    protected abstract int dewPressure();
-    protected abstract int dewTemperature();
     
     
-    public abstract HomogeneousSubstance getLiquid();
-    public abstract HomogeneousSubstance getVapor();
+    @Override
+    public int bubbleTemperatureEstimate(){
+	return temperatureEstimate();
+    }
+
+  
+    
+    @Override
+    public int bubbleTemperature() {
+	
+	EquilibriaFunction function = new BubbleTemperatureFunctions();
+	return minimizeTemperature(function);
+    }
+       
+    @Override
+    public void bubblePressureEstimate(){
+	setPressure(liquid.calculatetAcentricFactorBasedVaporPressure());
+    }
+    
+    @Override
+    public int bubblePressure() {
+	EquilibriaFunction function = new BubblePressureFunctions();
+	return minimizePressure(function);
+    }
+    
+
+    @Override
+    public int dewTemperatureEstimate() {
+	return temperatureEstimate();
+    }
+    
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public int dewTemperature() {
+	EquilibriaFunction function = new DewTemperatureFunctions();
+	return minimizeTemperature(function);
+    }
+     
+    @Override
+    public void dewPressureEstimate() {
+	setPressure(vapor.calculatetAcentricFactorBasedVaporPressure());
+	//return new EquilibriaSolution(temperature, vapor.calculatetAcentricFactorBasedVaporPressure(), 0);
+    }
+    
+    @Override
+    public int dewPressure() {
+	
+	EquilibriaFunction function = new DewPressureFunctions();
+	return minimizePressure(function);
+    }
+    
+    
+    
+    
+    
+    public int temperatureEstimate(){
+	
+	//setTemperature(300);
+	double temp = 300;
+	double error = 100;
+	double deltaT =1;
+	double tol = 1e-3; 
+	int iterations =0;
+	while (Math.abs(error) >tol && iterations < 1000 ){
+	    iterations++;
+	    double T_  = temp + deltaT;
+	    
+	    setTemperature(temp);
+	    double vaporPressure = vapor.calculatetAcentricFactorBasedVaporPressure();
+	    setTemperature(T_);
+	    double vaporPressure_ = vapor.calculatetAcentricFactorBasedVaporPressure();
+	    error = Math.log(vaporPressure / pressure);
+	    double error_ = Math.log(vaporPressure_ / pressure);
+	    temp = (temp * T_ *(error_ - error)) / (T_ * error_ - temp * error);
+	} 
+	//temperature = temp;
+	setTemperature(temp);
+	return  iterations;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      @Override
+    public PureSubstance getLiquid() {
+	return (PureSubstance)liquid;
+    }
+
+    @Override
+    public PureSubstance getVapor() {
+	return (PureSubstance) vapor;
+    }
+    
+    
+    
+    
+//    public Cubic getCubicEquationOfState() {
+//	return cubicEquationOfState;
+//    }   
+//    void setCubicEquationOfState(Cubic eos) {
+//	this.cubicEquationOfState = eos;
+//    }
+//    void setAlpha(Alpha alpha) {
+//	this.alpha = alpha;
+//    }
+//    public Alpha getAlpha() {
+//	return alpha;
+//    }
+  
+
+    private int minimizeTemperature(EquilibriaFunction function){
+	EquilibriaSolution result = new EquilibriaSolution();
+	temperatureEstimate();
+	result.setEstimateTemperature(temperature);
+	
+	double temp = temperature;
+	double tolerance = 1e-4;
+        double e = 100;
+        double deltaT = 1;
+        int count = 0;
+	
+        while(Math.abs(e) > tolerance && count < 1000){
+	    count++;
+            e = function.errorFunction(equilibriaRelation(temp, pressure));
+            double temperature_ = temp + deltaT;
+            double e_ = function.errorFunction(equilibriaRelation(temperature_, pressure));
+            temp = function.newVariableFunction(temp, temperature_, e, e_);
+        }
+	
+	setTemperature(temp);
+	result.setTemperature(temperature);
+	result.setPressure(pressure);
+	result.setIterations(count);
+        //return new EquilibriaSolution(temperature, pressure, count);
+	return count;
+    }
+    
+     
+    
+    private int minimizePressure(EquilibriaFunction function){
+	bubblePressureEstimate(temperature);
+	double tolerance = 1e-5; 
+	double deltaP = 0.0001;
+	double e = 100;
+ 
+	
+	double p=pressure;
+	int count = 0;
+	while(Math.abs(e) > tolerance && count < 1000 ){         
+	    count++;
+	    e =  function.errorFunction(equilibriaRelation(temperature, p));
+	    double pressure_ = p * (1 + deltaP); 
+	    double e_ = function.errorFunction(equilibriaRelation(temperature, pressure_));
+	    p =  function.newVariableFunction(p, pressure_, e, e_);
+	}  
+	
+	setPressure(p);
+	return count;
+	//return new EquilibriaSolution(temperature, pressure, count);
+             
+}
+
+//    /**
+//     * @return the component
+//     */
+//    public Component getComponent() {
+//	return component;
+//    }
+//
+//    /**
+//     * @param component the component to set
+//     */
+//    public void setComponent(Component component) {
+//	this.component = component;
+//    }
+
+    private AlphaOptimization alphaOptimizer = new AlphaOptimization(this);
+    public void optimizeTo(ArrayList<ExperimentalData> expData) {
+        alphaOptimizer.setExperimental(expData);
+        alphaOptimizer.solve();
+    }
+
+    /**
+     * @return the alphaOptimizer
+     */
+    public AlphaOptimization getAlphaOptimizer() {
+        return alphaOptimizer;
+    }
+
+    /**
+     * @param alphaOptimizer the alphaOptimizer to set
+     */
+    public void setAlphaOptimizer(AlphaOptimization alphaOptimizer) {
+        this.alphaOptimizer = alphaOptimizer;
+    }
+
+   
+class BubbleTemperatureFunctions implements EquilibriaFunction{
+    
+    @Override
+    public double errorFunction(double equilibriaRelation){
+	//double k = equilibriaRelation(temperature, pressure);
+	return Math.log(equilibriaRelation);
+    }
+    @Override
+    public double newVariableFunction(double temperature, double temperature_, double e, double e_){
+	return temperature * temperature_ * (e_ - e) / (temperature_ * e_ - temperature * e);
+    }
+    
+}
+    
+    
+    
+    
+    public double equilibriaRelation(double temperature, double pressure){
+	  setTemperature(temperature);
+	  setPressure(pressure);
+	return getLiquid().calculateFugacity()/getVapor().calculateFugacity();
+    }
+  
+    
+    
+    
+
+   
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class BubblePressureFunctions implements EquilibriaFunction{
+    
+    @Override
+    public double errorFunction(double equilibriaRelation){
+	return equilibriaRelation-1;
+    }
+    @Override
+    public double newVariableFunction(double pressure, double pressure_,double e, double e_){
+	return ((pressure * pressure_ )* (e_ - e)) / ((pressure_ * e_) - (pressure * e));
+    }
+    
+}
+
+class DewPressureFunctions implements EquilibriaFunction{
+    @Override
+    public double errorFunction(double equilibriaRelation){
+	return (1/equilibriaRelation) -1;
+    }
+    @Override
+    public double newVariableFunction(double pressure, double pressure_,double e, double e_){
+	return  pressure - e * (pressure_ - pressure)/ (e_ - e);
+    }
+}
+
+class DewTemperatureFunctions implements EquilibriaFunction{
+    @Override
+    public double errorFunction(double equilibriaRelation){
+	return  Math.log(1/equilibriaRelation);
+    }
+    @Override
+    public double newVariableFunction(double temperature, double temperature_, double e, double e_){
+	return temperature * temperature_ * (e_ - e) / (temperature_ * e_ - temperature * e);
+    }
 }

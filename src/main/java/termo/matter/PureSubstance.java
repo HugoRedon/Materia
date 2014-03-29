@@ -14,7 +14,7 @@ import termo.phase.Phase;
  *
  * @author Hugo Redon Rivera
  */
-public class PureSubstance extends HomogeneousSubstance {
+public class PureSubstance extends Homogeneous {
     private Component component;
     private Alpha alpha;
     private Double molarFraction;

@@ -16,7 +16,7 @@ import termo.phase.Phase;
  * @author
  * Hugo
  */
-public final class HeterogeneousMixture extends HeterogeneousSubstance{
+public final class HeterogeneousMixture extends Heterogeneous{
     private Cubic equationOfState;
     private Alpha alpha;
     private MixingRule mixingRule;
