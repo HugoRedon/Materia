@@ -1,4 +1,4 @@
-package termo.substance;
+package termo.matter;
 
 /**
  *

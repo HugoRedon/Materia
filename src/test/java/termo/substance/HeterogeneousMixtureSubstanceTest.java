@@ -4,6 +4,7 @@
  */
 package termo.substance;
 
+import termo.matter.HeterogeneousMixture;
 import java.util.ArrayList;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -23,7 +24,7 @@ import termo.phase.Phase;
  * Hugo
  */
 public class HeterogeneousMixtureSubstanceTest {
-    HeterogeneousMixtureSubstance substance;
+    HeterogeneousMixture substance;
     Component ethane;
     Component propane;
     public HeterogeneousMixtureSubstanceTest(){
@@ -51,7 +52,7 @@ public class HeterogeneousMixtureSubstanceTest {
 	InteractionParameter k = new InteractionParameter();
 //	calculate_b_cubicParameter.setValue(propane, ethane, 0, true);
 	MixingRule mr = new VDWMixingRule();
-        substance = new HeterogeneousMixtureSubstance(eos, alpha, mr, components, k);
+        substance = new HeterogeneousMixture(eos, alpha, mr, components, k);
 	
 	
 	

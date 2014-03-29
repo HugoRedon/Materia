@@ -1,4 +1,4 @@
-package termo.substance;
+package termo.matter;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import termo.phase.Phase;
  *
  * @author Hugo Redon Rivera
  */
-public final class MixtureSubstance extends HomogeneousSubstance{
+public final class Mixture extends HomogeneousSubstance{
     private MixingRule mixingRule;
     protected ArrayList<PureSubstance> pureSubstances = new ArrayList<>();
 //    protected HashMap<String,Double> molarFractions = new HashMap<>();
@@ -23,7 +23,7 @@ public final class MixtureSubstance extends HomogeneousSubstance{
 
     private Alpha alpha;
     
-    public MixtureSubstance(){
+    public Mixture(){
         
     }
 
@@ -45,7 +45,7 @@ public final class MixtureSubstance extends HomogeneousSubstance{
         }
     }
 
-    public MixtureSubstance(Cubic equationOfState,Alpha alpha,  ArrayList<Component> components,Phase phase,MixingRule mixingRule ,InteractionParameter k){
+    public Mixture(Cubic equationOfState,Alpha alpha,  ArrayList<Component> components,Phase phase,MixingRule mixingRule ,InteractionParameter k){
 	super(equationOfState,phase);
         setMixingRule(mixingRule);
         setAlpha(alpha);

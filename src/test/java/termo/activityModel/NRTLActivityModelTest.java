@@ -16,8 +16,8 @@ import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.eos.mixingRule.HuronVidalMixingRule;
 import termo.phase.Phase;
-import termo.substance.MixtureSubstance;
-import termo.substance.PureSubstance;
+import termo.matter.Mixture;
+import termo.matter.PureSubstance;
 
 /**
  *
@@ -34,7 +34,7 @@ public class NRTLActivityModelTest {
 	
 	PureSubstance ci ;
 	
-	MixtureSubstance mixture ;
+	Mixture mixture ;
     public NRTLActivityModelTest() {
 	ethane = new Component("Ethane");
 	
@@ -71,7 +71,7 @@ public class NRTLActivityModelTest {
 //	 hv = new HuronVidalMixingRule(new WilsonActivityModel(),eos);
         
         ActivityModelBinaryParameter param = new ActivityModelBinaryParameter();
-	mixture = new MixtureSubstance();
+	mixture = new Mixture();
         mixture.setComponents(components);
         mixture.setFraction(propane, 0.7);
         mixture.setFraction(ethane, 0.3);

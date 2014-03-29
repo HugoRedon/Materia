@@ -11,8 +11,8 @@ import termo.eos.EquationOfStateFactory;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.phase.Phase;
-import termo.substance.MixtureSubstance;
-import termo.substance.PureSubstance;
+import termo.matter.Mixture;
+import termo.matter.PureSubstance;
 
 /**
  *
@@ -20,7 +20,7 @@ import termo.substance.PureSubstance;
  * Hugo
  */
 public class VDWMixingRuleTest {
-    MixtureSubstance mixture ; 
+    Mixture mixture ; 
     HashMap<PureSubstance, Double> fractions;
     InteractionParameter b;
     Component ethane;
@@ -69,7 +69,7 @@ public class VDWMixingRuleTest {
 	b.setValue(propane, ethane, 0.05);
         
         VDWMixingRule vdw = new VDWMixingRule();
-        mixture = new MixtureSubstance(eos, alpha, components, Phase.VAPOR, vdw, b);
+        mixture = new Mixture(eos, alpha, components, Phase.VAPOR, vdw, b);
         
 	
 	mixture.setFraction(propane, 0.7);

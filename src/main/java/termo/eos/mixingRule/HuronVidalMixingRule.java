@@ -13,8 +13,8 @@ import termo.component.Component;
 import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
 import termo.phase.Phase;
-import termo.substance.MixtureSubstance;
-import termo.substance.PureSubstance;
+import termo.matter.Mixture;
+import termo.matter.PureSubstance;
 
 /**
  *
@@ -36,7 +36,7 @@ public class HuronVidalMixingRule extends MixingRule{
     
 
     @Override
-    public double a(MixtureSubstance mixture) {
+    public double a(Mixture mixture) {
             
             double b = b(mixture);
             double excessGibbs = activityModel.excessGibbsEnergy( mixture);
@@ -55,7 +55,7 @@ public class HuronVidalMixingRule extends MixingRule{
 
     
     @Override
-    public double b(MixtureSubstance mixture) {
+    public double b(Mixture mixture) {
          double b = 0;
       for(PureSubstance iComponent:mixture.getPureSubstances()){
             double xi = iComponent.getMolarFraction();
@@ -71,7 +71,7 @@ public class HuronVidalMixingRule extends MixingRule{
     @Override
     public double oneOverNParcial_aN2RespectN(
 	PureSubstance ci,
-        MixtureSubstance mixture) {
+        Mixture mixture) {
          
         double b = b(mixture);
         double a =a(mixture);
@@ -106,7 +106,7 @@ public class HuronVidalMixingRule extends MixingRule{
 
 
     @Override
-    public double temperatureParcial_a(MixtureSubstance mixture) {
+    public double temperatureParcial_a(Mixture mixture) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

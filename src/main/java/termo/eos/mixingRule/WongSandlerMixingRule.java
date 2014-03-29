@@ -10,8 +10,8 @@ import termo.binaryParameter.BinaryInteractionParameter;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.eos.Cubic;
-import termo.substance.MixtureSubstance;
-import termo.substance.PureSubstance;
+import termo.matter.Mixture;
+import termo.matter.PureSubstance;
 
 /**
  *
@@ -35,7 +35,7 @@ public class WongSandlerMixingRule extends MixingRule {
 
     
        @Override
-    public double a(MixtureSubstance mixture) {
+    public double a(Mixture mixture) {
         
 //            ArrayList<PureSubstance> components = new ArrayList();
 //	    HashMap<Component,Double> fra = new HashMap();
@@ -65,7 +65,7 @@ public class WongSandlerMixingRule extends MixingRule {
     
     
        @Override
-    public double b(MixtureSubstance mixture) {
+    public double b(Mixture mixture) {
 //         double b = 0;
 //      for(PureSubstance iComponent:fractions.keySet()){
 //            double xi = fractions.get(iComponent);
@@ -122,7 +122,7 @@ public class WongSandlerMixingRule extends MixingRule {
     public double oneOverNParcial_aN2RespectN(
             
             
-            PureSubstance ci, MixtureSubstance mixture) {
+            PureSubstance ci, Mixture mixture) {
          
         double b = b( mixture);
         double a =a(mixture);
@@ -168,7 +168,7 @@ public class WongSandlerMixingRule extends MixingRule {
 
 
     @Override
-    public double temperatureParcial_a(MixtureSubstance mixture) {
+    public double temperatureParcial_a(Mixture mixture) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

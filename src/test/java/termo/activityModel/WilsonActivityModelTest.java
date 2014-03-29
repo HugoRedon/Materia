@@ -15,9 +15,9 @@ import termo.eos.alpha.AlphaFactory;
 import termo.eos.mixingRule.HuronVidalMixingRule;
 import termo.eos.mixingRule.MixingRule;
 import termo.phase.Phase;
-import termo.substance.HeterogeneousMixtureSubstance;
-import termo.substance.MixtureSubstance;
-import termo.substance.PureSubstance;
+import termo.matter.HeterogeneousMixture;
+import termo.matter.Mixture;
+import termo.matter.PureSubstance;
 
 /**
  *
@@ -26,8 +26,8 @@ import termo.substance.PureSubstance;
  */
 public class WilsonActivityModelTest {
     
-//      HeterogeneousMixtureSubstance substance;
-    MixtureSubstance substance;
+//      HeterogeneousMixture substance;
+    Mixture substance;
        ArrayList<Component> components = new ArrayList();
        Component ethane ;
        Component propane;
@@ -70,7 +70,7 @@ public class WilsonActivityModelTest {
 	
         
         
-	substance = new MixtureSubstance(eos, alpha, components, Phase.LIQUID, huronVidal, param);
+	substance = new Mixture(eos, alpha, components, Phase.LIQUID, huronVidal, param);
         
 	
 	substance.setFraction(propane, 0.7);

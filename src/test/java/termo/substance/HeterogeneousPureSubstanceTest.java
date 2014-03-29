@@ -4,6 +4,7 @@
  */
 package termo.substance;
 
+import termo.matter.HeterogeneousPureSubstance;
 import java.beans.PropertyChangeSupport;
 import org.junit.Test;
 import static org.junit.Assert.*;

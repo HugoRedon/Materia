@@ -1,5 +1,5 @@
 
-package termo.substance;
+package termo.matter;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import termo.data.ExperimentalData;
 import termo.matrix.Matrix2x2;
 import termo.matrix.Matrix3x3;
-import termo.substance.HeterogeneousPureSubstance;
+import termo.matter.HeterogeneousPureSubstance;
 
 /**
  *

@@ -19,8 +19,8 @@ import termo.eos.EquationOfStateFactory;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.phase.Phase;
-import termo.substance.MixtureSubstance;
-import termo.substance.PureSubstance;
+import termo.matter.Mixture;
+import termo.matter.PureSubstance;
 
 /**
  *
@@ -92,7 +92,7 @@ public class WongSandlerMixingRuleTest {
 	WongSandlerMixingRule ws = new WongSandlerMixingRule(w,eos);
 	
 	
-	MixtureSubstance ms = new MixtureSubstance(
+	Mixture ms = new Mixture(
                 eos, 
                 AlphaFactory.getStryjekAndVeraExpression(),  
                 components , 
@@ -119,7 +119,7 @@ public class WongSandlerMixingRuleTest {
 	NRTLActivityModel nrtl = new NRTLActivityModel();
 	WongSandlerMixingRule ws = new WongSandlerMixingRule(nrtl, eos);
 	
-	MixtureSubstance ms = new MixtureSubstance(eos, 
+	Mixture ms = new Mixture(eos, 
                 AlphaFactory.getStryjekAndVeraExpression(), 
                 components, 
                 Phase.LIQUID,ws, k);

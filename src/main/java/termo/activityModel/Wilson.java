@@ -5,7 +5,7 @@ import java.util.HashMap;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.binaryParameter.WilsonParameters;
-import termo.substance.PureSubstance;
+import termo.matter.PureSubstance;
 
 /**
  *

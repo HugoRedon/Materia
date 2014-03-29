@@ -6,6 +6,7 @@
 
 package termo.substance;
 
+import termo.matter.Mixture;
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -28,7 +29,7 @@ public class MultiComponentTest {
     Component propane;
     Component nHeptane;
     
-    MixtureSubstance vdw ;
+    Mixture vdw ;
     
     public MultiComponentTest(){
         
@@ -70,7 +71,7 @@ public class MultiComponentTest {
         components.add(nHeptane);
         
         MixingRule mr = new VDWMixingRule();
-        vdw = new MixtureSubstance(eos, alpha, components, Phase.VAPOR,mr, k);
+        vdw = new Mixture(eos, alpha, components, Phase.VAPOR,mr, k);
         vdw.setFraction(ethane, 0.3);
         vdw.setFraction(propane, 0.3);
         vdw.setFraction(nHeptane, 0.4);

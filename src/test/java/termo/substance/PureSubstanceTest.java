@@ -1,5 +1,6 @@
 package termo.substance;
 
+import termo.matter.PureSubstance;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import termo.component.Component;

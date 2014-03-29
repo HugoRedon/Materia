@@ -10,7 +10,7 @@ import termo.eos.Cubic;
 import termo.eos.EquationOfStateFactory;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
-import termo.substance.HeterogeneousPureSubstance;
+import termo.matter.HeterogeneousPureSubstance;
 
 /**
  *

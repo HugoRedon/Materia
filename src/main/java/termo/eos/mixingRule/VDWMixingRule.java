@@ -3,8 +3,8 @@ package termo.eos.mixingRule;
 import java.util.ArrayList;
 import java.util.HashMap;
 import termo.binaryParameter.InteractionParameter;
-import termo.substance.MixtureSubstance;
-import termo.substance.PureSubstance;
+import termo.matter.Mixture;
+import termo.matter.PureSubstance;
 
 /**
  *
@@ -18,7 +18,7 @@ public class VDWMixingRule extends MixingRule{
     }
 
 
-    public double a(MixtureSubstance mixture){
+    public double a(Mixture mixture){
         double a= 0;
         for(PureSubstance iComponent: mixture.getPureSubstances()){
                for(PureSubstance jComponent: mixture.getPureSubstances()){
@@ -40,7 +40,7 @@ public class VDWMixingRule extends MixingRule{
 
 
     @Override
-    public double temperatureParcial_a(MixtureSubstance mixture) {
+    public double temperatureParcial_a(Mixture mixture) {
         double result = 0;
        for(PureSubstance ci: mixture.getPureSubstances()){
             for (PureSubstance cj: mixture.getPureSubstances()){
@@ -61,7 +61,7 @@ public class VDWMixingRule extends MixingRule{
 
     @Override
     public double oneOverNParcial_aN2RespectN( PureSubstance iComponent, 
-            MixtureSubstance mixture) {
+            Mixture mixture) {
         double sum = 0;
         double ai = iComponent.calculate_a_cubicParameter();
         for(PureSubstance kComponent : mixture.getPureSubstances()){
@@ -75,7 +75,7 @@ public class VDWMixingRule extends MixingRule{
     }
 
     @Override
-    public double b(MixtureSubstance mixture) {
+    public double b(Mixture mixture) {
         double b = 0;
         for(PureSubstance iComponent:mixture.getPureSubstances()){
               double xi = mixture.getFraction(iComponent);

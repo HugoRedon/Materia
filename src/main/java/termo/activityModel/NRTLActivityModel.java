@@ -5,8 +5,8 @@ import java.util.HashMap;
 import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.component.Component;
-import termo.substance.MixtureSubstance;
-import termo.substance.PureSubstance;
+import termo.matter.Mixture;
+import termo.matter.PureSubstance;
 
 /**
  *
@@ -16,7 +16,7 @@ public class NRTLActivityModel extends ActivityModel{
 
     
     @Override
-    public double excessGibbsEnergy(MixtureSubstance mixture) {
+    public double excessGibbsEnergy(Mixture mixture) {
         double gibbsExcess =0;
         ActivityModelBinaryParameter param = (ActivityModelBinaryParameter) mixture.getBinaryParameters();
         
@@ -44,8 +44,9 @@ public class NRTLActivityModel extends ActivityModel{
     @Override
     public double activityCoefficient(
             //ArrayList<Component> components, 
+            //ArrayList<Component> components, 
             PureSubstance cip, 
-            MixtureSubstance mixture) {
+            Mixture mixture) {
         
 	ArrayList<Component> components = new ArrayList<>();
 	HashMap<Component,Double> fractions = new HashMap();

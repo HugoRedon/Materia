@@ -5,8 +5,8 @@ import java.util.HashMap;
 import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.component.Component;
-import termo.substance.MixtureSubstance;
-import termo.substance.PureSubstance;
+import termo.matter.Mixture;
+import termo.matter.PureSubstance;
 
 /**
  *
@@ -18,7 +18,7 @@ public class WilsonActivityModel extends ActivityModel{
     
     @Override
     public double excessGibbsEnergy(
-            MixtureSubstance mixture) {
+            Mixture mixture) {
        
         double excessGibbs = 0;
         
@@ -32,7 +32,7 @@ public class WilsonActivityModel extends ActivityModel{
     @Override
     public double activityCoefficient(
             PureSubstance ci,
-           MixtureSubstance mixture) {
+           Mixture mixture) {
           
 //        double thirdTerm = 0;
 //        for(Component cj: components){
@@ -59,7 +59,7 @@ public class WilsonActivityModel extends ActivityModel{
         return Math.exp(logGamma);
     }
 
-    private double summa(PureSubstance ci,  MixtureSubstance mixture) {
+    private double summa(PureSubstance ci,  Mixture mixture) {
 	    
         double summa = 0;
          for(PureSubstance cj: mixture.getPureSubstances()){

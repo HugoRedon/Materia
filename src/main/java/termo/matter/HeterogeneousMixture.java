@@ -1,5 +1,5 @@
 
-package termo.substance;
+package termo.matter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +16,7 @@ import termo.phase.Phase;
  * @author
  * Hugo
  */
-public final class HeterogeneousMixtureSubstance extends HeterogeneousSubstance{
+public final class HeterogeneousMixture extends HeterogeneousSubstance{
     private Cubic equationOfState;
     private Alpha alpha;
     private MixingRule mixingRule;
@@ -24,10 +24,10 @@ public final class HeterogeneousMixtureSubstance extends HeterogeneousSubstance{
     private InteractionParameter interactionParameters;
      private HashMap<String,Double> zFractions = new HashMap(); 
     
-    public HeterogeneousMixtureSubstance(){
-         liquid = new MixtureSubstance();
+    public HeterogeneousMixture(){
+         liquid = new Mixture();
         liquid.setPhase(Phase.LIQUID);
-        vapor = new MixtureSubstance();
+        vapor = new Mixture();
         vapor.setPhase(Phase.VAPOR);
         
         mpcs.addPropertyChangeListener(liquid);
@@ -36,8 +36,8 @@ public final class HeterogeneousMixtureSubstance extends HeterogeneousSubstance{
     
     private ArrayList<Component> components;
     
-//    private MixtureSubstance vapor;
-//    private MixtureSubstance liquid;
+//    private Mixture vapor;
+//    private Mixture liquid;
 //    
    
     
@@ -45,7 +45,7 @@ public final class HeterogeneousMixtureSubstance extends HeterogeneousSubstance{
     
    
     
-//    public HeterogeneousMixtureSubstance(
+//    public HeterogeneousMixture(
 //	    Cubic eos,
 //	    Alpha alpha,
 //	    MixingRule mixingrule, 
@@ -55,10 +55,10 @@ public final class HeterogeneousMixtureSubstance extends HeterogeneousSubstance{
 //	this.components = components;
 //	this.mixingRule = mixingrule;
 //	
-//	vapor = new MixtureSubstance(equationOfState, alpha,mixingrule, components,Phase.VAPOR);
-//	liquid = new MixtureSubstance(equationOfState,alpha,mixingrule,components,Phase.LIQUID);
+//	vapor = new Mixture(equationOfState, alpha,mixingrule, components,Phase.VAPOR);
+//	liquid = new Mixture(equationOfState,alpha,mixingrule,components,Phase.LIQUID);
 //    }
-    public HeterogeneousMixtureSubstance(
+    public HeterogeneousMixture(
 	    Cubic eos,
 	    Alpha alpha,
 	    MixingRule mixingrule, 
@@ -72,8 +72,8 @@ public final class HeterogeneousMixtureSubstance extends HeterogeneousSubstance{
         setInteractionParameters(k);
         
         
-//	vapor = new MixtureSubstance(eos, alpha,components,Phase.VAPOR,mixingrule ,k);
-//	liquid = new MixtureSubstance(eos,alpha,components,Phase.LIQUID,mixingrule,k);
+//	vapor = new Mixture(eos, alpha,components,Phase.VAPOR,mixingrule ,k);
+//	liquid = new Mixture(eos,alpha,components,Phase.LIQUID,mixingrule,k);
     }
     
     
@@ -689,14 +689,14 @@ public final class HeterogeneousMixtureSubstance extends HeterogeneousSubstance{
      * @return the vapor
      */
     @Override
-    public MixtureSubstance getVapor() {
-	return (MixtureSubstance)vapor;
+    public Mixture getVapor() {
+	return (Mixture)vapor;
     }
 
     /**
      * @param vapor the vapor to set
      */
-    public void setVapor(MixtureSubstance vapor) {
+    public void setVapor(Mixture vapor) {
 	this.vapor = vapor;
     }
 
@@ -704,14 +704,14 @@ public final class HeterogeneousMixtureSubstance extends HeterogeneousSubstance{
      * @return the liquid
      */
     @Override
-    public MixtureSubstance getLiquid() {
-	return (MixtureSubstance)liquid;
+    public Mixture getLiquid() {
+	return (Mixture)liquid;
     }
 
     /**
      * @param liquid the liquid to set
      */
-    public void setLiquid(MixtureSubstance liquid) {
+    public void setLiquid(Mixture liquid) {
 	this.liquid = liquid;
     }
 

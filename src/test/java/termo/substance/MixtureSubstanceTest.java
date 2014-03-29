@@ -1,5 +1,7 @@
 package termo.substance;
 
+import termo.matter.PureSubstance;
+import termo.matter.Mixture;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.junit.Test;
@@ -20,12 +22,12 @@ import termo.eos.mixingRule.VDWMixingRule;
  * Hugo
  */
 public class MixtureSubstanceTest {
-    MixtureSubstance substance ;
+    Mixture substance ;
     PureSubstance propanePure ;
     public MixtureSubstanceTest() {
 //	substance = new MixtureSubstance();
 	
-	Component ethane = new Component("ethane");
+        Component ethane = new Component("ethane");
 	
 	ethane.setAcentricFactor(0.09781);
 	ethane.setCriticalTemperature(305.43);
@@ -54,7 +56,7 @@ public class MixtureSubstanceTest {
 	propanePure.setAlpha(alpha);
 	propanePure.setComponent(propane);
 	
-	substance = new MixtureSubstance();
+	substance = new Mixture();
 	
 	
 	substance.addComponent(propanePure, 0.7);

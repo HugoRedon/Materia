@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package termo.substance;
+package termo.matter;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

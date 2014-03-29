@@ -5,8 +5,8 @@ import java.util.HashMap;
 import termo.binaryParameter.BinaryInteractionParameter;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
-import termo.substance.MixtureSubstance;
-import termo.substance.PureSubstance;
+import termo.matter.Mixture;
+import termo.matter.PureSubstance;
 
 /**
  *
@@ -15,22 +15,22 @@ import termo.substance.PureSubstance;
 public class MathiasKlotzPrausnitzMixingRule extends MixingRule {
 
     @Override
-    public double a(MixtureSubstance mixture) {
+    public double a(Mixture mixture) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double b(MixtureSubstance mixture) {
+    public double b(Mixture mixture) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double oneOverNParcial_aN2RespectN(PureSubstance iComponent, MixtureSubstance mixture) {
+    public double oneOverNParcial_aN2RespectN(PureSubstance iComponent, Mixture mixture) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double temperatureParcial_a(MixtureSubstance mixture) {
+    public double temperatureParcial_a(Mixture mixture) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

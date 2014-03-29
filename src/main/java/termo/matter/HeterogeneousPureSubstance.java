@@ -1,4 +1,4 @@
-package termo.substance;
+package termo.matter;
 
 import java.util.ArrayList;
 import termo.component.Component;

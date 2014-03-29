@@ -6,7 +6,7 @@ package termo.equilibrium;
 
 import java.util.HashMap;
 import termo.component.Component;
-import termo.substance.PureSubstance;
+import termo.matter.PureSubstance;
 
 /**
  *

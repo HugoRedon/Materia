@@ -14,8 +14,8 @@ import termo.eos.EquationOfStateFactory;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.phase.Phase;
-import termo.substance.MixtureSubstance;
-import termo.substance.PureSubstance;
+import termo.matter.Mixture;
+import termo.matter.PureSubstance;
 
 /**
  *
@@ -35,7 +35,7 @@ public class HuronVidalMixingRuleTest {
     
     Cubic eos;
     
-        MixtureSubstance mixture;
+        Mixture mixture;
     
     
     public final void createComponents(){
@@ -74,7 +74,7 @@ public class HuronVidalMixingRuleTest {
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
 	ethanePure = new PureSubstance(eos, alpha, ethane, Phase.VAPOR);
 	HuronVidalMixingRule hv = new HuronVidalMixingRule(new WilsonActivityModel(), eos);
-	mixture = new MixtureSubstance(eos, alpha, components, Phase.VAPOR, hv, k);
+	mixture = new Mixture(eos, alpha, components, Phase.VAPOR, hv, k);
 //	instance = new HuronVidalMixingRule(eos, alpha, components, Phase.VAPOR, k, new WilsonActivityModel());
         
         mixture.setMixingRule(hv);
@@ -121,7 +121,7 @@ public class HuronVidalMixingRuleTest {
     @Test public void huronFugacity(){
 //	InteractionParameter k = new ActivityModelBinaryParameter();
 //	
-//	MixtureSubstance ms = new MixtureSubstance(EquationOfStateFactory.pengRobinsonBase(), AlphaFactory.getStryjekAndVeraExpression(), instance, components,Phase.LIQUID,k);
+//	Mixture ms = new Mixture(EquationOfStateFactory.pengRobinsonBase(), AlphaFactory.getStryjekAndVeraExpression(), instance, components,Phase.LIQUID,k);
 //	
 //	//ms.setMolarFractions(fractions);
 //	ms.setFraction(ethane, 0.3);
@@ -146,15 +146,15 @@ public class HuronVidalMixingRuleTest {
 	HuronVidalMixingRule hv = new HuronVidalMixingRule(nrtl, eos);
 //	
 //	NRTLActivityModel nrtl = new NRTLActivityModel();
-        //MixtureSubstance ms = new MixtureSubstance();
-//	MixtureSubstance ms = new MixtureSubstance(
+        //MixtureSubstance ms = new Mixture();
+//	Mixture ms = new Mixture(
 //                , 
 //                ,
 //                components, 
 //                Phase.LIQUID,
 //                
 //                k,nrtl);
-        MixtureSubstance mix = new MixtureSubstance(
+        Mixture mix = new Mixture(
                 EquationOfStateFactory.pengRobinsonBase(), 
                 AlphaFactory.getStryjekAndVeraExpression(), 
                 components, Phase.LIQUID, hv, k);
