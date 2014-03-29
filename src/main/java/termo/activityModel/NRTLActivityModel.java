@@ -6,7 +6,7 @@ import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.component.Component;
 import termo.matter.Mixture;
-import termo.matter.PureSubstance;
+import termo.matter.Substance;
 
 /**
  *
@@ -20,13 +20,13 @@ public class NRTLActivityModel extends ActivityModel{
         double gibbsExcess =0;
         ActivityModelBinaryParameter param = (ActivityModelBinaryParameter) mixture.getBinaryParameters();
         
-        for(PureSubstance ci: mixture.getPureSubstances()){
+        for(Substance ci: mixture.getPureSubstances()){
             double xi = ci.getMolarFraction();
             
             double numerator = 0;
             double denominator = 0;
             
-            for ( PureSubstance cj : mixture.getPureSubstances()){
+            for ( Substance cj : mixture.getPureSubstances()){
                 double xj = cj.getMolarFraction();
                 double  tau = tau(cj.getComponent(), ci.getComponent(), param, mixture.getTemperature());// param.get_gji(cj,ci) / (Constants.R * temperature);
                 double Gji = G(cj.getComponent(), ci.getComponent(), param, mixture.getTemperature());//= Math.exp(- param.getAlpha().getValue(cj,ci) * tau);
@@ -45,12 +45,12 @@ public class NRTLActivityModel extends ActivityModel{
     public double activityCoefficient(
             //ArrayList<Component> components, 
             //ArrayList<Component> components, 
-            PureSubstance cip, 
+                        Substance cip, 
             Mixture mixture) {
         
 	ArrayList<Component> components = new ArrayList<>();
 	HashMap<Component,Double> fractions = new HashMap();
-	for(PureSubstance c: mixture.getPureSubstances()){
+	for(Substance c: mixture.getPureSubstances()){
 	    components.add(c.getComponent());
 	    fractions.put(c.getComponent(), c.getMolarFraction());
 	}

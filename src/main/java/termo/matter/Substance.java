@@ -14,21 +14,21 @@ import termo.phase.Phase;
  *
  * @author Hugo Redon Rivera
  */
-public class PureSubstance extends Homogeneous {
+public class Substance extends Homogeneous {
     private Component component;
     private Alpha alpha;
     private Double molarFraction;
     
-    public PureSubstance(){
+    public Substance(){
 	
     }
 
-//    public PureSubstance(Cubic eos,Alpha alpha,Component component){
+//    public Substance(Cubic eos,Alpha alpha,Component component){
 //	super(eos);
 //	this.alpha = alpha;
 //	this.component = component;
 //    }
-//    private PureSubstance(Alpha alpha , Component component){
+//    private Substance(Alpha alpha , Component component){
 //	this.alpha = alpha;
 //	this.component = component;
 //    }
@@ -47,7 +47,7 @@ public class PureSubstance extends Homogeneous {
     
     
     
-    public PureSubstance(Cubic eos,Alpha alpha,Component component,Phase phase ){
+    public Substance(Cubic eos,Alpha alpha,Component component,Phase phase ){
 	super(eos,phase);
 	
 	this.alpha = alpha;
@@ -74,7 +74,7 @@ public class PureSubstance extends Homogeneous {
 	if (getClass() != obj.getClass()) {
 	    return false;
 	}
-	final PureSubstance other = (PureSubstance) obj;
+	final Substance other = (Substance) obj;
 	if (!Objects.equals(this.component, other.component)) {
 	    return false;
 	}
@@ -95,7 +95,7 @@ public class PureSubstance extends Homogeneous {
 //    }
     
     
-    public boolean equals(PureSubstance substance){
+    public boolean equals(Substance substance){
         if(substance.getComponent().equals(component) &&
                 substance.getCubicEquationOfState().equals(this.getCubicEquationOfState()) &&
                 substance.getAlpha().equals(this.getAlpha())){
@@ -133,7 +133,7 @@ public class PureSubstance extends Homogeneous {
 
     
     @Override
-    public double oneOver_N_Parcial_a( PureSubstance pureSubstance){
+    public double oneOver_N_Parcial_a( Substance pureSubstance){
         return 2 * calculate_a_cubicParameter();
     }
     

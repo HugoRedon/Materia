@@ -86,7 +86,7 @@ public final class HeterogeneousMixture extends Heterogeneous{
 	double deltaT =1;      
 	double tol = 1e-4;
 
-	HashMap<PureSubstance,Double> vaporPressures = new HashMap();
+	HashMap<Substance,Double> vaporPressures = new HashMap();
 	int iterations =0;
 	while (error >tol  && iterations < 1000){
 	    iterations++;
@@ -98,7 +98,7 @@ public final class HeterogeneousMixture extends Heterogeneous{
 	     temp = (temp * T_ *(error_ - error)) / (T_ * error_ - temp * error);
 	} 
 	setTemperature(temp);
-	for(PureSubstance component: getVapor().getPureSubstances()){
+	for(Substance component: getVapor().getPureSubstances()){
 	    double vp = component.calculatetAcentricFactorBasedVaporPressure();
 	    double yi = vp * getLiquid().getFraction(component) / pressure;
 	    getVapor().setFraction(component.getComponent(), yi);
@@ -145,11 +145,11 @@ public final class HeterogeneousMixture extends Heterogeneous{
 	
 	copyZfractionsToliquid();
 
-	  HashMap<PureSubstance,Double> vaporPressures = new HashMap<>();
+	  HashMap<Substance,Double> vaporPressures = new HashMap<>();
       double p =0;
       int  iterations = 0;
       setTemperature(temperature);
-      for( PureSubstance component : getLiquid().getPureSubstances()){
+      for( Substance component : getLiquid().getPureSubstances()){
 	  double vaporP =  component.calculatetAcentricFactorBasedVaporPressure();
 	  vaporPressures.put(component, vaporP);
 	  p += vaporP * getLiquid().getFraction(component);  
@@ -210,7 +210,7 @@ public final class HeterogeneousMixture extends Heterogeneous{
       double denominator;
       
       
-      HashMap<PureSubstance,Double> vaporPressures = new HashMap();
+      HashMap<Substance,Double> vaporPressures = new HashMap();
       int iterations =0;
       while (Math.abs(error) >tol && iterations < 1000 ){
           iterations++;
@@ -220,7 +220,7 @@ public final class HeterogeneousMixture extends Heterogeneous{
             denominator_ = 0;
             
             T_  = temp + deltaT;
-           for (PureSubstance component : getVapor().getPureSubstances() ){
+           for (Substance component : getVapor().getPureSubstances() ){
 	       setTemperature(temp);
                double vaporPressure =component.calculatetAcentricFactorBasedVaporPressure();
 	       vaporPressures.put(component, vaporPressure);
@@ -290,11 +290,11 @@ public final class HeterogeneousMixture extends Heterogeneous{
 	
 	
 	
-	HashMap<PureSubstance,Double> vaporPressures = new HashMap<>();
+	HashMap<Substance,Double> vaporPressures = new HashMap<>();
 	int  iterations = 0;
 	double denominator=0;
 	//setTemperature(temperature);
-	for( PureSubstance component : getVapor().getPureSubstances()){
+	for( Substance component : getVapor().getPureSubstances()){
 	      double vaporP =  component.calculatetAcentricFactorBasedVaporPressure();
 	      vaporPressures.put(component, vaporP);
 	      denominator += getVapor().getFraction(component) / vaporP;
@@ -354,7 +354,7 @@ public final class HeterogeneousMixture extends Heterogeneous{
 //	double sy = 0;
 //	HashMap<PureSubstance,Double> X = new HashMap<>();
 //	HashMap<PureSubstance,Double> Y = new HashMap<>();
-//	for (PureSubstance component :vapor.getPureSubstances()){
+//	for (Substance component :vapor.getPureSubstances()){
 //	    double vaporPressure = component.calculatetAcentricFactorBasedVaporPressure(temperature);
 //	    
 //	    double xi = zFractions.get(component.getComponent())*pressure / vaporPressure;
@@ -363,7 +363,7 @@ public final class HeterogeneousMixture extends Heterogeneous{
 //	}
 //	
 //	
-//	for(PureSubstance component : liquid.getPureSubstances()){
+//	for(Substance component : liquid.getPureSubstances()){
 //	    double xi = X.get(component);
 //	    double normXi = xi/sx;
 //	    liquid.getMolarFractions().put(component, normXi);
@@ -375,7 +375,7 @@ public final class HeterogeneousMixture extends Heterogeneous{
 //	
 //	HashMap<PureSubstance,Double> k = new HashMap();
 //	
-//	for(PureSubstance component: liquid.getPureSubstances()){
+//	for(Substance component: liquid.getPureSubstances()){
 //	    double vaporPressure = component.calculatetAcentricFactorBasedVaporPressure(temperature);
 //	    double ki =  vaporPressure/ pressure;
 //	    k.put(component, ki);
@@ -421,9 +421,9 @@ public final class HeterogeneousMixture extends Heterogeneous{
      public void flashEstimateLiquidFractions(double temperature, double pressure){
 	double sx = 0;
 	
-	HashMap<PureSubstance,Double> X = new HashMap<>();
+	HashMap<Substance,Double> X = new HashMap<>();
 	setTemperature(temperature);
-	for (PureSubstance component :getVapor().getPureSubstances()){
+	for (Substance component :getVapor().getPureSubstances()){
 	    double vaporPressure = component.calculatetAcentricFactorBasedVaporPressure();
 	    
 	    double xi = getzFractions().get(component.getComponent().getName())*pressure / vaporPressure;
@@ -432,7 +432,7 @@ public final class HeterogeneousMixture extends Heterogeneous{
 	}
 	
 	
-	for(PureSubstance component : getLiquid().getPureSubstances()){
+	for(Substance component : getLiquid().getPureSubstances()){
 	    double xi = X.get(component);
 	    double normXi = xi/sx;
 	    getLiquid().setFraction(component.getComponent(), normXi);
@@ -443,7 +443,7 @@ public final class HeterogeneousMixture extends Heterogeneous{
 	 HashMap<Component,Double> k = new HashMap();
 	setTemperature(temperature);
 	
-	for(PureSubstance pure: getLiquid().getPureSubstances()){
+	for(Substance pure: getLiquid().getPureSubstances()){
 	    double vaporPressure = pure.calculatetAcentricFactorBasedVaporPressure();
 	    double ki =  vaporPressure/ pressure;
 	    k.put(pure.getComponent(), ki);
@@ -599,7 +599,7 @@ public final class HeterogeneousMixture extends Heterogeneous{
     public double calculateVaporPressure(double temperature){
 	double vaporPressure = 0;
 	setTemperature(temperature);
-	 for (PureSubstance component : getVapor().getPureSubstances() ){
+	 for (Substance component : getVapor().getPureSubstances() ){
                vaporPressure += component.calculatetAcentricFactorBasedVaporPressure()*getzFractions().get(component.getComponent().getName());     
            }
 	 
@@ -837,8 +837,8 @@ public final class HeterogeneousMixture extends Heterogeneous{
     }
     
    public void setVaporFractionsRaoultsLaw(
-           HashMap<PureSubstance,Double> vaporPressures){ 
-      for( PureSubstance component : getLiquid().getPureSubstances()){
+           HashMap<Substance,Double> vaporPressures){ 
+      for( Substance component : getLiquid().getPureSubstances()){
           double y = vaporPressures.get(component) * getLiquid().getFraction(component)/pressure;
             getVapor().setFraction(component.getComponent(), y);  
       }
@@ -848,9 +848,9 @@ public final class HeterogeneousMixture extends Heterogeneous{
     
     
       public  void setLiquidFractionsRaoultsLaw(
-        HashMap<PureSubstance,Double> vaporPressures){
+        HashMap<Substance,Double> vaporPressures){
     
-        for( PureSubstance component : getVapor().getPureSubstances()){
+        for( Substance component : getVapor().getPureSubstances()){
             double x =  getVapor().getFraction(component)*pressure/vaporPressures.get(component) ;
             getLiquid().setFraction(component.getComponent(), x);  
         }   
@@ -870,7 +870,7 @@ public final class HeterogeneousMixture extends Heterogeneous{
 //    }
 //  
     
-//    public Double equilibriumRelation(PureSubstance pure, double temperature, double pressure){
+//    public Double equilibriumRelation(Substance pure, double temperature, double pressure){
 //	double liquidFug = getLiquid().calculateFugacity(pure,temperature,pressure);
 //           double vaporFug = getVapor().calculateFugacity(pure, temperature, pressure);     
 //           return liquidFug/ vaporFug;

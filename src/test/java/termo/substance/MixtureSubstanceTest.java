@@ -1,6 +1,6 @@
 package termo.substance;
 
-import termo.matter.PureSubstance;
+import termo.matter.Substance;
 import termo.matter.Mixture;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ import termo.eos.mixingRule.VDWMixingRule;
  */
 public class MixtureSubstanceTest {
     Mixture substance ;
-    PureSubstance propanePure ;
+    Substance propanePure ;
     public MixtureSubstanceTest() {
 //	substance = new MixtureSubstance();
 	
@@ -37,7 +37,7 @@ public class MixtureSubstanceTest {
 	Cubic eos = EquationOfStateFactory.pengRobinsonBase();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
-	PureSubstance ethanePure = new PureSubstance();
+	Substance ethanePure = new Substance();
 	//ethanePure.setCubicEquationOfState(eos);
 	ethanePure.setAlpha(alpha);
 	ethanePure.setComponent(ethane);
@@ -51,7 +51,7 @@ public class MixtureSubstanceTest {
 	
 	
 	
-	 propanePure = new PureSubstance();
+	 propanePure = new Substance();
 	//propanePure.setCubicEquationOfState(eos);
 	propanePure.setAlpha(alpha);
 	propanePure.setComponent(propane);

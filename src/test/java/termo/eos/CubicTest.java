@@ -6,7 +6,7 @@ import termo.component.Component;
 import termo.cp.DIPPR_107_Equation;
 import termo.eos.alpha.AlphaFactory;
 import termo.phase.Phase;
-import termo.matter.PureSubstance;
+import termo.matter.Substance;
 
 /**
  *

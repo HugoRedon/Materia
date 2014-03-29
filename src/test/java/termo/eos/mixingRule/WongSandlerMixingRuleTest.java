@@ -20,7 +20,7 @@ import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.phase.Phase;
 import termo.matter.Mixture;
-import termo.matter.PureSubstance;
+import termo.matter.Substance;
 
 /**
  *
@@ -31,12 +31,12 @@ public class WongSandlerMixingRuleTest {
     
     Component ethane;
     Component propane;
-    HashMap<PureSubstance, Double> fractions;
+    HashMap<Substance, Double> fractions;
     HuronVidalMixingRule instance;
     InteractionParameter k = new ActivityModelBinaryParameter();
     
     ArrayList<Component> components = new ArrayList<>();
-    PureSubstance ci;
+    Substance ci;
     
     Cubic eos;
     
@@ -68,8 +68,8 @@ public class WongSandlerMixingRuleTest {
 	eos = EquationOfStateFactory.pengRobinsonBase();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
-//	ci = new PureSubstance(eos, alpha, ethane, Phase.VAPOR);
-//	PureSubstance cj = new PureSubstance(eos, alpha, propane, Phase.VAPOR);
+//	ci = new Substance(eos, alpha, ethane, Phase.VAPOR);
+//	Substance cj = new Substance(eos, alpha, propane, Phase.VAPOR);
 	
 //	fractions.put(ci, 0.3);
 //	fractions.put(cj, 0.7);

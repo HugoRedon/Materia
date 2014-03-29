@@ -6,7 +6,7 @@ import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.component.Component;
 import termo.matter.Mixture;
-import termo.matter.PureSubstance;
+import termo.matter.Substance;
 
 /**
  *
@@ -16,7 +16,7 @@ public abstract class ActivityModel {
    public abstract double excessGibbsEnergy(
             Mixture mixture);
    public abstract double activityCoefficient(
-            PureSubstance ci,
+            Substance ci,
            Mixture mixture);
    public abstract double parcialExcessGibbsRespectTemperature(ArrayList<Component> components,
             HashMap<Component,Double> fractions,

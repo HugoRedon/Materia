@@ -17,7 +17,7 @@ import termo.phase.Phase;
  */
 public final class Mixture extends Homogeneous{
     private MixingRule mixingRule;
-    protected ArrayList<PureSubstance> pureSubstances = new ArrayList<>();
+    protected ArrayList<Substance> pureSubstances = new ArrayList<>();
 //    protected HashMap<String,Double> molarFractions = new HashMap<>();
     protected InteractionParameter binaryParameters = new InteractionParameter();
 
@@ -62,7 +62,7 @@ public final class Mixture extends Homogeneous{
         //molarFractions.clear();
         double fraction = 1d/components.size();
         for(Component component : components){ //implement property change listener
-            PureSubstance pure = new PureSubstance(super.getCubicEquationOfState(), alpha, component, super.getPhase());
+            Substance pure = new Substance(super.getCubicEquationOfState(), alpha, component, super.getPhase());
             pure.setMolarFraction(fraction);
             mpcs.addPropertyChangeListener(pure);
             pureSubstances.add(pure);
@@ -72,9 +72,9 @@ public final class Mixture extends Homogeneous{
     }
 
     
-    public PureSubstance getPureSubstance(Component component){
-	PureSubstance result = null;
-	for(PureSubstance pure: pureSubstances){
+    public Substance getPureSubstance(Component component){
+	Substance result = null;
+	for(Substance pure: pureSubstances){
 	    if(component.equals(pure.getComponent())){
 		result = pure;
 	    }
@@ -84,21 +84,21 @@ public final class Mixture extends Homogeneous{
     
     
     public double calculateFugacity(Component component){
-	PureSubstance pure = getPureSubstance(component);
+	Substance pure = getPureSubstance(component);
 	return calculateFugacity(pure);
 	//throw new Exception("La mezcla no contiene el componente " + component.toString());
 	
     }
 
     
-    public void addComponent(PureSubstance pureSubstance, double molarFraction){
+    public void addComponent(Substance pureSubstance, double molarFraction){
         pureSubstance.setMolarFraction(molarFraction);
         //pureSubstance.setCubicEquationOfState(getCubicEquationOfState());
         mpcs.addPropertyChangeListener(pureSubstance);
         getPureSubstances().add(pureSubstance);
 //        getMolarFractions().put(pureSubstance.getComponent().getName(), molarFraction);
     }
-    public void removeComponent(PureSubstance pureSubstance){
+    public void removeComponent(Substance pureSubstance){
         mpcs.removePropertyChangeListener(pureSubstance);
       	getPureSubstances().remove(pureSubstance);
 //      	getMolarFractions().remove(pureSubstance.getComponent().getName());
@@ -124,14 +124,14 @@ public final class Mixture extends Homogeneous{
     
     public ArrayList<Component> getComponents(){
         ArrayList<Component> components = new ArrayList<>();
-        for (PureSubstance pureSubstance : getPureSubstances()){
+        for (Substance pureSubstance : getPureSubstances()){
             components.add(pureSubstance.getComponent());
         }
         return components;
     }
     public HashMap<Component,Double> getReadOnlyFractions(){
         HashMap<Component,Double> fractions = new HashMap<>();
-        for (PureSubstance pureSubstance : getPureSubstances()){
+        for (Substance pureSubstance : getPureSubstances()){
             Component component = pureSubstance.getComponent();
             double molarFraction = pureSubstance.getMolarFraction();//getMolarFractions().get(pureSubstance.getComponent().getName());
             fractions.put(component, molarFraction);
@@ -142,7 +142,7 @@ public final class Mixture extends Homogeneous{
     @Override
     public double calculateIdealGasEnthalpy() {
         double idealGasEnthalpy = 0;
-        for(PureSubstance pureSubstance: getPureSubstances()){
+        for(Substance pureSubstance: getPureSubstances()){
             double xi = pureSubstance.getMolarFraction();//getMolarFractions().get(pureSubstance.getComponent().getName());
             double idealGasEnthalpyFori = pureSubstance.calculateIdealGasEnthalpy();
             
@@ -157,7 +157,7 @@ public final class Mixture extends Homogeneous{
            double term1 = 0;
            double term2 = 0;
         
-        for(PureSubstance pureSubstance: getPureSubstances()){
+        for(Substance pureSubstance: getPureSubstances()){
             double xi = pureSubstance.getMolarFraction();//getMolarFractions().get(pureSubstance.getComponent().getName());
             double entropyFori = pureSubstance.calculateIdealGasEntropy();
             
@@ -171,7 +171,7 @@ public final class Mixture extends Homogeneous{
     }
 
     @Override
-    public double oneOver_N_Parcial_a(PureSubstance pureSubstance) {
+    public double oneOver_N_Parcial_a(Substance pureSubstance) {
        return getMixingRule().oneOverNParcial_aN2RespectN(
                pureSubstance, 
                this);
@@ -196,7 +196,7 @@ public final class Mixture extends Homogeneous{
     /**
      * @return the pureSubstances
      */
-    public ArrayList<PureSubstance> getPureSubstances() {
+    public ArrayList<Substance> getPureSubstances() {
 	return pureSubstances;
     }
 
@@ -214,7 +214,7 @@ public final class Mixture extends Homogeneous{
 //	return molarFractions;
 //    }
 //    
-    public double getFraction(PureSubstance pure){
+    public double getFraction(Substance pure){
         return getPureSubstance(pure.getComponent()).getMolarFraction();
        // return molarFractions.get(pure.getComponent().getName());
     }
@@ -245,7 +245,7 @@ public final class Mixture extends Homogeneous{
 
     
 
-    private void setFraction(PureSubstance component, double i) {
+    private void setFraction(Substance component, double i) {
         component.setMolarFraction(i);
 	//molarFractions.put(component.getComponent().getName(), i);
     }
@@ -268,7 +268,7 @@ public final class Mixture extends Homogeneous{
     @Override
     public double calculatetAcentricFactorBasedVaporPressure() {
 	double result = 0;
-	for( PureSubstance component : pureSubstances){
+	for( Substance component : pureSubstances){
 	    double vaporP =  component.calculatetAcentricFactorBasedVaporPressure();
 	    result += vaporP * component.getMolarFraction();//molarFractions.get(component.getComponent().getName());  
 	}

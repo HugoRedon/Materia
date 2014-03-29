@@ -1,6 +1,6 @@
 package termo.substance;
 
-import termo.matter.PureSubstance;
+import termo.matter.Substance;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import termo.component.Component;
@@ -17,7 +17,7 @@ import termo.phase.Phase;
  * Hugo
  */
 public class PureSubstanceTest {
-     PureSubstance substance ; 
+     Substance substance ; 
     public PureSubstanceTest() {
 	Component ethane = new Component("ethane");
 	
@@ -57,7 +57,7 @@ public class PureSubstanceTest {
 	
 	
 	
-	substance = new PureSubstance();
+	substance = new Substance();
 	substance.setPhase(Phase.LIQUID);
 	substance.setCubicEquationOfState(eos);
 	substance.setAlpha(alpha);

@@ -20,9 +20,9 @@ public class HeterogeneousSubstance extends Heterogeneous{
 
     public HeterogeneousSubstance(){
        
-         liquid = new PureSubstance();
+         liquid = new Substance();
         liquid.setPhase(Phase.LIQUID);
-        vapor = new PureSubstance();
+        vapor = new Substance();
         vapor.setPhase(Phase.VAPOR);
         
         mpcs.addPropertyChangeListener(liquid);
@@ -38,26 +38,26 @@ public class HeterogeneousSubstance extends Heterogeneous{
 //	this.alpha = alpha;
 //	this.component = component;
 
-        PureSubstance liquidImplementation  =(PureSubstance)liquid;
+        Substance liquidImplementation  =(Substance)liquid;
         liquidImplementation.setCubicEquationOfState(eos);
         liquidImplementation.setAlpha(alpha);
         liquidImplementation.setComponent(component);
         
-	PureSubstance vaporImplementation  =(PureSubstance)vapor;
+	Substance vaporImplementation  =(Substance)vapor;
         vaporImplementation.setCubicEquationOfState(eos);
         vaporImplementation.setAlpha(alpha);
         vaporImplementation.setComponent(component);
 	
     }
         
-//    public HeterogeneousSubstance(PureSubstance pure){
+//    public HeterogeneousSubstance(Substance pure){
 //        
-//        PureSubstance liquidImplementation  =(PureSubstance)liquid;
+//        Substance liquidImplementation  =(Substance)liquid;
 //        liquidImplementation.setCubicEquationOfState(pure.getCubicEquationOfState());
 //        liquidImplementation.setAlpha(pure.getAlpha());
 //        liquidImplementation.setComponent(pure.getComponent());
 //        
-//	PureSubstance vaporImplementation  =(PureSubstance)vapor;
+//	Substance vaporImplementation  =(Substance)vapor;
 //        vaporImplementation.setCubicEquationOfState(pure.getCubicEquationOfState());
 //        vaporImplementation.setAlpha(pure.getAlpha());
 //        vaporImplementation.setComponent(pure.getComponent());
@@ -167,13 +167,13 @@ public class HeterogeneousSubstance extends Heterogeneous{
     
     
       @Override
-    public PureSubstance getLiquid() {
-	return (PureSubstance)liquid;
+    public Substance getLiquid() {
+	return (Substance)liquid;
     }
 
     @Override
-    public PureSubstance getVapor() {
-	return (PureSubstance) vapor;
+    public Substance getVapor() {
+	return (Substance) vapor;
     }
     
     

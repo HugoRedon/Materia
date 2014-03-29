@@ -5,7 +5,7 @@ import java.util.HashMap;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.binaryParameter.WilsonParameters;
-import termo.matter.PureSubstance;
+import termo.matter.Substance;
 
 /**
  *
@@ -13,14 +13,14 @@ import termo.matter.PureSubstance;
  */
 public class Wilson {
     public double excessGibbsEnergy(
-            HashMap<PureSubstance,Double> fractions,
+            HashMap<Substance,Double> fractions,
             InteractionParameter k,
             double temperature){
         
          WilsonParameters params = (WilsonParameters)k;
         
         double excessGibbs = 0;
-        for (PureSubstance ci : fractions.keySet()){
+        for (Substance ci : fractions.keySet()){
             double xi = fractions.get(ci);
             excessGibbs -= xi * Math.log( summa(ci.getComponent(),  fractions,params,temperature));
         }
@@ -28,7 +28,7 @@ public class Wilson {
     }
     public double activityCoefficient(ArrayList<Component> components,
             Component ci,
-            HashMap<PureSubstance,Double> fractions,
+            HashMap<Substance,Double> fractions,
             InteractionParameter k,
             double temperature){
         
@@ -42,12 +42,12 @@ public class Wilson {
     }
     private double summa(
             Component ci, 
-            HashMap<PureSubstance,Double> fractions,
+            HashMap<Substance,Double> fractions,
             WilsonParameters params,
             double temperature){
         
         double summa = 0;
-         for(PureSubstance cj: fractions.keySet()){
+         for(Substance cj: fractions.keySet()){
                 double xj = fractions.get(cj);
                 double gammaij = params.Aij(ci, cj.getComponent(), temperature);  
                 summa += xj * gammaij;

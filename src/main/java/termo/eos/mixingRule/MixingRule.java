@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import termo.binaryParameter.InteractionParameter;
 import termo.matter.Mixture;
-import termo.matter.PureSubstance;
+import termo.matter.Substance;
 
 /**
  *
@@ -19,7 +19,7 @@ public abstract class MixingRule {
      public abstract double b(Mixture mixture);
      
      public abstract double oneOverNParcial_aN2RespectN(
-             PureSubstance iComponent,
+             Substance iComponent,
              Mixture mixture);
      
      @Override public String toString(){

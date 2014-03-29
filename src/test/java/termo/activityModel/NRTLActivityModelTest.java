@@ -17,7 +17,7 @@ import termo.eos.alpha.AlphaFactory;
 import termo.eos.mixingRule.HuronVidalMixingRule;
 import termo.phase.Phase;
 import termo.matter.Mixture;
-import termo.matter.PureSubstance;
+import termo.matter.Substance;
 
 /**
  *
@@ -27,12 +27,12 @@ import termo.matter.PureSubstance;
 public class NRTLActivityModelTest {
 	Component ethane ;
 	Component propane;
-	HashMap<PureSubstance,Double> fractions =new HashMap();
+	HashMap<Substance,Double> fractions =new HashMap();
 	ArrayList<Component> components = new ArrayList();
 	Cubic eos;
 	Alpha alpha;
 	
-	PureSubstance ci ;
+	Substance ci ;
 	
 	Mixture mixture ;
     public NRTLActivityModelTest() {
@@ -61,8 +61,8 @@ public class NRTLActivityModelTest {
 	eos = EquationOfStateFactory.pengRobinsonBase();
 	alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
-	ci = new PureSubstance(eos, alpha, ethane, Phase.VAPOR);
-	PureSubstance cj = new PureSubstance(eos, alpha, propane, Phase.VAPOR);
+	ci = new Substance(eos, alpha, ethane, Phase.VAPOR);
+	Substance cj = new Substance(eos, alpha, propane, Phase.VAPOR);
 	
 	fractions.put(ci, 0.3);
 	fractions.put(cj, 0.7);

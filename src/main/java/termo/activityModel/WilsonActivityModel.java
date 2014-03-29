@@ -6,7 +6,7 @@ import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.component.Component;
 import termo.matter.Mixture;
-import termo.matter.PureSubstance;
+import termo.matter.Substance;
 
 /**
  *
@@ -22,7 +22,7 @@ public class WilsonActivityModel extends ActivityModel{
        
         double excessGibbs = 0;
         
-        for (PureSubstance ci : mixture.getPureSubstances()){
+        for (Substance ci : mixture.getPureSubstances()){
             double xi = ci.getMolarFraction();
             excessGibbs -= xi * Math.log( summa(ci, mixture));
         }
@@ -31,7 +31,7 @@ public class WilsonActivityModel extends ActivityModel{
 
     @Override
     public double activityCoefficient(
-            PureSubstance ci,
+            Substance ci,
            Mixture mixture) {
           
 //        double thirdTerm = 0;
@@ -48,7 +48,7 @@ public class WilsonActivityModel extends ActivityModel{
         double denominator = 0;
         double thirdTerm = 0;
         
-        for(PureSubstance cj: mixture.getPureSubstances()){
+        for(Substance cj: mixture.getPureSubstances()){
             xj = cj.getMolarFraction();
             denominator = summa(cj,mixture);
            
@@ -59,10 +59,10 @@ public class WilsonActivityModel extends ActivityModel{
         return Math.exp(logGamma);
     }
 
-    private double summa(PureSubstance ci,  Mixture mixture) {
+    private double summa(Substance ci,  Mixture mixture) {
 	    
         double summa = 0;
-         for(PureSubstance cj: mixture.getPureSubstances()){
+         for(Substance cj: mixture.getPureSubstances()){
                 double xj = cj.getMolarFraction();
                 summa += xj * lambda( ci, cj, 
                         (ActivityModelBinaryParameter)mixture.getBinaryParameters(),
@@ -71,7 +71,7 @@ public class WilsonActivityModel extends ActivityModel{
         return summa;
     }
     
-    public double lambda (PureSubstance ci,PureSubstance cj, ActivityModelBinaryParameter k ,double T){
+    public double lambda (Substance ci,Substance cj, ActivityModelBinaryParameter k ,double T){
 	
 	double Vj;
 	double Vi;

@@ -15,7 +15,7 @@ import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.phase.Phase;
 import termo.matter.Mixture;
-import termo.matter.PureSubstance;
+import termo.matter.Substance;
 
 /**
  *
@@ -30,8 +30,8 @@ public class HuronVidalMixingRuleTest {
     InteractionParameter k = new ActivityModelBinaryParameter();
     
     ArrayList<Component> components = new ArrayList<>();
-    PureSubstance ethanePure;
-    PureSubstance propanePure;
+    Substance ethanePure;
+    Substance propanePure;
     
     Cubic eos;
     
@@ -62,8 +62,8 @@ public class HuronVidalMixingRuleTest {
 //    public final void createPureSubstaces(){
 //	eos = EquationOfStateFactory.pengRobinsonBase();
 //	
-//	ethanePure = new PureSubstance(eos, alpha, ethane, Phase.VAPOR);
-//	propanePure = new PureSubstance(eos, alpha, propane, Phase.VAPOR);
+//	ethanePure = new Substance(eos, alpha, ethane, Phase.VAPOR);
+//	propanePure = new Substance(eos, alpha, propane, Phase.VAPOR);
 //    }
     
     public HuronVidalMixingRuleTest() {
@@ -72,7 +72,7 @@ public class HuronVidalMixingRuleTest {
 //	createPureSubstaces();
 	eos =EquationOfStateFactory.pengRobinsonBase();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
-	ethanePure = new PureSubstance(eos, alpha, ethane, Phase.VAPOR);
+	ethanePure = new Substance(eos, alpha, ethane, Phase.VAPOR);
 	HuronVidalMixingRule hv = new HuronVidalMixingRule(new WilsonActivityModel(), eos);
 	mixture = new Mixture(eos, alpha, components, Phase.VAPOR, hv, k);
 //	instance = new HuronVidalMixingRule(eos, alpha, components, Phase.VAPOR, k, new WilsonActivityModel());
@@ -88,7 +88,7 @@ public class HuronVidalMixingRuleTest {
 	System.out.println("a");
 	double temperature = 298;
 
-//	for(PureSubstance pure: fractions.keySet()){
+//	for(Substance pure: fractions.keySet()){
 //	    pure.setTemperature(temperature);
 //	}
 	mixture.setTemperature(temperature);

@@ -11,7 +11,7 @@ import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.eos.Cubic;
 import termo.matter.Mixture;
-import termo.matter.PureSubstance;
+import termo.matter.Substance;
 
 /**
  *
@@ -39,7 +39,7 @@ public class WongSandlerMixingRule extends MixingRule {
         
 //            ArrayList<PureSubstance> components = new ArrayList();
 //	    HashMap<Component,Double> fra = new HashMap();
-//	    for(PureSubstance pure: fractions.keySet()){
+//	    for(Substance pure: fractions.keySet()){
 //		components.add(pure);
 //		fra.put(pure.getComponent(), fractions.get(pure));
 //	    }
@@ -51,7 +51,7 @@ public class WongSandlerMixingRule extends MixingRule {
             
             double firstTerm = 0;
            
-            for(PureSubstance ci : mixture.getPureSubstances()){
+            for(Substance ci : mixture.getPureSubstances()){
                  double xi = ci.getMolarFraction();
                  double ai = ci.calculate_a_cubicParameter();//singleAs.get(ci);
                  double bi = ci.calculate_b_cubicParameter();//singleBs.get(ci);
@@ -67,7 +67,7 @@ public class WongSandlerMixingRule extends MixingRule {
        @Override
     public double b(Mixture mixture) {
 //         double b = 0;
-//      for(PureSubstance iComponent:fractions.keySet()){
+//      for(Substance iComponent:fractions.keySet()){
 //            double xi = fractions.get(iComponent);
 //            double bi = iComponent.calculate_b_cubicParameter();//singleBs.get(iComponent);
 //            b += xi * bi ;
@@ -81,8 +81,8 @@ public class WongSandlerMixingRule extends MixingRule {
 	double numer = 0;
 	double denomSum =0;
 	
-	for(PureSubstance ci: mixture.getPureSubstances()){
-	    for(PureSubstance cj: mixture.getPureSubstances()){
+	for(Substance ci: mixture.getPureSubstances()){
+	    for(Substance cj: mixture.getPureSubstances()){
 		double xi = ci.getMolarFraction();
 		double xj = cj.getMolarFraction();
 		
@@ -122,7 +122,7 @@ public class WongSandlerMixingRule extends MixingRule {
     public double oneOverNParcial_aN2RespectN(
             
             
-            PureSubstance ci, Mixture mixture) {
+            Substance ci, Mixture mixture) {
          
         double b = b( mixture);
         double a =a(mixture);

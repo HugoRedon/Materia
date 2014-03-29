@@ -14,7 +14,7 @@ import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
 import termo.phase.Phase;
 import termo.matter.Mixture;
-import termo.matter.PureSubstance;
+import termo.matter.Substance;
 
 /**
  *
@@ -43,7 +43,7 @@ public class HuronVidalMixingRule extends MixingRule{
             
             double firstTerm = 0;
            
-            for(PureSubstance ci :mixture.getPureSubstances()){
+            for(Substance ci :mixture.getPureSubstances()){
                  double xi = ci.getMolarFraction();
                  double ai = ci.calculate_a_cubicParameter();//singleAs.get(ci);
                  double bi = ci.calculate_b_cubicParameter();//singleBs.get(ci);
@@ -57,7 +57,7 @@ public class HuronVidalMixingRule extends MixingRule{
     @Override
     public double b(Mixture mixture) {
          double b = 0;
-      for(PureSubstance iComponent:mixture.getPureSubstances()){
+      for(Substance iComponent:mixture.getPureSubstances()){
             double xi = iComponent.getMolarFraction();
             double bi = iComponent.calculate_b_cubicParameter();//singleBs.get(iComponent);
             b += xi * bi ;
@@ -70,7 +70,7 @@ public class HuronVidalMixingRule extends MixingRule{
     
     @Override
     public double oneOverNParcial_aN2RespectN(
-	PureSubstance ci,
+	Substance ci,
         Mixture mixture) {
          
         double b = b(mixture);

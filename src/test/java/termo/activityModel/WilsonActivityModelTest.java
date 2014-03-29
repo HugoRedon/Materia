@@ -17,7 +17,7 @@ import termo.eos.mixingRule.MixingRule;
 import termo.phase.Phase;
 import termo.matter.HeterogeneousMixture;
 import termo.matter.Mixture;
-import termo.matter.PureSubstance;
+import termo.matter.Substance;
 
 /**
  *
@@ -95,7 +95,7 @@ public class WilsonActivityModelTest {
 	double z = substance.calculateCompresibilityFactor();
 	assertEquals(0.003550,z,1e-3);
 	
-//	for(PureSubstance pure : substance.getLiquid().getPureSubstances()){
+//	for(Substance pure : substance.getLiquid().getPureSubstances()){
 //	    if(pure.getComponent().equals(ethane)){
 //		
 //		
@@ -130,8 +130,8 @@ public class WilsonActivityModelTest {
 	System.out.println("activityCoefficient");
 	
 	
-        PureSubstance ci = new PureSubstance();
-        for(PureSubstance pure:  substance.getPureSubstances()){
+        Substance ci = new Substance();
+        for(Substance pure:  substance.getPureSubstances()){
             if(pure.getComponent().getName().equals("ethane")){
                 ci = pure;
             }
@@ -150,8 +150,8 @@ public class WilsonActivityModelTest {
     @Test
     public void testLambda() {
 	System.out.println("lambda");
-	PureSubstance ci = new PureSubstance(eos, alpha, ethane, Phase.VAPOR);
-	PureSubstance cj = new PureSubstance(eos, alpha, propane, Phase.VAPOR);
+	Substance ci = new Substance(eos, alpha, ethane, Phase.VAPOR);
+	Substance cj = new Substance(eos, alpha, propane, Phase.VAPOR);
 	ActivityModelBinaryParameter k = new ActivityModelBinaryParameter();
 	double T = 298;
 	ci.setTemperature(T);

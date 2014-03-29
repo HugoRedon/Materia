@@ -12,7 +12,7 @@ import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.phase.Phase;
 import termo.matter.Mixture;
-import termo.matter.PureSubstance;
+import termo.matter.Substance;
 
 /**
  *
@@ -21,7 +21,7 @@ import termo.matter.PureSubstance;
  */
 public class VDWMixingRuleTest {
     Mixture mixture ; 
-    HashMap<PureSubstance, Double> fractions;
+    HashMap<Substance, Double> fractions;
     InteractionParameter b;
     Component ethane;
     public VDWMixingRuleTest() {
@@ -39,7 +39,7 @@ public class VDWMixingRuleTest {
 	Cubic eos = EquationOfStateFactory.pengRobinsonBase();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
-	PureSubstance ethanePure = new PureSubstance();
+	Substance ethanePure = new Substance();
 	ethanePure.setCubicEquationOfState(eos);
 	ethanePure.setAlpha(alpha);
 	ethanePure.setComponent(ethane);
@@ -53,7 +53,7 @@ public class VDWMixingRuleTest {
 	
 	
 	
-	PureSubstance propanePure = new PureSubstance();
+	Substance propanePure = new Substance();
 	propanePure.setCubicEquationOfState(eos);
 	propanePure.setAlpha(alpha);
 	propanePure.setComponent(propane);

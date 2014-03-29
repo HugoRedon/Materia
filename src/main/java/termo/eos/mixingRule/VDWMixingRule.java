@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import termo.binaryParameter.InteractionParameter;
 import termo.matter.Mixture;
-import termo.matter.PureSubstance;
+import termo.matter.Substance;
 
 /**
  *
@@ -20,8 +20,8 @@ public class VDWMixingRule extends MixingRule{
 
     public double a(Mixture mixture){
         double a= 0;
-        for(PureSubstance iComponent: mixture.getPureSubstances()){
-               for(PureSubstance jComponent: mixture.getPureSubstances()){
+        for(Substance iComponent: mixture.getPureSubstances()){
+               for(Substance jComponent: mixture.getPureSubstances()){
               double xi = mixture.getFraction(iComponent);
               double xj = mixture.getFraction(jComponent);
               
@@ -42,8 +42,8 @@ public class VDWMixingRule extends MixingRule{
     @Override
     public double temperatureParcial_a(Mixture mixture) {
         double result = 0;
-       for(PureSubstance ci: mixture.getPureSubstances()){
-            for (PureSubstance cj: mixture.getPureSubstances()){
+       for(Substance ci: mixture.getPureSubstances()){
+            for (Substance cj: mixture.getPureSubstances()){
                 double xi = mixture.getFraction(ci);
                 double tempAlphaDerivativeAlphai =ci.getAlpha()
                         .TempOverAlphaTimesDerivativeAlphaRespectTemperature(
@@ -60,11 +60,11 @@ public class VDWMixingRule extends MixingRule{
     }
 
     @Override
-    public double oneOverNParcial_aN2RespectN( PureSubstance iComponent, 
+    public double oneOverNParcial_aN2RespectN( Substance iComponent, 
             Mixture mixture) {
         double sum = 0;
         double ai = iComponent.calculate_a_cubicParameter();
-        for(PureSubstance kComponent : mixture.getPureSubstances()){
+        for(Substance kComponent : mixture.getPureSubstances()){
             double xk = mixture.getFraction(kComponent);          
             double ak = kComponent.calculate_a_cubicParameter();//singleAs.get(kComponent);        
             double kik = mixture.getBinaryParameters().getValue(iComponent.getComponent(), kComponent.getComponent());
@@ -77,7 +77,7 @@ public class VDWMixingRule extends MixingRule{
     @Override
     public double b(Mixture mixture) {
         double b = 0;
-        for(PureSubstance iComponent:mixture.getPureSubstances()){
+        for(Substance iComponent:mixture.getPureSubstances()){
               double xi = mixture.getFraction(iComponent);
               double bi = iComponent.calculate_b_cubicParameter();
               b += xi * bi ;

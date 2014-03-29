@@ -6,7 +6,7 @@ import termo.binaryParameter.BinaryInteractionParameter;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.matter.Mixture;
-import termo.matter.PureSubstance;
+import termo.matter.Substance;
 
 /**
  *
@@ -25,7 +25,7 @@ public class MathiasKlotzPrausnitzMixingRule extends MixingRule {
     }
 
     @Override
-    public double oneOverNParcial_aN2RespectN(PureSubstance iComponent, Mixture mixture) {
+    public double oneOverNParcial_aN2RespectN(Substance iComponent, Mixture mixture) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
