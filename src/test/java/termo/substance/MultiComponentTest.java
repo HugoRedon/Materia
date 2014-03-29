@@ -50,7 +50,7 @@ public class MultiComponentTest {
         
         nHeptane.setAcentricFactor(0.35);
         nHeptane.setCriticalTemperature(540.14);
-        nHeptane.setCriticalPressure(27.05);
+        nHeptane.setCriticalPressure(27.05*101325);
         nHeptane.setK_StryjekAndVera(0.02325);
         
         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
@@ -79,14 +79,15 @@ public class MultiComponentTest {
     }
     
     @Test
-    public void testBubbleTemperature(){
+    public void compresibility(){
         double pressure = 101325;
         double temperature = 300;
         
-        double expResult = 0.9969775;
+        double expResult = 0.969775;
         
         vdw.setTemperature(temperature);
         vdw.setPressure(pressure);
+        
         double result = vdw.calculateCompresibilityFactor();
         assertEquals(expResult,result, 1e-3);
     }

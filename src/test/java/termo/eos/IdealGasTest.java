@@ -42,7 +42,7 @@ public class IdealGasTest {
 
         double expectedResult = 191.8724307692;
         
-        assertEquals(expectedResult, result,tolerance);
+        assertEquals(expectedResult, result/1000,tolerance);
     }
 
     /**
@@ -55,7 +55,7 @@ public class IdealGasTest {
         double temperature = 500;
         double expResult = 0.0410287293;
         double result = idealGasInstance.getVolume(pressure, temperature);
-        assertEquals(expResult, result, tolerance);
+        assertEquals(expResult, result/1000, tolerance);
        
     }
 
@@ -67,7 +67,7 @@ public class IdealGasTest {
         System.out.println("getTemperature");
         double pressure = 203000.23;
         double volume = 15.13;
-        double expResult =369403.31026432;
+        double expResult =369.40331026432;
 
         double result = idealGasInstance.getTemperature(pressure, volume);
         assertEquals(expResult, result, tolerance);

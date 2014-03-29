@@ -23,11 +23,12 @@ public class VDWMixingRuleTest {
     MixtureSubstance mixture ; 
     HashMap<PureSubstance, Double> fractions;
     InteractionParameter b;
+    Component ethane;
     public VDWMixingRuleTest() {
 	
 	
 	
-	Component ethane = new Component("ethane");
+	ethane = new Component("ethane");
 	
 	//ethane.setName();
 	ethane.setAcentricFactor(0.09781);
@@ -93,47 +94,22 @@ public class VDWMixingRuleTest {
     }
 
     @Test
-    public void testB() {
-//	System.out.println("calculate_b_cubicParameter");
-//	
-//	double expResult = ;
-//	double result = rule.calculate_b_cubicParameter();
-//	assertEquals(expResult, result, 0.0);
-        fail();
-	 
+    public void vdwFugacitiy(){
+        
+        InteractionParameter k = new InteractionParameter();
+
+        mixture.setBinaryParameters(k);
+
+
+
+        mixture.setTemperature(298);
+        mixture.setPressure(101325);
+
+        double expResult = 0.992262;
+        double result = mixture.calculateFugacity(ethane);
+
+        assertEquals(expResult, result,1e-3);
+        
     }
 
-    @Test
-    public void testTemperatureParcial_a() {
-	System.out.println("temperatureParcial_a");
-	double temperature = 350;
-	
-	for(PureSubstance pure: fractions.keySet()){
-	    pure.setTemperature(temperature);
-	}
-	
-	
-//	InteractionParameter k = new InteractionParameter();
-//	VDWMixingRule instance = new VDWMixingRule();
-//	double expResult = 0.0;
-//	double result = instance.temperatureParcial_a(temperature, fractions, k);
-//	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testOneOverNParcial_aN2RespectN() {
-//	System.out.println("oneOverNParcial_aN2RespectN");
-//	double temperature = 0.0;
-//	PureSubstance iComponent = null;
-//	HashMap<PureSubstance, Double> fractions = null;
-//	InteractionParameter k = null;
-//	VDWMixingRule instance = new VDWMixingRule();
-//	double expResult = 0.0;
-//	double result = instance.oneOver_N_Parcial_a(temperature, iComponent, fractions, k);
-//	assertEquals(expResult, result, 0.0);
-//	// TODO review the generated test code and remove the default call to fail.
-//	fail("The test case is a prototype.");
-    }
 }

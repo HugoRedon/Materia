@@ -75,6 +75,7 @@ public class NRTLActivityModelTest {
         mixture.setComponents(components);
         mixture.setFraction(propane, 0.7);
         mixture.setFraction(ethane, 0.3);
+        mixture.setBinaryParameters(param);
 	
     }
 
@@ -106,33 +107,6 @@ public class NRTLActivityModelTest {
 	
     }
 
-    @Test
-    public void testG() {
-	System.out.println("G");
-	Component cj = null;
-	Component ci = null;
-	ActivityModelBinaryParameter param = null;
-	double temperature = 0.0;
-	NRTLActivityModel instance = new NRTLActivityModel();
-	double expResult = 0.0;
-	double result = instance.G(cj, ci, param, temperature);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
 
-    @Test
-    public void testParcialExcessGibbsRespectTemperature() {
-	System.out.println("parcialExcessGibbsRespectTemperature");
-	ArrayList<Component> components = null;
-	HashMap<Component, Double> fractions = null;
-	ActivityModelBinaryParameter param = null;
-	double temperature = 0.0;
-	NRTLActivityModel instance = new NRTLActivityModel();
-	double expResult = 0.0;
-	double result = instance.parcialExcessGibbsRespectTemperature(components, fractions, param, temperature);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
+ 
 }

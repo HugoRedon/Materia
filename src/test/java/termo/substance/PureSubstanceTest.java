@@ -63,42 +63,8 @@ public class PureSubstanceTest {
 	substance.setComponent(ethane);
     }
 
-    @Test
-    public void testCalculateFugacity() {
-	System.out.println("calculateFugacity");
-	double temperature = 0.0;
-	double pressure = 0.0;
-	Phase aPhase = null;
-	PureSubstance instance = new PureSubstance();
-	double expResult = 0.0;
-	double result = instance.calculateFugacity();
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
 
-//    @Test
-//    public void testEquals() {
-//	System.out.println("equals");
-//	PureSubstance substance = null;
-//	PureSubstance instance = new PureSubstance();
-//	boolean expResult = false;
-//	boolean result = instance.equals(substance);
-//	assertEquals(expResult, result);
-//	// TODO review the generated test code and remove the default call to fail.
-//	fail("The test case is a prototype.");
-//    }
-//
-//    @Test
-//    public void testToString() {
-//	System.out.println("toString");
-//	PureSubstance instance = new PureSubstance();
-//	String expResult = "";
-//	String result = instance.toString();
-//	assertEquals(expResult, result);
-//	// TODO review the generated test code and remove the default call to fail.
-//	fail("The test case is a prototype.");
-//    }
+
     
     @Test
     public void testCalculateMolarVolume(){
@@ -213,54 +179,7 @@ public class PureSubstanceTest {
     
     
 
-    @Test
-    public void testTemperatureParcial_a() {
-	System.out.println("temperatureParcial_a");
-	double temperature = 0.0;
-	PureSubstance instance = new PureSubstance();
-	double expResult = 0.0;
-	double result = instance.temperatureParcial_a();
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testOneOver_N_Parcial_a() {
-	System.out.println("oneOver_N_Parcial_a");
-	double temperature = 0.0;
-	PureSubstance pureSubstance = null;
-	PureSubstance instance = new PureSubstance();
-	double expResult = 0.0;
-	double result = instance.oneOver_N_Parcial_a( pureSubstance);
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testCalculate_a_cubicParameter() {
-	System.out.println("calculate_a_cubicParameter");
-	double temperature = 0.0;
-	PureSubstance instance = new PureSubstance();
-	double expResult = 0.0;
-	double result = instance.calculate_a_cubicParameter();
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testCalculate_b_cubicParameter() {
-	System.out.println("calculate_b_cubicParameter");
-	PureSubstance instance = new PureSubstance();
-	double expResult = 0.0;
-	double result = instance.calculate_b_cubicParameter();
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
+   
 
 
    

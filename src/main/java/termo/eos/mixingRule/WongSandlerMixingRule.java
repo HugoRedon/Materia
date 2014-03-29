@@ -64,6 +64,7 @@ public class WongSandlerMixingRule extends MixingRule {
 
     
     
+       @Override
     public double b(MixtureSubstance mixture) {
 //         double b = 0;
 //      for(PureSubstance iComponent:fractions.keySet()){

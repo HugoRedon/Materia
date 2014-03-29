@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package termo.eos.mixingRule;
 
 import java.util.ArrayList;
@@ -9,6 +5,7 @@ import java.util.HashMap;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import termo.activityModel.NRTLActivityModel;
+import termo.activityModel.WilsonActivityModel;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
@@ -29,7 +26,7 @@ public class HuronVidalMixingRuleTest {
     Component ethane;
     Component propane;
 //    HashMap<PureSubstance, Double> fractions;
-    HuronVidalMixingRule instance;
+//    HuronVidalMixingRule instance;
     InteractionParameter k = new ActivityModelBinaryParameter();
     
     ArrayList<Component> components = new ArrayList<>();
@@ -38,7 +35,7 @@ public class HuronVidalMixingRuleTest {
     
     Cubic eos;
     
-    MixtureSubstance mixture;
+        MixtureSubstance mixture;
     
     
     public final void createComponents(){
@@ -76,9 +73,11 @@ public class HuronVidalMixingRuleTest {
 	eos =EquationOfStateFactory.pengRobinsonBase();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
 	ethanePure = new PureSubstance(eos, alpha, ethane, Phase.VAPOR);
-	
-	mixture = new MixtureSubstance(eos, alpha, components, Phase.VAPOR, instance, k);
+	HuronVidalMixingRule hv = new HuronVidalMixingRule(new WilsonActivityModel(), eos);
+	mixture = new MixtureSubstance(eos, alpha, components, Phase.VAPOR, hv, k);
 //	instance = new HuronVidalMixingRule(eos, alpha, components, Phase.VAPOR, k, new WilsonActivityModel());
+        
+        mixture.setMixingRule(hv);
 	mixture.setBinaryParameters(k);
 	mixture.setFraction(propane, 0.7);
 	mixture.setFraction(ethane, 0.3);
@@ -99,50 +98,24 @@ public class HuronVidalMixingRuleTest {
 
     }
 
-
-    @Test
-    public void testOneOverNParcial_aN2RespectN() {
-	System.out.println("oneOverNParcial_aN2RespectN");
-	double temperature = 298;
-	
-
-	    
-	double expResult = 0.0;
-	mixture.setTemperature(temperature);
-	ethanePure.setTemperature(temperature);
-	double result = mixture.oneOver_N_Parcial_a( ethanePure);
-	assertEquals(expResult, result, 1e-3);
-
-    }
+//
+//    @Test
+//    public void testOneOverNParcial_aN2RespectN() {
+//	System.out.println("oneOverNParcial_aN2RespectN");
+//	double temperature = 298;
+//	
+//
+//	    
+//	double expResult = 0.0;
+//	mixture.setTemperature(temperature);
+//	ethanePure.setTemperature(temperature);
+//	double result = mixture.oneOver_N_Parcial_a( ethanePure);
+//	assertEquals(expResult, result, 1e-3);
+//
+//    }
     
     
-    @Test
-    public void vdwFugacitiy(){
-//	VDWMixingRule vdw = new VDWMixingRule();
-//	//InteractionParameter k = new InteractionParameter();
-//	
-//	vdw.setBinaryParameters(k);
-//	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
-//	Cubic cubic = EquationOfStateFactory.pengRobinsonBase();
-//	
-//	
-//	PureSubstance ethanePure = new PureSubstance(eos, alpha, ethane, Phase.LIQUID);
-//	PureSubstance propanePure = new PureSubstance(eos,alpha,propane,Phase.LIQUID);
-//	
-//	
-//	vdw.setCubicEquationOfState(cubic);
-//	vdw.addComponent(ethanePure, 0.3);
-//	vdw.addComponent(propanePure, 0.7);
-//	
-//	
-//	vdw.setTemperature(298);
-//	vdw.setPressure(101325);
-//	
-//	double expResult = 0;
-//	double result = vdw.calculateFugacity(ethane);
-//		
-	fail();
-    }
+   
     
     
     @Test public void huronFugacity(){
@@ -167,10 +140,10 @@ public class HuronVidalMixingRuleTest {
     
     @Test public void nrtlHuronFugacity(){
 //	InteractionParameter k = new ActivityModelBinaryParameter();
-//	NRTLActivityModel nrtl = new NRTLActivityModel();
-//	
-//	
-//	HuronVidalMixingRule hv = new HuronVidalMixingRule(nrtl, eos);
+	NRTLActivityModel nrtl = new NRTLActivityModel();
+	
+	
+	HuronVidalMixingRule hv = new HuronVidalMixingRule(nrtl, eos);
 //	
 //	NRTLActivityModel nrtl = new NRTLActivityModel();
         //MixtureSubstance ms = new MixtureSubstance();
@@ -184,7 +157,7 @@ public class HuronVidalMixingRuleTest {
         MixtureSubstance mix = new MixtureSubstance(
                 EquationOfStateFactory.pengRobinsonBase(), 
                 AlphaFactory.getStryjekAndVeraExpression(), 
-                components, Phase.LIQUID, instance, k);
+                components, Phase.LIQUID, hv, k);
 	
 	
 	mix.setFraction(ethane, 0.3);
@@ -199,42 +172,6 @@ public class HuronVidalMixingRuleTest {
 //	fail();
     }
 
-    @Test
-    public void testTemperatureParcial_a() {
-	System.out.println("temperatureParcial_a");
-	double temperature = 0.0;
-	ArrayList<Component> components = null;
-	HashMap<Component, Double> fractions = null;
-	HashMap<Component, Double> single_as = null;
-	HashMap<Component, Double> single_bs = null;
-	HashMap<Component, Double> alphaDerivatives = null;
-	InteractionParameter k = null;
-	HuronVidalMixingRule instance = null;
-	double expResult = 0.0;
-//	double result = instance.temperatureParcial_a(temperature, components, fractions, single_as, single_bs, alphaDerivatives, k);
-//	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
 
-    @Test
-    public void testGetL() {
-	System.out.println("getL");
-	HuronVidalMixingRule instance = null;
-	double expResult = 0.0;
-	double result = instance.getL();
-	assertEquals(expResult, result, 0.0);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
 
-    @Test
-    public void testSetL() {
-	System.out.println("setL");
-	double L = 0.0;
-	HuronVidalMixingRule instance = null;
-	instance.setL(L);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
 }
