@@ -236,6 +236,9 @@ public class HeterogeneousSubstance extends Heterogeneous{
 	    e =  function.errorFunction(equilibriaRelation(temperature, p));
 	    double pressure_ = p * (1 + deltaP); 
 	    double e_ = function.errorFunction(equilibriaRelation(temperature, pressure_));
+            if(e == 0){
+                break;
+            }
 	    p =  function.newVariableFunction(p, pressure_, e, e_);
 	}  
 	

@@ -1,4 +1,4 @@
-package termo.optimization;
+    package termo.optimization;
 
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
@@ -97,20 +97,67 @@ public class AlphaOptimizationTest {
         
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
         substance.optimizeTo(list);
+        
 
-        //assertEquals(5.559239095754101,component.getA_AndroulakisEtAl(),1e-4);
+        assertEquals(-7.098408047518564,component.getA_AndroulakisEtAl(),1e-4);
         //compila se ejecuta y no entra en un loop infinito
     }
     
     @Test public void test2VariableOptimization(){
         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
         Alpha alpha = AlphaFactory.getSoave2Parameters();
-        
+        component.setA_Soave(1);
+        component.setB_Soave(0.3);
         
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
+        substance.getAlphaOptimizer().setDamp(0.1);
         substance.optimizeTo(list);
-        //assertEquals(2.715531696763059/*este no es el valor*/, component.getA_Soave(),1e-4);
+        System.out.println("pengrobinson soave 2 ");
+        System.out.println("parameter b debe ser parecido a -0.8443033101544569 :" + component.getB_Soave());//-2.405345971823838
+        System.out.println("parametro a debe ser parecido a 3.7271215535951887:"  + component.getA_Soave() );
+        
+        assertEquals(3.7271215535951887, component.getA_Soave(),1e-4);
     }
+    
+    @Test
+    public void fixParameterB(){
+         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Alpha alpha = AlphaFactory.getSoave2Parameters();
+  
+        
+        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
+        
+        
+        substance.getAlphaOptimizer().setFixParameterB(true);
+        component.setB_Soave(-2);
+        
+        substance.optimizeTo(list);
+        
+        System.out.println("Parameter a " + component.getA_Soave());
+        assertEquals(-2, component.getB_Soave(),1e-4);
+    }
+    
+    @Test 
+    public void fixParameter(){
+         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Alpha alpha = AlphaFactory.getSoave2Parameters();
+        component.setA_Soave(3);
+        component.setB_Soave(0.3);
+        
+        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
+        substance.getAlphaOptimizer().setDamp(0.1);
+        substance.getAlphaOptimizer().setFixParameterA(true);
+        
+        substance.optimizeTo(list);
+        System.out.println("pengrobinson soave 2 fijando a--------");
+        System.out.println("parameter b debe ser parecido a -0.8443033101544569 :" + component.getB_Soave());//-2.405345971823838
+        System.out.println("parametro a debe ser exactamente a 3:"  + component.getA_Soave() );
+        System.out.println("----------");
+        assertEquals(3, component.getA_Soave(),1e-4);
+    }
+    
+    
+    
     @Test
     public void test1VariableOptimization() {
         

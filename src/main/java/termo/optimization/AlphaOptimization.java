@@ -2,7 +2,9 @@
 package termo.optimization;
 
 import java.util.ArrayList;
+import termo.component.Component;
 import termo.data.ExperimentalData;
+import termo.eos.alpha.Alpha;
 import termo.matrix.Matrix2x2;
 import termo.matrix.Matrix3x3;
 import termo.matter.HeterogeneousSubstance;
@@ -16,6 +18,22 @@ public class AlphaOptimization {
     //double[][] experimental ;
     private ArrayList<ExperimentalData> experimental;
     private double numericalDerivativeDelta = 0.0001;
+    
+    private boolean fixParameterA;
+    private boolean fixParameterB;
+    private boolean fixParameterC;
+    
+    public int fixedVariables(){
+        int result = 0;
+        if(fixParameterA){
+            result++;
+        }if(fixParameterB){
+            result++;
+        }if(fixParameterC){
+            result++;
+        }
+        return result;
+    }
     
     public AlphaOptimization(HeterogeneousSubstance substance){
         this.substance = substance;
@@ -35,22 +53,62 @@ public class AlphaOptimization {
     
     public void solve(){
         int numberOfParameters = substance.getVapor().getAlpha().numberOfParameters();
-        if(numberOfParameters == 1){
-            solveVapoPressureRegression(
-                    substance.getVapor().getAlpha().getAlphaParameterA(substance.getVapor().getComponent())
-            );
-        }else if(numberOfParameters == 2){
-            solveVapoPressureRegression(
-                    substance.getVapor().getAlpha().getAlphaParameterA(substance.getVapor().getComponent()),
-                    substance.getVapor().getAlpha().getAlphaParameterB(substance.getVapor().getComponent())
-            );
-        }else if(numberOfParameters == 3){
-            solveVapoPressureRegression(
-                    substance.getVapor().getAlpha().getAlphaParameterA(substance.getVapor().getComponent()),
-                    substance.getVapor().getAlpha().getAlphaParameterB(substance.getVapor().getComponent()), 
-                    substance.getVapor().getAlpha().getAlphaParameterC(substance.getVapor().getComponent())
-            );
+        Component component = substance.getVapor().getComponent();
+        Alpha alpha = substance.getVapor().getAlpha();
+        
+        int fixedParameters = fixedVariables();
+        
+        int numberOfVariablesToOptimize = numberOfParameters- fixedParameters;
+        if(numberOfVariablesToOptimize == 0){
+            return;
         }
+        double[] initialValues = new double[numberOfVariablesToOptimize];
+        
+   
+        
+        if(numberOfVariablesToOptimize >=1){
+            if(!fixParameterA){
+                initialValues[0] = alpha.getAlphaParameterA(component);
+            }else if(!fixParameterB){
+                initialValues[0] = alpha.getAlphaParameterB(component);
+            }else if(!fixParameterC){
+                initialValues[0] = alpha.getAlphaParameterC(component);
+            }
+        }
+        
+        if(numberOfVariablesToOptimize >=2){
+            if(!fixParameterB){
+                initialValues[1] = alpha.getAlphaParameterB(component);
+            }else if(!fixParameterC){
+                initialValues[1] = alpha.getAlphaParameterC(component);
+            }
+            
+        }
+        
+        if(numberOfVariablesToOptimize >=3){
+           initialValues[2] = alpha.getAlphaParameterC(component);
+        }
+        
+        
+        
+        solveVapoPressureRegression(initialValues);
+        
+//        if(numberOfParameters == 1){
+//            solveVapoPressureRegression(
+//                    substance.getVapor().getAlpha().getAlphaParameterA(substance.getVapor().getComponent())
+//            );
+//        }else if(numberOfParameters == 2){
+//            solveVapoPressureRegression(
+//                    substance.getVapor().getAlpha().getAlphaParameterA(substance.getVapor().getComponent()),
+//                    substance.getVapor().getAlpha().getAlphaParameterB(substance.getVapor().getComponent())
+//            );
+//        }else if(numberOfParameters == 3){
+//            solveVapoPressureRegression(
+//                    substance.getVapor().getAlpha().getAlphaParameterA(substance.getVapor().getComponent()),
+//                    substance.getVapor().getAlpha().getAlphaParameterB(substance.getVapor().getComponent()), 
+//                    substance.getVapor().getAlpha().getAlphaParameterC(substance.getVapor().getComponent())
+//            );
+//        }
     }
     
     
@@ -122,15 +180,50 @@ public class AlphaOptimization {
     
     //Newton raphson multivariable (hasta 3 variables)
     
+   
     
     public double vaporPressureError(double... params){
-        if(params.length >= 1){
-            substance.getVapor().getAlpha().setAlphaParameterA(params[0], substance.getVapor().getComponent());
-        } if(params.length >=2){
-            substance.getVapor().getAlpha().setAlphaParameterB(params[1], substance.getVapor().getComponent());
-        }if(params.length >=3){
-            substance.getVapor().getAlpha().setAlphaParameterC(params[2], substance.getVapor().getComponent());
+        
+         int numberOfParameters = substance.getVapor().getAlpha().numberOfParameters();
+        Component component = substance.getVapor().getComponent();
+        Alpha alpha = substance.getVapor().getAlpha();
+        
+        int fixedParameters = fixedVariables();
+        
+        int numberOfVariablesToOptimize = numberOfParameters- fixedParameters;
+        if(numberOfVariablesToOptimize >=1){
+            if(!fixParameterA){
+                alpha.setAlphaParameterA(params[0],component);
+            }else if(!fixParameterB){
+                alpha.setAlphaParameterB(params[0],component);
+            }else if(!fixParameterC){
+                alpha.setAlphaParameterC(params[0],component);
+            }
         }
+        
+        if(numberOfVariablesToOptimize >=2){
+            if(!fixParameterB){
+                alpha.setAlphaParameterB(params[1],component);
+            }else if(!fixParameterC){
+                alpha.setAlphaParameterC(params[1],component);
+            }
+            
+        }
+        
+        if(numberOfVariablesToOptimize >=3){
+           alpha.setAlphaParameterC(params[2],component);
+        }
+        
+        
+        
+        
+//        if(params.length >= 1 && !fixParameterA){
+//            substance.getVapor().getAlpha().setAlphaParameterA(params[0], substance.getVapor().getComponent());
+//        } if(params.length >=2 && !fixParameterB){
+//            substance.getVapor().getAlpha().setAlphaParameterB(params[1], substance.getVapor().getComponent());
+//        }if(params.length >=3 && !fixParameterC){
+//            substance.getVapor().getAlpha().setAlphaParameterC(params[2], substance.getVapor().getComponent());
+//        }
         double error =0;
         for (ExperimentalData pair: experimental){
             substance.dewPressure(pair.getTemperature());
@@ -313,13 +406,13 @@ public class AlphaOptimization {
     }
     
     
-    public double[] nextValueMathias(double A, double B, double C){
-        Matrix3x3 hessian = new Matrix3x3(hessian(A,B,C));
-        Matrix3x3 hessianInverse = new Matrix3x3(hessian.inverse());
-        double[] gradient = gradient(A, B, C);
-        return hessianInverse.matrixVectorMultiplication(gradient);
-        
-    }
+//    public double[] nextValueMathias(double A, double B, double C){
+//        Matrix3x3 hessian = new Matrix3x3(hessian(A,B,C));
+//        Matrix3x3 hessianInverse = new Matrix3x3(hessian.inverse());
+//        double[] gradient = gradient(A, B, C);
+//        return hessianInverse.matrixVectorMultiplication(gradient);
+//        
+//    }
     
     public double[] nextValue(double... args){
         if(args.length ==1){
@@ -465,5 +558,47 @@ public class AlphaOptimization {
      */
     public void setTolerance(double tolerance) {
         this.tolerance = tolerance;
+    }
+
+    /**
+     * @return the fixParameterA
+     */
+    public boolean isFixParameterA() {
+        return fixParameterA;
+    }
+
+    /**
+     * @param fixParameterA the fixParameterA to set
+     */
+    public void setFixParameterA(boolean fixParameterA) {
+        this.fixParameterA = fixParameterA;
+    }
+
+    /**
+     * @return the fixParameterB
+     */
+    public boolean isFixParameterB() {
+        return fixParameterB;
+    }
+
+    /**
+     * @param fixParameterB the fixParameterB to set
+     */
+    public void setFixParameterB(boolean fixParameterB) {
+        this.fixParameterB = fixParameterB;
+    }
+
+    /**
+     * @return the fixParameterC
+     */
+    public boolean isFixParameterC() {
+        return fixParameterC;
+    }
+
+    /**
+     * @param fixParameterC the fixParameterC to set
+     */
+    public void setFixParameterC(boolean fixParameterC) {
+        this.fixParameterC = fixParameterC;
     }
 }
