@@ -135,8 +135,8 @@ public class AlphaOptimization {
         for (ExperimentalData pair: experimental){
             substance.dewPressure(pair.getTemperature());
             double expP = pair.getPressure();
-            
-            error += Math.pow((substance.getPressure() - expP)/expP,2);
+            double calcP = substance.getPressure();
+            error += Math.pow((calcP - expP)/expP,2);
         }   
         return error;   
     }

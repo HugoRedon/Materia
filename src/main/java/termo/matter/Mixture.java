@@ -63,6 +63,8 @@ public final class Mixture extends Homogeneous{
         double fraction = 1d/components.size();
         for(Component component : components){ //implement property change listener
             Substance pure = new Substance(super.getCubicEquationOfState(), alpha, component, super.getPhase());
+            pure.setTemperature(temperature);
+            pure.setPressure(pressure);
             pure.setMolarFraction(fraction);
             mpcs.addPropertyChangeListener(pure);
             pureSubstances.add(pure);
