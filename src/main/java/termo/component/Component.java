@@ -127,7 +127,7 @@ public class Component implements Serializable {
     
     
     private int dipprChemID;
-    final private String name;
+    private String name;
     private String casNumber;
     private String formula;
     private String smiles;
