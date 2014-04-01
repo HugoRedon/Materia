@@ -29,6 +29,7 @@ public class HuronVidalMixingRule extends MixingRule{
     public HuronVidalMixingRule(ActivityModel activityModel, Cubic equationOfState){
         this.activityModel = activityModel;
         L = equationOfState.calculateL(1, 1);
+        name = "Huron Vidal (" + activityModel.getName()+ ")";
     }
 
 

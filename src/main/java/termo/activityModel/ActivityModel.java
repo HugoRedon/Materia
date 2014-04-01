@@ -13,6 +13,7 @@ import termo.matter.Substance;
  * @author Hugo Redon Rivera
  */
 public abstract class ActivityModel {
+    private String name;
    public abstract double excessGibbsEnergy(
             Mixture mixture);
    public abstract double activityCoefficient(
@@ -28,6 +29,20 @@ public abstract class ActivityModel {
     double bij = k.getB().getValue(ci, cj);
 
     return (aij + bij * T)/(Constants.R * T);
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
    
 }

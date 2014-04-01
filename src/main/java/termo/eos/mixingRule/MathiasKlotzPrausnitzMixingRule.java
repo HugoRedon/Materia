@@ -13,6 +13,9 @@ import termo.matter.Substance;
  * @author Hugo Redon Rivera
  */
 public class MathiasKlotzPrausnitzMixingRule extends MixingRule {
+    public MathiasKlotzPrausnitzMixingRule(){
+        name = "Mathias-Klotz-Prausnitz";
+    }
 
     @Override
     public double a(Mixture mixture) {

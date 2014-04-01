@@ -16,6 +16,10 @@ public class WilsonActivityModel extends ActivityModel{
 
     boolean calculateWith_b = true;
     
+    public WilsonActivityModel(){
+        super.setName("Wilson");
+    }
+    
     @Override
     public double excessGibbsEnergy(
             Mixture mixture) {

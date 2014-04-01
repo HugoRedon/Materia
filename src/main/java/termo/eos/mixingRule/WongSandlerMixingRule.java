@@ -27,6 +27,7 @@ public class WongSandlerMixingRule extends MixingRule {
 	
 	L = eos.calculateL(1, 1);
 	
+        name = "Wong Sandler (" + activityModel.getName()+")";
     }
     
     

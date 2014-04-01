@@ -13,7 +13,9 @@ import termo.matter.Substance;
  * @author Hugo Redon Rivera
  */
 public class NRTLActivityModel extends ActivityModel{
-
+    public NRTLActivityModel(){
+        super.setName("NRTL");
+    }
     
     @Override
     public double excessGibbsEnergy(Mixture mixture) {
