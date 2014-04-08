@@ -2,6 +2,7 @@
 package termo.optimization;
 
 import java.util.ArrayList;
+import java.util.List;
 import termo.component.Component;
 import termo.data.ExperimentalData;
 import termo.eos.alpha.Alpha;
@@ -440,6 +441,9 @@ public class AlphaOptimization {
     
     private int iterations;
     private double tolerance = 1e-4;
+    
+    private ArrayList<Parameters_Error> convergenceHistory = new ArrayList();
+    
     public double[] solveVapoPressureRegression (double...args){
         
         double beforeError;
@@ -453,6 +457,11 @@ public class AlphaOptimization {
             iterations++;
             beforeError = vaporPressureError( args);
             double[] before = args;
+            
+            Parameters_Error pe = new Parameters_Error(before, beforeError);
+            convergenceHistory.add(pe);
+            
+            
             args = nextValue(args );
             args = applyDamping(before, args);
 //            if(args.length >=1){
@@ -600,5 +609,19 @@ public class AlphaOptimization {
      */
     public void setFixParameterC(boolean fixParameterC) {
         this.fixParameterC = fixParameterC;
+    }
+
+    /**
+     * @return the convergenceHistory
+     */
+    public ArrayList<Parameters_Error> getConvergenceHistory() {
+        return convergenceHistory;
+    }
+
+    /**
+     * @param convergenceHistory the convergenceHistory to set
+     */
+    public void setConvergenceHistory(ArrayList<Parameters_Error> convergenceHistory) {
+        this.convergenceHistory = convergenceHistory;
     }
 }
