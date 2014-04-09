@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <name>Materia</name>
-  <groupId>redon.productions</groupId>
+  <groupId>com.github.hugoredon</groupId>
   <artifactId>materia</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
@@ -11,7 +11,14 @@
       equilibria calculations for 
       chemical engineering.
   </description>
-  <url>http://maven.apache.org</url>
+  <url>http://ingenieria-eqpro.rhcloud.com/</url>
+  <licenses>
+      <license>
+          <name>GNU GENERAL PUBLIC LICENSE Version 2</name>
+          <url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
+          <distribution>repo</distribution>
+      </license>
+  </licenses>
     <build>
         <plugins>
             <plugin>
