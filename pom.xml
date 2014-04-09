@@ -11,10 +11,7 @@
       equilibria calculations for 
       chemical engineering.
   </description>
-
-  
   <url>http://maven.apache.org</url>
-  
     <build>
         <plugins>
             <plugin>
@@ -22,16 +19,12 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    
                     <source>1.7</source>
                     <target>1.7</target>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
-    
-    
     <properties>
         <skipTests>false</skipTests>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -43,16 +36,5 @@
 	<artifactId>junit</artifactId>
 	<version>4.4</version>
     </dependency>
-            
   </dependencies>
-  
-  
-  
-  
-
-
-
-
-
-
 </project>
