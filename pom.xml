@@ -19,6 +19,19 @@
           <distribution>repo</distribution>
       </license>
   </licenses>
+  <scm>
+      <url>https://github.com/HugoRedon/Materia</url>
+      <connection>https://github.com/HugoRedon/Materia.git</connection>
+  </scm>
+  <developers>
+      <developer>
+          <id>hugoredon</id>
+          <email>hugo_redon_@hotmail.com</email>
+          <name>Hugo Redon</name>
+          <url>https://github.com/HugoRedon</url>
+      </developer>
+  </developers>
+  
     <build>
         <plugins>
             <plugin>
