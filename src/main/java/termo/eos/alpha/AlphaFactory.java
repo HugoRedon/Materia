@@ -1,10 +1,11 @@
 package termo.eos.alpha;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import termo.eos.alpha.commonaAlphaEquationsImplementation.MathiasAlpha;
+import termo.eos.alpha.commonaAlphaEquationsImplementation.PengAndRobinsonAlpha;
+import termo.eos.alpha.commonaAlphaEquationsImplementation.SoaveAlpha;
+import termo.eos.alpha.commonaAlphaEquationsImplementation.StryjekAndVera;
 
 /**
  *

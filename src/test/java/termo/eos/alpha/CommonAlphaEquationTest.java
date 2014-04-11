@@ -3,6 +3,10 @@ package termo.eos.alpha;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import termo.component.Component;
+import termo.eos.alpha.commonaAlphaEquationsImplementation.MathiasAlpha;
+import termo.eos.alpha.commonaAlphaEquationsImplementation.PengAndRobinsonAlpha;
+import termo.eos.alpha.commonaAlphaEquationsImplementation.SoaveAlpha;
+import termo.eos.alpha.commonaAlphaEquationsImplementation.StryjekAndVera;
 
 /**
  *

@@ -49,6 +49,7 @@ public abstract class Alpha {
     /**
      * 
      * @param temperature
+     * @param component
      * @return 
      */
     public  abstract double alpha(double temperature,Component component);

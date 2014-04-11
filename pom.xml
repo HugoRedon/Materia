@@ -19,10 +19,7 @@
           <distribution>repo</distribution>
       </license>
   </licenses>
-  <scm>
-      <url>https://github.com/HugoRedon/Materia</url>
-      <connection>https://github.com/HugoRedon/Materia.git</connection>
-  </scm>
+  
   <developers>
       <developer>
           <id>hugoredon</id>
@@ -57,4 +54,31 @@
 	<version>4.4</version>
     </dependency>
   </dependencies>
+  
+  
+  
+  <!--for snapshot -->
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+  
+  <scm>
+      <url>git@github.com:HugoRedon/Materia.git</url>
+      <connection>scm:git:git@github.com:HugoRedon/Materia.git</connection>
+      <developerConnection>scm:git:git@github.com:HugoRedon/Materia.git</developerConnection>
+  </scm>
+  
+  
+  
+  
+  
+  <!--end snapshot -->
+  
+  
+  
+  
+  
+  
 </project>

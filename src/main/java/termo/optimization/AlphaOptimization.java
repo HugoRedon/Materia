@@ -445,7 +445,7 @@ public class AlphaOptimization {
     private ArrayList<Parameters_Error> convergenceHistory = new ArrayList();
     
     public double[] solveVapoPressureRegression (double...args){
-        
+        convergenceHistory.clear();
         double beforeError;
         double error;
         

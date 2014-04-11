@@ -3,7 +3,6 @@ package termo.matter;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import termo.phase.Phase;
 
 /**
  *
@@ -39,6 +38,10 @@ public abstract class Heterogeneous implements PropertyChangeListener{
         
     }
     
+    
+    public void addPropertyChangeListener(PropertyChangeListener listener){
+        mpcs.addPropertyChangeListener(listener);
+    }
     
     
     public Heterogeneous(){
