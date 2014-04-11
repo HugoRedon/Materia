@@ -181,6 +181,26 @@ public class AlphaOptimization {
     
     //Newton raphson multivariable (hasta 3 variables)
     
+   public double vaporPressureError(){
+       
+        double error =0;
+        for (ExperimentalData pair: experimental){
+            double temperature = pair.getTemperature();
+            
+            substance.dewPressure(temperature);
+            double expP = pair.getPressure();
+            double calcP = substance.getPressure();
+            double squareError = Math.pow((calcP - expP)/expP,2);
+            error += squareError;
+            errorForEachExperimentalData.add(new ErrorData(expP, calcP, squareError,temperature));
+        }   
+        totalError = error;
+        return error;   
+   }
+   private double totalError;
+   private ArrayList<ErrorData> errorForEachExperimentalData = new ArrayList();
+   
+
    
     
     public double vaporPressureError(double... params){
@@ -225,14 +245,7 @@ public class AlphaOptimization {
 //        }if(params.length >=3 && !fixParameterC){
 //            substance.getVapor().getAlpha().setAlphaParameterC(params[2], substance.getVapor().getComponent());
 //        }
-        double error =0;
-        for (ExperimentalData pair: experimental){
-            substance.dewPressure(pair.getTemperature());
-            double expP = pair.getPressure();
-            double calcP = substance.getPressure();
-            error += Math.pow((calcP - expP)/expP,2);
-        }   
-        return error;   
+       return vaporPressureError();
     }
 //    public double derivative_A( double A, double B, double C){
 //        double error = vaporPressureError( A,B,C);
@@ -623,5 +636,33 @@ public class AlphaOptimization {
      */
     public void setConvergenceHistory(ArrayList<Parameters_Error> convergenceHistory) {
         this.convergenceHistory = convergenceHistory;
+    }
+
+    /**
+     * @return the totalError
+     */
+    public double getTotalError() {
+        return totalError;
+    }
+
+    /**
+     * @param totalError the totalError to set
+     */
+    public void setTotalError(double totalError) {
+        this.totalError = totalError;
+    }
+
+    /**
+     * @return the errorForEachExperimentalData
+     */
+    public ArrayList<ErrorData> getErrorForEachExperimentalData() {
+        return errorForEachExperimentalData;
+    }
+
+    /**
+     * @param errorForEachExperimentalData the errorForEachExperimentalData to set
+     */
+    public void setErrorForEachExperimentalData(ArrayList<ErrorData> errorForEachExperimentalData) {
+        this.errorForEachExperimentalData = errorForEachExperimentalData;
     }
 }
