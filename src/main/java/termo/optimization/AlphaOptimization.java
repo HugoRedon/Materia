@@ -17,7 +17,7 @@ import termo.matter.HeterogeneousSubstance;
 public class AlphaOptimization {
     HeterogeneousSubstance substance;
     //double[][] experimental ;
-    private ArrayList<ExperimentalData> experimental;
+    private ArrayList<ExperimentalData> experimental = new ArrayList();
     private double numericalDerivativeDelta = 0.0001;
     
     private boolean fixParameterA;
@@ -182,7 +182,7 @@ public class AlphaOptimization {
     //Newton raphson multivariable (hasta 3 variables)
     
    public double vaporPressureError(){
-       
+        errorForEachExperimentalData.clear();
         double error =0;
         for (ExperimentalData pair: experimental){
             double temperature = pair.getTemperature();
@@ -197,7 +197,7 @@ public class AlphaOptimization {
         totalError = error;
         return error;   
    }
-   private double totalError;
+   private Double totalError;
    private ArrayList<ErrorData> errorForEachExperimentalData = new ArrayList();
    
 
@@ -466,14 +466,14 @@ public class AlphaOptimization {
         
         iterations = 0;
         
-        while(Math.abs(criteria) > tolerance){
-            iterations++;
+        while(Math.abs(criteria) > tolerance && iterations < 10000){
+            
             beforeError = vaporPressureError( args);
             double[] before = args;
             
-            Parameters_Error pe = new Parameters_Error(before, beforeError);
+            Parameters_Error pe = new Parameters_Error(before, beforeError,iterations);
             convergenceHistory.add(pe);
-            
+            iterations++;
             
             args = nextValue(args );
             args = applyDamping(before, args);
@@ -642,27 +642,24 @@ public class AlphaOptimization {
      * @return the totalError
      */
     public double getTotalError() {
+        if(totalError == null){
+            vaporPressureError();
+        }
         return totalError;
     }
 
-    /**
-     * @param totalError the totalError to set
-     */
-    public void setTotalError(double totalError) {
-        this.totalError = totalError;
-    }
+   
 
     /**
      * @return the errorForEachExperimentalData
      */
     public ArrayList<ErrorData> getErrorForEachExperimentalData() {
+        if(experimental.size() != errorForEachExperimentalData.size()){
+            vaporPressureError();//para calcular por primera vez
+        }
         return errorForEachExperimentalData;
+        
     }
 
-    /**
-     * @param errorForEachExperimentalData the errorForEachExperimentalData to set
-     */
-    public void setErrorForEachExperimentalData(ArrayList<ErrorData> errorForEachExperimentalData) {
-        this.errorForEachExperimentalData = errorForEachExperimentalData;
-    }
+   
 }

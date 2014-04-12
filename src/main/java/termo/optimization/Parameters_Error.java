@@ -13,13 +13,15 @@ package termo.optimization;
 public class Parameters_Error {
     double[] parameters;
     double error;
+    int iteration;
 
     public Parameters_Error() {
     }
 
-    public Parameters_Error(double[] parameters, double error) {
+    public Parameters_Error(double[] parameters, double error, int iteration) {
         this.parameters = parameters;
         this.error = error;
+        this.iteration = iteration;
     }
 
     
@@ -38,6 +40,14 @@ public class Parameters_Error {
 
     public double[] getParameters() {
         return parameters;
+    }
+
+    public int getIteration() {
+        return iteration;
+    }
+
+    public void setIteration(int iteration) {
+        this.iteration = iteration;
     }
     
     
