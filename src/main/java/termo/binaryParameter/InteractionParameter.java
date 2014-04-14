@@ -16,7 +16,7 @@ import termo.matter.Substance;
  */
 public class InteractionParameter {
     
-  private HashMap<ArrayList<Component>,Double> param = new HashMap();;
+  private HashMap<String,Double> param = new HashMap();;
   private boolean symmetric;
     //private HashMap<ArrayList<Component>,Double> k21Value;
 
@@ -29,33 +29,33 @@ public class InteractionParameter {
   
    
     public double  getValue(Component component1,Component component2){
-         ArrayList<Component> components = new ArrayList<>();
-        components.add(component1);
-        components.add(component2);
+         
+        String key = keyFor(component1, component2);
         
-        if(param.containsKey(components)){
-            return param.get(components);
+        if(param.containsKey(key)){
+            return param.get(key);
         }else{
             return 0;
         }
     }
     
+    public String keyFor(Component component1,Component component2){
+        return "("+component1.getName() +","+ component2.getName()+")";
+    }
+    
     public void setValue(Component component1,Component component2,double value){
         
-        ArrayList<Component> components = new ArrayList<>();
-        components.add(component1);
-        components.add(component2);
+       String key = keyFor(component1, component2);
         
         //What the fuck!!!
-         param.put((ArrayList<Component>)components.clone(), value);
+         param.put(key, value);
          
 //         this.symmetric = isSymmetric;
-	  ArrayList<Component> components1 = new ArrayList<>();
+	  
         if(symmetric){
             
-            components1.add(component2);
-            components1.add(component1);
-            param.put((ArrayList<Component>)components1.clone(), value);
+          String simetricKey = keyFor(component2, component1);
+            param.put(simetricKey, value);
         }
     }
 
