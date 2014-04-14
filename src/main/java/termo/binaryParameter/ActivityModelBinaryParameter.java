@@ -1,46 +1,46 @@
 package termo.binaryParameter;
 
 public class ActivityModelBinaryParameter extends InteractionParameter{
-    private BinaryInteractionParameter a = new BinaryInteractionParameter();
-    private BinaryInteractionParameter b= new BinaryInteractionParameter();
-    private BinaryInteractionParameter alpha= new BinaryInteractionParameter();
-    private BinaryInteractionParameter k = new BinaryInteractionParameter();
+    private InteractionParameter a = new InteractionParameter();
+    private InteractionParameter b= new InteractionParameter();
+    private InteractionParameter alpha= new InteractionParameter();
+    private InteractionParameter k = new InteractionParameter();
     
-    public BinaryInteractionParameter getA() {
+    public InteractionParameter getA() {
         return a;
     }
 
-    public void setA(BinaryInteractionParameter a) {
+    public void setA(InteractionParameter a) {
         this.a = a;
     }
 
-    public BinaryInteractionParameter getB() {
+    public InteractionParameter getB() {
         return b;
     }
 
-    public void setB(BinaryInteractionParameter b) {
+    public void setB(InteractionParameter b) {
         this.b = b;
     }
 
-    public BinaryInteractionParameter getAlpha() {
+    public InteractionParameter getAlpha() {
         return alpha;
     }
 
-    public void setAlpha(BinaryInteractionParameter alpha) {
+    public void setAlpha(InteractionParameter alpha) {
         this.alpha = alpha;
     }
 
     /**
      * @return the k
      */
-    public BinaryInteractionParameter getK() {
+    public InteractionParameter getK() {
 	return k;
     }
 
     /**
      * @param k the k to set
      */
-    public void setK(BinaryInteractionParameter k) {
+    public void setK(InteractionParameter k) {
 	this.k = k;
     }
 
