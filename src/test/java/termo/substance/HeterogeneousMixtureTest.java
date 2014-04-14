@@ -23,11 +23,11 @@ import termo.phase.Phase;
  * @author
  * Hugo
  */
-public class HeterogeneousMixtureSubstanceTest {
+public class HeterogeneousMixtureTest {
     HeterogeneousMixture substance;
     Component ethane;
     Component propane;
-    public HeterogeneousMixtureSubstanceTest(){
+    public HeterogeneousMixtureTest(){
 	 ethane = new Component("ethane");
 	
 	ethane.setAcentricFactor(0.09781);

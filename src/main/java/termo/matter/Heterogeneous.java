@@ -81,15 +81,19 @@ public abstract class Heterogeneous implements PropertyChangeListener{
 //	setPressure(pressure);
 //	return bubbleTemperatureEstimate();
 //    }
-//    public final int bubblePressure(double temperature){
-//	setTemperature(temperature);
-//	return bubblePressure();
-//    }
+    public final int bubblePressure(double pressureEstimate){
+        setPressure(pressureEstimate);
+	return bubblePressure();
+    }
+    public final int bubblePressure(){
+        bubblePressureEstimate();
+        return bubblePressureImpl();
+    }
     
     protected abstract void bubblePressureEstimate();
     protected abstract int bubbleTemperatureEstimate();
     protected abstract int bubbleTemperature();
-    protected abstract int bubblePressure();
+    protected abstract int bubblePressureImpl();
     
     
     
@@ -102,10 +106,15 @@ public abstract class Heterogeneous implements PropertyChangeListener{
 //	setPressure(pressure);
 //	return dewTemperatureEstimate();
 //    }
-//    public final int dewPressure(double temperature){
-//	setTemperature(temperature);
-//	return dewPressure();
-//    }
+    public final int dewPressure(double pressureEstimate){
+	setPressure(pressureEstimate);
+	return dewPressure();
+    }
+    public final int dewPressure(){
+        dewPressureEstimate();
+        return dewPressureImpl();
+    }
+    
 //    public final int dewTemperature(double pressure){
 //	setPressure(pressure);
 //	return dewTemperature();
@@ -113,7 +122,7 @@ public abstract class Heterogeneous implements PropertyChangeListener{
     
     protected abstract void dewPressureEstimate();
     protected abstract int dewTemperatureEstimate();
-    protected abstract int dewPressure();
+    protected abstract int dewPressureImpl();
     protected abstract int dewTemperature();
     
     

@@ -90,7 +90,7 @@ public class HeterogeneousSubstance extends Heterogeneous{
     }
     
     @Override
-    public int bubblePressure() {
+    public int bubblePressureImpl() {
 	EquilibriaFunction function = new BubblePressureFunctions();
 	return minimizePressure(function);
     }
@@ -119,8 +119,7 @@ public class HeterogeneousSubstance extends Heterogeneous{
     }
     
     @Override
-    public int dewPressure() {
-	
+    public int dewPressureImpl() {
 	EquilibriaFunction function = new DewPressureFunctions();
 	return minimizePressure(function);
     }
@@ -223,7 +222,7 @@ public class HeterogeneousSubstance extends Heterogeneous{
      
     
     private int minimizePressure(EquilibriaFunction function){
-	bubblePressureEstimate();
+	
 	double tolerance = 1e-5; 
 	double deltaP = 0.0001;
 	double e = 100;

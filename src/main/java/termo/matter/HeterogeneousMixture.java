@@ -161,31 +161,9 @@ public final class HeterogeneousMixture extends Heterogeneous{
     }
 
     @Override
-    public int bubblePressure() {
+    public int bubblePressureImpl() {
 	BubblePressureFunctions function = new BubblePressureFunctions();
-	
-	bubblePressureEstimate();
 	return minimizePressure(function, temperature,Phase.VAPOR);
-
-    //	HashMap<PureSubstance,Double> vaporFractions ;
-    //	HashMap<PureSubstance,Double> k = new HashMap() ;
-    //	double deltaP = 0.0001;
-    //	double e = 100;
-    //	
-    //	double pressure = bubblePressureEstimate(temperature);
-    //	double tolerance = 1e-4;
-    //	int count = 0;
-    //	while(Math.abs(e) > tolerance && count < 1000 ){         
-    //	    count++;
-    //	    k = equilibriumRelations(temperature, pressure);
-    //	    e = function.errorFunction(k);
-    //	    double pressure_ = pressure * (1 + deltaP); 
-    //	    double e_ = function.errorFunction(equilibriumRelations(temperature, pressure_));
-    //	    pressure =    function.newPressureFunction(pressure, pressure_, e, e_);
-    //	}  
-    //	double sy = calculateSy(k);
-    //	vaporFractions = calculateNewYFractions(k, sy);       
-    //	return new MixtureEquilibriaPhaseSolution(temperature,pressure,molarFractions, vaporFractions, count);
 
     }
     
@@ -308,11 +286,8 @@ public final class HeterogeneousMixture extends Heterogeneous{
     }
 
     @Override
-    public int dewPressure() {
-	
-	
+    public int dewPressureImpl() {
 	MixtureEquilibriaFunction function = new DewPressureFunctions();
-	 dewPressureEstimate();
 	return minimizePressure(function, temperature, Phase.LIQUID);
     }
     

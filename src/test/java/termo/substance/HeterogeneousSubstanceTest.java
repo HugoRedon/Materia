@@ -19,9 +19,9 @@ import termo.eos.alpha.AlphaFactory;
  * @author
  * Hugo
  */
-public class HeterogeneousPureSubstanceTest {
+public class HeterogeneousSubstanceTest {
     HeterogeneousSubstance substance;
-    public HeterogeneousPureSubstanceTest() {
+    public HeterogeneousSubstanceTest() {
 	
 	Component ethane = new Component("ethane");
 	ethane.setAcentricFactor(0.09781);
