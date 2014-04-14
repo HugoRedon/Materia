@@ -18,6 +18,7 @@ public class InteractionParameterTest {
     Component com1;
     Component com2;
     InteractionParameter b;
+    ActivityModelBinaryParameter ac;
     public InteractionParameterTest() {
         com1 = new Component("com1");
         com1.setCriticalTemperature(500);
@@ -27,6 +28,7 @@ public class InteractionParameterTest {
         com2.setCriticalTemperature(350);
         com2.setK_StryjekAndVera(1.2);
         b = new InteractionParameter();
+        ac = new ActivityModelBinaryParameter();
     }
 
     @Test
@@ -41,6 +43,13 @@ public class InteractionParameterTest {
         com1.setK_StryjekAndVera(5.9);
         assertEquals(expected, b.getValue(com1, com2),1e-6);
     }
-
+    
+    @Test public void testmutableActivityMOdelBinary(){
+        int expected = 3;
+        ac.getAlpha().setValue(com1, com2, expected);
+        com1.setK_StryjekAndVera(5.9);
+        assertEquals(expected, ac.getAlpha().getValue(com1, com2),1e-6);
+    }
+    
     
 }
