@@ -47,7 +47,7 @@ public class InteractionParameterTest {
         WilsonParameters wilson = new WilsonParameters();
         wilson.set_a(com1, com2, expected);
         com1.setK_StryjekAndVera(5.9);
-        assertEquals(expected, wilson.getValue(com1, com2),1e-6);
+        assertEquals(expected, wilson.get_a(com1, com2),1e-6);
     }
     
 }

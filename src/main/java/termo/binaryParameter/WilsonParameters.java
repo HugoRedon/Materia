@@ -1,7 +1,6 @@
 package termo.binaryParameter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import termo.component.Component;
 
 /**
@@ -9,24 +8,20 @@ import termo.component.Component;
  * @author Hugo Redon Rivera
  */
 public class WilsonParameters extends InteractionParameter{
-     private HashMap<ArrayList<Component>,Double> aValues = new HashMap<>();
-     private HashMap<ArrayList<Component>,Double> bValues = new HashMap<>();
+     private InteractionParameter aValues = new InteractionParameter();
+     private InteractionParameter bValues = new InteractionParameter();
      
     public double get_a(Component ci,Component cj){
-        ArrayList<Component>list = new ArrayList<>();
-        list.add(ci);
-        list.add(cj);
-        
-        return aValues.get(list);
+        return aValues.getValue(ci, cj);
     }
     public void set_a(Component ci,Component cj,double value){
-        aValues.put(toArray(ci,cj), value);
+        aValues.setValue(ci,cj, value);
     }
     public double get_b(Component ci,Component cj){  
-        return bValues.get(toArray(ci,cj));
+        return bValues.getValue(ci, cj);
     }
       public void set_b(Component ci,Component cj,double value){
-        bValues.put(toArray(ci,cj), value);
+        bValues.setValue(ci, cj, value);
     }
     
     private ArrayList<Component> toArray(Component ci,Component cj){
