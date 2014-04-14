@@ -115,7 +115,7 @@ public final class HeterogeneousMixture extends Heterogeneous{
 	double e = 100;
 	double deltaT = 1;
 
-	 bubbleTemperatureEstimate(pressure);
+	 bubbleTemperatureEstimate();
 	 
 	 double temp = temperature;
 	 
@@ -164,7 +164,7 @@ public final class HeterogeneousMixture extends Heterogeneous{
     public int bubblePressure() {
 	BubblePressureFunctions function = new BubblePressureFunctions();
 	
-	bubblePressureEstimate(temperature);
+	bubblePressureEstimate();
 	return minimizePressure(function, temperature,Phase.VAPOR);
 
     //	HashMap<PureSubstance,Double> vaporFractions ;
@@ -256,7 +256,7 @@ public final class HeterogeneousMixture extends Heterogeneous{
         double sx_;
         double e_;
         
-	 dewTemperatureEstimate(pressure);
+	 dewTemperatureEstimate();
 	 
 	 double temp = temperature;
 
@@ -312,7 +312,7 @@ public final class HeterogeneousMixture extends Heterogeneous{
 	
 	
 	MixtureEquilibriaFunction function = new DewPressureFunctions();
-	 dewPressureEstimate(temperature);
+	 dewPressureEstimate();
 	return minimizePressure(function, temperature, Phase.LIQUID);
     }
     

@@ -74,7 +74,8 @@ public class HeterogeneousPureSubstanceTest {
     public void testBubblePressureEstimate() {
 	System.out.println("getPressureEstimate");
 	double temperature =298;
-	substance.bubblePressureEstimate(temperature);
+        substance.setTemperature(temperature);
+	substance.bubblePressureEstimate();
 	
 	double result = substance.getPressure();
 	
@@ -89,8 +90,8 @@ public class HeterogeneousPureSubstanceTest {
     public void testBubbleTemperatureEstimate() {
 	System.out.println("getTemperatureEstimate");
 	double pressure =101325;
-	
-	substance.bubbleTemperatureEstimate(pressure);
+	substance.setPressure(pressure);
+	substance.bubbleTemperatureEstimate();
 	double result = substance.getTemperature();
 	double tolerance = 1e-3;
 	double expResult = 184.338452;
@@ -105,7 +106,8 @@ public class HeterogeneousPureSubstanceTest {
 	System.out.println("getPressure");
 	
 	double temperature = 298;
-	substance.bubblePressure(temperature);
+        substance.setTemperature(temperature);
+	substance.bubblePressure();
 	double result = substance.getPressure();
 	double tolerance =  1e-3;
 	double expResult =41.432724;
@@ -117,7 +119,8 @@ public class HeterogeneousPureSubstanceTest {
 	System.out.println("getTemperature");
 	
 	double pressure =101325;
-	substance.dewTemperature(pressure);	
+        substance.setPressure(pressure);
+	substance.dewTemperature();	
 	double result = substance.getTemperature();
 	double tolerance = 1e-3;
 	double expResult = 184.607519;
@@ -130,7 +133,8 @@ public class HeterogeneousPureSubstanceTest {
 	System.out.println("getTemperatureEstimate");
 	double pressure =101325;
 	
-	substance.dewTemperatureEstimate(pressure);
+        substance.setPressure(pressure);
+	substance.dewTemperatureEstimate();
 	double result = substance.getTemperature();
 	
 	double tolerance = 1e-3;
@@ -142,7 +146,8 @@ public class HeterogeneousPureSubstanceTest {
     public void testDewPressureEstimate() {
 	System.out.println("getPressureEstimate");
 	double temperature =298;
-	substance.dewPressureEstimate(temperature);
+        substance.setTemperature(temperature);
+	substance.dewPressureEstimate();
 	double result = substance.getPressure();
 	double tolerance = 1e-3;
 	double expResult = 41.57334499*101325;
@@ -154,7 +159,8 @@ public class HeterogeneousPureSubstanceTest {
 	System.out.println("getPressure");
 	
 	double temperature = 298;
-	substance.dewPressure(temperature);
+        substance.setTemperature(temperature);
+	substance.dewPressure();
 	double result = substance.getPressure();
 	double tolerance =  1e-3;
 	double expResult =41.432724;// 4.198171e6;

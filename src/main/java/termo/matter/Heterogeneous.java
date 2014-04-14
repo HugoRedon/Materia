@@ -69,22 +69,22 @@ public abstract class Heterogeneous implements PropertyChangeListener{
     
     
     
-    public final void bubblePressureEstimate(double temperature){
-	setTemperature(temperature);
-	bubblePressureEstimate();
-    }
-    public final int bubbleTemperature(double pressure){
-	setPressure(pressure);
-	return bubbleTemperature();
-    }
-    public final  int bubbleTemperatureEstimate(double pressure){
-	setPressure(pressure);
-	return bubbleTemperatureEstimate();
-    }
-    public final int bubblePressure(double temperature){
-	setTemperature(temperature);
-	return bubblePressure();
-    }
+//    public final void bubblePressureEstimate(double temperature){
+//	setTemperature(temperature);
+//	bubblePressureEstimate();
+//    }
+//    public final int bubbleTemperature(double pressure){
+//	setPressure(pressure);
+//	return bubbleTemperature();
+//    }
+//    public final  int bubbleTemperatureEstimate(double pressure){
+//	setPressure(pressure);
+//	return bubbleTemperatureEstimate();
+//    }
+//    public final int bubblePressure(double temperature){
+//	setTemperature(temperature);
+//	return bubblePressure();
+//    }
     
     protected abstract void bubblePressureEstimate();
     protected abstract int bubbleTemperatureEstimate();
@@ -94,22 +94,22 @@ public abstract class Heterogeneous implements PropertyChangeListener{
     
     
     
-    public final void  dewPressureEstimate(double temperature){
-	setTemperature(temperature);
-	dewPressureEstimate();
-    }
-    public final int dewTemperatureEstimate(double pressure){
-	setPressure(pressure);
-	return dewTemperatureEstimate();
-    }
-    public final int dewPressure(double temperature){
-	setTemperature(temperature);
-	return dewPressure();
-    }
-    public final int dewTemperature(double pressure){
-	setPressure(pressure);
-	return dewTemperature();
-    }
+//    public final void  dewPressureEstimate(double temperature){
+//	setTemperature(temperature);
+//	dewPressureEstimate();
+//    }
+//    public final int dewTemperatureEstimate(double pressure){
+//	setPressure(pressure);
+//	return dewTemperatureEstimate();
+//    }
+//    public final int dewPressure(double temperature){
+//	setTemperature(temperature);
+//	return dewPressure();
+//    }
+//    public final int dewTemperature(double pressure){
+//	setPressure(pressure);
+//	return dewTemperature();
+//    }
     
     protected abstract void dewPressureEstimate();
     protected abstract int dewTemperatureEstimate();

@@ -223,7 +223,7 @@ public class HeterogeneousSubstance extends Heterogeneous{
      
     
     private int minimizePressure(EquilibriaFunction function){
-	bubblePressureEstimate(temperature);
+	bubblePressureEstimate();
 	double tolerance = 1e-5; 
 	double deltaP = 0.0001;
 	double e = 100;
