@@ -1,6 +1,8 @@
 
 package termo.matter;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import termo.binaryParameter.InteractionParameter;
@@ -15,7 +17,7 @@ import termo.phase.Phase;
  * @author
  * Hugo
  */
-public final class HeterogeneousMixture extends Heterogeneous{
+public final class HeterogeneousMixture extends Heterogeneous {
     private Cubic equationOfState;
     private Alpha alpha;
     private MixingRule mixingRule;
@@ -32,6 +34,23 @@ public final class HeterogeneousMixture extends Heterogeneous{
         mpcs.addPropertyChangeListener(liquid);
         mpcs.addPropertyChangeListener(vapor);
     }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        super.propertyChange(evt); 
+        String name =evt.getPropertyName();
+        switch(name){
+            case "components":
+                components = (ArrayList<Component> )evt.getNewValue();
+                break;
+            case "zFractions":
+                zFractions = (HashMap<String,Double>)evt.getNewValue();
+                break;
+        }
+        
+    }
+    
+    
     
     private ArrayList<Component> components;
     

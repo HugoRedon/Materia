@@ -42,7 +42,6 @@ public final class Mixture extends Homogeneous{
             case"mixingRule":
                 
                 setMixingRule((MixingRule)evt.getNewValue());
-                System.out.println("cambio de regla de mezclado nueva es "+ mixingRule.getName());
                 break;
         }
     }
