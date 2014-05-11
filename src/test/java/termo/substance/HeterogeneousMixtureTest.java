@@ -190,4 +190,28 @@ public class HeterogeneousMixtureTest {
 //	assertEquals(expResult, result, 1e-3);
 //    }
     
+    
+    @Test
+    public void testInteractionParameterChange() {
+	System.out.println("bubbleTemperature");
+	double pressure = 101325;
+	double expResult =205.780184;//no necesario en esta prueba pero se conserva para futuras referencias
+        substance.setPressure(pressure);
+	substance.bubbleTemperature();
+        double result = substance.getTemperature();
+        
+        InteractionParameter interaction= new InteractionParameter();
+        interaction.setValue(propane, ethane, 0.5);
+        
+        
+        substance.setInteractionParameters(interaction);
+        substance.bubbleTemperature();
+        double result2 = substance.getTemperature();
+	       System.out.println("result: "+result + " ,result2: " + result2);
+        boolean equals = (Math.abs(result - result2) < 1e-6);
+        
+        boolean expected = false;
+        
+	assertEquals(expected, equals);
+    }
 }

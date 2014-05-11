@@ -2,7 +2,6 @@
 package termo.matter;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import termo.binaryParameter.InteractionParameter;
@@ -23,7 +22,9 @@ public final class HeterogeneousMixture extends Heterogeneous {
     private MixingRule mixingRule;
     
     private InteractionParameter interactionParameters;
+    
      private HashMap<String,Double> zFractions = new HashMap(); 
+     private ArrayList<Component> components;
     
     public HeterogeneousMixture(){
          liquid = new Mixture();
@@ -49,33 +50,7 @@ public final class HeterogeneousMixture extends Heterogeneous {
         }
         
     }
-    
-    
-    
-    private ArrayList<Component> components;
-    
-//    private Mixture vapor;
-//    private Mixture liquid;
-//    
    
-    
-    
-    
-   
-    
-//    public HeterogeneousMixture(
-//	    Cubic eos,
-//	    Alpha alpha,
-//	    MixingRule mixingrule, 
-//	    ArrayList<Component> components){
-//	this.equationOfState = eos;
-//	this.alpha = alpha;
-//	this.components = components;
-//	this.mixingRule = mixingrule;
-//	
-//	vapor = new Mixture(equationOfState, alpha,mixingrule, components,Phase.VAPOR);
-//	liquid = new Mixture(equationOfState,alpha,mixingrule,components,Phase.LIQUID);
-//    }
     public HeterogeneousMixture(
 	    Cubic eos,
 	    Alpha alpha,
@@ -85,13 +60,8 @@ public final class HeterogeneousMixture extends Heterogeneous {
         setEquationOfState(eos);
         setAlpha(alpha);
         setComponents(components);
-	//this.components = components;
         setMixingRule(mixingrule);
         setInteractionParameters(k);
-        
-        
-//	vapor = new Mixture(eos, alpha,components,Phase.VAPOR,mixingrule ,k);
-//	liquid = new Mixture(eos,alpha,components,Phase.LIQUID,mixingrule,k);
     }
     
     
@@ -104,7 +74,6 @@ public final class HeterogeneousMixture extends Heterogeneous {
 	double deltaT =1;      
 	double tol = 1e-4;
 
-	HashMap<Substance,Double> vaporPressures = new HashMap();
 	int iterations =0;
 	while (error >tol  && iterations < 1000){
 	    iterations++;
@@ -122,7 +91,6 @@ public final class HeterogeneousMixture extends Heterogeneous {
 	    getVapor().setFraction(component.getComponent(), yi);
 	}
 	return iterations;
-	//sreturn temperature;
     }
 
     
@@ -779,12 +747,14 @@ public final class HeterogeneousMixture extends Heterogeneous {
     public InteractionParameter getInteractionParameters() {
         return interactionParameters;
     }
-
+   
     /**
      * @param interactionParameters the interactionParameters to set
      */
-    public void setInteractionParameters(InteractionParameter interactionParameters) {
+  public void setInteractionParameters(InteractionParameter interactionParameters) {
+        InteractionParameter oldInteractionParameters = this.interactionParameters;
         this.interactionParameters = interactionParameters;
+        mpcs.firePropertyChange("interactionParameters", oldInteractionParameters, interactionParameters);
     }
 
  

@@ -40,8 +40,10 @@ public final class Mixture extends Homogeneous{
                 break;
           
             case"mixingRule":
-                
                 setMixingRule((MixingRule)evt.getNewValue());
+                break;
+            case"interactionParameters":
+                setBinaryParameters((InteractionParameter)evt.getNewValue());
                 break;
         }
     }
@@ -239,14 +241,16 @@ public final class Mixture extends Homogeneous{
 //	return null;
 //    }
 
-    /**
-     * @param binaryParameters the binaryParameters to set
-     */
-    public void setBinaryParameters(InteractionParameter binaryParameters) {
-	this.binaryParameters = binaryParameters;
-    }
 
-    
+
+    /**
+     * @param interactionParameters the interactionParameters to set
+     */
+    public void setBinaryParameters(InteractionParameter interactionParameters) {
+        InteractionParameter oldInteractionParameters = this.binaryParameters;
+        this.binaryParameters = interactionParameters;
+        mpcs.firePropertyChange("interactionParameters", oldInteractionParameters, interactionParameters);
+    }
 
     private void setFraction(Substance component, double i) {
         component.setMolarFraction(i);

@@ -45,10 +45,8 @@ public class InteractionParameter {
     
     public void setValue(Component component1,Component component2,double value){
         
-       String key = keyFor(component1, component2);
-        
-        //What the fuck!!!
-         param.put(key, value);
+        String key = keyFor(component1, component2);
+        param.put(key, value);
          
 //         this.symmetric = isSymmetric;
 	  
