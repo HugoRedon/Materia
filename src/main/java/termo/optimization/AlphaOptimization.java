@@ -15,8 +15,7 @@ import termo.matter.HeterogeneousSubstance;
  * @author Hugo
  */
 public class AlphaOptimization {
-    HeterogeneousSubstance substance;
-    //double[][] experimental ;
+    private HeterogeneousSubstance substance;
     private ArrayList<ExperimentalData> experimental = new ArrayList();
     private double numericalDerivativeDelta = 0.0001;
     
@@ -93,23 +92,6 @@ public class AlphaOptimization {
         
         
         solveVapoPressureRegression(initialValues);
-        
-//        if(numberOfParameters == 1){
-//            solveVapoPressureRegression(
-//                    substance.getVapor().getAlpha().getAlphaParameterA(substance.getVapor().getComponent())
-//            );
-//        }else if(numberOfParameters == 2){
-//            solveVapoPressureRegression(
-//                    substance.getVapor().getAlpha().getAlphaParameterA(substance.getVapor().getComponent()),
-//                    substance.getVapor().getAlpha().getAlphaParameterB(substance.getVapor().getComponent())
-//            );
-//        }else if(numberOfParameters == 3){
-//            solveVapoPressureRegression(
-//                    substance.getVapor().getAlpha().getAlphaParameterA(substance.getVapor().getComponent()),
-//                    substance.getVapor().getAlpha().getAlphaParameterB(substance.getVapor().getComponent()), 
-//                    substance.getVapor().getAlpha().getAlphaParameterC(substance.getVapor().getComponent())
-//            );
-//        }
     }
     
     
@@ -120,20 +102,6 @@ public class AlphaOptimization {
     
     
     
-    
-    //newton raphson de una variable
-//    public double vaporPressureError( double paramValue) {
-//        substance.getAlpha().setAlphaParameterA(paramValue,substance.getComponent());
-//       // substance.getComponent().setK_StryjekAndVera(paramValue);// generalizar para mathias
-//        double error =0;
-//        for (ExperimentalData pair: experimental){
-//            substance.dewPressure(pair.getTemperature());
-//            double expP = pair.getPressure();
-//            
-//            error += Math.pow((substance.getPressure() - expP)/expP,2);
-//        }   
-//        return error;
-//    }
     public double derivativeVaporPressureError( double value){
         
         double error = AlphaOptimization.this.vaporPressureError( value);
@@ -156,30 +124,7 @@ public class AlphaOptimization {
         
         return before -derivativeVaporPressureError( before)/secondDerivativeVaporPressureError( before);
     }
-//    public double solveVapoPressureRegression (double firstEstimate){
-//        
-//        double beforeError;
-//        double error;
-//        double q =firstEstimate;
-//        
-//        double criteria =50;
-//        while(Math.abs(criteria) > 1e-4){
-//            
-//            beforeError = AlphaOptimization.this.vaporPressureError( q);
-//            q = nextValue(q );
-//            
-//            error = AlphaOptimization.this.vaporPressureError( q);
-//            
-//            criteria = error-beforeError;
-//        }
-//        return q;
-//    }
-    
-    
-    
-    
-    
-    //Newton raphson multivariable (hasta 3 variables)
+
     
    public double vaporPressureError(){
         errorForEachExperimentalData.clear();
@@ -234,24 +179,9 @@ public class AlphaOptimization {
         if(numberOfVariablesToOptimize >=3){
            alpha.setAlphaParameterC(params[2],component);
         }
-        
-        
-        
-        
-//        if(params.length >= 1 && !fixParameterA){
-//            substance.getVapor().getAlpha().setAlphaParameterA(params[0], substance.getVapor().getComponent());
-//        } if(params.length >=2 && !fixParameterB){
-//            substance.getVapor().getAlpha().setAlphaParameterB(params[1], substance.getVapor().getComponent());
-//        }if(params.length >=3 && !fixParameterC){
-//            substance.getVapor().getAlpha().setAlphaParameterC(params[2], substance.getVapor().getComponent());
-//        }
        return vaporPressureError();
     }
-//    public double derivative_A( double A, double B, double C){
-//        double error = vaporPressureError( A,B,C);
-//        double error_ = vaporPressureError( A+numericalDerivativeDelta,B,C);
-//        return (error_- error)/pass;
-//    }
+
     public double derivative_A(double... args){
         double error = vaporPressureError(args);
         args = applyDeltaOnA(args);
@@ -267,13 +197,7 @@ public class AlphaOptimization {
         args[1] = args[1] + numericalDerivativeDelta;
         return args;
     }
-   
-//    
-//    public double derivative_B( double A, double B, double C){
-//        double error = vaporPressureError( A,B,C);
-//        double error_ = vaporPressureError( A,B+numericalDerivativeDelta,C);
-//        return (error_- error)/pass;
-//    }
+
     
     public double derivative_B(double... args){
         double error = vaporPressureError(args);
@@ -281,28 +205,14 @@ public class AlphaOptimization {
         double error_ = vaporPressureError(args);
         return(error_ - error)/numericalDerivativeDelta;
     }
-    
-//    public double derivative_C(double A, double B, double C){
-//        double error = vaporPressureError( A,B,C);
-//        double error_ = vaporPressureError( A,B,C+ numericalDerivativeDelta);
-//        return (error_- error)/pass;
-//    }
+
     public double derivative_C(double... args){
         double error = vaporPressureError(args);
         double error_ = vaporPressureError(args[0] , args[1],args[2]+ numericalDerivativeDelta);
         return(error_ - error)/numericalDerivativeDelta;
     }
     
-    
-//    
-//    public double[] gradient(double A, double B, double C){
-//        double[] gradient ={
-//            derivative_A(A, B, C),
-//            derivative_B(A, B, C),
-//            derivative_C(A, B, C)
-//        };
-//        return gradient;
-//    }
+
     public double[] gradient(double... args){
         double[] gradient = new double[args.length];
         if(args.length >=1){
@@ -385,19 +295,9 @@ public class AlphaOptimization {
         
         return (deriv_ - deriv)/numericalDerivativeDelta;
     }
-       
-//    public double[][] hessian(double A, double B, double C){
-//        double[][] hess = {
-//            {doubleDerivAA(A, B, C),doubleDerivAB(A, B, C),doubleDerivAC(A, B, C)},
-//            {doubleDerivBA(A, B, C),doubleDerivBB(A, B, C),doubleDerivBC(A, B, C)},
-//            {doubleDerivCA(A, B, C),doubleDerivCB(A, B, C),doubleDerivCC(A, B, C)}
-//        };
-//        return hess;
-//    }
+
     
     public double[][] hessian(double... args){
-        
-        
         if(args.length==1){
             double[][] result =  {{doubleDerivAA(args)}};
             return result;
@@ -419,15 +319,7 @@ public class AlphaOptimization {
         return null;
     }
     
-    
-//    public double[] nextValueMathias(double A, double B, double C){
-//        Matrix3x3 hessian = new Matrix3x3(hessian(A,B,C));
-//        Matrix3x3 hessianInverse = new Matrix3x3(hessian.inverse());
-//        double[] gradient = gradient(A, B, C);
-//        return hessianInverse.matrixVectorMultiplication(gradient);
-//        
-//    }
-    
+
     public double[] nextValue(double... args){
         if(args.length ==1){
             double[] result = {args[0] -derivative_A(args)/doubleDerivAA(args)};
@@ -477,13 +369,7 @@ public class AlphaOptimization {
             
             args = nextValue(args );
             args = applyDamping(before, args);
-//            if(args.length >=1){
-//                args[0] = args[0]- x[0];
-//            }if(args.length >=2){
-//                args[1] = args[1]-x[1];
-//            }if(args.length >=3){
-//                args[2] = args[2] -x[2];
-//            }
+
             error = vaporPressureError(args);
             
             criteria = error-beforeError;

@@ -1,0 +1,74 @@
+
+package termo.optimization;
+
+import java.util.ArrayList;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import termo.binaryParameter.InteractionParameter;
+import termo.component.Component;
+import termo.componentsForTests.ComponentsForTests;
+import termo.data.ExperimentalDataBinary;
+import termo.eos.Cubic;
+import termo.eos.EquationOfStateFactory;
+import termo.eos.alpha.Alpha;
+import termo.eos.alpha.AlphaFactory;
+import termo.eos.mixingRule.MixingRule;
+import termo.eos.mixingRule.VDWMixingRule;
+import termo.matter.HeterogeneousMixture;
+
+/**
+ *
+ * @author Hugo
+ */
+public class InteractionParameterOptimizerTest {
+    Component water;
+    Component methanol;
+    HeterogeneousMixture mixture; 
+    public InteractionParameterOptimizerTest() {
+        water = ComponentsForTests.getWater();
+        methanol = ComponentsForTests.getMethanol();
+
+        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
+        ArrayList<Component> components = new ArrayList<>();
+        components.add(water);
+        components.add(methanol);
+        MixingRule mr = new VDWMixingRule();
+        
+        InteractionParameter parameters = new InteractionParameter(true);
+        
+        
+        
+        mixture = new HeterogeneousMixture(eos, alpha, mr, components, parameters);
+        
+      
+    }
+
+    @Test
+    public void testSolve() {
+         ArrayList<ExperimentalDataBinary> experimental = new ArrayList<>();
+        
+        double pressure = 0.14991*101325;
+       
+
+        experimental.add(new ExperimentalDataBinary( methanol, water, 327.4, pressure, 0, 0));
+        experimental.add(new ExperimentalDataBinary( methanol, water,318.05, pressure, 0.1, 0.433386));
+        experimental.add(new ExperimentalDataBinary( methanol, water,312.4, pressure, 0.2, 0.62119));
+        experimental.add(new ExperimentalDataBinary( methanol, water,308.55, pressure, 0.3, 0.725289));
+        experimental.add(new ExperimentalDataBinary( methanol, water,305.7, pressure, 0.4, 0.79242));     
+        experimental.add(new ExperimentalDataBinary( methanol, water,303.5, pressure, 0.5, 0.840656));
+        experimental.add(new ExperimentalDataBinary( methanol, water,301.7, pressure, 0.6, 0.87857));
+        experimental.add(new ExperimentalDataBinary( methanol, water,300.1, pressure, 0.7, 0.910835));
+        experimental.add(new ExperimentalDataBinary( methanol, water,298.7, pressure, 0.8, 0.940365));
+        experimental.add(new ExperimentalDataBinary( methanol, water,297.4, pressure, 0.9, 0.969404));
+        experimental.add(new ExperimentalDataBinary( methanol, water,296.1, pressure, 1, 1));
+        mixture.getOptimizer().optimizeTo(experimental);
+        double result = mixture.getInteractionParameters().getValue(methanol, water);
+        
+        double expected = -0.050392324220228706;
+        assertEquals(expected,result,1e-4);
+          
+    }
+    
+    
+}

@@ -10,6 +10,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
+import termo.componentsForTests.ComponentsForTests;
 import termo.eos.Cubic;
 import termo.eos.EquationOfStateFactory;
 import termo.eos.alpha.Alpha;
@@ -213,5 +214,57 @@ public class HeterogeneousMixtureTest {
         boolean expected = false;
         
 	assertEquals(expected, equals);
+    }
+    
+//    @Test public void noEstimateTest(){
+//         Component water = ComponentsForTests.getWater();
+//        Component methanol = ComponentsForTests.getMethanol();
+//
+//        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+//        Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
+//        ArrayList<Component> components = new ArrayList<>();
+//        components.add(water);
+//        components.add(methanol);
+//        MixingRule mr = new VDWMixingRule();
+//        
+//        InteractionParameter parameters = new InteractionParameter(true);
+//        HeterogeneousMixture mixture = new HeterogeneousMixture(eos, alpha, mr, components, parameters);
+//        
+//        double pressure = 0.14991 * 101325;
+//        mixture.setPressure(pressure);
+//        mixture.setZFraction( methanol,0.1);
+//        mixture.setZFraction(water, 0.9);
+//        
+//        mixture.bubbleTemperature();
+//        double result = mixture.getTemperature();
+//        
+//        assertEquals(true,Double.isNaN(result));
+//        
+//    }
+    
+    @Test public void estimateDefined(){
+            Component water = ComponentsForTests.getWater();
+        Component methanol = ComponentsForTests.getMethanol();
+
+        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
+        ArrayList<Component> components = new ArrayList<>();
+        components.add(water);
+        components.add(methanol);
+        MixingRule mr = new VDWMixingRule();
+        
+        InteractionParameter parameters = new InteractionParameter(true);
+        HeterogeneousMixture mixture = new HeterogeneousMixture(eos, alpha, mr, components, parameters);
+        
+        double pressure = 0.14991*101325;
+        mixture.setPressure(pressure);
+        mixture.setZFraction( methanol,0.1);
+        mixture.setZFraction(water, 0.9);
+        
+        mixture.bubbleTemperature(189);
+        Double result = mixture.getTemperature();
+        
+        assertEquals(false,Double.isNaN(result));
+        
     }
 }

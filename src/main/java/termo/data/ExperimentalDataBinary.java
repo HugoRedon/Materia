@@ -10,7 +10,7 @@ import termo.component.Component;
  */
 public class ExperimentalDataBinary{
         
-            private int index;
+            
             private double liquidFraction;
             private double vaporFraction;
             private double temperature;
@@ -22,8 +22,8 @@ public class ExperimentalDataBinary{
     public ExperimentalDataBinary() {
     }
 
-            public ExperimentalDataBinary(int index,Component referenceComponent,Component nonReferenceComponent,double temperature, double pressure, double liquidFraction, double vaporFraction){
-                this.index = index;
+            public ExperimentalDataBinary(Component referenceComponent,Component nonReferenceComponent,double temperature, double pressure, double liquidFraction, double vaporFraction){
+                
                 this.referenceComponent = referenceComponent;
                 this.nonReferenceComponent = nonReferenceComponent;
                 this.liquidFraction = (liquidFraction);
@@ -53,12 +53,6 @@ public class ExperimentalDataBinary{
                 return components;
             }
 
-            public int getIndex(){
-                return index;
-            }
-            public void setIndex(int index){
-                this.index = index;
-            }
 
             public void setLiquidFraction(double liquidFraction){
                 this.liquidFraction =  (liquidFraction);
@@ -82,7 +76,7 @@ public class ExperimentalDataBinary{
             }
 
             public void setTemperature(double temperature){
-                this.setTemperature(temperature);
+                this.temperature =temperature;
 
             }
             public double getTemperature(){

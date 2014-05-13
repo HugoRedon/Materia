@@ -9,6 +9,7 @@ import termo.component.Component;
 import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
 import termo.eos.mixingRule.MixingRule;
+import termo.optimization.InteractionParameterOptimizer;
 import termo.phase.Phase;
 
 /**
@@ -25,6 +26,8 @@ public final class HeterogeneousMixture extends Heterogeneous {
     
      private HashMap<String,Double> zFractions = new HashMap(); 
      private ArrayList<Component> components;
+     
+     private InteractionParameterOptimizer optimizer = new InteractionParameterOptimizer(this);
     
     public HeterogeneousMixture(){
          liquid = new Mixture();
@@ -93,17 +96,21 @@ public final class HeterogeneousMixture extends Heterogeneous {
 	return iterations;
     }
 
-    
     @Override
-    public int bubbleTemperature() {
+    public int bubbleTemperature(){
+        bubbleTemperatureEstimate();
+        return bubbleTemperature(temperature);
+    }
+    
+    public int bubbleTemperature(double estimate) {
 
 	 HashMap<Component,Double> K;
 	double e = 100;
 	double deltaT = 1;
 
-	 bubbleTemperatureEstimate();
 	 
-	 double temp = temperature;
+	 
+	 double temp = estimate;
 	 
 	double tolerance = 1e-4;
 	int count = 0;
@@ -876,6 +883,13 @@ public final class HeterogeneousMixture extends Heterogeneous {
         
         return s;
     }
-    
+
+    public InteractionParameterOptimizer getOptimizer() {
+        return optimizer;
+    }
+
+    public void setOptimizer(InteractionParameterOptimizer optimizer) {
+        this.optimizer = optimizer;
+    }
  
 }
