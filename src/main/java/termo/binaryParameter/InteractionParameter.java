@@ -57,18 +57,18 @@ public class InteractionParameter {
         }
     }
 
-//    /**
-//     * @return the symmetric
-//     */
-//    public boolean isSymmetric() {
-//        return symmetric;
-//    }
-//
-//    /**
-//     * @param symmetric the symmetric to set
-//     */
-//    public void setSymmetric(boolean symmetric) {
-//        this.symmetric = symmetric;
-//    }
+    /**
+     * @return the symmetric
+     */
+    public boolean isSymmetric() {
+        return symmetric;
+    }
+
+    /**
+     * @param symmetric the symmetric to set
+     */
+    public void setSymmetric(boolean symmetric) {
+        this.symmetric = symmetric;
+    }
 
 }

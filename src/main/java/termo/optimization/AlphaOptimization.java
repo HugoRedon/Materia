@@ -15,6 +15,7 @@ import termo.matter.HeterogeneousSubstance;
  * @author Hugo
  */
 public class AlphaOptimization {
+    //fields
     private HeterogeneousSubstance substance;
     private ArrayList<ExperimentalData> experimental = new ArrayList();
     private double numericalDerivativeDelta = 0.0001;
@@ -22,19 +23,9 @@ public class AlphaOptimization {
     private boolean fixParameterA;
     private boolean fixParameterB;
     private boolean fixParameterC;
-    
-    public int fixedVariables(){
-        int result = 0;
-        if(fixParameterA){
-            result++;
-        }if(fixParameterB){
-            result++;
-        }if(fixParameterC){
-            result++;
-        }
-        return result;
-    }
-    
+    //end fields
+ 
+    //constructores
     public AlphaOptimization(HeterogeneousSubstance substance){
         this.substance = substance;
     }
@@ -47,25 +38,34 @@ public class AlphaOptimization {
        this(substance, experimental);
        this.numericalDerivativeDelta = pass;
     }
+    //end constructors
     
+    public int fixedVariablesCount(){
+        int result = 0;
+        if(fixParameterA){
+            result++;
+        }if(fixParameterB){
+            result++;
+        }if(fixParameterC){
+            result++;
+        }
+        return result;
+    }
     
-    
-    
-    public void solve(){
-        int numberOfParameters = substance.getVapor().getAlpha().numberOfParameters();
-        Component component = substance.getVapor().getComponent();
+    public int numberOfVariablesToOptimize(){
         Alpha alpha = substance.getVapor().getAlpha();
         
-        int fixedParameters = fixedVariables();
+        int numberOfParameters = alpha.numberOfParameters();
+        int fixedParameters = fixedVariablesCount();
         
-        int numberOfVariablesToOptimize = numberOfParameters- fixedParameters;
-        if(numberOfVariablesToOptimize == 0){
-            return;
-        }
+        return numberOfParameters- fixedParameters;
+    }
+
+    public double[] initialValues(int numberOfVariablesToOptimize){
+        Alpha alpha = substance.getVapor().getAlpha();
         double[] initialValues = new double[numberOfVariablesToOptimize];
-        
-   
-        
+
+        Component component = substance.getVapor().getComponent();
         if(numberOfVariablesToOptimize >=1){
             if(!fixParameterA){
                 initialValues[0] = alpha.getAlphaParameterA(component);
@@ -89,11 +89,56 @@ public class AlphaOptimization {
            initialValues[2] = alpha.getAlphaParameterC(component);
         }
         
-        
-        
+        return initialValues;
+    }
+    
+    public void solve(){
+        int numberOfVariablesToOptimize = numberOfVariablesToOptimize();
+        if(numberOfVariablesToOptimize == 0){
+            return;
+        }
+        double[] initialValues =initialValues(numberOfVariablesToOptimize);
         solveVapoPressureRegression(initialValues);
     }
     
+    public double[] solveVapoPressureRegression (double...args){
+        convergenceHistory.clear();
+        double beforeError;
+        double error;
+        
+        double criteria =50;
+        
+        iterations = 0;
+        
+        while(Math.abs(criteria) > tolerance && iterations < 10000){
+            
+            beforeError = vaporPressureError( args);
+            double[] before = args;
+            
+            Parameters_Error pe = new Parameters_Error(before, beforeError,iterations);
+            convergenceHistory.add(pe);
+            iterations++;
+            
+            args = nextValue(args );
+            args = applyDamping(before, args);
+
+            error = vaporPressureError(args);
+            
+            criteria = error-beforeError;
+        }
+        if(args.length ==1){
+            double[] result = {args[0]};
+            return result;
+        }else if(args.length ==2){
+            double[] result = {args[0],args[1]};
+            return result;
+        }else if(args.length ==3){
+            double[] result = {args[0],args[1],args[2]};
+            return result;
+        }
+        
+        return null;
+    }
     
     
     
@@ -150,13 +195,12 @@ public class AlphaOptimization {
     
     public double vaporPressureError(double... params){
         
-         int numberOfParameters = substance.getVapor().getAlpha().numberOfParameters();
+        
         Component component = substance.getVapor().getComponent();
         Alpha alpha = substance.getVapor().getAlpha();
+        int numberOfVariablesToOptimize = numberOfVariablesToOptimize();
         
-        int fixedParameters = fixedVariables();
         
-        int numberOfVariablesToOptimize = numberOfParameters- fixedParameters;
         if(numberOfVariablesToOptimize >=1){
             if(!fixParameterA){
                 alpha.setAlphaParameterA(params[0],component);
@@ -182,6 +226,12 @@ public class AlphaOptimization {
        return vaporPressureError();
     }
 
+    
+    
+    
+    
+    
+    
     public double derivative_A(double... args){
         double error = vaporPressureError(args);
         args = applyDeltaOnA(args);
@@ -349,44 +399,7 @@ public class AlphaOptimization {
     
     private ArrayList<Parameters_Error> convergenceHistory = new ArrayList();
     
-    public double[] solveVapoPressureRegression (double...args){
-        convergenceHistory.clear();
-        double beforeError;
-        double error;
-        
-        double criteria =50;
-        
-        iterations = 0;
-        
-        while(Math.abs(criteria) > tolerance && iterations < 10000){
-            
-            beforeError = vaporPressureError( args);
-            double[] before = args;
-            
-            Parameters_Error pe = new Parameters_Error(before, beforeError,iterations);
-            convergenceHistory.add(pe);
-            iterations++;
-            
-            args = nextValue(args );
-            args = applyDamping(before, args);
-
-            error = vaporPressureError(args);
-            
-            criteria = error-beforeError;
-        }
-        if(args.length ==1){
-            double[] result = {args[0]};
-            return result;
-        }else if(args.length ==2){
-            double[] result = {args[0],args[1]};
-            return result;
-        }else if(args.length ==3){
-            double[] result = {args[0],args[1],args[2]};
-            return result;
-        }
-        
-        return null;
-    }
+    
     private double damp = 1;
     public double[] applyDamping(double[] before, double[]newValues ){
         double[] result = new double[before.length];

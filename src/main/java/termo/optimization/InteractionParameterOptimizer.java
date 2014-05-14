@@ -2,9 +2,12 @@
 package termo.optimization;
 
 import java.util.ArrayList;
+import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.data.ExperimentalDataBinary;
 import termo.eos.Cubic;
+import termo.matrix.Matrix2x2;
+import termo.matrix.Matrix3x3;
 import termo.matter.HeterogeneousMixture;
 
 /**
@@ -41,64 +44,246 @@ public class InteractionParameterOptimizer {
        // this.mixture.getInteractionParameters().setValue(comp1,comp2, -0.0765771);
     }
      
+    
+    
+   
+    
+    
+    
+    
+    
 
     private void bubbleTemperatureOptimization() {
-        
-        double objectiveFunction = 1000;
+        if(mixture.getInteractionParameters().isSymmetric()){
+            oneVariableOptimization();
+        }else if(!mixture.getInteractionParameters().isSymmetric()){
+            twoVariableOptimization();
+        }
+       
+    }
+    private void oneVariableOptimization(){
+         double objectiveFunction = 1000;
         double iterations =0;
         
         while(objectiveFunction > optimizationTolerance && iterations < 1000){
             iterations++;
-            double d1 = firstDerivative();
-            double d2 = secondDerivative();
-            
+            double d1 = derivative_A();
+            double d2 = doubleDerivAA();
             double oldValue = mixture.getInteractionParameters().getValue(referenceComponent, nonReferenceComponent);
-            
             double newValue = oldValue  - d1 / d2;
-            
             mixture.getInteractionParameters().setValue(referenceComponent, nonReferenceComponent, newValue);
             objectiveFunction = d1;
             
         }
-     
-        
-        
     }
-    
-    private double secondDerivative(){
+    private void twoVariableOptimization(){
+        double objectiveFunction = 1000;
+        double iterations = 0;
+        
+        double beforeError =0;
+        double error = 0;
+        
+        while(Math.abs(objectiveFunction) > optimizationTolerance && iterations < 1000){
+            iterations++;
             
-        double k1 = mixture.getInteractionParameters().getValue(referenceComponent, nonReferenceComponent);
+            beforeError = calculateTempError();
+            InteractionParameter params = mixture.getInteractionParameters();
+            double k12 = params.getValue(referenceComponent, nonReferenceComponent);
+            double k21 = params.getValue(nonReferenceComponent, referenceComponent);
+            
+            double[] before = {k12,k21};
+            
+            double[] newValues = nextValue(before);
+            
+            setNewValues(newValues);
+            error = calculateTempError();
+            objectiveFunction = error- beforeError;
+            
+        }
         
-        double m1 = firstDerivative();
-        
-        double k2 = k1 + deltaK;
+   
         
         
-        mixture.getInteractionParameters().setValue(referenceComponent, nonReferenceComponent, k2);
+    }
+    public void setNewValues(double... newValues){
+        setK12(newValues[0]);
+        setK21(newValues[1]);
         
-        
-        double m2 = firstDerivative();
-        
-        
-        mixture.getInteractionParameters().setValue(referenceComponent, nonReferenceComponent, k1);
-        
-        return (m2 - m1) / deltaK;
     }
     
-    private double firstDerivative(){
-  
-        double k1 = mixture.getInteractionParameters().getValue(referenceComponent, nonReferenceComponent);
-        double error1 = calculateTempError();
-        
-        double k2 = k1 + deltaK;
-        
-        mixture.getInteractionParameters().setValue(referenceComponent, nonReferenceComponent, k2);
-        double error2 = calculateTempError();
-        
-        mixture.getInteractionParameters().setValue(referenceComponent, nonReferenceComponent, k1);//regresando original 
-        return (error2 - error1) / deltaK;
-        
+    
+    public double[] nextValue(double... args){
+        Matrix2x2 hessian = new Matrix2x2(hessian());
+        Matrix2x2 hessianInverse = new Matrix2x2(hessian.inverse());
+        double[] gradient = gradient();
+        double []del = hessianInverse.matrixVectorMultiplication(gradient);
+
+        double[] result = {args[0]- del[0], args[1]- del[1]};
+        return result;
     }
+   
+    
+     public double[][] hessian(){
+        double[][] result = {
+            {doubleDerivAA(),doubleDerivAB()},
+            {doubleDerivBA(),doubleDerivBB()}
+        };
+        return result;
+     }
+     
+  
+    private double getK12(){
+        return mixture.getInteractionParameters().getValue(referenceComponent, nonReferenceComponent);
+    }
+    private void setK12(double value){
+        mixture.getInteractionParameters().setValue(referenceComponent, nonReferenceComponent, value);
+    }
+    
+    private double getK21 (){
+        return mixture.getInteractionParameters().getValue(nonReferenceComponent, referenceComponent);
+    }
+    private void setK21(double value){
+        mixture.getInteractionParameters().setValue(nonReferenceComponent, referenceComponent, value);
+    }
+    
+     
+    private double doubleDerivAA(){
+       
+        double m = derivative_A();
+        
+        
+        applyDeltaOnA();
+        double m_ = derivative_A();
+        
+        return (m_ - m) / deltaK;
+    }
+       
+   
+    
+    private double derivative_A(){
+        
+        double error = calculateTempError();
+        applyDeltaOnA();
+        double error_ = calculateTempError();
+        
+        return (error_ - error) / deltaK;
+    }
+    
+    private double derivative_B(){
+        
+        double errror = calculateTempError();
+        applyDeltaOnB();
+        double error_ = calculateTempError();
+        
+        return (error_ - errror) / deltaK;
+    }
+    
+     private double doubleDerivBB(){
+        double m = derivative_B();
+        applyDeltaOnB();
+        double m_ = derivative_B();
+        
+        return (m_ - m) / deltaK;
+    }
+     
+     
+    public double doubleDerivAB(){        
+        double deriv = derivative_B();
+        applyDeltaOnA();
+        double deriv_ = derivative_B();
+        return (deriv_-deriv)/deltaK;
+    }
+    
+    public double doubleDerivBA(){        
+        double deriv = derivative_A();
+        applyDeltaOnB();
+        double deriv_ = derivative_A();
+        return (deriv_-deriv)/deltaK;
+    }
+    
+    public void applyDeltaOnA(){
+         double k = getK12();
+         double k_ = k + deltaK;
+        setK12( k_);
+    }
+    
+    public void applyDeltaOnB(){
+         double k = getK21();
+         double k_ = k + deltaK;
+        setK21( k_);
+    }
+    
+     public double[] gradient(){
+        double[] gradient = {derivative_A(),derivative_B()};
+        return gradient;
+     }
+//    public double[] gradient(double... args){
+//        double[] gradient = new double[args.length];
+//        if(args.length >=1){
+//            gradient[0] = derivative_A(args);
+//        }if(args.length >=2){
+//            gradient[1] = derivative_B(args);
+//        }if(args.length >=3){
+//            gradient[2] = derivative_C(args);
+//        }
+//        
+//        return gradient;
+//    }
+    
+    
+//    public double[] nextValue(double... args){
+//        if(args.length ==1){
+//            double[] result = {args[0] -derivative_A(args)/doubleDerivAA(args)};
+//            return result;
+//        }else if(args.length ==2){
+//            Matrix2x2 hessian = new Matrix2x2(hessian(args));
+//            Matrix2x2 hessianInverse = new Matrix2x2(hessian.inverse());
+//            double[] gradient = gradient(args);
+//            double []del = hessianInverse.matrixVectorMultiplication(gradient);
+//
+//            double[] result = {args[0]- del[0], args[1]- del[1]};
+//            return result;
+//        }else if(args.length ==3){
+//            Matrix3x3 hessian = new Matrix3x3(hessian(args));
+//            Matrix3x3 hessianInverse = new Matrix3x3(hessian.inverse());
+//            double[] gradient = gradient(args);
+//            double[] del= hessianInverse.matrixVectorMultiplication(gradient);
+//            
+//            double[] result = {args[0]- del[0], args[1]- del[1], args[2]-del[2]};
+//            return result;
+//        }
+//        return null;
+//    }
+    
+    
+//     public double[][] hessian(double... args){
+//        if(args.length==1){
+//            double[][] result =  {{doubleDerivAA(args)}};
+//            return result;
+//        }else if(args.length==2){
+//            double[][] result = {
+//                {doubleDerivAA(args),doubleDerivAB(args)},
+//                {doubleDerivBA(args),doubleDerivBB(args)}
+//            };
+//            return result;
+//        
+//        }else if(args.length==3){
+//            double[][] result = {
+//                {doubleDerivAA(args),doubleDerivAB(args),doubleDerivAC(args)},
+//                {doubleDerivBA(args),doubleDerivBB(args),doubleDerivBC(args)},
+//                {doubleDerivCA(args),doubleDerivCB(args),doubleDerivCC(args)}
+//            };
+//            return result;
+//        }
+//        return null;
+//    }
+    
+    
+    
+    
+ 
+    
+ 
     
     private double calculateTempError(){
  
