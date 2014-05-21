@@ -109,20 +109,26 @@ public class AlphaOptimization {
         double criteria =50;
         
         iterations = 0;
+        convergenceHistory.add(new Parameters_Error(args, vaporPressureError(), iterations));
         
         while(Math.abs(criteria) > tolerance && iterations < 10000){
             
             beforeError = vaporPressureError( args);
             double[] before = args;
             
-            Parameters_Error pe = new Parameters_Error(before, beforeError,iterations);
-            convergenceHistory.add(pe);
+            
+            
+            
             iterations++;
             
             args = nextValue(args );
             args = applyDamping(before, args);
 
             error = vaporPressureError(args);
+            
+            Parameters_Error pe = new Parameters_Error(args, error,iterations);
+            convergenceHistory.add(pe);
+            
             
             criteria = error-beforeError;
         }
@@ -171,6 +177,7 @@ public class AlphaOptimization {
     }
 
     
+    
    public double vaporPressureError(){
         errorForEachExperimentalData.clear();
         double error =0;
@@ -180,9 +187,10 @@ public class AlphaOptimization {
             substance.dewPressure();
             double expP = pair.getPressure();
             double calcP = substance.getPressure();
-            double squareError = Math.pow((calcP - expP)/expP,2);
+            double relativeError = (calcP - expP)/expP;
+            double squareError = Math.pow(relativeError,2);
             error += squareError;
-            errorForEachExperimentalData.add(new ErrorData(expP, calcP, squareError,temperature));
+            errorForEachExperimentalData.add(new ErrorData(expP, calcP, relativeError,temperature));
         }   
         totalError = error;
         return error;   
