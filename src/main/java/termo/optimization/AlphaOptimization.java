@@ -111,7 +111,7 @@ public class AlphaOptimization {
         iterations = 0;
         convergenceHistory.add(new Parameters_Error(args, vaporPressureError(), iterations));
         
-        while(Math.abs(criteria) > tolerance && iterations < 10000){
+        while(Math.abs(criteria) > tolerance && iterations < 1000){
             
             beforeError = vaporPressureError( args);
             double[] before = args;
