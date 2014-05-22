@@ -122,6 +122,19 @@ public class AlphaOptimization {
             iterations++;
             
             args = nextValue(args );
+            
+            //check if isNaN
+            
+            for(int i =0; i<args.length;i++){
+                if(Double.isNaN(args[i]) | Double.isInfinite(args[i])){
+                    System.out.println("El valor del parametro " + i + " se indetermina en la iteración " + iterations);
+                    System.out.println("El valor que provoca la indeterminación es " + before[i]);
+                    
+                    return before;
+                }
+            }
+            
+            
             args = applyDamping(before, args);
 
             error = vaporPressureError(args);
@@ -132,18 +145,18 @@ public class AlphaOptimization {
             
             criteria = error-beforeError;
         }
-        if(args.length ==1){
-            double[] result = {args[0]};
-            return result;
-        }else if(args.length ==2){
-            double[] result = {args[0],args[1]};
-            return result;
-        }else if(args.length ==3){
-            double[] result = {args[0],args[1],args[2]};
-            return result;
-        }
-        
-        return null;
+//        if(args.length ==1){
+//            double[] result = {args[0]};
+//            return result;
+//        }else if(args.length ==2){
+//            double[] result = {args[0],args[1]};
+//            return result;
+//        }else if(args.length ==3){
+//            double[] result = {args[0],args[1],args[2]};
+//            return result;
+//        }
+        return args;
+     
     }
     
     
@@ -199,11 +212,7 @@ public class AlphaOptimization {
    private ArrayList<ErrorData> errorForEachExperimentalData = new ArrayList();
    
 
-   
-    
-    public double vaporPressureError(double... params){
-        
-        
+   public void setParametersValues(double... params){
         Component component = substance.getVapor().getComponent();
         Alpha alpha = substance.getVapor().getAlpha();
         int numberOfVariablesToOptimize = numberOfVariablesToOptimize();
@@ -231,6 +240,11 @@ public class AlphaOptimization {
         if(numberOfVariablesToOptimize >=3){
            alpha.setAlphaParameterC(params[2],component);
         }
+   }
+   
+    
+    public double vaporPressureError(double... params){
+        setParametersValues(params);
        return vaporPressureError();
     }
 
@@ -240,12 +254,7 @@ public class AlphaOptimization {
     
     
     
-    public double derivative_A(double... args){
-        double error = vaporPressureError(args);
-        args = applyDeltaOnA(args);
-        double error_ = vaporPressureError(args);
-        return(error_ - error)/numericalDerivativeDelta;
-    }
+
     
     public double[] applyDeltaOnA(double... args){
         args[0] = args[0] + numericalDerivativeDelta;
@@ -255,18 +264,36 @@ public class AlphaOptimization {
         args[1] = args[1] + numericalDerivativeDelta;
         return args;
     }
+    public double[] applyDeltaOnC(double... args){
+        args[2] = args[2] + numericalDerivativeDelta;
+        return args;
+    }
 
-    
+    public double derivative_A(double... args){
+        double[] before = args.clone();//wtf
+        double error = vaporPressureError(args);
+        args = applyDeltaOnA(args);
+        double error_ = vaporPressureError(args);
+        
+        double result = (error_ - error)/numericalDerivativeDelta;
+        
+        setParametersValues(before);
+        return result;
+    }
     public double derivative_B(double... args){
+        double[] before = args.clone();
         double error = vaporPressureError(args);
         args = applyDeltaOnB(args);
         double error_ = vaporPressureError(args);
+        setParametersValues(before);
         return(error_ - error)/numericalDerivativeDelta;
     }
 
     public double derivative_C(double... args){
+        double[] before = args.clone();
         double error = vaporPressureError(args);
         double error_ = vaporPressureError(args[0] , args[1],args[2]+ numericalDerivativeDelta);
+        setParametersValues(before);
         return(error_ - error)/numericalDerivativeDelta;
     }
     
