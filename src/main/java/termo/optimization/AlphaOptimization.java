@@ -24,6 +24,8 @@ public class AlphaOptimization {
     private boolean fixParameterB;
     private boolean fixParameterC;
     //end fields
+    private boolean isIndeter;
+    private String message;
  
     //constructores
     public AlphaOptimization(HeterogeneousSubstance substance){
@@ -102,6 +104,8 @@ public class AlphaOptimization {
     }
     
     public double[] solveVapoPressureRegression (double...args){
+        isIndeter=false;
+        message="";
         convergenceHistory.clear();
         double beforeError;
         double error;
@@ -127,8 +131,12 @@ public class AlphaOptimization {
             
             for(int i =0; i<args.length;i++){
                 if(Double.isNaN(args[i]) | Double.isInfinite(args[i])){
-                    System.out.println("El valor del parametro " + i + " se indetermina en la iteración " + iterations);
-                    System.out.println("El valor que provoca la indeterminación es " + before[i]);
+                    isIndeter = true;
+                    StringBuffer sb = new StringBuffer();
+                    sb.append("El valor del parametro " + i + " se indetermina en la iteración " + iterations);
+                    sb.append("El valor que provoca la indeterminación es " + before[i]);
+                    
+                    message = sb.toString();
                     
                     return before;
                 }
@@ -593,6 +601,34 @@ public class AlphaOptimization {
         }
         return errorForEachExperimentalData;
         
+    }
+
+    /**
+     * @return the isIndeter
+     */
+    public boolean isIsIndeter() {
+        return isIndeter;
+    }
+
+    /**
+     * @param isIndeter the isIndeter to set
+     */
+    public void setIsIndeter(boolean isIndeter) {
+        this.isIndeter = isIndeter;
+    }
+
+    /**
+     * @return the message
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * @param message the message to set
+     */
+    public void setMessage(String message) {
+        this.message = message;
     }
 
    

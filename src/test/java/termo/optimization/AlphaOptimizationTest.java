@@ -56,6 +56,21 @@ public class AlphaOptimizationTest {
     }
     
     
+    @Test public void testIndetermination(){
+        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Alpha alpha = AlphaFactory.getMathiasAndCopemanExpression();//tres parametros
+        
+        alpha.setAlphaParameterA(50, component);
+        alpha.setAlphaParameterB(20, component);
+        alpha.setAlphaParameterC(1, component);
+        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
+        substance.optimizeTo(list);
+        
+        double a = alpha.getAlphaParameterA(component);
+        assertEquals(false, Double.isNaN(a));
+        assertEquals(true,substance.getAlphaOptimizer().isIsIndeter());
+    }
+    
     @Test public void testsNoPersistentDerivativeIncrementInA(){
         System.out.println("testsNoPersistentDerivativeIncrement");
         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
