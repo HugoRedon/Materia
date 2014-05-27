@@ -139,7 +139,7 @@ public class AlphaOptimizationTest {
         double expResult = -0.03408846732973704;
         //double expResult = 0.009988;
         double[] result = op.solveVapoPressureRegression(0);
-        assertEquals(expResult, result[0] , 1e-3);
+        assertEquals(expResult, result[0] , 1e-2);
         
         
     }  
@@ -247,7 +247,7 @@ public class AlphaOptimizationTest {
         
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
         substance.optimizeTo(list);
-       // assertEquals(2.715531696763059, component.getK_StryjekAndVera(),1e-4);
+       assertEquals(2.715531696763059, component.getK_StryjekAndVera(),0.01);
         //compila se ejecuta y no entra en un loop infinito
     }
     

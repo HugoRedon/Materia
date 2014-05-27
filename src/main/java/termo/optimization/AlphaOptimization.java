@@ -288,6 +288,20 @@ public class AlphaOptimization {
         setParametersValues(before);
         return result;
     }
+    
+    public double centralDerivativeA(double... args){
+        double[] before = args.clone();
+        args[0] = before[0] - numericalDerivativeDelta;
+        double backError = vaporPressureError(args);
+        
+        args[0] = before[0] + numericalDerivativeDelta;
+        double forwardError = vaporPressureError(args);
+        
+        setParametersValues(before);
+        return (forwardError - backError)/(2*numericalDerivativeDelta);
+    }
+    
+    
     public double derivative_B(double... args){
         double[] before = args.clone();
         double error = vaporPressureError(args);
@@ -328,6 +342,26 @@ public class AlphaOptimization {
         
         return (deriv_-deriv)/numericalDerivativeDelta;
     }
+    
+    public double doubleCentralDerivAA(double... args){
+        double[] params = args.clone();
+        
+        double error = vaporPressureError(args);
+        
+        args[0] = params[0] - numericalDerivativeDelta;
+        
+        double backwardError = vaporPressureError(args);
+        
+        args[0] = params[0] + numericalDerivativeDelta;
+        
+        double forwardError = vaporPressureError(args);
+        
+        double result = (forwardError - 2 * error + backwardError)/ Math.pow(numericalDerivativeDelta,2);
+        
+        setParametersValues(params);
+        return result;
+    }
+    
     public double doubleDerivAB(double... args){
         double deriv = derivative_B(args);
         args = applyDeltaOnA(args);
@@ -415,7 +449,7 @@ public class AlphaOptimization {
 
     public double[] nextValue(double... args){
         if(args.length ==1){
-            double[] result = {args[0] -derivative_A(args)/doubleDerivAA(args)};
+            double[] result = {args[0] -centralDerivativeA(args)/doubleCentralDerivAA(args)};
             return result;
         }else if(args.length ==2){
             Matrix2x2 hessian = new Matrix2x2(hessian(args));
