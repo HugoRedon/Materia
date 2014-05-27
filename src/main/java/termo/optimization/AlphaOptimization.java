@@ -24,7 +24,8 @@ public class AlphaOptimization {
     private boolean fixParameterB;
     private boolean fixParameterC;
     //end fields
-    private boolean isIndeter;
+    private boolean indeter;
+    private boolean maxIterationsReached;
     private String message;
  
     //constructores
@@ -104,7 +105,7 @@ public class AlphaOptimization {
     }
     
     public double[] solveVapoPressureRegression (double...args){
-        isIndeter=false;
+        indeter=false;
         message="";
         convergenceHistory.clear();
         double beforeError;
@@ -131,7 +132,7 @@ public class AlphaOptimization {
             
             for(int i =0; i<args.length;i++){
                 if(Double.isNaN(args[i]) | Double.isInfinite(args[i])){
-                    isIndeter = true;
+                    indeter = true;
                     StringBuffer sb = new StringBuffer();
                     sb.append("El valor del parametro " + i + " se indetermina en la iteración " + iterations);
                     sb.append("El valor que provoca la indeterminación es " + before[i]);
@@ -152,6 +153,11 @@ public class AlphaOptimization {
             
             
             criteria = error-beforeError;
+        }
+        
+        if(! (iterations < 1000)){
+            maxIterationsReached = true;
+            message = "Se alcanzó el numero máximo de iteraciones";
         }
 //        if(args.length ==1){
 //            double[] result = {args[0]};
@@ -174,28 +180,28 @@ public class AlphaOptimization {
     
     
     
-    public double derivativeVaporPressureError( double value){
-        
-        double error = AlphaOptimization.this.vaporPressureError( value);
-        double error_ = AlphaOptimization.this.vaporPressureError( value+numericalDerivativeDelta);
-        
-        double deriv = (error_- error)/numericalDerivativeDelta;
-        
-        return deriv;
-        
-    }
-    public double secondDerivativeVaporPressureError( double value){
-        
-        double de = derivativeVaporPressureError( value);
-        double de_ =derivativeVaporPressureError( value+numericalDerivativeDelta);
-        
-        double deriv = (de_ - de)/numericalDerivativeDelta;
-        return deriv;
-    }
-    public double nextValue( double before){
-        
-        return before -derivativeVaporPressureError( before)/secondDerivativeVaporPressureError( before);
-    }
+//    public double derivativeVaporPressureError( double value){
+//        
+//        double error = AlphaOptimization.this.vaporPressureError( value);
+//        double error_ = AlphaOptimization.this.vaporPressureError( value+numericalDerivativeDelta);
+//        
+//        double deriv = (error_- error)/numericalDerivativeDelta;
+//        
+//        return deriv;
+//        
+//    }
+//    public double secondDerivativeVaporPressureError( double value){
+//        
+//        double de = derivativeVaporPressureError( value);
+//        double de_ =derivativeVaporPressureError( value+numericalDerivativeDelta);
+//        
+//        double deriv = (de_ - de)/numericalDerivativeDelta;
+//        return deriv;
+//    }
+//    public double nextValue( double before){
+//        
+//        return before -derivativeVaporPressureError( before)/secondDerivativeVaporPressureError( before);
+//    }
 
     
     
@@ -290,11 +296,27 @@ public class AlphaOptimization {
     }
     
     public double centralDerivativeA(double... args){
+        int variableIndex = 0;
+        
         double[] before = args.clone();
-        args[0] = before[0] - numericalDerivativeDelta;
+        args[variableIndex] = before[variableIndex] - numericalDerivativeDelta;
         double backError = vaporPressureError(args);
         
-        args[0] = before[0] + numericalDerivativeDelta;
+        args[variableIndex] = before[variableIndex] + numericalDerivativeDelta;
+        double forwardError = vaporPressureError(args);
+        
+        setParametersValues(before);
+        return (forwardError - backError)/(2*numericalDerivativeDelta);
+    }
+    
+    public double centralDerivativeB(double... args){
+        int variableIndex = 1;
+        
+        double[] before = args.clone();
+        args[variableIndex] = before[variableIndex] - numericalDerivativeDelta;
+        double backError = vaporPressureError(args);
+        
+        args[variableIndex] = before[variableIndex] + numericalDerivativeDelta;
         double forwardError = vaporPressureError(args);
         
         setParametersValues(before);
@@ -323,9 +345,9 @@ public class AlphaOptimization {
     public double[] gradient(double... args){
         double[] gradient = new double[args.length];
         if(args.length >=1){
-            gradient[0] = derivative_A(args);
+            gradient[0] = centralDerivativeA(args);
         }if(args.length >=2){
-            gradient[1] = derivative_B(args);
+            gradient[1] = centralDerivativeB(args);
         }if(args.length >=3){
             gradient[2] = derivative_C(args);
         }
@@ -343,16 +365,18 @@ public class AlphaOptimization {
         return (deriv_-deriv)/numericalDerivativeDelta;
     }
     
-    public double doubleCentralDerivAA(double... args){
+    public double doubleCentralDerivAA(double... args){//checar
+        int variableIndex = 0;
+        
         double[] params = args.clone();
         
         double error = vaporPressureError(args);
         
-        args[0] = params[0] - numericalDerivativeDelta;
+        args[variableIndex] = params[variableIndex] - numericalDerivativeDelta;
         
         double backwardError = vaporPressureError(args);
         
-        args[0] = params[0] + numericalDerivativeDelta;
+        args[variableIndex] = params[variableIndex] + numericalDerivativeDelta;
         
         double forwardError = vaporPressureError(args);
         
@@ -369,6 +393,48 @@ public class AlphaOptimization {
         
         return (deriv_-deriv)/numericalDerivativeDelta;
     }
+    
+    
+    public double doubleCentralDerivAB(double... args){
+        int index = 0;
+        double[] params = args.clone();
+        
+        args[index] = params[index] + numericalDerivativeDelta;
+        double forwardDeriv = centralDerivativeB(args);
+        
+        
+        args[index] = params[index]- numericalDerivativeDelta;
+        double backwardDeriv = centralDerivativeB(args);
+        
+        double result =(forwardDeriv - backwardDeriv)/numericalDerivativeDelta;
+                
+        setParametersValues(params);
+        return result;
+    }
+    public double doubleDerivBA(double...args){
+        double deriv = derivative_A(args);
+        args = applyDeltaOnB(args);
+        double deriv_ = derivative_A(args);
+        
+        return (deriv_-deriv)/numericalDerivativeDelta;
+    }
+     public double doubleCentralDerivBA(double... args){
+        int index = 1;
+        double[] params = args.clone();
+        
+        args[index] = params[index] + numericalDerivativeDelta;
+        double forwardDeriv = centralDerivativeA(args);
+        
+        
+        args[index] = params[index]- numericalDerivativeDelta;
+        double backwardDeriv = centralDerivativeA(args);
+        
+        double result =(forwardDeriv - backwardDeriv)/numericalDerivativeDelta;
+                
+        setParametersValues(params);
+        return result;
+    }
+    
     public double doubleDerivAC(double... args){
         double deriv = derivative_C(args);
         double deriv_ = derivative_C(args[0] +numericalDerivativeDelta, args[1], args[2]);
@@ -379,13 +445,7 @@ public class AlphaOptimization {
     
     
     
-     public double doubleDerivBA(double...args){
-        double deriv = derivative_A(args);
-        args = applyDeltaOnB(args);
-        double deriv_ = derivative_A(args);
-        
-        return (deriv_-deriv)/numericalDerivativeDelta;
-    }
+
     public double doubleDerivBB(double...args){
         double deriv = derivative_B(args);
         args = applyDeltaOnB(args);
@@ -393,6 +453,28 @@ public class AlphaOptimization {
         
         return (deriv_-deriv)/numericalDerivativeDelta;
     }
+     public double doubleCentralDerivBB(double... args){
+        int variableIndex = 1;
+        
+        double[] params = args.clone();
+        
+        double error = vaporPressureError(args);
+        
+        args[variableIndex] = params[variableIndex] - numericalDerivativeDelta;
+        
+        double backwardError = vaporPressureError(args);
+        
+        args[variableIndex] = params[variableIndex] + numericalDerivativeDelta;
+        
+        double forwardError = vaporPressureError(args);
+        
+        double result = (forwardError - 2 * error + backwardError)/ Math.pow(numericalDerivativeDelta,2);
+        
+        setParametersValues(params);
+        return result;
+    }
+    
+    
     public double doubleDerivBC(double... args){
         double deriv = derivative_C(args);
         double deriv_ = derivative_C(args[0], args[1]+numericalDerivativeDelta, args[2]);
@@ -426,12 +508,12 @@ public class AlphaOptimization {
     
     public double[][] hessian(double... args){
         if(args.length==1){
-            double[][] result =  {{doubleDerivAA(args)}};
+            double[][] result =  {{doubleCentralDerivAA(args)}};
             return result;
         }else if(args.length==2){
             double[][] result = {
-                {doubleDerivAA(args),doubleDerivAB(args)},
-                {doubleDerivBA(args),doubleDerivBB(args)}
+                {doubleCentralDerivAA(args),doubleCentralDerivAB(args)},
+                {doubleCentralDerivBA(args),doubleCentralDerivBB(args)}
             };
             return result;
         
@@ -638,17 +720,17 @@ public class AlphaOptimization {
     }
 
     /**
-     * @return the isIndeter
+     * @return the indeter
      */
-    public boolean isIsIndeter() {
-        return isIndeter;
+    public boolean isIndeter() {
+        return indeter;
     }
 
     /**
-     * @param isIndeter the isIndeter to set
+     * @param indeter the indeter to set
      */
-    public void setIsIndeter(boolean isIndeter) {
-        this.isIndeter = isIndeter;
+    public void setIndeter(boolean indeter) {
+        this.indeter = indeter;
     }
 
     /**
@@ -663,6 +745,20 @@ public class AlphaOptimization {
      */
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    /**
+     * @return the maxIterationsReached
+     */
+    public boolean isMaxIterationsReached() {
+        return maxIterationsReached;
+    }
+
+    /**
+     * @param maxIterationsReached the maxIterationsReached to set
+     */
+    public void setMaxIterationsReached(boolean maxIterationsReached) {
+        this.maxIterationsReached = maxIterationsReached;
     }
 
    
