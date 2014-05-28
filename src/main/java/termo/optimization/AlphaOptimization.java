@@ -27,6 +27,15 @@ public class AlphaOptimization {
     private boolean indeter;
     private boolean maxIterationsReached;
     private String message;
+    
+    
+    private int iterations;
+    private double tolerance = 1e-4;
+    
+    private ArrayList<Parameters_Error> convergenceHistory = new ArrayList();
+    
+    
+    private double damp = 1;
  
     //constructores
     public AlphaOptimization(HeterogeneousSubstance substance){
@@ -106,6 +115,7 @@ public class AlphaOptimization {
     
     public double[] solveVapoPressureRegression (double...args){
         indeter=false;
+        maxIterationsReached = false;
         message="";
         convergenceHistory.clear();
         double beforeError;
@@ -120,16 +130,8 @@ public class AlphaOptimization {
             
             beforeError = vaporPressureError( args);
             double[] before = args;
-            
-            
-            
-            
-            iterations++;
-            
+            iterations++;    
             args = nextValue(args );
-            
-            //check if isNaN
-            
             for(int i =0; i<args.length;i++){
                 if(Double.isNaN(args[i]) | Double.isInfinite(args[i])){
                     indeter = true;
@@ -142,10 +144,7 @@ public class AlphaOptimization {
                     return before;
                 }
             }
-            
-            
             args = applyDamping(before, args);
-
             error = vaporPressureError(args);
             
             Parameters_Error pe = new Parameters_Error(args, error,iterations);
@@ -306,6 +305,7 @@ public class AlphaOptimization {
         double forwardError = vaporPressureError(args);
         
         setParametersValues(before);
+        args = before;
         return (forwardError - backError)/(2*numericalDerivativeDelta);
     }
     
@@ -655,24 +655,65 @@ public class AlphaOptimization {
         }
         return null;
     }
+    private double parameterAMaxVariation = 0.2;
+    private boolean constrainParameterA = false;
     
-    private int iterations;
-    private double tolerance = 1e-4;
+    private double parameterBMaxVariation = 0.2;
+    private boolean constrainParameterB = false;
     
-    private ArrayList<Parameters_Error> convergenceHistory = new ArrayList();
-    
-    
-    private double damp = 1;
     public double[] applyDamping(double[] before, double[]newValues ){
-        double[] result = new double[before.length];
-        for(int i = 0; i < result.length;i++){
-            double step = newValues[i] - before[i];
-            result[i] = before[i] + step* getDamp();
+        int size = before.length;
+        double[] result = new double[size];
+        
+        if(size ==1){
+            double newA = newValues[0];
+            double lastA = before[0];
+            double deltaA = newA -lastA;
+            if(needsToBeConstrained(deltaA, parameterAMaxVariation, constrainParameterA)){
+                newA = lastA + parameterAMaxVariation;
+            }
+            result[0] = newA;
             
+        }else if(size ==2){
+            double newA = newValues[0];
+            double lastA = before[0];
+            double deltaA = newA -lastA;
+            
+            double newB = newValues[1];
+            double lastB = before[1];
+            double deltaB = newB- lastB;
+            
+            boolean applyConstraintOnB = needsToBeConstrained(deltaB, parameterBMaxVariation, constrainParameterB);
+            
+            if(needsToBeConstrained(newA-lastA, parameterAMaxVariation, constrainParameterA)){
+                newA =lastA + parameterAMaxVariation;
+                newB =lastB + (newA - lastA) *(deltaB/deltaA);
+               
+            }
+            
+            if(needsToBeConstrained(newB-lastB,parameterBMaxVariation , constrainParameterB)){
+                newB = lastB +parameterBMaxVariation;
+                newA = lastA + (deltaA/deltaB)*(newB-lastB);
+            }
+            
+            result[0] = newA;
+            result[1] = newB;
         }
+        
+//        for(int i = 0; i < result.length;i++){
+//            double step = newValues[i] - before[i];
+//            result[i] = before[i] + step* getDamp();
+//            
+//        }
         return result;
     }
 
+    
+    public boolean needsToBeConstrained(double delta, double maxVariation,boolean constraint){
+        return Math.abs(delta) > maxVariation && constraint;
+    }
+    
+    
     /**
      * @return the damp
      */
@@ -862,6 +903,62 @@ public class AlphaOptimization {
      */
     public void setMaxIterationsReached(boolean maxIterationsReached) {
         this.maxIterationsReached = maxIterationsReached;
+    }
+
+    /**
+     * @return the parameterAMaxVariation
+     */
+    public double getParameterAMaxVariation() {
+        return parameterAMaxVariation;
+    }
+
+    /**
+     * @param parameterAMaxVariation the parameterAMaxVariation to set
+     */
+    public void setParameterAMaxVariation(double parameterAMaxVariation) {
+        this.parameterAMaxVariation = parameterAMaxVariation;
+    }
+
+    /**
+     * @return the constrainParameterA
+     */
+    public boolean isConstrainParameterA() {
+        return constrainParameterA;
+    }
+
+    /**
+     * @param constrainParameterA the constrainParameterA to set
+     */
+    public void setConstrainParameterA(boolean constrainParameterA) {
+        this.constrainParameterA = constrainParameterA;
+    }
+
+    /**
+     * @return the parameterBMaxVariation
+     */
+    public double getParameterBMaxVariation() {
+        return parameterBMaxVariation;
+    }
+
+    /**
+     * @param parameterBMaxVariation the parameterBMaxVariation to set
+     */
+    public void setParameterBMaxVariation(double parameterBMaxVariation) {
+        this.parameterBMaxVariation = parameterBMaxVariation;
+    }
+
+    /**
+     * @return the constrainParameterB
+     */
+    public boolean isConstrainParameterB() {
+        return constrainParameterB;
+    }
+
+    /**
+     * @param constrainParameterB the constrainParameterB to set
+     */
+    public void setConstrainParameterB(boolean constrainParameterB) {
+        this.constrainParameterB = constrainParameterB;
     }
 
    

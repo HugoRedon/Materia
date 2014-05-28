@@ -78,9 +78,9 @@ public class AlphaOptimizationTest {
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
         double[] args ={0,0,0};
         
-        substance.getAlphaOptimizer().derivative_A(args);//no importa el valor
+        substance.getAlphaOptimizer().centralDerivativeA(args);//no importa el valor
         double a = alpha.getAlphaParameterA(component);
-        assertEquals(0, a,1e-6);
+        assertEquals(0, a,1e-8);
         
     }
     
@@ -91,7 +91,7 @@ public class AlphaOptimizationTest {
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
         double[] args ={0,0,0};
         
-        substance.getAlphaOptimizer().derivative_B(args);//no importa el valor
+        substance.getAlphaOptimizer().centralDerivativeB(args);//no importa el valor
         double b = alpha.getAlphaParameterB(component);
         assertEquals(0, b,1e-6);
         
@@ -105,7 +105,7 @@ public class AlphaOptimizationTest {
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
         double[] args ={0,0,0};
         
-        substance.getAlphaOptimizer().derivative_C(args);//no importa el valor
+        substance.getAlphaOptimizer().centralDerivativeC(args);//no importa el valor
         double c = alpha.getAlphaParameterC(component);
         assertEquals(0, c,1e-6);
         
@@ -256,6 +256,47 @@ public class AlphaOptimizationTest {
         substance.optimizeTo(list);
        assertEquals(2.715531696763059, component.getK_StryjekAndVera(),0.01);
         //compila se ejecuta y no entra en un loop infinito
+    }
+    
+    @Test
+    public void testConstraintInParameterA(){
+        System.out.println("parameterAConstraint");
+        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
+        
+        
+        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
+        
+        
+        substance.optimizeTo(list);
+        
+        int iterationsWithoutConstraint = substance.getAlphaOptimizer().getIterations();
+        
+        for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
+            System.out.println("iteración:" + err.getIteration() + " A: " + err.getParameters()[0]);
+            
+        }
+        
+        System.out.println("iterationsWithoutConstraint:" +iterationsWithoutConstraint);
+        System.out.println("Result A: " + alpha.getAlphaParameterA(component));
+        substance.getAlphaOptimizer().setConstrainParameterA(true);
+        substance.getAlphaOptimizer().setParameterAMaxVariation(0.1);
+        alpha.setAlphaParameterA(0, component);
+        substance.optimizeTo(list);
+        int iterationsWithConstraint = substance.getAlphaOptimizer().getIterations();
+        
+        for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
+            System.out.println("iteración:" + err.getIteration() + " A: " + err.getParameters()[0]);
+            
+        }
+        
+        System.out.println("iterationsWithConstraint:"+iterationsWithConstraint);
+        
+        System.out.println("Result A: " + alpha.getAlphaParameterA(component));
+        
+        
+        assertEquals(true, iterationsWithConstraint>iterationsWithoutConstraint);
+        
     }
     
 }
