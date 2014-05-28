@@ -156,7 +156,7 @@ public class AlphaOptimizationTest {
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
         substance.optimizeTo(list);
         
-
+        
 //        assertEquals(-7.098408047518564,component.getA_AndroulakisEtAl(),1e-4);
         
         boolean isIndeter = substance.getAlphaOptimizer().isIndeter();

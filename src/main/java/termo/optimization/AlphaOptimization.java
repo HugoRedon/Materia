@@ -333,6 +333,21 @@ public class AlphaOptimization {
         return(error_ - error)/numericalDerivativeDelta;
     }
 
+    
+    public double centralDerivativeC(double... args){
+        int variableIndex = 2;
+        
+        double[] before = args.clone();
+        args[variableIndex] = before[variableIndex] - numericalDerivativeDelta;
+        double backError = vaporPressureError(args);
+        
+        args[variableIndex] = before[variableIndex] + numericalDerivativeDelta;
+        double forwardError = vaporPressureError(args);
+        
+        setParametersValues(before);
+        return (forwardError - backError)/(2*numericalDerivativeDelta);
+    }
+    
     public double derivative_C(double... args){
         double[] before = args.clone();
         double error = vaporPressureError(args);
@@ -349,7 +364,7 @@ public class AlphaOptimization {
         }if(args.length >=2){
             gradient[1] = centralDerivativeB(args);
         }if(args.length >=3){
-            gradient[2] = derivative_C(args);
+            gradient[2] = centralDerivativeC(args);
         }
         
         return gradient;
@@ -443,6 +458,23 @@ public class AlphaOptimization {
     }
     
     
+    public double doubleCentralDerivAC(double... args){
+        int index = 0;
+        double[] params = args.clone();
+        
+        args[index] = params[index] + numericalDerivativeDelta;
+        double forwardDeriv = centralDerivativeC(args);
+        
+        
+        args[index] = params[index]- numericalDerivativeDelta;
+        double backwardDeriv = centralDerivativeC(args);
+        
+        double result =(forwardDeriv - backwardDeriv)/numericalDerivativeDelta;
+                
+        setParametersValues(params);
+        return result;
+    }
+    
     
     
 
@@ -482,21 +514,70 @@ public class AlphaOptimization {
         return (deriv_ - deriv)/numericalDerivativeDelta;
     }
     
+    public double doubleCentralDerivBC(double... args){
+        int index = 1;
+        double[] params = args.clone();
+        
+        args[index] = params[index] + numericalDerivativeDelta;
+        double forwardDeriv = centralDerivativeC(args);
+        
+        
+        args[index] = params[index]- numericalDerivativeDelta;
+        double backwardDeriv = centralDerivativeC(args);
+        
+        double result =(forwardDeriv - backwardDeriv)/numericalDerivativeDelta;
+                
+        setParametersValues(params);
+        return result;
+    }
     
     
     
-    
-      public double doubleDerivCA(double...args){
+    public double doubleDerivCA(double...args){
         double deriv = derivative_A(args);
         double deriv_ = derivative_A(args[0], args[1], args[2]+numericalDerivativeDelta);
         
         return (deriv_-deriv)/numericalDerivativeDelta;
     }
+    
+    public double doubleCentralDerivCA(double... args){
+        int index = 2;
+        double[] params = args.clone();
+        
+        args[index] = params[index] + numericalDerivativeDelta;
+        double forwardDeriv = centralDerivativeA(args);
+        
+        
+        args[index] = params[index]- numericalDerivativeDelta;
+        double backwardDeriv = centralDerivativeA(args);
+        
+        double result =(forwardDeriv - backwardDeriv)/numericalDerivativeDelta;
+                
+        setParametersValues(params);
+        return result;
+    }
+    
     public double doubleDerivCB(double... args){
         double deriv = derivative_B(args);
         double deriv_ = derivative_B(args[0], args[1] , args[2]+numericalDerivativeDelta);
         
         return (deriv_-deriv)/numericalDerivativeDelta;
+    }
+    public double doubleCentralDerivCB(double... args){
+        int index = 2;
+        double[] params = args.clone();
+        
+        args[index] = params[index] + numericalDerivativeDelta;
+        double forwardDeriv = centralDerivativeB(args);
+        
+        
+        args[index] = params[index]- numericalDerivativeDelta;
+        double backwardDeriv = centralDerivativeB(args);
+        
+        double result =(forwardDeriv - backwardDeriv)/numericalDerivativeDelta;
+                
+        setParametersValues(params);
+        return result;
     }
     public double doubleDerivCC(double...args){
         double deriv = derivative_C(args);
@@ -504,6 +585,28 @@ public class AlphaOptimization {
         
         return (deriv_ - deriv)/numericalDerivativeDelta;
     }
+     public double doubleCentralDerivCC(double... args){
+        int variableIndex = 2;
+        
+        double[] params = args.clone();
+        
+        double error = vaporPressureError(args);
+        
+        args[variableIndex] = params[variableIndex] - numericalDerivativeDelta;
+        
+        double backwardError = vaporPressureError(args);
+        
+        args[variableIndex] = params[variableIndex] + numericalDerivativeDelta;
+        
+        double forwardError = vaporPressureError(args);
+        
+        double result = (forwardError - 2 * error + backwardError)/ Math.pow(numericalDerivativeDelta,2);
+        
+        setParametersValues(params);
+        return result;
+    }
+    
+    
 
     
     public double[][] hessian(double... args){
@@ -519,9 +622,9 @@ public class AlphaOptimization {
         
         }else if(args.length==3){
             double[][] result = {
-                {doubleDerivAA(args),doubleDerivAB(args),doubleDerivAC(args)},
-                {doubleDerivBA(args),doubleDerivBB(args),doubleDerivBC(args)},
-                {doubleDerivCA(args),doubleDerivCB(args),doubleDerivCC(args)}
+                {doubleCentralDerivAA(args),doubleCentralDerivAB(args),doubleCentralDerivAC(args)},
+                {doubleCentralDerivBA(args),doubleCentralDerivBB(args),doubleCentralDerivBC(args)},
+                {doubleCentralDerivCA(args),doubleCentralDerivCB(args),doubleCentralDerivCC(args)}
             };
             return result;
         }
