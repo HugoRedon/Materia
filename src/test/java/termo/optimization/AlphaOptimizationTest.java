@@ -299,4 +299,49 @@ public class AlphaOptimizationTest {
         
     }
     
+    @Test public void testConstraintInparameterBFor2VariableOptimization(){
+        System.out.println("parameterAConstraint");
+        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+          Alpha alpha = AlphaFactory.getSoave2Parameters();
+        component.setA_Soave(1);
+        component.setB_Soave(0.3);
+        
+        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
+        substance.optimizeTo(list);
+        
+        
+         for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
+            System.out.println("iteración:" + err.getIteration() +
+                    " A: " + err.getParameters()[0] + " B: " + err.getParameters()[1]);
+            
+        }
+         int iterations = substance.getAlphaOptimizer().getIterations();
+        System.out.println("iterationsWithoutConstraint:"+iterations);
+        
+        
+        
+        
+        
+       
+        
+        substance.getAlphaOptimizer().setConstrainParameterB(true);
+        substance.getAlphaOptimizer().setParameterBMaxVariation(0.1);
+        
+        alpha.setAlphaParameterA(1, component);
+        alpha.setAlphaParameterB(0.3, component);
+        substance.optimizeTo(list);
+        
+        int iterationsWithconstraint = substance.getAlphaOptimizer().getIterations();
+        for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
+            System.out.println("iteración:" + err.getIteration() +
+                    " A: " + err.getParameters()[0] + " B: " + err.getParameters()[1]);
+            
+        }
+         
+        System.out.println("iterationsWithConstraint:"+iterationsWithconstraint);
+        assertEquals(true, iterationsWithconstraint >iterations);//resultados diferentes
+        
+        
+    }
+    
 }

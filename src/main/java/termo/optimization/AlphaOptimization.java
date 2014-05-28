@@ -670,7 +670,7 @@ public class AlphaOptimization {
             double lastA = before[0];
             double deltaA = newA -lastA;
             if(needsToBeConstrained(deltaA, parameterAMaxVariation, constrainParameterA)){
-                newA = lastA + parameterAMaxVariation;
+                newA = lastA + Math.signum(deltaA)*  parameterAMaxVariation;
             }
             result[0] = newA;
             
@@ -683,16 +683,16 @@ public class AlphaOptimization {
             double lastB = before[1];
             double deltaB = newB- lastB;
             
-            boolean applyConstraintOnB = needsToBeConstrained(deltaB, parameterBMaxVariation, constrainParameterB);
+           // boolean applyConstraintOnB = needsToBeConstrained(deltaB, parameterBMaxVariation, constrainParameterB);
             
             if(needsToBeConstrained(newA-lastA, parameterAMaxVariation, constrainParameterA)){
-                newA =lastA + parameterAMaxVariation;
+                newA =lastA + Math.signum(deltaA)* parameterAMaxVariation;
                 newB =lastB + (newA - lastA) *(deltaB/deltaA);
                
             }
             
             if(needsToBeConstrained(newB-lastB,parameterBMaxVariation , constrainParameterB)){
-                newB = lastB +parameterBMaxVariation;
+                newB = lastB + Math.signum(deltaB)* parameterBMaxVariation;
                 newA = lastA + (deltaA/deltaB)*(newB-lastB);
             }
             

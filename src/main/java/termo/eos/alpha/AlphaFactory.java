@@ -36,15 +36,28 @@ public class AlphaFactory {
         
     }
     
+    /**
+     *
+     * @return Alpha expression with no parameters
+     */
     public static Alpha getSoaveExpression(){
         CommonAlphaEquation soave = new SoaveAlpha();
         return soave;     
     }
+    
+    /**
+     *
+     * @return Alpha expression with no parameters
+     */
     public static Alpha getPengAndRobinsonExpression(){
         CommonAlphaEquation pr = new PengAndRobinsonAlpha();
         return pr;    
     }
     
+    /**
+     *
+     * @return Alpha expression with 1 parameter
+     */
     public static Alpha getMathiasExpression(){
         TwoEquationsAlphaExpression mathias = new TwoEquationsAlphaExpression();    
         mathias.setName(AlphaNames.Mathias);
@@ -56,6 +69,11 @@ public class AlphaFactory {
         mathias.setAlphaAboveTc(mathiasAbove);
         return mathias;     
     }
+    
+    /**
+     *
+     * @return Alpha expression with 1 parameter
+     */
     public static Alpha getStryjekAndVeraExpression(){
         TwoEquationsAlphaExpression stryjek = new TwoEquationsAlphaExpression();    
         stryjek.setName(AlphaNames.StryjekAndVera);           
@@ -67,21 +85,40 @@ public class AlphaFactory {
         return stryjek;     
     }
     
+    /**
+     *
+     * @return Alpha expression with 2 parameters
+     */
     public static Alpha getAdachiAndLu(){
         AdachiAndLuAlphaExpresion lu= new AdachiAndLuAlphaExpresion();
         lu.setName(AlphaNames.AdachiAndLu);
         return lu;
     }
+    
+    /**
+     *
+     * @return Alpha expression with 2 parameters
+     */
     public static Alpha getSoave2Parameters(){
         Soave2Parameters soave = new Soave2Parameters();
         soave.setName(AlphaNames.Soave2);
         return soave;
     }
+    
+    /**
+     *
+     * @return Alpha expression with 2 parameters
+     */
     public static Alpha getMelhemEtAl(){
         MelhemEtAl melhem = new MelhemEtAl();
         melhem.setName(AlphaNames.MelhemEtAl);
         return melhem;
     }
+    
+    /**
+     *
+     * @return Alpha expression with 3 parameters
+     */
     public static Alpha getAndroulakisEtAl(){
         TwoEquationsAlphaExpression androulakistwo = new TwoEquationsAlphaExpression();
         AndroulakisEtAl androulakis = new AndroulakisEtAl(); 
@@ -92,6 +129,11 @@ public class AlphaFactory {
         androulakistwo.setName(AlphaNames.AndroulakisEtAl);
         return androulakistwo;
     }
+    
+    /**
+     *
+     * @return Alpha expression with 3 parameters
+     */
     public static Alpha getYuAndLu(){
         YuAndLu yu = new YuAndLu();
         YuAndLuAboveTc above = new YuAndLuAboveTc();
@@ -105,11 +147,15 @@ public class AlphaFactory {
         return two;
     }
     
-        public static Alpha getTwuExpression(){
-            Alpha twu = new TwuEquation();
-            twu.setName(AlphaNames.Twu);
-            return twu;
-        }
+    /**
+     *
+     * @return Alpha expression with 3 parameters
+     */
+    public static Alpha getTwuExpression(){
+        Alpha twu = new TwuEquation();
+        twu.setName(AlphaNames.Twu);
+        return twu;
+    }
         
         public static Alpha getGeneralTwuEquation(){
             TwoEquationsAlphaExpression twu = new TwoEquationsAlphaExpression();
@@ -137,6 +183,11 @@ public class AlphaFactory {
             twu.setAlphaBelowTc(twuBelow);
             return twu;
         }
+        
+    /**
+     *
+     * @return Alpha expression with 3 parameters
+     */
         public static Alpha getMathiasAndCopemanExpression(){
              TwoEquationsAlphaExpression mathiasAndCopeman = new TwoEquationsAlphaExpression();
              mathiasAndCopeman.setName(AlphaNames.Mathias_Copeman);
