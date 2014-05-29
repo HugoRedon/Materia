@@ -422,7 +422,7 @@ public class AlphaOptimizationTest {
         
         
         
-        assertEquals(true, iterationsWithRestriction < iterationsWithNoRestriction);
+        assertEquals(true, iterationsWithRestriction > iterationsWithNoRestriction);
         
 
         
