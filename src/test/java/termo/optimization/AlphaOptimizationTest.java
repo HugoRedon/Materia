@@ -3,6 +3,7 @@
 import java.util.ArrayList;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import org.junit.Test;
 import termo.component.Component;
 import termo.cp.DIPPR_107_Equation;
@@ -153,13 +154,27 @@ public class AlphaOptimizationTest {
         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
         Alpha alpha = AlphaFactory.getAndroulakisEtAl();
         
+        Component ethanol = new Component("etanol");
+       // ethanol.setName("Etanol");
+        ethanol.setCriticalTemperature(514);
+        ethanol.setCriticalPressure(6.13700E+06);
+        ethanol.setAcentricFactor(0.643558);
         
-        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
+        ethanol.setEnthalpyofFormationofIdealgasat298_15Kand101325Pa(-2.34950E+08);
+        ethanol.setAbsoluteEntropyofIdealGasat298_15Kand101325Pa(2.80640E+05);
+        
+        ethanol.setA_dippr107Cp(4.9200E+04);
+        ethanol.setB_dippr107Cp(1.4577E+05);
+        ethanol.setC_dippr107Cp(1.6628E+03);
+        ethanol.setD_dippr107Cp(9.3900E+04);
+        ethanol.setE_dippr107Cp(7.4470E+02);
+        
+        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, ethanol);
         substance.optimizeTo(list);
         
-        alpha.getAlphaParameterA(component);
-        alpha.getAlphaParameterB(component);
-        alpha.getAlphaParameterC(component);
+        printHistory(substance);
+       
+        
 //        assertEquals(-7.098408047518564,component.getA_AndroulakisEtAl(),1e-4);
         
         boolean isIndeter = substance.getAlphaOptimizer().isIndeter();
@@ -168,22 +183,7 @@ public class AlphaOptimizationTest {
         //compila se ejecuta y no entra en un loop infinito
     }
     
-    @Test public void deltaonc(){
-        System.out.println("deltaonc");
-        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
-        Alpha alpha = AlphaFactory.getAndroulakisEtAl();
-        
-        
-        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
 
-        
-        double result = substance.getAlphaOptimizer().applyDeltaOnC(0,0,0)[2];
-        double exp = 1e-4;
-        
-        assertEquals(exp, result,1e-6);
-        
-        
-    }
     
 
     
@@ -303,7 +303,7 @@ public class AlphaOptimizationTest {
     }
     
     @Test public void testConstraintInparameterBFor2VariableOptimization(){
-        System.out.println("parameterAConstraint");
+        System.out.println("testConstraintInparameterBFor2VariableOptimization");
         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
           Alpha alpha = AlphaFactory.getSoave2Parameters();
         component.setA_Soave(1);
@@ -328,7 +328,7 @@ public class AlphaOptimizationTest {
        
         
         substance.getAlphaOptimizer().setConstrainParameterB(true);
-        substance.getAlphaOptimizer().setParameterBMaxVariation(0.1);
+        substance.getAlphaOptimizer().setParameterBMaxVariation(0.05);
         
         alpha.setAlphaParameterA(1, component);
         alpha.setAlphaParameterB(0.3, component);
@@ -420,7 +420,7 @@ public class AlphaOptimizationTest {
         
         
         
-        
+       
         
         assertEquals(true, iterationsWithRestriction > iterationsWithNoRestriction);
         
@@ -429,6 +429,18 @@ public class AlphaOptimizationTest {
 
     }
     
-    
+    private void printHistory(HeterogeneousSubstance substance){
+        for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
+            StringBuffer sb = new StringBuffer("iteración:" + err.getIteration() + "(");
+            for(double param: err.getParameters()){
+                sb.append(param + " ");
+            }
+            sb.append(")");
+            
+            System.out.println(sb);
+            
+        }
+        System.out.println(substance.getAlphaOptimizer().getMessage());
+    }
     
 }

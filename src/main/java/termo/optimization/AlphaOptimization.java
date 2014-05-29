@@ -159,51 +159,12 @@ public class AlphaOptimization {
             maxIterationsReached = true;
             message = "Se alcanzó el numero máximo de iteraciones";
         }
-//        if(args.length ==1){
-//            double[] result = {args[0]};
-//            return result;
-//        }else if(args.length ==2){
-//            double[] result = {args[0],args[1]};
-//            return result;
-//        }else if(args.length ==3){
-//            double[] result = {args[0],args[1],args[2]};
-//            return result;
-//        }
+
         return args;
      
     }
     
-    
-    
-    
-    
-    
-    
-    
-//    public double derivativeVaporPressureError( double value){
-//        
-//        double error = AlphaOptimization.this.vaporPressureError( value);
-//        double error_ = AlphaOptimization.this.vaporPressureError( value+numericalDerivativeDelta);
-//        
-//        double deriv = (error_- error)/numericalDerivativeDelta;
-//        
-//        return deriv;
-//        
-//    }
-//    public double secondDerivativeVaporPressureError( double value){
-//        
-//        double de = derivativeVaporPressureError( value);
-//        double de_ =derivativeVaporPressureError( value+numericalDerivativeDelta);
-//        
-//        double deriv = (de_ - de)/numericalDerivativeDelta;
-//        return deriv;
-//    }
-//    public double nextValue( double before){
-//        
-//        return before -derivativeVaporPressureError( before)/secondDerivativeVaporPressureError( before);
-//    }
 
-    
     
    public double vaporPressureError(){
         errorForEachExperimentalData.clear();
@@ -270,341 +231,192 @@ public class AlphaOptimization {
     
 
     
-    public double[] applyDeltaOnA(double... args){
-        args[0] = args[0] + numericalDerivativeDelta;
-        return args;
-    }
-    public double[] applyDeltaOnB(double... args){
-        args[1] = args[1] + numericalDerivativeDelta;
-        return args;
-    }
-    public double[] applyDeltaOnC(double... args){
-        args[2] = args[2] + numericalDerivativeDelta;
-        return args;
-    }
+//    public double[] applyDeltaOnA(double... args){
+//        args[0] = args[0] + numericalDerivativeDelta;
+//        return args;
+//    }
+//    public double[] applyDeltaOnB(double... args){
+//        args[1] = args[1] + numericalDerivativeDelta;
+//        return args;
+//    }
+//    public double[] applyDeltaOnC(double... args){
+//        args[2] = args[2] + numericalDerivativeDelta;
+//        return args;
+//    }
 
-    public double derivative_A(double... args){
-        double[] before = args.clone();//wtf
-        double error = vaporPressureError(args);
-        args = applyDeltaOnA(args);
-        double error_ = vaporPressureError(args);
-        
-        double result = (error_ - error)/numericalDerivativeDelta;
-        
-        setParametersValues(before);
-        return result;
-    }
+//    public double derivative_A(double... args){
+//        double[] before = args.clone();//wtf
+//        double error = vaporPressureError(args);
+//        args = applyDeltaOnA(args);
+//        double error_ = vaporPressureError(args);
+//        
+//        double result = (error_ - error)/numericalDerivativeDelta;
+//        
+//        setParametersValues(before);
+//        return result;
+//    }
     
-    public double centralDerivativeA(double... args){
-        int variableIndex = 0;
-        
-        double[] before = args.clone();
-        args[variableIndex] = before[variableIndex] - numericalDerivativeDelta;
-        double backError = vaporPressureError(args);
-        
-        args[variableIndex] = before[variableIndex] + numericalDerivativeDelta;
-        double forwardError = vaporPressureError(args);
-        
-        setParametersValues(before);
-        args = before;
-        return (forwardError - backError)/(2*numericalDerivativeDelta);
+  
+    
+    public double centralDerivativeA(double[] args){
+        return centralDerivative(args, 0);
     }
     
     public double centralDerivativeB(double... args){
-        int variableIndex = 1;
-        
-        double[] before = args.clone();
-        args[variableIndex] = before[variableIndex] - numericalDerivativeDelta;
-        double backError = vaporPressureError(args);
-        
-        args[variableIndex] = before[variableIndex] + numericalDerivativeDelta;
-        double forwardError = vaporPressureError(args);
-        
-        setParametersValues(before);
-        return (forwardError - backError)/(2*numericalDerivativeDelta);
+        return centralDerivative(args, 1);
+//        int variableIndex = 1;
+//        
+//        double[] before = args.clone();
+//        args[variableIndex] = before[variableIndex] - numericalDerivativeDelta;
+//        double backError = vaporPressureError(args);
+//        
+//        args[variableIndex] = before[variableIndex] + numericalDerivativeDelta;
+//        double forwardError = vaporPressureError(args);
+//        
+//        setParametersValues(before);
+//        return (forwardError - backError)/(2*numericalDerivativeDelta);
     }
     
     
-    public double derivative_B(double... args){
-        double[] before = args.clone();
-        double error = vaporPressureError(args);
-        args = applyDeltaOnB(args);
-        double error_ = vaporPressureError(args);
-        setParametersValues(before);
-        return(error_ - error)/numericalDerivativeDelta;
-    }
+//    public double derivative_B(double... args){
+//        double[] before = args.clone();
+//        double error = vaporPressureError(args);
+//        args = applyDeltaOnB(args);
+//        double error_ = vaporPressureError(args);
+//        setParametersValues(before);
+//        return(error_ - error)/numericalDerivativeDelta;
+//    }
 
     
     public double centralDerivativeC(double... args){
-        int variableIndex = 2;
-        
-        double[] before = args.clone();
-        args[variableIndex] = before[variableIndex] - numericalDerivativeDelta;
-        double backError = vaporPressureError(args);
-        
-        args[variableIndex] = before[variableIndex] + numericalDerivativeDelta;
-        double forwardError = vaporPressureError(args);
-        
-        setParametersValues(before);
-        return (forwardError - backError)/(2*numericalDerivativeDelta);
+        return centralDerivative(args, 2);
     }
     
-    public double derivative_C(double... args){
-        double[] before = args.clone();
-        double error = vaporPressureError(args);
-        double error_ = vaporPressureError(args[0] , args[1],args[2]+ numericalDerivativeDelta);
-        setParametersValues(before);
-        return(error_ - error)/numericalDerivativeDelta;
-    }
-    
+//    public double derivative_C(double... args){
+//        double[] before = args.clone();
+//        double error = vaporPressureError(args);
+//        double error_ = vaporPressureError(args[0] , args[1],args[2]+ numericalDerivativeDelta);
+//        setParametersValues(before);
+//        return(error_ - error)/numericalDerivativeDelta;
+//    }
+//    
 
     public double[] gradient(double... args){
         double[] gradient = new double[args.length];
-        if(args.length >=1){
-            gradient[0] = centralDerivativeA(args);
-        }if(args.length >=2){
-            gradient[1] = centralDerivativeB(args);
-        }if(args.length >=3){
-            gradient[2] = centralDerivativeC(args);
+        for(int i = 0; i < args.length;i++){
+            gradient[i] = centralDerivative(args, i);
         }
+   
         
         return gradient;
     }
     
-    
-    
-    public double doubleDerivAA(double...args){
-        double deriv = derivative_A(args);
-        args = applyDeltaOnA(args);
-        double deriv_ = derivative_A(args);
-        
-        return (deriv_-deriv)/numericalDerivativeDelta;
-    }
-    
-    public double doubleCentralDerivAA(double... args){//checar
-        int variableIndex = 0;
-        
+    public double centralDerivative(double[] args, int i){
         double[] params = args.clone();
-        
-        double error = vaporPressureError(args);
-        
-        args[variableIndex] = params[variableIndex] - numericalDerivativeDelta;
-        
-        double backwardError = vaporPressureError(args);
-        
-        args[variableIndex] = params[variableIndex] + numericalDerivativeDelta;
-        
+        args[i] = params[i] - numericalDerivativeDelta;
+        double backError = vaporPressureError(args);
+        args[i] = params[i] + numericalDerivativeDelta;
         double forwardError = vaporPressureError(args);
-        
-        double result = (forwardError - 2 * error + backwardError)/ Math.pow(numericalDerivativeDelta,2);
-        
-        setParametersValues(params);
-        return result;
+        resetParameterValues(args, params);
+        return (forwardError - backError)/(2*numericalDerivativeDelta);
+    }
+    public double doubleDeriv(double[] args, int i){
+        double[] params = args.clone();
+        double error = vaporPressureError(args);
+        args[i] = params[i] - numericalDerivativeDelta;
+        double backwardError = vaporPressureError(args);
+        args[i] = params[i] + numericalDerivativeDelta;
+        double forwardError = vaporPressureError(args);
+        resetParameterValues(args,params);
+        return (forwardError - 2 * error + backwardError)/ Math.pow(numericalDerivativeDelta,2);
+    }
+    public double crossDerivative_ij(double[] args ,int i, int j ){
+        double[] params = args.clone();
+        args[i] = params[i] + numericalDerivativeDelta;
+        double forwardDeriv =  centralDerivative(args, j);
+        args[i] = params[i]- numericalDerivativeDelta;
+        double backwardDeriv = centralDerivative(args, j);
+        resetParameterValues(args, params);
+        return (forwardDeriv - backwardDeriv)/numericalDerivativeDelta;
     }
     
-    public double doubleDerivAB(double... args){
-        double deriv = derivative_B(args);
-        args = applyDeltaOnA(args);
-        double deriv_ = derivative_B(args);
-        
-        return (deriv_-deriv)/numericalDerivativeDelta;
+    
+    
+    
+      public void resetParameterValues(double[] args, double[] params){
+        setParametersValues(params);        
+        for(int i = 0; i < params.length; i++){
+            args[i] = params[i];
+        }
     }
     
+    
+    
+  public double doubleCentralDerivAA(double... args){
+        return doubleDeriv(args,0);
+    }
+
     
     public double doubleCentralDerivAB(double... args){
-        int index = 0;
-        double[] params = args.clone();
+        int i = 0;
+        int j = 1;
+        return crossDerivative_ij(args, i, j);
         
-        args[index] = params[index] + numericalDerivativeDelta;
-        double forwardDeriv = centralDerivativeB(args);
-        
-        
-        args[index] = params[index]- numericalDerivativeDelta;
-        double backwardDeriv = centralDerivativeB(args);
-        
-        double result =(forwardDeriv - backwardDeriv)/numericalDerivativeDelta;
-                
-        setParametersValues(params);
-        return result;
     }
-    public double doubleDerivBA(double...args){
-        double deriv = derivative_A(args);
-        args = applyDeltaOnB(args);
-        double deriv_ = derivative_A(args);
-        
-        return (deriv_-deriv)/numericalDerivativeDelta;
-    }
+
      public double doubleCentralDerivBA(double... args){
-        int index = 1;
-        double[] params = args.clone();
-        
-        args[index] = params[index] + numericalDerivativeDelta;
-        double forwardDeriv = centralDerivativeA(args);
-        
-        
-        args[index] = params[index]- numericalDerivativeDelta;
-        double backwardDeriv = centralDerivativeA(args);
-        
-        double result =(forwardDeriv - backwardDeriv)/numericalDerivativeDelta;
-                
-        setParametersValues(params);
-        return result;
+        int i = 1;
+        int j = 0;
+        return crossDerivative_ij(args, i, j);
+
     }
     
-    public double doubleDerivAC(double... args){
-        double deriv = derivative_C(args);
-        double deriv_ = derivative_C(args[0] +numericalDerivativeDelta, args[1], args[2]);
-        
-        return (deriv_-deriv)/numericalDerivativeDelta;
-    }
-    
+ 
     
     public double doubleCentralDerivAC(double... args){
-        int index = 0;
-        double[] params = args.clone();
-        
-        args[index] = params[index] + numericalDerivativeDelta;
-        double forwardDeriv = centralDerivativeC(args);
-        
-        
-        args[index] = params[index]- numericalDerivativeDelta;
-        double backwardDeriv = centralDerivativeC(args);
-        
-        double result =(forwardDeriv - backwardDeriv)/numericalDerivativeDelta;
-                
-        setParametersValues(params);
-        return result;
+        int i = 0;
+        int j = 2;
+        return crossDerivative_ij(args, i, j);
+
     }
-    
     
     
 
-    public double doubleDerivBB(double...args){
-        double deriv = derivative_B(args);
-        args = applyDeltaOnB(args);
-        double deriv_ = derivative_B(args);
-        
-        return (deriv_-deriv)/numericalDerivativeDelta;
-    }
      public double doubleCentralDerivBB(double... args){
-        int variableIndex = 1;
-        
-        double[] params = args.clone();
-        
-        double error = vaporPressureError(args);
-        
-        args[variableIndex] = params[variableIndex] - numericalDerivativeDelta;
-        
-        double backwardError = vaporPressureError(args);
-        
-        args[variableIndex] = params[variableIndex] + numericalDerivativeDelta;
-        
-        double forwardError = vaporPressureError(args);
-        
-        double result = (forwardError - 2 * error + backwardError)/ Math.pow(numericalDerivativeDelta,2);
-        
-        setParametersValues(params);
-        return result;
+         return doubleDeriv(args, 1);
+
     }
     
-    
-    public double doubleDerivBC(double... args){
-        double deriv = derivative_C(args);
-        double deriv_ = derivative_C(args[0], args[1]+numericalDerivativeDelta, args[2]);
-        
-        return (deriv_ - deriv)/numericalDerivativeDelta;
-    }
-    
+
     public double doubleCentralDerivBC(double... args){
-        int index = 1;
-        double[] params = args.clone();
+        int i = 1;
+        int j = 2;
         
-        args[index] = params[index] + numericalDerivativeDelta;
-        double forwardDeriv = centralDerivativeC(args);
+        return crossDerivative_ij(args, i, j);
         
-        
-        args[index] = params[index]- numericalDerivativeDelta;
-        double backwardDeriv = centralDerivativeC(args);
-        
-        double result =(forwardDeriv - backwardDeriv)/numericalDerivativeDelta;
-                
-        setParametersValues(params);
-        return result;
+
     }
     
-    
-    
-    public double doubleDerivCA(double...args){
-        double deriv = derivative_A(args);
-        double deriv_ = derivative_A(args[0], args[1], args[2]+numericalDerivativeDelta);
-        
-        return (deriv_-deriv)/numericalDerivativeDelta;
-    }
-    
+
     public double doubleCentralDerivCA(double... args){
-        int index = 2;
-        double[] params = args.clone();
+        int i = 2;
+        int j = 0;
         
-        args[index] = params[index] + numericalDerivativeDelta;
-        double forwardDeriv = centralDerivativeA(args);
-        
-        
-        args[index] = params[index]- numericalDerivativeDelta;
-        double backwardDeriv = centralDerivativeA(args);
-        
-        double result =(forwardDeriv - backwardDeriv)/numericalDerivativeDelta;
-                
-        setParametersValues(params);
-        return result;
+        return crossDerivative_ij(args, i, j);
+
     }
-    
-    public double doubleDerivCB(double... args){
-        double deriv = derivative_B(args);
-        double deriv_ = derivative_B(args[0], args[1] , args[2]+numericalDerivativeDelta);
-        
-        return (deriv_-deriv)/numericalDerivativeDelta;
-    }
+
     public double doubleCentralDerivCB(double... args){
-        int index = 2;
-        double[] params = args.clone();
+        int i = 2;
+        int j = 1;
         
-        args[index] = params[index] + numericalDerivativeDelta;
-        double forwardDeriv = centralDerivativeB(args);
-        
-        
-        args[index] = params[index]- numericalDerivativeDelta;
-        double backwardDeriv = centralDerivativeB(args);
-        
-        double result =(forwardDeriv - backwardDeriv)/numericalDerivativeDelta;
-                
-        setParametersValues(params);
-        return result;
+        return crossDerivative_ij(args, i, j);
+
     }
-    public double doubleDerivCC(double...args){
-        double deriv = derivative_C(args);
-        double deriv_ = derivative_C(args[0], args[1] , args[2]+numericalDerivativeDelta);
-        
-        return (deriv_ - deriv)/numericalDerivativeDelta;
-    }
+
      public double doubleCentralDerivCC(double... args){
-        int variableIndex = 2;
-        
-        double[] params = args.clone();
-        
-        double error = vaporPressureError(args);
-        
-        args[variableIndex] = params[variableIndex] - numericalDerivativeDelta;
-        
-        double backwardError = vaporPressureError(args);
-        
-        args[variableIndex] = params[variableIndex] + numericalDerivativeDelta;
-        
-        double forwardError = vaporPressureError(args);
-        
-        double result = (forwardError - 2 * error + backwardError)/ Math.pow(numericalDerivativeDelta,2);
-        
-        setParametersValues(params);
-        return result;
+         return doubleDeriv(args,2);
+
     }
     
     
@@ -710,12 +522,7 @@ public class AlphaOptimization {
                 result[i] = before[i] + lambda * (newValues[i]- before[i]);
             }
         }
-        
-//        for(int i = 0; i < result.length;i++){
-//            double step = newValues[i] - before[i];
-//            result[i] = before[i] + step* getDamp();
-//            
-//        }
+
         return result;
     }
     
