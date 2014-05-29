@@ -146,6 +146,9 @@ public class AlphaOptimization {
                 }
             }
             args = applyDamping(before, args);
+            if(applyErrorDecreaseTechnique){
+                args = errorDecrease(before,args);
+            }
             error = vaporPressureError(args);
             
             Parameters_Error pe = new Parameters_Error(args, error,iterations);
@@ -476,6 +479,29 @@ public class AlphaOptimization {
     
     private double parameterCMaxVariation = 0.2;
     private boolean constrainParameterC = false;
+    
+    
+    private boolean applyErrorDecreaseTechnique = false;
+    private int maxErrorDecreaseIterations = 26;
+    private int errorDecreaseIterations = 0;
+    
+    public double[] errorDecrease(double[] before, double[] newValues){
+        double error = vaporPressureError(before);
+        double newError= vaporPressureError(newValues);
+        
+        errorDecreaseIterations = 0;
+        
+        while(newError > error && errorDecreaseIterations < maxErrorDecreaseIterations){
+            errorDecreaseIterations++;
+            for(int i =0 ; i< newValues.length; i++){
+                newValues[i] = before[i] +(0.5) * (newValues[i]- before[i]);
+            }
+            newError = vaporPressureError(newValues);
+            
+        }
+        return newValues;
+    }
+    
     
     
     public double[] applyDamping(double[] before, double[]newValues ){
@@ -862,6 +888,48 @@ public class AlphaOptimization {
      */
     public void setConstrainParameterC(boolean constrainParameterC) {
         this.constrainParameterC = constrainParameterC;
+    }
+
+    /**
+     * @return the applyErrorDecreaseTechnique
+     */
+    public boolean isApplyErrorDecreaseTechnique() {
+        return applyErrorDecreaseTechnique;
+    }
+
+    /**
+     * @param applyErrorDecreaseTechnique the applyErrorDecreaseTechnique to set
+     */
+    public void setApplyErrorDecreaseTechnique(boolean applyErrorDecreaseTechnique) {
+        this.applyErrorDecreaseTechnique = applyErrorDecreaseTechnique;
+    }
+
+    /**
+     * @return the maxErrorDecreaseIterations
+     */
+    public int getMaxErrorDecreaseIterations() {
+        return maxErrorDecreaseIterations;
+    }
+
+    /**
+     * @param maxErrorDecreaseIterations the maxErrorDecreaseIterations to set
+     */
+    public void setMaxErrorDecreaseIterations(int maxErrorDecreaseIterations) {
+        this.maxErrorDecreaseIterations = maxErrorDecreaseIterations;
+    }
+
+    /**
+     * @return the errorDecreaseIterations
+     */
+    public int getErrorDecreaseIterations() {
+        return errorDecreaseIterations;
+    }
+
+    /**
+     * @param errorDecreaseIterations the errorDecreaseIterations to set
+     */
+    public void setErrorDecreaseIterations(int errorDecreaseIterations) {
+        this.errorDecreaseIterations = errorDecreaseIterations;
     }
 
    

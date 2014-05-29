@@ -429,6 +429,99 @@ public class AlphaOptimizationTest {
 
     }
     
+    
+    
+    
+    
+    
+     @Test
+    public void testErrorDecreaseTechnique() {
+        System.out.println("testErrorDecreaseTechnique");
+        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Alpha alpha = AlphaFactory.getAndroulakisEtAl();
+        
+        
+        Component ethanol = new Component("etanol");
+       // ethanol.setName("Etanol");
+        ethanol.setCriticalTemperature(514);
+        ethanol.setCriticalPressure(6.13700E+06);
+        ethanol.setAcentricFactor(0.643558);
+        
+        ethanol.setEnthalpyofFormationofIdealgasat298_15Kand101325Pa(-2.34950E+08);
+        ethanol.setAbsoluteEntropyofIdealGasat298_15Kand101325Pa(2.80640E+05);
+        
+        ethanol.setA_dippr107Cp(4.9200E+04);
+        ethanol.setB_dippr107Cp(1.4577E+05);
+        ethanol.setC_dippr107Cp(1.6628E+03);
+        ethanol.setD_dippr107Cp(9.3900E+04);
+        ethanol.setE_dippr107Cp(7.4470E+02);
+        
+        
+        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, ethanol);
+        substance.optimizeTo(list);
+        for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
+            System.out.println("iteración:" + err.getIteration() +
+                    " A: " + err.getParameters()[0] + " B: " + err.getParameters()[1] +
+                    " C: " + err.getParameters()[2]);
+            
+        }
+        
+        boolean isIndeter = substance.getAlphaOptimizer().isIndeter();
+        boolean isMaxReached = substance.getAlphaOptimizer().isMaxIterationsReached();
+        if((isIndeter || isMaxReached)){
+            Assert.fail("optimización con errores " + substance.getAlphaOptimizer().getMessage());
+        }
+        
+        
+        int iterationsWithNoRestriction = substance.getAlphaOptimizer().getIterations();
+        
+        
+        substance.getAlphaOptimizer().setApplyErrorDecreaseTechnique(true);
+        
+        alpha.setAlphaParameterA(0, ethanol);
+        alpha.setAlphaParameterB(0, ethanol);
+        alpha.setAlphaParameterC(0, ethanol);
+        
+        substance.optimizeTo(list);
+        
+         for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
+            System.out.println("iteración:" + err.getIteration() +
+                    " A: " + err.getParameters()[0] + " B: " + err.getParameters()[1] +
+                    " C: " + err.getParameters()[2]);
+            
+        }
+        
+        isIndeter = substance.getAlphaOptimizer().isIndeter();
+        isMaxReached = substance.getAlphaOptimizer().isMaxIterationsReached();
+        if((isIndeter || isMaxReached)){
+            Assert.fail("optimización con errores " + substance.getAlphaOptimizer().getMessage());
+        }
+        
+        int iterationsWithDecreaseTechnique = substance.getAlphaOptimizer().getIterations();
+        
+        
+        
+        
+       if(substance.getAlphaOptimizer().getErrorDecreaseIterations() ==0){
+           fail("no se realizó la tecnica de disminucion de error");
+       }
+         
+        
+        assertEquals(true, iterationsWithDecreaseTechnique < iterationsWithNoRestriction);
+        
+
+        
+
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     private void printHistory(HeterogeneousSubstance substance){
         for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
             StringBuffer sb = new StringBuffer("iteración:" + err.getIteration() + "(");
