@@ -3,6 +3,7 @@ package termo.optimization;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import termo.component.Component;
 import termo.data.ExperimentalData;
 import termo.eos.alpha.Alpha;
@@ -661,6 +662,10 @@ public class AlphaOptimization {
     private double parameterBMaxVariation = 0.2;
     private boolean constrainParameterB = false;
     
+    private double parameterCMaxVariation = 0.2;
+    private boolean constrainParameterC = false;
+    
+    
     public double[] applyDamping(double[] before, double[]newValues ){
         int size = before.length;
         double[] result = new double[size];
@@ -698,6 +703,12 @@ public class AlphaOptimization {
             
             result[0] = newA;
             result[1] = newB;
+        }else if(size ==3){
+            
+            double lambda = findLambda(before, newValues);
+            for(int i = 0; i < 3; i++){
+                result[i] = before[i] + lambda * (newValues[i]- before[i]);
+            }
         }
         
 //        for(int i = 0; i < result.length;i++){
@@ -706,6 +717,63 @@ public class AlphaOptimization {
 //            
 //        }
         return result;
+    }
+    
+    
+    private double findLambda(double[] before, double[] newValues){
+        double lamdaA = requiredLambdaForConstraint(before[0], newValues[0], parameterAMaxVariation);
+        double lamdaB = requiredLambdaForConstraint(before[1], newValues[1], parameterBMaxVariation);
+        double lamdaC = requiredLambdaForConstraint(before[2], newValues[2], parameterCMaxVariation);
+        
+        
+        ArrayList<Double> lambdas = new ArrayList();
+        if(considerLambda(lamdaA, constrainParameterA)){
+            lambdas.add(lamdaA);
+        }if(considerLambda(lamdaB, constrainParameterB)){
+            lambdas.add(lamdaB);
+        }if(considerLambda(lamdaC, constrainParameterC)){
+            lambdas.add(lamdaC);
+        }
+        if(lambdas.isEmpty()){
+            return 1;
+        }
+        return findMin(lambdas);
+        
+       
+        
+    }
+    
+    public double findMin(final ArrayList<Double> list) {
+      Double min = list.get(0);
+      for(Double number: list){
+          int comparation = min.compareTo(number);
+          if(comparation > 0){
+              min = number;
+          }
+      }
+      return min;
+    }
+    
+    
+    
+    private boolean considerLambda(double lamda, boolean constrainParameter){
+        return greaterThanZeroAndLessOrEqualsToOne(lamda) && constrainParameter;
+    }
+    
+    
+    private boolean greaterThanZeroAndLessOrEqualsToOne(double lambda){
+        return lambda <= 1 && lambda > 0;
+            
+    }
+    
+    
+    private double requiredLambdaForConstraint(double lastValue, double newValue, double maxDelta){
+        double delta = newValue - lastValue;
+        double limitVar = lastValue + Math.signum(delta) * maxDelta;
+        
+        double lamda = (limitVar- lastValue)/(delta);
+        
+        return lamda;
     }
 
     
@@ -959,6 +1027,34 @@ public class AlphaOptimization {
      */
     public void setConstrainParameterB(boolean constrainParameterB) {
         this.constrainParameterB = constrainParameterB;
+    }
+
+    /**
+     * @return the parameterCMaxVariation
+     */
+    public double getParameterCMaxVariation() {
+        return parameterCMaxVariation;
+    }
+
+    /**
+     * @param parameterCMaxVariation the parameterCMaxVariation to set
+     */
+    public void setParameterCMaxVariation(double parameterCMaxVariation) {
+        this.parameterCMaxVariation = parameterCMaxVariation;
+    }
+
+    /**
+     * @return the constrainParameterC
+     */
+    public boolean isConstrainParameterC() {
+        return constrainParameterC;
+    }
+
+    /**
+     * @param constrainParameterC the constrainParameterC to set
+     */
+    public void setConstrainParameterC(boolean constrainParameterC) {
+        this.constrainParameterC = constrainParameterC;
     }
 
    

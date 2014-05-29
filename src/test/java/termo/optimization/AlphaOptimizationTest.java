@@ -1,6 +1,7 @@
     package termo.optimization;
 
 import java.util.ArrayList;
+import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import termo.component.Component;
@@ -156,7 +157,9 @@ public class AlphaOptimizationTest {
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
         substance.optimizeTo(list);
         
-        
+        alpha.getAlphaParameterA(component);
+        alpha.getAlphaParameterB(component);
+        alpha.getAlphaParameterC(component);
 //        assertEquals(-7.098408047518564,component.getA_AndroulakisEtAl(),1e-4);
         
         boolean isIndeter = substance.getAlphaOptimizer().isIndeter();
@@ -343,5 +346,89 @@ public class AlphaOptimizationTest {
         
         
     }
+    
+    
+    
+    @Test
+    public void testConstraintInparameterB_CFor3VariableOptimization() {
+        System.out.println("testConstraintInparameterB_CFor3VariableOptimization");
+        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Alpha alpha = AlphaFactory.getAndroulakisEtAl();
+        
+        
+        Component ethanol = new Component("etanol");
+       // ethanol.setName("Etanol");
+        ethanol.setCriticalTemperature(514);
+        ethanol.setCriticalPressure(6.13700E+06);
+        ethanol.setAcentricFactor(0.643558);
+        
+        ethanol.setEnthalpyofFormationofIdealgasat298_15Kand101325Pa(-2.34950E+08);
+        ethanol.setAbsoluteEntropyofIdealGasat298_15Kand101325Pa(2.80640E+05);
+        
+        ethanol.setA_dippr107Cp(4.9200E+04);
+        ethanol.setB_dippr107Cp(1.4577E+05);
+        ethanol.setC_dippr107Cp(1.6628E+03);
+        ethanol.setD_dippr107Cp(9.3900E+04);
+        ethanol.setE_dippr107Cp(7.4470E+02);
+        
+        
+        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, ethanol);
+        substance.optimizeTo(list);
+        for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
+            System.out.println("iteración:" + err.getIteration() +
+                    " A: " + err.getParameters()[0] + " B: " + err.getParameters()[1] +
+                    " C: " + err.getParameters()[2]);
+            
+        }
+        
+        boolean isIndeter = substance.getAlphaOptimizer().isIndeter();
+        boolean isMaxReached = substance.getAlphaOptimizer().isMaxIterationsReached();
+        if((isIndeter || isMaxReached)){
+            Assert.fail("optimización con errores " + substance.getAlphaOptimizer().getMessage());
+        }
+        
+        
+        int iterationsWithNoRestriction = substance.getAlphaOptimizer().getIterations();
+        
+        
+        substance.getAlphaOptimizer().setConstrainParameterB(true);
+        substance.getAlphaOptimizer().setParameterBMaxVariation(1);
+        substance.getAlphaOptimizer().setConstrainParameterC(true);
+        substance.getAlphaOptimizer().setParameterCMaxVariation(1);
+        
+        alpha.setAlphaParameterA(0, ethanol);
+        alpha.setAlphaParameterB(0, ethanol);
+        alpha.setAlphaParameterC(0, ethanol);
+        
+        substance.optimizeTo(list);
+        
+         for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
+            System.out.println("iteración:" + err.getIteration() +
+                    " A: " + err.getParameters()[0] + " B: " + err.getParameters()[1] +
+                    " C: " + err.getParameters()[2]);
+            
+        }
+        
+        isIndeter = substance.getAlphaOptimizer().isIndeter();
+        isMaxReached = substance.getAlphaOptimizer().isMaxIterationsReached();
+        if((isIndeter || isMaxReached)){
+            Assert.fail("optimización con errores " + substance.getAlphaOptimizer().getMessage());
+        }
+        
+        int iterationsWithRestriction = substance.getAlphaOptimizer().getIterations();
+        
+        
+        
+        
+        
+        
+        assertEquals(true, iterationsWithRestriction < iterationsWithNoRestriction);
+        
+
+        
+
+    }
+    
+    
     
 }
