@@ -757,9 +757,9 @@ public class AlphaOptimization {
      * @return the errorForEachExperimentalData
      */
     public ArrayList<ErrorData> getErrorForEachExperimentalData() {
-        if(experimental.size() != errorForEachExperimentalData.size()){
+       // if(experimental.size() != errorForEachExperimentalData.size()){
             vaporPressureError();//para calcular por primera vez
-        }
+        //}
         return errorForEachExperimentalData;
         
     }
