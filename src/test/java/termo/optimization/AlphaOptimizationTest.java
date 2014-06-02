@@ -447,15 +447,8 @@ public class AlphaOptimizationTest {
         ethanol.setCriticalPressure(6.13700E+06);
         ethanol.setAcentricFactor(0.643558);
         
-        ethanol.setEnthalpyofFormationofIdealgasat298_15Kand101325Pa(-2.34950E+08);
-        ethanol.setAbsoluteEntropyofIdealGasat298_15Kand101325Pa(2.80640E+05);
-        
-        ethanol.setA_dippr107Cp(4.9200E+04);
-        ethanol.setB_dippr107Cp(1.4577E+05);
-        ethanol.setC_dippr107Cp(1.6628E+03);
-        ethanol.setD_dippr107Cp(9.3900E+04);
-        ethanol.setE_dippr107Cp(7.4470E+02);
-        
+
+        alpha.setAlphaParameterA(30, ethanol);
         
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, ethanol);
         substance.optimizeTo(list);
@@ -478,7 +471,7 @@ public class AlphaOptimizationTest {
         
         substance.getAlphaOptimizer().setApplyErrorDecreaseTechnique(true);
         
-        alpha.setAlphaParameterA(0, ethanol);
+        alpha.setAlphaParameterA(30, ethanol);
         alpha.setAlphaParameterB(0, ethanol);
         alpha.setAlphaParameterC(0, ethanol);
         

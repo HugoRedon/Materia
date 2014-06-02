@@ -132,6 +132,8 @@ public class AlphaOptimization {
             beforeError = vaporPressureError( args);
             double[] before = args;
             iterations++;    
+           // double[] gradiente=  gradient(args);
+            
             args = nextValue(args );
             for(int i =0; i<args.length;i++){
                 if(Double.isNaN(args[i]) | Double.isInfinite(args[i])){
@@ -340,7 +342,7 @@ public class AlphaOptimization {
         args[i] = params[i]- numericalDerivativeDelta;
         double backwardDeriv = centralDerivative(args, j);
         resetParameterValues(args, params);
-        return (forwardDeriv - backwardDeriv)/numericalDerivativeDelta;
+        return (forwardDeriv - backwardDeriv)/(2*numericalDerivativeDelta);
     }
     
     
@@ -507,66 +509,125 @@ public class AlphaOptimization {
     public double[] applyDamping(double[] before, double[]newValues ){
         int size = before.length;
         double[] result = new double[size];
-        
-        if(size ==1){
-            double newA = newValues[0];
-            double lastA = before[0];
-            double deltaA = newA -lastA;
-            if(needsToBeConstrained(deltaA, parameterAMaxVariation, constrainParameterA)){
-                newA = lastA + Math.signum(deltaA)*  parameterAMaxVariation;
-            }
-            result[0] = newA;
-            
-        }else if(size ==2){
-            double newA = newValues[0];
-            double lastA = before[0];
-            double deltaA = newA -lastA;
-            
-            double newB = newValues[1];
-            double lastB = before[1];
-            double deltaB = newB- lastB;
-            
-           // boolean applyConstraintOnB = needsToBeConstrained(deltaB, parameterBMaxVariation, constrainParameterB);
-            
-            if(needsToBeConstrained(newA-lastA, parameterAMaxVariation, constrainParameterA)){
-                newA =lastA + Math.signum(deltaA)* parameterAMaxVariation;
-                newB =lastB + (newA - lastA) *(deltaB/deltaA);
-               
-            }
-            
-            if(needsToBeConstrained(newB-lastB,parameterBMaxVariation , constrainParameterB)){
-                newB = lastB + Math.signum(deltaB)* parameterBMaxVariation;
-                newA = lastA + (deltaA/deltaB)*(newB-lastB);
-            }
-            
-            result[0] = newA;
-            result[1] = newB;
-        }else if(size ==3){
-            
+//        
+//        if(size ==1){
+//            double newA = newValues[0];
+//            double lastA = before[0];
+//            double deltaA = newA -lastA;
+//            if(needsToBeConstrained(deltaA, parameterAMaxVariation, constrainParameterA)){
+//                newA = lastA + Math.signum(deltaA)*  parameterAMaxVariation;
+//            }
+//            result[0] = newA;
+//            
+//        }else if(size ==2){
+//            double newA = newValues[0];
+//            double lastA = before[0];
+//            double deltaA = newA -lastA;
+//            
+//            double newB = newValues[1];
+//            double lastB = before[1];
+//            double deltaB = newB- lastB;
+//            
+//           // boolean applyConstraintOnB = needsToBeConstrained(deltaB, parameterBMaxVariation, constrainParameterB);
+//            
+//            if(needsToBeConstrained(newA-lastA, parameterAMaxVariation, constrainParameterA)){
+//                newA =lastA + Math.signum(deltaA)* parameterAMaxVariation;
+//                newB =lastB + (newA - lastA) *(deltaB/deltaA);
+//               
+//            }
+//            
+//            if(needsToBeConstrained(newB-lastB,parameterBMaxVariation , constrainParameterB)){
+//                newB = lastB + Math.signum(deltaB)* parameterBMaxVariation;
+//                newA = lastA + (deltaA/deltaB)*(newB-lastB);
+//            }
+//            
+//            result[0] = newA;
+//            result[1] = newB;
+//        }else if(size ==3){
+//            
             double lambda = findLambda(before, newValues);
-            for(int i = 0; i < 3; i++){
+            for(int i = 0; i < newValues.length; i++){
                 result[i] = before[i] + lambda * (newValues[i]- before[i]);
             }
-        }
+//        }
 
         return result;
     }
     
     
+    
+    
+    
+    
     private double findLambda(double[] before, double[] newValues){
-        double lamdaA = requiredLambdaForConstraint(before[0], newValues[0], parameterAMaxVariation);
-        double lamdaB = requiredLambdaForConstraint(before[1], newValues[1], parameterBMaxVariation);
-        double lamdaC = requiredLambdaForConstraint(before[2], newValues[2], parameterCMaxVariation);
-        
-        
+        int numberOfVariablestoOptimize = numberOfVariablesToOptimize();
         ArrayList<Double> lambdas = new ArrayList();
-        if(considerLambda(lamdaA, constrainParameterA)){
-            lambdas.add(lamdaA);
-        }if(considerLambda(lamdaB, constrainParameterB)){
-            lambdas.add(lamdaB);
-        }if(considerLambda(lamdaC, constrainParameterC)){
-            lambdas.add(lamdaC);
+        
+        double lambda0;
+         if(numberOfVariablestoOptimize >=1){
+            if(!fixParameterA){
+                lambda0 = requiredLambdaForConstraint(before[0], newValues[0], parameterAMaxVariation);
+                if(considerLambda(lambda0, constrainParameterA)){
+                    lambdas.add(lambda0);
+                }
+                
+            }else if(!fixParameterB){
+                lambda0 = requiredLambdaForConstraint(before[0], newValues[0], parameterBMaxVariation);
+                if(considerLambda(lambda0, constrainParameterB)){
+                    lambdas.add(lambda0);
+                }
+            }else if(!fixParameterC){
+                lambda0 = requiredLambdaForConstraint(before[0], newValues[0], parameterCMaxVariation);
+                if(considerLambda(lambda0, constrainParameterC)){
+                    lambdas.add(lambda0);
+                }
+            }
         }
+        
+        double lambda1;
+         if(numberOfVariablestoOptimize >=2){
+            if(!fixParameterB){
+                lambda1 = requiredLambdaForConstraint(before[1], newValues[1], parameterBMaxVariation);
+                if(considerLambda(lambda1, constrainParameterB)){
+                    lambdas.add(lambda1);
+                }
+            }else if(!fixParameterC){
+                lambda1 = requiredLambdaForConstraint(before[1], newValues[1], parameterCMaxVariation);
+                if(considerLambda(lambda1, constrainParameterC)){
+                    lambdas.add(lambda1);
+                }
+            }
+            
+        }
+        
+        double lambda2;
+        if(numberOfVariablestoOptimize >=3){
+           lambda2 =requiredLambdaForConstraint(before[2], newValues[2], parameterCMaxVariation);
+           if(considerLambda(lambda2, constrainParameterC)){
+                    lambdas.add(lambda2);
+                }
+        }
+         
+//        double lamdaA = requiredLambdaForConstraint(before[0], newValues[0], parameterAMaxVariation);
+//        double lamdaB = requiredLambdaForConstraint(before[1], newValues[1], parameterBMaxVariation);
+//        double lamdaC = requiredLambdaForConstraint(before[2], newValues[2], parameterCMaxVariation);
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        if(considerLambda(lamdaA, constrainParameterA)){
+//            lambdas.add(lamdaA);
+//        }if(considerLambda(lamdaB, constrainParameterB)){
+//            lambdas.add(lamdaB);
+//        }if(considerLambda(lamdaC, constrainParameterC)){
+//            lambdas.add(lamdaC);
+//        }
         if(lambdas.isEmpty()){
             return 1;
         }
