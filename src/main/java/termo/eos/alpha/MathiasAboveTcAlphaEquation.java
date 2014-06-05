@@ -32,7 +32,7 @@ public class MathiasAboveTcAlphaEquation extends Alpha{
     }
      
     private double c(Component component){
-        double q = belowTcAlphaEquation.getAlphaParameterA(component);
+        double q = belowTcAlphaEquation.getParameter(component,0);
 	double omega = component.getAcentricFactor();
         return 1+0.5*belowTcAlphaEquation.m(omega)+0.3*q;
     }
@@ -61,38 +61,26 @@ public class MathiasAboveTcAlphaEquation extends Alpha{
     
     @Override
     public int numberOfParameters() {
-        return 3;//belowTc contiene 3
-    }
-    
-    @Override
-    public double getAlphaParameterA(Component component) {
-	return component.getA_Mathias_Copeman();
-    } 
-    
-    @Override
-    public void setAlphaParameterA(double paramValue, Component component) {
-        component.setA_Mathias_Copeman(paramValue);
-    }
-    
-    @Override
-    public void setAlphaParameterB(double paramValue, Component component) {
-        component.setB_Mathias_Copeman(paramValue);
+        return 1;
     }
 
     @Override
-    public double getAlphaParameterB(Component component) {
-        return component.getB_Mathias_Copeman();
+    public void setParameter(double value, Component component, int index) {
+       if(index ==0) {
+           component.setA_Mathias(value);
+       }
     }
 
     @Override
-    public void setAlphaParameterC(double paramValue, Component component) {
-        component.setC_Mathias_Copeman(paramValue);
+    public double getParameter(Component component, int index) {
+          if(index ==0) {
+                return component.getA_Mathias();
+          }else{
+          return 0;}
+            
     }
-
-    @Override
-    public double getAlphaParameterC(Component component) {
-        return component.getC_Mathias_Copeman();
-    }
+    
+     
     
     
 }

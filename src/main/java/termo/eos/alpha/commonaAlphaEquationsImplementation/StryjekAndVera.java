@@ -2,6 +2,7 @@
 
 package termo.eos.alpha.commonaAlphaEquationsImplementation;
 
+import com.sun.org.apache.bcel.internal.generic.SWITCH;
 import termo.component.Component;
 import termo.eos.alpha.AlphaNames;
 import termo.eos.alpha.CommonAlphaEquation;
@@ -33,45 +34,71 @@ public class StryjekAndVera extends CommonAlphaEquation {
         b.append(m());
         return b.toString();                
     }
+
+  
+    
     
     
     @Override
-    public double getAlphaParameterA(Component component) {
-	return component.getK_StryjekAndVera();
+    public void setParameter(double value, Component component, int index){
+        if(index ==0){
+            component.setK_StryjekAndVera(value);
+        }
+        
     }
-
+    
+    
+    @Override
+    public double getParameter(Component component, int index){
+        if(index ==0){
+            return component.getK_StryjekAndVera();
+        }else{
+            return 0;
+        }
+    }
+    
+    
+//    
+//    @Override
+//    public double getAlphaParameterA(Component component) {
+//	return component.getK_StryjekAndVera();
+//    }
+//
     @Override
     public int numberOfParameters() {
         return 1;
     }
-
-    @Override
-    public void setAlphaParameterA(double paramValue, Component component) {
-        component.setK_StryjekAndVera(paramValue);
-    }
-
+//
 //    @Override
-//    public double getAlphaParameterA(Component component) {
-//        return component.getK_StryjekAndVera();
+//    public void setAlphaParameterA(double paramValue, Component component) {
+//        component.setK_StryjekAndVera(paramValue);
 //    }
-
-    @Override
-    public void setAlphaParameterB(double paramValue, Component component) {
-        
-    }
-
-    @Override
-    public double getAlphaParameterB(Component component) {
-        return 0;
-    }
-
-    @Override
-    public void setAlphaParameterC(double paramValue, Component component) {
-        
-    }
-
-    @Override
-    public double getAlphaParameterC(Component component) {
-        return 0;
-    }
+//
+////    @Override
+////    public double getAlphaParameterA(Component component) {
+////        return component.getK_StryjekAndVera();
+////    }
+//    
+//    
+//    
+//
+//    @Override
+//    public void setAlphaParameterB(double paramValue, Component component) {
+//        
+//    }
+//
+//    @Override
+//    public double getAlphaParameterB(Component component) {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void setAlphaParameterC(double paramValue, Component component) {
+//        
+//    }
+//
+//    @Override
+//    public double getAlphaParameterC(Component component) {
+//        return 0;
+//    }
     }

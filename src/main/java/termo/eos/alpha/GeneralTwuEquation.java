@@ -191,36 +191,17 @@ public class GeneralTwuEquation extends Alpha {
 
     @Override
     public int numberOfParameters() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 0;
     }
 
     @Override
-    public void setAlphaParameterA(double paramValue, Component component) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setParameter(double value, Component component, int index) {
+
     }
 
     @Override
-    public double getAlphaParameterA(Component component) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public double getParameter(Component component, int index) {
+        return 0;
     }
-
-    @Override
-    public void setAlphaParameterB(double paramValue, Component component) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double getAlphaParameterB(Component component) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setAlphaParameterC(double paramValue, Component component) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double getAlphaParameterC(Component component) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 }

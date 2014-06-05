@@ -35,35 +35,27 @@ public class MelhemEtAl extends Alpha{
     public int numberOfParameters() {
         return 2;
     }
-    
+
     @Override
-    public double getAlphaParameterA(Component component) {
-	return component.getA_MelhemEtAl();
-    } 
-    
-    @Override
-    public void setAlphaParameterA(double paramValue, Component component) {
-        component.setA_MelhemEtAl(paramValue);
-    }
-    
-    @Override
-    public void setAlphaParameterB(double paramValue, Component component) {
-        component.setB_MelhemEtAl(paramValue);
+    public double getParameter(Component component, int index) {
+        switch(index){
+            case 0 : return component.getA_MelhemEtAl();
+            case 1: return component.getB_MelhemEtAl();
+            default: return 0;
+        }
     }
 
     @Override
-    public double getAlphaParameterB(Component component) {
-        return component.getB_MelhemEtAl();
+    public void setParameter(double value, Component component, int index) {
+        switch(index){
+            case 0 : component.setA_MelhemEtAl(value);
+                break;
+            case 1: component.setB_MelhemEtAl(value);
+                break;
+        }
     }
-
-    @Override
-    public void setAlphaParameterC(double paramValue, Component component) {
-        
-    }
-
-    @Override
-    public double getAlphaParameterC(Component component) {
-        return 0;
-    }
+    
+     
+    
     
 }

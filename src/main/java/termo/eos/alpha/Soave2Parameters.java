@@ -33,34 +33,27 @@ public class Soave2Parameters extends Alpha{
         return 2;
     }
     
-    @Override
-    public double getAlphaParameterA(Component component) {
-	return component.getA_Soave();
-    } 
     
+       @Override
+    public double getParameter(Component component, int index) {
+        switch(index){
+            case 0 : return component.getA_Soave();
+            case 1: return component.getB_Soave();
+            default: return 0;
+        }
+    }
+
     @Override
-    public void setAlphaParameterA(double paramValue, Component component) {
-        component.setA_Soave(paramValue);
+    public void setParameter(double value, Component component, int index) {
+        switch(index){
+            case 0 : component.setA_Soave(value);
+                break;
+            case 1: component.setB_Soave(value);
+                break;
+        }
     }
     
-    @Override
-    public void setAlphaParameterB(double paramValue, Component component) {
-        component.setB_Soave(paramValue);
-    }
-
-    @Override
-    public double getAlphaParameterB(Component component) {
-        return component.getB_Soave();
-    }
-
-    @Override
-    public void setAlphaParameterC(double paramValue, Component component) {
-        
-    }
-
-    @Override
-    public double getAlphaParameterC(Component component) {
-        return 0;
-    }
+    
+    
     
 }

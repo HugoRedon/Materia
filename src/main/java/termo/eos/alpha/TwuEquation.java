@@ -37,36 +37,35 @@ public class TwuEquation extends Alpha {
     public int numberOfParameters() {
         return 3;
     }
+       @Override
+    public void setParameter(double value, Component component, int index) {
+        switch(index){
+            case 0: component.setN_Twu(value);
+                break;
+            case 1: component.setM_Twu(value);
+                break;
+            case 2: component.setL_Twu(value);
+                break;
+        }
+    }
+
+    @Override
+    public double getParameter(Component component, int index) {
+          switch(index){
+            case 0: 
+                return component.getN_Twu();
+            case 1: 
+                return component.getM_Twu();
+            case 2: 
+                return component.getL_Twu();
+            default:
+                return 0;
+                
+        }
+    }
     
-    @Override
-    public double getAlphaParameterA(Component component) {
-	return component.getN_Twu();
-    } 
-    
-    @Override
-    public void setAlphaParameterA(double paramValue, Component component) {
-        component.setN_Twu(paramValue);
-    }
-    
-    @Override
-    public void setAlphaParameterB(double paramValue, Component component) {
-        component.setM_Twu(paramValue);
-    }
+  
 
-    @Override
-    public double getAlphaParameterB(Component component) {
-        return component.getM_Twu();
-    }
-
-    @Override
-    public void setAlphaParameterC(double paramValue, Component component) {
-        component.setL_Twu(paramValue);
-    }
-
-    @Override
-    public double getAlphaParameterC(Component component) {
-        return component.getL_Twu();
-    }
-
+   
 
 }

@@ -74,18 +74,21 @@ public abstract class Alpha {
     public void setEquation(String equation) {
         this.equation = equation;
     }
-
+    public abstract double getParameter(Component component, int index);
+    public abstract void setParameter(double value, Component component, int index);
+    
     public abstract int numberOfParameters() ;
-
-    public abstract void setAlphaParameterA(double paramValue, Component component) ;
-    public abstract double getAlphaParameterA(Component component);
-    
-    public abstract void setAlphaParameterB(double paramValue, Component component) ;
-    public abstract double getAlphaParameterB( Component component);
-    
-    public abstract void setAlphaParameterC(double paramValue, Component component) ;
-    public abstract double getAlphaParameterC(Component component);
-
-
+//
+//    public abstract void setAlphaParameterA(double paramValue, Component component) ;
+//    public abstract double getAlphaParameterA(Component component);
+//    
+//    public abstract void setAlphaParameterB(double paramValue, Component component) ;
+//    public abstract double getAlphaParameterB( Component component);
+//    
+//    public abstract void setAlphaParameterC(double paramValue, Component component) ;
+//    public abstract double getAlphaParameterC(Component component);
+//
+//    public abstract double[] getParameters(Component component);
+//    public abstract void setParameters(double[] paramsValues, Component component);
    
 }

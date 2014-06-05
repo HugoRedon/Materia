@@ -26,34 +26,16 @@ public class UnitAlpha extends Alpha {
     public int numberOfParameters() {
         return 0;
     }
-    
+
     @Override
-    public double getAlphaParameterA(Component component) {
-	return 0;
-    } 
-    
-    @Override
-    public void setAlphaParameterA(double paramValue, Component component) {
-        
-    }
-    
-    @Override
-    public void setAlphaParameterB(double paramValue, Component component) {
+    public void setParameter(double value, Component component, int index) {
         
     }
 
     @Override
-    public double getAlphaParameterB(Component component) {
+    public double getParameter(Component component, int index) {
         return 0;
     }
-
-    @Override
-    public void setAlphaParameterC(double paramValue, Component component) {
-        
-    }
-
-    @Override
-    public double getAlphaParameterC(Component component) {
-        return 0;
-    }
+    
+   
 }

@@ -30,32 +30,14 @@ public class AndroulakisEtAlAboveTc extends Alpha{
     }
 
     @Override
-    public void setAlphaParameterA(double paramValue, Component component) {
+    public void setParameter(double value, Component component, int index) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double getAlphaParameterA(Component component) {
+    public double getParameter(Component component, int index) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void setAlphaParameterB(double paramValue, Component component) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double getAlphaParameterB(Component component) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setAlphaParameterC(double paramValue, Component component) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double getAlphaParameterC(Component component) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+  
 }

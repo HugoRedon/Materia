@@ -45,33 +45,34 @@ public class AndroulakisEtAl extends Alpha{
     }
 
     @Override
-    public void setAlphaParameterA(double paramValue, Component component) {
-        component.setA_AndroulakisEtAl(paramValue);
+    public void setParameter(double value, Component component, int index) {
+        switch(index){
+            case 0: component.setA_AndroulakisEtAl(value);
+                break;
+            case 1: component.setB_AndroulakisEtAl(value);
+                break;
+            case 2: component.setC_AndroulakisEtAl(value);
+                break;
+        }
     }
 
     @Override
-    public double getAlphaParameterA(Component component) {
-        return component.getA_AndroulakisEtAl();
+    public double getParameter(Component component, int index) {
+          switch(index){
+            case 0: 
+                return component.getA_AndroulakisEtAl();
+            case 1: 
+                return component.getB_AndroulakisEtAl();
+            case 2: 
+                return component.getC_AndroulakisEtAl();
+            default:
+                return 0;
+                
+        }
     }
 
-    @Override
-    public void setAlphaParameterB(double paramValue, Component component) {
-        component.setB_AndroulakisEtAl(paramValue);
-    }
-
-    @Override
-    public double getAlphaParameterB(Component component) {
-        return component.getB_AndroulakisEtAl();
-    }
-
-    @Override
-    public void setAlphaParameterC(double paramValue, Component component) {
-        component.setC_AndroulakisEtAl(paramValue);
-    }
-
-    @Override
-    public double getAlphaParameterC( Component component) {
-        return component.getC_AndroulakisEtAl();
-    }
+    
+    
+    
     
 }

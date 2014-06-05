@@ -64,36 +64,32 @@ public class MathiasCopemanEquation extends Alpha{
     public int numberOfParameters() {
         return 3;
     }
-    
+
     @Override
-    public double getAlphaParameterA(Component component) {
-	return component.getA_Mathias_Copeman();
-    } 
-    
-    @Override
-    public void setAlphaParameterA(double paramValue, Component component) {
-        component.setA_Mathias_Copeman(paramValue);
-    }
-    
-    @Override
-    public void setAlphaParameterB(double paramValue, Component component) {
-        component.setB_Mathias_Copeman(paramValue);
+    public void setParameter(double value, Component component, int index) {
+        switch(index){
+            case 0:component.setA_Mathias_Copeman(value);
+                break;
+            case 1: component.setB_Mathias_Copeman(value);
+                break;
+            case 2: component.setC_Mathias_Copeman(value);
+                break;
+            
+        }
     }
 
     @Override
-    public double getAlphaParameterB(Component component) {
-        return component.getB_Mathias_Copeman();
+    public double getParameter(Component component, int index) {
+        switch(index){
+            case 0:return component.getA_Mathias_Copeman();
+            case 1: return component.getB_Mathias_Copeman();
+            case 2: return component.getC_Mathias_Copeman();
+            default:return 0;
+        }
     }
-
-    @Override
-    public void setAlphaParameterC(double paramValue, Component component) {
-        component.setC_Mathias_Copeman(paramValue);
-    }
-
-    @Override
-    public double getAlphaParameterC(Component component) {
-        return component.getC_Mathias_Copeman();
-    }
+    
+    
+    
     
 
     /**

@@ -33,7 +33,7 @@ public class AlphaOptimization {
     private ArrayList<Parameters_Error> convergenceHistory = new ArrayList();
     
     
-    private double damp = 1;
+    
  
     //constructores
     public AlphaOptimization(HeterogeneousSubstance substance){
@@ -78,25 +78,25 @@ public class AlphaOptimization {
         Component component = substance.getVapor().getComponent();
         if(numberOfVariablesToOptimize >=1){
             if(!fixParameterA){
-                initialValues[0] = alpha.getAlphaParameterA(component);
+                initialValues[0] = alpha.getParameter(component,0);
             }else if(!fixParameterB){
-                initialValues[0] = alpha.getAlphaParameterB(component);
+                initialValues[0] = alpha.getParameter(component,1);
             }else if(!fixParameterC){
-                initialValues[0] = alpha.getAlphaParameterC(component);
+                initialValues[0] = alpha.getParameter(component,2);
             }
         }
         
         if(numberOfVariablesToOptimize >=2){
             if(!fixParameterB){
-                initialValues[1] = alpha.getAlphaParameterB(component);
+                initialValues[1] = alpha.getParameter(component,1);
             }else if(!fixParameterC){
-                initialValues[1] = alpha.getAlphaParameterC(component);
+                initialValues[1] = alpha.getParameter(component,2);
             }
             
         }
         
         if(numberOfVariablesToOptimize >=3){
-           initialValues[2] = alpha.getAlphaParameterC(component);
+           initialValues[2] = alpha.getParameter(component,2);
         }
         
         return initialValues;
@@ -197,25 +197,25 @@ public class AlphaOptimization {
         
         if(numberOfVariablesToOptimize >=1){
             if(!fixParameterA){
-                alpha.setAlphaParameterA(params[0],component);
+                alpha.setParameter(params[0],component,0);
             }else if(!fixParameterB){
-                alpha.setAlphaParameterB(params[0],component);
+                alpha.setParameter(params[0],component,1);
             }else if(!fixParameterC){
-                alpha.setAlphaParameterC(params[0],component);
+                alpha.setParameter(params[0],component,2);
             }
         }
         
         if(numberOfVariablesToOptimize >=2){
             if(!fixParameterB){
-                alpha.setAlphaParameterB(params[1],component);
+                alpha.setParameter(params[1],component,1);
             }else if(!fixParameterC){
-                alpha.setAlphaParameterC(params[1],component);
+                alpha.setParameter(params[1],component,2);
             }
             
         }
         
         if(numberOfVariablesToOptimize >=3){
-           alpha.setAlphaParameterC(params[2],component);
+           alpha.setParameter(params[2],component,2);
         }
    }
    
@@ -455,20 +455,6 @@ public class AlphaOptimization {
     }
     
     
-    /**
-     * @return the damp
-     */
-    public double getDamp() {
-        return damp;
-    }
-
-    /**
-     * @param damp the damp to set
-     */
-    public void setDamp(double damp) {
-        this.damp = damp;
-    }
-
     /**
      * @return the numericalDerivativeDelta
      */

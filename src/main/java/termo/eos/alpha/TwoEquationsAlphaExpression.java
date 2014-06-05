@@ -89,36 +89,17 @@ public class TwoEquationsAlphaExpression extends Alpha{
     }
 
     @Override
-    public void setAlphaParameterA(double paramValue, Component component) {
-        alphaBelowTc.setAlphaParameterA(paramValue, component);
+    public double getParameter(Component component, int index) {
+        return alphaBelowTc.getParameter(component, index);
     }
 
     @Override
-    public double getAlphaParameterA(Component component) {
-        return alphaBelowTc.getAlphaParameterA(component);
+    public void setParameter(double value, Component component, int index) {
+        alphaBelowTc.setParameter(value, component, index);
     }
-
-    @Override
-    public void setAlphaParameterB(double paramValue, Component component) {
-        alphaBelowTc.setAlphaParameterB(paramValue, component);
-    }
-
-    @Override
-    public double getAlphaParameterB(Component component) {
-        return alphaBelowTc.getAlphaParameterB(component);
-    }
-
-    @Override
-    public void setAlphaParameterC(double paramValue, Component component) {
-        alphaBelowTc.setAlphaParameterC(paramValue, component);
-    }
-
-    @Override
-    public double getAlphaParameterC(Component component) {
-        return alphaBelowTc.getAlphaParameterC(component);
-    }
-
-  
+    
+    
+    
  
 
 }

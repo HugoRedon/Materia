@@ -42,32 +42,17 @@ public class MathiasAlpha extends CommonAlphaEquation{
     }
     
     @Override
-    public double getAlphaParameterA(Component component) {
-	return component.getA_Mathias();
+    public double getParameter(Component component,int index) {
+	if(index == 0 ){ return component.getA_Mathias();}
+        else{ return 0;}
     }
     
     @Override
-    public void setAlphaParameterA(double paramValue, Component component) {
-        component.setA_Mathias(paramValue);
+    public void setParameter(double paramValue, Component component,int index) {
+        if(index ==0){
+            component.setA_Mathias(paramValue);
+        }
     }
     
-    @Override
-    public void setAlphaParameterB(double paramValue, Component component) {
-        
-    }
-
-    @Override
-    public double getAlphaParameterB(Component component) {
-        return 0;
-    }
-
-    @Override
-    public void setAlphaParameterC(double paramValue, Component component) {
-        
-    }
-
-    @Override
-    public double getAlphaParameterC(Component component) {
-        return 0;
-    }
+    
 }

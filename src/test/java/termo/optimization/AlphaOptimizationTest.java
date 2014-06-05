@@ -62,13 +62,13 @@ public class AlphaOptimizationTest {
         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
         Alpha alpha = AlphaFactory.getMathiasAndCopemanExpression();//tres parametros
         
-        alpha.setAlphaParameterA(50, component);
-        alpha.setAlphaParameterB(20, component);
-        alpha.setAlphaParameterC(1, component);
+        alpha.setParameter(50, component,0);
+        alpha.setParameter(20, component,1);
+        alpha.setParameter(1, component,2);
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
         substance.optimizeTo(list);
         
-        double a = alpha.getAlphaParameterA(component);
+        double a = alpha.getParameter(component,0);
         assertEquals(false, Double.isNaN(a));
         assertEquals(true,substance.getAlphaOptimizer().isIndeter());
     }
@@ -81,7 +81,7 @@ public class AlphaOptimizationTest {
         double[] args ={0,0,0};
         
         substance.getAlphaOptimizer().centralDerivative(args,0);//no importa el valor
-        double a = alpha.getAlphaParameterA(component);
+        double a = alpha.getParameter(component,0);
         assertEquals(0, a,1e-8);
         
     }
@@ -196,7 +196,7 @@ public class AlphaOptimizationTest {
         component.setB_Soave(0.3);
         
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
-        substance.getAlphaOptimizer().setDamp(0.1);
+//        substance.getAlphaOptimizer().setDamp(0.1);
         substance.optimizeTo(list);
         System.out.println("pengrobinson soave 2 ");
         System.out.println("parameter b debe ser parecido a -0.8443033101544569 :" + component.getB_Soave());//-2.405345971823838
@@ -236,7 +236,7 @@ public class AlphaOptimizationTest {
         component.setB_Soave(0.3);
         
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
-        substance.getAlphaOptimizer().setDamp(0.1);
+//        substance.getAlphaOptimizer().setDamp(0.1);
         substance.getAlphaOptimizer().setFixParameterA(true);
         
         substance.optimizeTo(list);
@@ -282,10 +282,10 @@ public class AlphaOptimizationTest {
         }
         
         System.out.println("iterationsWithoutConstraint:" +iterationsWithoutConstraint);
-        System.out.println("Result A: " + alpha.getAlphaParameterA(component));
+        System.out.println("Result A: " + alpha.getParameter(component,0));
         substance.getAlphaOptimizer().setConstrainParameterA(true);
         substance.getAlphaOptimizer().setParameterAMaxVariation(0.1);
-        alpha.setAlphaParameterA(0, component);
+        alpha.setParameter(0, component,0);
         substance.optimizeTo(list);
         int iterationsWithConstraint = substance.getAlphaOptimizer().getIterations();
         
@@ -296,7 +296,7 @@ public class AlphaOptimizationTest {
         
         System.out.println("iterationsWithConstraint:"+iterationsWithConstraint);
         
-        System.out.println("Result A: " + alpha.getAlphaParameterA(component));
+        System.out.println("Result A: " + alpha.getParameter(component,0));
         
         
         assertEquals(true, iterationsWithConstraint>iterationsWithoutConstraint);
@@ -331,8 +331,8 @@ public class AlphaOptimizationTest {
         substance.getAlphaOptimizer().setConstrainParameterB(true);
         substance.getAlphaOptimizer().setParameterBMaxVariation(0.05);
         
-        alpha.setAlphaParameterA(1, component);
-        alpha.setAlphaParameterB(0.3, component);
+        alpha.setParameter(1, component,0);
+        alpha.setParameter(0.3, component,1);
         substance.optimizeTo(list);
         
         int iterationsWithconstraint = substance.getAlphaOptimizer().getIterations();
@@ -397,9 +397,9 @@ public class AlphaOptimizationTest {
         substance.getAlphaOptimizer().setConstrainParameterC(true);
         substance.getAlphaOptimizer().setParameterCMaxVariation(1);
         
-        alpha.setAlphaParameterA(0, ethanol);
-        alpha.setAlphaParameterB(0, ethanol);
-        alpha.setAlphaParameterC(0, ethanol);
+        alpha.setParameter(0, ethanol,0);
+        alpha.setParameter(0, ethanol,1);
+        alpha.setParameter(0, ethanol,2);
         
         substance.optimizeTo(list);
         
@@ -449,7 +449,7 @@ public class AlphaOptimizationTest {
         ethanol.setAcentricFactor(0.643558);
         
 
-        alpha.setAlphaParameterA(30, ethanol);
+        alpha.setParameter(30, ethanol,0);
         
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, ethanol);
         substance.optimizeTo(list);
@@ -472,9 +472,9 @@ public class AlphaOptimizationTest {
         
         substance.getAlphaOptimizer().setApplyErrorDecreaseTechnique(true);
         
-        alpha.setAlphaParameterA(30, ethanol);
-        alpha.setAlphaParameterB(0, ethanol);
-        alpha.setAlphaParameterC(0, ethanol);
+        alpha.setParameter(30, ethanol,0);
+        alpha.setParameter(0, ethanol,1);
+        alpha.setParameter(0, ethanol,2);
         
         substance.optimizeTo(list);
         

@@ -25,12 +25,10 @@ public abstract class CommonAlphaEquation extends Alpha implements Serializable{
 	return regex;
     }
     
-    @Override
-    public abstract double getAlphaParameterA(Component component);
-
+   
     @Override
     public  double alpha(double temperature, Component component){
-	double q = getAlphaParameterA(component);
+	double q = getParameter(component,0);
 	double omega = component.getAcentricFactor();
 	double reducedTemperature = temperature  / component.getCriticalTemperature();
 
@@ -52,7 +50,7 @@ public abstract class CommonAlphaEquation extends Alpha implements Serializable{
     public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Component component){
 	double tr = temperature /component.getCriticalTemperature();    
 	double omega = component.getAcentricFactor();
-	double q = getAlphaParameterA(component); 
+	double q = getParameter(component,0); 
 	
 	return (1d/ Math.sqrt(alpha(temperature,component)))*(- m(omega) * Math.sqrt(tr) 
                     - x * q * ( 3.4*tr - 4*Math.pow(tr, 2) ));

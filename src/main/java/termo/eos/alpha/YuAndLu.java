@@ -39,34 +39,32 @@ public class YuAndLu extends Alpha{
         return 3;
     }
     
+       @Override
+    public void setParameter(double value, Component component, int index) {
+        switch(index){
+            case 0: component.setA_YuAndLu(value);
+                break;
+            case 1: component.setB_YuAndLu(value);
+                break;
+            case 2: component.setC_YuAndLu(value);
+                break;
+        }
+    }
+
     @Override
-    public double getAlphaParameterA(Component component) {
-	return component.getA_YuAndLu();
-    } 
+    public double getParameter(Component component, int index) {
+          switch(index){
+            case 0: 
+                return component.getA_YuAndLu();
+            case 1: 
+                return component.getB_YuAndLu();
+            case 2: 
+                return component.getC_YuAndLu();
+            default:
+                return 0;
+                
+        }
+    }
     
-    @Override
-    public void setAlphaParameterA(double paramValue, Component component) {
-        component.setA_YuAndLu(paramValue);
-    }
-    
-    @Override
-    public void setAlphaParameterB(double paramValue, Component component) {
-        component.setB_YuAndLu(paramValue);
-    }
-
-    @Override
-    public double getAlphaParameterB(Component component) {
-        return component.getB_YuAndLu();
-    }
-
-    @Override
-    public void setAlphaParameterC(double paramValue, Component component) {
-        component.setC_YuAndLu(paramValue);
-    }
-
-    @Override
-    public double getAlphaParameterC(Component component) {
-        return component.getC_YuAndLu();
-    }
     
 }
