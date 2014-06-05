@@ -19,11 +19,13 @@ public class HeterogeneousSubstance extends Heterogeneous{
 
 
     public HeterogeneousSubstance(){
+        
        
          liquid = new Substance();
         liquid.setPhase(Phase.LIQUID);
         vapor = new Substance();
         vapor.setPhase(Phase.VAPOR);
+        
         
         mpcs.addPropertyChangeListener(liquid);
         mpcs.addPropertyChangeListener(vapor);
@@ -37,6 +39,7 @@ public class HeterogeneousSubstance extends Heterogeneous{
 //	this.cubicEquationOfState = eos;
 //	this.alpha = alpha;
 //	this.component = component;
+        
 
         Substance liquidImplementation  =(Substance)liquid;
         liquidImplementation.setCubicEquationOfState(eos);
@@ -47,7 +50,7 @@ public class HeterogeneousSubstance extends Heterogeneous{
         vaporImplementation.setCubicEquationOfState(eos);
         vaporImplementation.setAlpha(alpha);
         vaporImplementation.setComponent(component);
-	
+	this.alphaOptimizer = new AlphaOptimization(this);
     }
         
 //    public HeterogeneousSubstance(Substance pure){
@@ -261,7 +264,7 @@ public class HeterogeneousSubstance extends Heterogeneous{
 //	this.component = component;
 //    }
 
-    private AlphaOptimization alphaOptimizer = new AlphaOptimization(this);
+    private AlphaOptimization alphaOptimizer;
     public void optimizeTo(ArrayList<ExperimentalData> expData) {
         alphaOptimizer.setExperimental(expData);
         alphaOptimizer.solve();

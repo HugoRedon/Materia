@@ -218,7 +218,8 @@ public class AlphaOptimizationTest {
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
         
         
-        substance.getAlphaOptimizer().setFixParameterB(true);
+        substance.getAlphaOptimizer().getFixParameters()[1] = true;
+                //setFixParameterB(true);
         component.setB_Soave(-2);
         
         substance.optimizeTo(list);
@@ -237,7 +238,8 @@ public class AlphaOptimizationTest {
         
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
 //        substance.getAlphaOptimizer().setDamp(0.1);
-        substance.getAlphaOptimizer().setFixParameterA(true);
+        substance.getAlphaOptimizer().getFixParameters()[0] = true;
+                //setFixParameterA(true);
         
         substance.optimizeTo(list);
         System.out.println("pengrobinson soave 2 fijando a--------");

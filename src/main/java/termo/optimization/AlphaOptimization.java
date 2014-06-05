@@ -18,9 +18,12 @@ public class AlphaOptimization {
     private ArrayList<ExperimentalData> experimental = new ArrayList();
     private double numericalDerivativeDelta = 0.0001;
     
-    private boolean fixParameterA;
-    private boolean fixParameterB;
-    private boolean fixParameterC;
+//    private boolean fixParameterA;
+//    private boolean fixParameterB;
+//    private boolean fixParameterC;
+//    
+    private boolean[] fixParameters ;
+    
     //end fields
     private boolean indeter;
     private boolean maxIterationsReached;
@@ -38,27 +41,34 @@ public class AlphaOptimization {
     //constructores
     public AlphaOptimization(HeterogeneousSubstance substance){
         this.substance = substance;
+        
+        int numberOfParameters = substance.getVapor().getAlpha().numberOfParameters();
+        fixParameters = new boolean[numberOfParameters];
     }
     
     public AlphaOptimization(HeterogeneousSubstance substance,ArrayList<ExperimentalData> experimental){
         this.substance = substance ; 
         this.experimental = experimental;
-    }
-    public AlphaOptimization(HeterogeneousSubstance substance,ArrayList<ExperimentalData> experimental, double pass){
-       this(substance, experimental);
-       this.numericalDerivativeDelta = pass;
+        int numberOfParameters = substance.getVapor().getAlpha().numberOfParameters();
+        fixParameters = new boolean[numberOfParameters];
     }
     //end constructors
     
     public int fixedVariablesCount(){
         int result = 0;
-        if(fixParameterA){
-            result++;
-        }if(fixParameterB){
-            result++;
-        }if(fixParameterC){
-            result++;
+        
+        for(boolean fix : fixParameters){
+            if(fix){
+                result++;
+            }
         }
+//        if(fixParameterA){
+//            result++;
+//        }if(fixParameterB){
+//            result++;
+//        }if(fixParameterC){
+//            result++;
+//        }
         return result;
     }
     
@@ -70,34 +80,52 @@ public class AlphaOptimization {
         
         return numberOfParameters- fixedParameters;
     }
-
+  
+    
+    
+    
+    
     public double[] initialValues(int numberOfVariablesToOptimize){
-        Alpha alpha = substance.getVapor().getAlpha();
+        
         double[] initialValues = new double[numberOfVariablesToOptimize];
 
         Component component = substance.getVapor().getComponent();
-        if(numberOfVariablesToOptimize >=1){
-            if(!fixParameterA){
-                initialValues[0] = alpha.getParameter(component,0);
-            }else if(!fixParameterB){
-                initialValues[0] = alpha.getParameter(component,1);
-            }else if(!fixParameterC){
-                initialValues[0] = alpha.getParameter(component,2);
-            }
+            Alpha alpha = substance.getVapor().getAlpha();
+
+            for(int i = 0; i < numberOfVariablesToOptimize; i++){
+                for(int j =i; j< numberOfVariablesToOptimize; j++){
+                    if(!fixParameters[j]){
+                        initialValues[i] =   alpha.getParameter( component, j);
+                        break;
+                    }
+                }
         }
         
-        if(numberOfVariablesToOptimize >=2){
-            if(!fixParameterB){
-                initialValues[1] = alpha.getParameter(component,1);
-            }else if(!fixParameterC){
-                initialValues[1] = alpha.getParameter(component,2);
-            }
-            
-        }
         
-        if(numberOfVariablesToOptimize >=3){
-           initialValues[2] = alpha.getParameter(component,2);
-        }
+        
+//        
+//        if(numberOfVariablesToOptimize >=1){
+//            if(!fixParameters[0]){
+//                initialValues[0] = alpha.getParameter(component,0);
+//            }else if(!fixParameters[1]){
+//                initialValues[0] = alpha.getParameter(component,1);
+//            }else if(!fixParameters[2]){
+//                initialValues[0] = alpha.getParameter(component,2);
+//            }
+//        }
+//        
+//        if(numberOfVariablesToOptimize >=2){
+//            if(!fixParameters[1]){
+//                initialValues[1] = alpha.getParameter(component,1);
+//            }else if(!fixParameters[2]){
+//                initialValues[1] = alpha.getParameter(component,2);
+//            }
+//            
+//        }
+//        
+//        if(numberOfVariablesToOptimize >=3){
+//           initialValues[2] = alpha.getParameter(component,2);
+//        }
         
         return initialValues;
     }
@@ -192,30 +220,14 @@ public class AlphaOptimization {
    public void setParametersValues(double[] params){
         Component component = substance.getVapor().getComponent();
         Alpha alpha = substance.getVapor().getAlpha();
-        int numberOfVariablesToOptimize = numberOfVariablesToOptimize();
         
-        
-        if(numberOfVariablesToOptimize >=1){
-            if(!fixParameterA){
-                alpha.setParameter(params[0],component,0);
-            }else if(!fixParameterB){
-                alpha.setParameter(params[0],component,1);
-            }else if(!fixParameterC){
-                alpha.setParameter(params[0],component,2);
+        for(int i = 0; i < params.length; i++){
+            for(int j =i; j< params.length; j++){
+                if(!fixParameters[j]){
+                    alpha.setParameter(params[i], component, j);
+                    break;
+                }
             }
-        }
-        
-        if(numberOfVariablesToOptimize >=2){
-            if(!fixParameterB){
-                alpha.setParameter(params[1],component,1);
-            }else if(!fixParameterC){
-                alpha.setParameter(params[1],component,2);
-            }
-            
-        }
-        
-        if(numberOfVariablesToOptimize >=3){
-           alpha.setParameter(params[2],component,2);
         }
    }
    
@@ -364,18 +376,18 @@ public class AlphaOptimization {
         
         double lambda0;
          if(numberOfVariablestoOptimize >=1){
-            if(!fixParameterA){
+            if(!fixParameters[0]){
                 lambda0 = requiredLambdaForConstraint(before[0], newValues[0], parameterAMaxVariation);
                 if(considerLambda(lambda0, constrainParameterA)){
                     lambdas.add(lambda0);
                 }
                 
-            }else if(!fixParameterB){
+            }else if(!fixParameters[1]){
                 lambda0 = requiredLambdaForConstraint(before[0], newValues[0], parameterBMaxVariation);
                 if(considerLambda(lambda0, constrainParameterB)){
                     lambdas.add(lambda0);
                 }
-            }else if(!fixParameterC){
+            }else if(!fixParameters[2]){
                 lambda0 = requiredLambdaForConstraint(before[0], newValues[0], parameterCMaxVariation);
                 if(considerLambda(lambda0, constrainParameterC)){
                     lambdas.add(lambda0);
@@ -385,12 +397,12 @@ public class AlphaOptimization {
         
         double lambda1;
          if(numberOfVariablestoOptimize >=2){
-            if(!fixParameterB){
+            if(!fixParameters[1]){
                 lambda1 = requiredLambdaForConstraint(before[1], newValues[1], parameterBMaxVariation);
                 if(considerLambda(lambda1, constrainParameterB)){
                     lambdas.add(lambda1);
                 }
-            }else if(!fixParameterC){
+            }else if(!fixParameters[2]){
                 lambda1 = requiredLambdaForConstraint(before[1], newValues[1], parameterCMaxVariation);
                 if(considerLambda(lambda1, constrainParameterC)){
                     lambdas.add(lambda1);
@@ -511,47 +523,47 @@ public class AlphaOptimization {
         this.tolerance = tolerance;
     }
 
-    /**
-     * @return the fixParameterA
-     */
-    public boolean isFixParameterA() {
-        return fixParameterA;
-    }
-
-    /**
-     * @param fixParameterA the fixParameterA to set
-     */
-    public void setFixParameterA(boolean fixParameterA) {
-        this.fixParameterA = fixParameterA;
-    }
-
-    /**
-     * @return the fixParameterB
-     */
-    public boolean isFixParameterB() {
-        return fixParameterB;
-    }
-
-    /**
-     * @param fixParameterB the fixParameterB to set
-     */
-    public void setFixParameterB(boolean fixParameterB) {
-        this.fixParameterB = fixParameterB;
-    }
-
-    /**
-     * @return the fixParameterC
-     */
-    public boolean isFixParameterC() {
-        return fixParameterC;
-    }
-
-    /**
-     * @param fixParameterC the fixParameterC to set
-     */
-    public void setFixParameterC(boolean fixParameterC) {
-        this.fixParameterC = fixParameterC;
-    }
+//    /**
+//     * @return the fixParameterA
+//     */
+//    public boolean isFixParameterA() {
+//        return fixParameterA;
+//    }
+//
+//    /**
+//     * @param fixParameterA the fixParameterA to set
+//     */
+//    public void setFixParameterA(boolean fixParameterA) {
+//        this.fixParameterA = fixParameterA;
+//    }
+//
+//    /**
+//     * @return the fixParameterB
+//     */
+//    public boolean isFixParameterB() {
+//        return fixParameterB;
+//    }
+//
+//    /**
+//     * @param fixParameterB the fixParameterB to set
+//     */
+//    public void setFixParameterB(boolean fixParameterB) {
+//        this.fixParameterB = fixParameterB;
+//    }
+//
+//    /**
+//     * @return the fixParameterC
+//     */
+//    public boolean isFixParameterC() {
+//        return fixParameterC;
+//    }
+//
+//    /**
+//     * @param fixParameterC the fixParameterC to set
+//     */
+//    public void setFixParameterC(boolean fixParameterC) {
+//        this.fixParameterC = fixParameterC;
+//    }
 
     /**
      * @return the convergenceHistory
@@ -756,6 +768,20 @@ public class AlphaOptimization {
      */
     public void setErrorDecreaseIterations(int errorDecreaseIterations) {
         this.errorDecreaseIterations = errorDecreaseIterations;
+    }
+
+    /**
+     * @return the fixParameters
+     */
+    public boolean[] getFixParameters() {
+        return fixParameters;
+    }
+
+    /**
+     * @param fixParameters the fixParameters to set
+     */
+    public void setFixParameters(boolean[] fixParameters) {
+        this.fixParameters = fixParameters;
     }
 
    
