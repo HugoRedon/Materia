@@ -4,7 +4,7 @@ package termo.matrix;
  *
  * @author Hugo
  */
-public abstract class Matrix {
+public class Matrix {
     protected double[][] matrix;
     public Matrix(double[][] matrix ){
         this.matrix = matrix;
@@ -13,13 +13,24 @@ public abstract class Matrix {
     public double a(int i , int j){
         return matrix[i-1][j-1];
     }
-    protected double menorWithouthSign(int f1,int f2,int c1,int c2){
-        return a(f1,c1)*a(f2,c2)- a(f1,c2)*a(f2,c1);
+   
+     public double determinant(){
+        double result =0;
+        
+        if(matrix.length==1){
+            result = a(1,1);
+        }else{
+            //determinante usando menores de la primer fila
+            int firstRow =1;
+            for(int col =1; col <= matrix.length; col++){
+                double minor = menor(firstRow,col);
+                result += a(firstRow,col) * minor;
+
+            }
+        }
+        return result;
     }
     
-    public abstract double menor(int i , int j);
-    public abstract double[][] inverse();
-    public abstract double determinant();
     
     public double[][] cofactorMatrix(){
         double[][] cofactor = new double[matrix.length][matrix[0].length];
@@ -33,6 +44,60 @@ public abstract class Matrix {
         
         return cofactor;
     }
+    
+    public double menor(int i,int j){
+        double[][] minorMatrix = minorMatrix(i, j);
+        double minorWithoutSign = 0;
+        if(minorMatrix.length == 0){
+            minorWithoutSign =1;
+        }else{
+            minorWithoutSign = minorWithothSign(minorMatrix);
+        }
+            
+        return Math.pow(-1,i+j)* minorWithoutSign;
+    }
+    
+    protected double minorWithothSign(double[][] minorMatrix){
+        Matrix minor = new Matrix(minorMatrix);
+        return minor.determinant();
+    }
+    
+    
+      public double[][] inverse(){
+        double det = determinant();
+        Matrix cofMatrix =new Matrix( cofactorMatrix());
+        Matrix transposeMatrix = new Matrix(cofMatrix.transposeMatrix());
+        return transposeMatrix.scalarMultiplication(1/det);
+    }
+    
+    
+    
+      private double[][] minorMatrix(int row , int col){
+        int minorDimension = matrix.length-1;
+        double[][] minor = new double[minorDimension][minorDimension];
+        int minorRow =0;
+        int minorCol =0;
+        for(int i =1 ; i <= matrix.length; i++){
+            
+            for(int j =1; j<=matrix.length; j++){
+                
+                if(i != row && j != col){
+                    minor[minorRow][minorCol] = a(i,j);
+                    
+                }
+                if(j != col){
+                    minorCol++;
+                }
+            }
+            if(i != row){
+                minorRow++;
+            }
+            minorCol = 0;
+        }
+        return minor;
+    }
+    
+    
     public double[][] transposeMatrix(){
         double[][] transpose = new double[matrix.length][matrix[0].length];
         
