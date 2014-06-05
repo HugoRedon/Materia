@@ -2,13 +2,10 @@
 package termo.optimization;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
 import termo.component.Component;
 import termo.data.ExperimentalData;
 import termo.eos.alpha.Alpha;
-import termo.matrix.Matrix2x2;
-import termo.matrix.Matrix3x3;
+import termo.matrix.Matrix;
 import termo.matter.HeterogeneousSubstance;
 
 /**
@@ -114,7 +111,7 @@ public class AlphaOptimization {
         solveVapoPressureRegression(initialValues);
     }
     
-    public double[] solveVapoPressureRegression (double...args){
+    public double[] solveVapoPressureRegression (double[] args){
         indeter=false;
         maxIterationsReached = false;
         message="";
@@ -138,7 +135,7 @@ public class AlphaOptimization {
             for(int i =0; i<args.length;i++){
                 if(Double.isNaN(args[i]) | Double.isInfinite(args[i])){
                     indeter = true;
-                    StringBuffer sb = new StringBuffer();
+                    StringBuilder sb = new StringBuilder();
                     sb.append("El valor del parametro " + i + " se indetermina en la iteración " + iterations);
                     sb.append("El valor que provoca la indeterminación es " + before[i]);
                     
@@ -192,7 +189,7 @@ public class AlphaOptimization {
    private ArrayList<ErrorData> errorForEachExperimentalData = new ArrayList();
    
 
-   public void setParametersValues(double... params){
+   public void setParametersValues(double[] params){
         Component component = substance.getVapor().getComponent();
         Alpha alpha = substance.getVapor().getAlpha();
         int numberOfVariablesToOptimize = numberOfVariablesToOptimize();
@@ -223,90 +220,15 @@ public class AlphaOptimization {
    }
    
     
-    public double vaporPressureError(double... params){
+    public double vaporPressureError(double[] params){
         setParametersValues(params);
        return vaporPressureError();
     }
 
     
-    
-    
-    
-    
-    
+ 
 
-    
-//    public double[] applyDeltaOnA(double... args){
-//        args[0] = args[0] + numericalDerivativeDelta;
-//        return args;
-//    }
-//    public double[] applyDeltaOnB(double... args){
-//        args[1] = args[1] + numericalDerivativeDelta;
-//        return args;
-//    }
-//    public double[] applyDeltaOnC(double... args){
-//        args[2] = args[2] + numericalDerivativeDelta;
-//        return args;
-//    }
-
-//    public double derivative_A(double... args){
-//        double[] before = args.clone();//wtf
-//        double error = vaporPressureError(args);
-//        args = applyDeltaOnA(args);
-//        double error_ = vaporPressureError(args);
-//        
-//        double result = (error_ - error)/numericalDerivativeDelta;
-//        
-//        setParametersValues(before);
-//        return result;
-//    }
-    
-  
-    
-    public double centralDerivativeA(double[] args){
-        return centralDerivative(args, 0);
-    }
-    
-    public double centralDerivativeB(double... args){
-        return centralDerivative(args, 1);
-//        int variableIndex = 1;
-//        
-//        double[] before = args.clone();
-//        args[variableIndex] = before[variableIndex] - numericalDerivativeDelta;
-//        double backError = vaporPressureError(args);
-//        
-//        args[variableIndex] = before[variableIndex] + numericalDerivativeDelta;
-//        double forwardError = vaporPressureError(args);
-//        
-//        setParametersValues(before);
-//        return (forwardError - backError)/(2*numericalDerivativeDelta);
-    }
-    
-    
-//    public double derivative_B(double... args){
-//        double[] before = args.clone();
-//        double error = vaporPressureError(args);
-//        args = applyDeltaOnB(args);
-//        double error_ = vaporPressureError(args);
-//        setParametersValues(before);
-//        return(error_ - error)/numericalDerivativeDelta;
-//    }
-
-    
-    public double centralDerivativeC(double... args){
-        return centralDerivative(args, 2);
-    }
-    
-//    public double derivative_C(double... args){
-//        double[] before = args.clone();
-//        double error = vaporPressureError(args);
-//        double error_ = vaporPressureError(args[0] , args[1],args[2]+ numericalDerivativeDelta);
-//        setParametersValues(before);
-//        return(error_ - error)/numericalDerivativeDelta;
-//    }
-//    
-
-    public double[] gradient(double... args){
+    public double[] gradient(double[] args){
         double[] gradient = new double[args.length];
         for(int i = 0; i < args.length;i++){
             gradient[i] = centralDerivative(args, i);
@@ -325,16 +247,16 @@ public class AlphaOptimization {
         resetParameterValues(args, params);
         return (forwardError - backError)/(2*numericalDerivativeDelta);
     }
-    public double doubleDeriv(double[] args, int i){
-        double[] params = args.clone();
-        double error = vaporPressureError(args);
-        args[i] = params[i] - numericalDerivativeDelta;
-        double backwardError = vaporPressureError(args);
-        args[i] = params[i] + numericalDerivativeDelta;
-        double forwardError = vaporPressureError(args);
-        resetParameterValues(args,params);
-        return (forwardError - 2 * error + backwardError)/ Math.pow(numericalDerivativeDelta,2);
-    }
+//    public double doubleDeriv(double[] args, int i){
+//        double[] params = args.clone();
+//        double error = vaporPressureError(args);
+//        args[i] = params[i] - numericalDerivativeDelta;
+//        double backwardError = vaporPressureError(args);
+//        args[i] = params[i] + numericalDerivativeDelta;
+//        double forwardError = vaporPressureError(args);
+//        resetParameterValues(args,params);
+//        return (forwardError - 2 * error + backwardError)/ Math.pow(numericalDerivativeDelta,2);
+//    }
     public double crossDerivative_ij(double[] args ,int i, int j ){
         double[] params = args.clone();
         args[i] = params[i] + numericalDerivativeDelta;
@@ -356,122 +278,37 @@ public class AlphaOptimization {
     }
     
     
-    
-  public double doubleCentralDerivAA(double... args){
-        return doubleDeriv(args,0);
-    }
+
 
     
-    public double doubleCentralDerivAB(double... args){
-        int i = 0;
-        int j = 1;
-        return crossDerivative_ij(args, i, j);
+    public double[][] hessian(double[] args){
+        int dimension = args.length;
+        double[][] result = new double[dimension][dimension];
         
-    }
-
-     public double doubleCentralDerivBA(double... args){
-        int i = 1;
-        int j = 0;
-        return crossDerivative_ij(args, i, j);
-
-    }
-    
- 
-    
-    public double doubleCentralDerivAC(double... args){
-        int i = 0;
-        int j = 2;
-        return crossDerivative_ij(args, i, j);
-
-    }
-    
-    
-
-     public double doubleCentralDerivBB(double... args){
-         return doubleDeriv(args, 1);
-
-    }
-    
-
-    public double doubleCentralDerivBC(double... args){
-        int i = 1;
-        int j = 2;
-        
-        return crossDerivative_ij(args, i, j);
-        
-
-    }
-    
-
-    public double doubleCentralDerivCA(double... args){
-        int i = 2;
-        int j = 0;
-        
-        return crossDerivative_ij(args, i, j);
-
-    }
-
-    public double doubleCentralDerivCB(double... args){
-        int i = 2;
-        int j = 1;
-        
-        return crossDerivative_ij(args, i, j);
-
-    }
-
-     public double doubleCentralDerivCC(double... args){
-         return doubleDeriv(args,2);
-
-    }
-    
-    
-
-    
-    public double[][] hessian(double... args){
-        if(args.length==1){
-            double[][] result =  {{doubleCentralDerivAA(args)}};
-            return result;
-        }else if(args.length==2){
-            double[][] result = {
-                {doubleCentralDerivAA(args),doubleCentralDerivAB(args)},
-                {doubleCentralDerivBA(args),doubleCentralDerivBB(args)}
-            };
-            return result;
-        
-        }else if(args.length==3){
-            double[][] result = {
-                {doubleCentralDerivAA(args),doubleCentralDerivAB(args),doubleCentralDerivAC(args)},
-                {doubleCentralDerivBA(args),doubleCentralDerivBB(args),doubleCentralDerivBC(args)},
-                {doubleCentralDerivCA(args),doubleCentralDerivCB(args),doubleCentralDerivCC(args)}
-            };
-            return result;
+        for(int i = 0; i < dimension; i++){
+            for(int j = 0; j< dimension;j++){
+//                if(i==j){
+//                    result[i][j] = doubleDeriv(args, i);
+//                }else{
+                    result[i][j] = crossDerivative_ij(args, i, j);
+//                }
+            }
         }
-        return null;
+        return result;
     }
     
 
-    public double[] nextValue(double... args){
-        if(args.length ==1){
-            double[] result = {args[0] -centralDerivativeA(args)/doubleCentralDerivAA(args)};
-            return result;
-        }else if(args.length ==2){
-            Matrix2x2 hessian = new Matrix2x2(hessian(args));
-            Matrix2x2 hessianInverse = new Matrix2x2(hessian.inverse());
-            double[] gradient = gradient(args);
-            double []del = hessianInverse.matrixVectorMultiplication(gradient);
-
-            double[] result = {args[0]- del[0], args[1]- del[1]};
-            return result;
-        }else if(args.length ==3){
-            Matrix3x3 hessian = new Matrix3x3(hessian(args));
-            Matrix3x3 hessianInverse = new Matrix3x3(hessian.inverse());
-            double[] gradient = gradient(args);
-            double[] del= hessianInverse.matrixVectorMultiplication(gradient);
-            
-            double[] result = {args[0]- del[0], args[1]- del[1], args[2]-del[2]};
-            return result;
-        }
-        return null;
+    public double[] nextValue(double[] args){
+        Matrix hessian = new Matrix(hessian(args));
+        Matrix hessianInverse = new Matrix(hessian.inverse());
+        double[] gradient = gradient(args);
+        double[]del = hessianInverse.matrixVectorMultiplication(gradient);
+        
+        double[] result = new double[args.length];
+        for(int i =0; i<args.length; i++){
+            result[i] = args[i] - del[i];
+        }return result;
+        
     }
     private double parameterAMaxVariation = 0.2;
     private boolean constrainParameterA = false;
@@ -508,49 +345,11 @@ public class AlphaOptimization {
     
     public double[] applyDamping(double[] before, double[]newValues ){
         int size = before.length;
-        double[] result = new double[size];
-//        
-//        if(size ==1){
-//            double newA = newValues[0];
-//            double lastA = before[0];
-//            double deltaA = newA -lastA;
-//            if(needsToBeConstrained(deltaA, parameterAMaxVariation, constrainParameterA)){
-//                newA = lastA + Math.signum(deltaA)*  parameterAMaxVariation;
-//            }
-//            result[0] = newA;
-//            
-//        }else if(size ==2){
-//            double newA = newValues[0];
-//            double lastA = before[0];
-//            double deltaA = newA -lastA;
-//            
-//            double newB = newValues[1];
-//            double lastB = before[1];
-//            double deltaB = newB- lastB;
-//            
-//           // boolean applyConstraintOnB = needsToBeConstrained(deltaB, parameterBMaxVariation, constrainParameterB);
-//            
-//            if(needsToBeConstrained(newA-lastA, parameterAMaxVariation, constrainParameterA)){
-//                newA =lastA + Math.signum(deltaA)* parameterAMaxVariation;
-//                newB =lastB + (newA - lastA) *(deltaB/deltaA);
-//               
-//            }
-//            
-//            if(needsToBeConstrained(newB-lastB,parameterBMaxVariation , constrainParameterB)){
-//                newB = lastB + Math.signum(deltaB)* parameterBMaxVariation;
-//                newA = lastA + (deltaA/deltaB)*(newB-lastB);
-//            }
-//            
-//            result[0] = newA;
-//            result[1] = newB;
-//        }else if(size ==3){
-//            
+        double[] result = new double[size];         
             double lambda = findLambda(before, newValues);
             for(int i = 0; i < newValues.length; i++){
                 result[i] = before[i] + lambda * (newValues[i]- before[i]);
             }
-//        }
-
         return result;
     }
     
@@ -607,27 +406,7 @@ public class AlphaOptimization {
                     lambdas.add(lambda2);
                 }
         }
-         
-//        double lamdaA = requiredLambdaForConstraint(before[0], newValues[0], parameterAMaxVariation);
-//        double lamdaB = requiredLambdaForConstraint(before[1], newValues[1], parameterBMaxVariation);
-//        double lamdaC = requiredLambdaForConstraint(before[2], newValues[2], parameterCMaxVariation);
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        if(considerLambda(lamdaA, constrainParameterA)){
-//            lambdas.add(lamdaA);
-//        }if(considerLambda(lamdaB, constrainParameterB)){
-//            lambdas.add(lamdaB);
-//        }if(considerLambda(lamdaC, constrainParameterC)){
-//            lambdas.add(lamdaC);
-//        }
+        
         if(lambdas.isEmpty()){
             return 1;
         }
