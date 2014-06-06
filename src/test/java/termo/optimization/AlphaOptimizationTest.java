@@ -285,8 +285,12 @@ public class AlphaOptimizationTest {
         
         System.out.println("iterationsWithoutConstraint:" +iterationsWithoutConstraint);
         System.out.println("Result A: " + alpha.getParameter(component,0));
-        substance.getAlphaOptimizer().setConstrainParameterA(true);
-        substance.getAlphaOptimizer().setParameterAMaxVariation(0.1);
+        
+        substance.getAlphaOptimizer().getConstrainParameters()[0]=true;
+        substance.getAlphaOptimizer().getMaxVariationParameters()[0]=0.1;
+        
+//        substance.getAlphaOptimizer().setConstrainParameterA(true);
+//        substance.getAlphaOptimizer().setParameterAMaxVariation(0.1);
         alpha.setParameter(0, component,0);
         substance.optimizeTo(list);
         int iterationsWithConstraint = substance.getAlphaOptimizer().getIterations();
@@ -328,10 +332,11 @@ public class AlphaOptimizationTest {
         
         
         
-       
+        substance.getAlphaOptimizer().getConstrainParameters()[1]=true;
+        substance.getAlphaOptimizer().getMaxVariationParameters()[1]=0.05;
         
-        substance.getAlphaOptimizer().setConstrainParameterB(true);
-        substance.getAlphaOptimizer().setParameterBMaxVariation(0.05);
+//        substance.getAlphaOptimizer().setConstrainParameterB(true);
+//        substance.getAlphaOptimizer().setParameterBMaxVariation(0.05);
         
         alpha.setParameter(1, component,0);
         alpha.setParameter(0.3, component,1);
@@ -394,10 +399,15 @@ public class AlphaOptimizationTest {
         int iterationsWithNoRestriction = substance.getAlphaOptimizer().getIterations();
         
         
-        substance.getAlphaOptimizer().setConstrainParameterB(true);
-        substance.getAlphaOptimizer().setParameterBMaxVariation(1);
-        substance.getAlphaOptimizer().setConstrainParameterC(true);
-        substance.getAlphaOptimizer().setParameterCMaxVariation(1);
+        substance.getAlphaOptimizer().getConstrainParameters()[1]=true;
+        substance.getAlphaOptimizer().getMaxVariationParameters()[1]=1;
+        substance.getAlphaOptimizer().getConstrainParameters()[2]=true;
+        substance.getAlphaOptimizer().getMaxVariationParameters()[2]=1;
+        
+//        substance.getAlphaOptimizer().setConstrainParameterB(true);
+//        substance.getAlphaOptimizer().setParameterBMaxVariation(1);
+//        substance.getAlphaOptimizer().setConstrainParameterC(true);
+//        substance.getAlphaOptimizer().setParameterCMaxVariation(1);
         
         alpha.setParameter(0, ethanol,0);
         alpha.setParameter(0, ethanol,1);

@@ -41,17 +41,23 @@ public class AlphaOptimization {
     //constructores
     public AlphaOptimization(HeterogeneousSubstance substance){
         this.substance = substance;
-        
-        int numberOfParameters = substance.getVapor().getAlpha().numberOfParameters();
-        fixParameters = new boolean[numberOfParameters];
+        initializeArrays();
+       
     }
     
     public AlphaOptimization(HeterogeneousSubstance substance,ArrayList<ExperimentalData> experimental){
         this.substance = substance ; 
         this.experimental = experimental;
-        int numberOfParameters = substance.getVapor().getAlpha().numberOfParameters();
-        fixParameters = new boolean[numberOfParameters];
+        initializeArrays();
     }
+    
+    public final void initializeArrays(){
+         int numberOfParameters = substance.getVapor().getAlpha().numberOfParameters();
+        fixParameters = new boolean[numberOfParameters];
+        constrainParameters = new boolean[numberOfParameters];
+        maxVariationParameters  = new double[numberOfParameters];
+    }
+    
     //end constructors
     
     public int fixedVariablesCount(){
@@ -322,14 +328,14 @@ public class AlphaOptimization {
         }return result;
         
     }
-    private double parameterAMaxVariation = 0.2;
-    private boolean constrainParameterA = false;
-    
-    private double parameterBMaxVariation = 0.2;
-    private boolean constrainParameterB = false;
-    
-    private double parameterCMaxVariation = 0.2;
-    private boolean constrainParameterC = false;
+//    private double parameterAMaxVariation = 0.2;
+//    private boolean constrainParameterA = false;
+//    
+//    private double parameterBMaxVariation = 0.2;
+//    private boolean constrainParameterB = false;
+//    
+//    private double parameterCMaxVariation = 0.2;
+//    private boolean constrainParameterC = false;
     
     
     private boolean applyErrorDecreaseTechnique = false;
@@ -368,64 +374,27 @@ public class AlphaOptimization {
     
     
     
-    
+    private boolean[] constrainParameters ;
+    private double[] maxVariationParameters;
     
     private double findLambda(double[] before, double[] newValues){
-        int numberOfVariablestoOptimize = numberOfVariablesToOptimize();
+//        int numberOfVariablestoOptimize = numberOfVariablesToOptimize();
         ArrayList<Double> lambdas = new ArrayList();
         
-        double lambda0;
-         if(numberOfVariablestoOptimize >=1){
-            if(!fixParameters[0]){
-                lambda0 = requiredLambdaForConstraint(before[0], newValues[0], parameterAMaxVariation);
-                if(considerLambda(lambda0, constrainParameterA)){
-                    lambdas.add(lambda0);
-                }
-                
-            }else if(!fixParameters[1]){
-                lambda0 = requiredLambdaForConstraint(before[0], newValues[0], parameterBMaxVariation);
-                if(considerLambda(lambda0, constrainParameterB)){
-                    lambdas.add(lambda0);
-                }
-            }else if(!fixParameters[2]){
-                lambda0 = requiredLambdaForConstraint(before[0], newValues[0], parameterCMaxVariation);
-                if(considerLambda(lambda0, constrainParameterC)){
-                    lambdas.add(lambda0);
+        for (int i = 0; i < newValues.length; i++){
+            for(int j = i; j< newValues.length; j++){
+                if(!fixParameters[j]){
+                    double lambda = requiredLambdaForConstraint(before[i], newValues[i], maxVariationParameters[j]);
+                    if(considerLambda(lambda, constrainParameters[j])){
+                        lambdas.add(lambda);
+                    }
                 }
             }
         }
-        
-        double lambda1;
-         if(numberOfVariablestoOptimize >=2){
-            if(!fixParameters[1]){
-                lambda1 = requiredLambdaForConstraint(before[1], newValues[1], parameterBMaxVariation);
-                if(considerLambda(lambda1, constrainParameterB)){
-                    lambdas.add(lambda1);
-                }
-            }else if(!fixParameters[2]){
-                lambda1 = requiredLambdaForConstraint(before[1], newValues[1], parameterCMaxVariation);
-                if(considerLambda(lambda1, constrainParameterC)){
-                    lambdas.add(lambda1);
-                }
-            }
-            
-        }
-        
-        double lambda2;
-        if(numberOfVariablestoOptimize >=3){
-           lambda2 =requiredLambdaForConstraint(before[2], newValues[2], parameterCMaxVariation);
-           if(considerLambda(lambda2, constrainParameterC)){
-                    lambdas.add(lambda2);
-                }
-        }
-        
         if(lambdas.isEmpty()){
             return 1;
         }
         return findMin(lambdas);
-        
-       
-        
     }
     
     public double findMin(final ArrayList<Double> list) {
@@ -523,48 +492,6 @@ public class AlphaOptimization {
         this.tolerance = tolerance;
     }
 
-//    /**
-//     * @return the fixParameterA
-//     */
-//    public boolean isFixParameterA() {
-//        return fixParameterA;
-//    }
-//
-//    /**
-//     * @param fixParameterA the fixParameterA to set
-//     */
-//    public void setFixParameterA(boolean fixParameterA) {
-//        this.fixParameterA = fixParameterA;
-//    }
-//
-//    /**
-//     * @return the fixParameterB
-//     */
-//    public boolean isFixParameterB() {
-//        return fixParameterB;
-//    }
-//
-//    /**
-//     * @param fixParameterB the fixParameterB to set
-//     */
-//    public void setFixParameterB(boolean fixParameterB) {
-//        this.fixParameterB = fixParameterB;
-//    }
-//
-//    /**
-//     * @return the fixParameterC
-//     */
-//    public boolean isFixParameterC() {
-//        return fixParameterC;
-//    }
-//
-//    /**
-//     * @param fixParameterC the fixParameterC to set
-//     */
-//    public void setFixParameterC(boolean fixParameterC) {
-//        this.fixParameterC = fixParameterC;
-//    }
-
     /**
      * @return the convergenceHistory
      */
@@ -644,90 +571,7 @@ public class AlphaOptimization {
         this.maxIterationsReached = maxIterationsReached;
     }
 
-    /**
-     * @return the parameterAMaxVariation
-     */
-    public double getParameterAMaxVariation() {
-        return parameterAMaxVariation;
-    }
-
-    /**
-     * @param parameterAMaxVariation the parameterAMaxVariation to set
-     */
-    public void setParameterAMaxVariation(double parameterAMaxVariation) {
-        this.parameterAMaxVariation = parameterAMaxVariation;
-    }
-
-    /**
-     * @return the constrainParameterA
-     */
-    public boolean isConstrainParameterA() {
-        return constrainParameterA;
-    }
-
-    /**
-     * @param constrainParameterA the constrainParameterA to set
-     */
-    public void setConstrainParameterA(boolean constrainParameterA) {
-        this.constrainParameterA = constrainParameterA;
-    }
-
-    /**
-     * @return the parameterBMaxVariation
-     */
-    public double getParameterBMaxVariation() {
-        return parameterBMaxVariation;
-    }
-
-    /**
-     * @param parameterBMaxVariation the parameterBMaxVariation to set
-     */
-    public void setParameterBMaxVariation(double parameterBMaxVariation) {
-        this.parameterBMaxVariation = parameterBMaxVariation;
-    }
-
-    /**
-     * @return the constrainParameterB
-     */
-    public boolean isConstrainParameterB() {
-        return constrainParameterB;
-    }
-
-    /**
-     * @param constrainParameterB the constrainParameterB to set
-     */
-    public void setConstrainParameterB(boolean constrainParameterB) {
-        this.constrainParameterB = constrainParameterB;
-    }
-
-    /**
-     * @return the parameterCMaxVariation
-     */
-    public double getParameterCMaxVariation() {
-        return parameterCMaxVariation;
-    }
-
-    /**
-     * @param parameterCMaxVariation the parameterCMaxVariation to set
-     */
-    public void setParameterCMaxVariation(double parameterCMaxVariation) {
-        this.parameterCMaxVariation = parameterCMaxVariation;
-    }
-
-    /**
-     * @return the constrainParameterC
-     */
-    public boolean isConstrainParameterC() {
-        return constrainParameterC;
-    }
-
-    /**
-     * @param constrainParameterC the constrainParameterC to set
-     */
-    public void setConstrainParameterC(boolean constrainParameterC) {
-        this.constrainParameterC = constrainParameterC;
-    }
-
+   
     /**
      * @return the applyErrorDecreaseTechnique
      */
@@ -782,6 +626,34 @@ public class AlphaOptimization {
      */
     public void setFixParameters(boolean[] fixParameters) {
         this.fixParameters = fixParameters;
+    }
+
+    /**
+     * @return the constrainParameters
+     */
+    public boolean[] getConstrainParameters() {
+        return constrainParameters;
+    }
+
+    /**
+     * @param constrainParameters the constrainParameters to set
+     */
+    public void setConstrainParameters(boolean[] constrainParameters) {
+        this.constrainParameters = constrainParameters;
+    }
+
+    /**
+     * @return the maxVariationParameters
+     */
+    public double[] getMaxVariationParameters() {
+        return maxVariationParameters;
+    }
+
+    /**
+     * @param maxVariationParameters the maxVariationParameters to set
+     */
+    public void setMaxVariationParameters(double[] maxVariationParameters) {
+        this.maxVariationParameters = maxVariationParameters;
     }
 
    
