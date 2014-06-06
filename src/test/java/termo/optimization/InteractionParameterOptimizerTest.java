@@ -15,6 +15,7 @@ import termo.eos.alpha.AlphaFactory;
 import termo.eos.mixingRule.MixingRule;
 import termo.eos.mixingRule.VDWMixingRule;
 import termo.matter.HeterogeneousMixture;
+import termo.optimization.errorfunctions.TemperatureErrorFunction;
 
 /**
  *
@@ -66,7 +67,10 @@ public class InteractionParameterOptimizerTest {
     @Test
     public void testSolve() {
         mixture.getInteractionParameters().setSymmetric(true);
-        mixture.getOptimizer().optimizeTo(experimental);
+        TemperatureErrorFunction errorFunction = 
+                (TemperatureErrorFunction)mixture.getOptimizer().getErrorFunction();
+        errorFunction.setExperimental(experimental);
+        mixture.getOptimizer().solve();
         double result = mixture.getInteractionParameters().getValue(methanol, water);
         
         double expected = -0.050392324220228706;
@@ -75,7 +79,10 @@ public class InteractionParameterOptimizerTest {
     }
     @Test public void testSolveWithNonSymetricInteractionParameter(){//optimización multivariable (2 K12 Y K21)
          //interactionParameters default false
-        mixture.getOptimizer().optimizeTo(experimental);
+        TemperatureErrorFunction errorFunction = 
+                (TemperatureErrorFunction)mixture.getOptimizer().getErrorFunction();
+        errorFunction.setExperimental(experimental);
+        mixture.getOptimizer().solve();
         double result12 = mixture.getInteractionParameters().getValue(methanol, water);
         double result21 = mixture.getInteractionParameters().getValue(water, methanol);
         

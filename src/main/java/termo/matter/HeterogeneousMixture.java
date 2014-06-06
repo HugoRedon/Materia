@@ -10,6 +10,9 @@ import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
 import termo.eos.mixingRule.MixingRule;
 import termo.optimization.InteractionParameterOptimizer;
+import termo.optimization.NewtonMethodSolver;
+import termo.optimization.errorfunctions.TemperatureErrorFunction;
+import termo.optimization.errorfunctions.VaporPressureErrorFunction;
 import termo.phase.Phase;
 
 /**
@@ -27,7 +30,7 @@ public final class HeterogeneousMixture extends Heterogeneous {
      private HashMap<String,Double> zFractions = new HashMap(); 
      private ArrayList<Component> components;
      
-     private InteractionParameterOptimizer optimizer = new InteractionParameterOptimizer(this);
+     private NewtonMethodSolver optimizer;
     
     public HeterogeneousMixture(){
          liquid = new Mixture();
@@ -37,6 +40,11 @@ public final class HeterogeneousMixture extends Heterogeneous {
         
         mpcs.addPropertyChangeListener(liquid);
         mpcs.addPropertyChangeListener(vapor);
+        
+        
+        
+        
+       
     }
 
     @Override
@@ -65,6 +73,9 @@ public final class HeterogeneousMixture extends Heterogeneous {
         setComponents(components);
         setMixingRule(mixingrule);
         setInteractionParameters(k);
+        
+        TemperatureErrorFunction errorFunction = new TemperatureErrorFunction(this);
+         optimizer = new NewtonMethodSolver(errorFunction);
     }
     
     
@@ -884,11 +895,11 @@ public final class HeterogeneousMixture extends Heterogeneous {
         return s;
     }
 
-    public InteractionParameterOptimizer getOptimizer() {
+    public NewtonMethodSolver getOptimizer() {
         return optimizer;
     }
 
-    public void setOptimizer(InteractionParameterOptimizer optimizer) {
+    public void setOptimizer(NewtonMethodSolver optimizer) {
         this.optimizer = optimizer;
     }
  

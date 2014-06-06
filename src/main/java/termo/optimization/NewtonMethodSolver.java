@@ -3,6 +3,7 @@ package termo.optimization;
 
 import java.util.ArrayList;
 import termo.matrix.Matrix;
+import termo.optimization.errorfunctions.ErrorFunction;
 import termo.optimization.errorfunctions.VaporPressureErrorFunction;
 
 /**
@@ -12,7 +13,7 @@ import termo.optimization.errorfunctions.VaporPressureErrorFunction;
 public class NewtonMethodSolver {
     //fields
     
-    private VaporPressureErrorFunction errorFunction;
+    private ErrorFunction errorFunction;
     
     private boolean[] constrainParameters ;
     private double[] maxVariationParameters;
@@ -40,7 +41,7 @@ public class NewtonMethodSolver {
     
  
     //constructores
-    public NewtonMethodSolver(VaporPressureErrorFunction errorFunction){
+    public NewtonMethodSolver(ErrorFunction errorFunction){
         this.errorFunction = errorFunction;
         initializeArrays();
        
@@ -117,7 +118,7 @@ public class NewtonMethodSolver {
         double criteria =50;
         
         iterations = 0;
-        convergenceHistory.add(new Parameters_Error(args, errorFunction.vaporPressureError(), iterations));
+        convergenceHistory.add(new Parameters_Error(args, errorFunction.error(), iterations));
         
         while(Math.abs(criteria) > tolerance && iterations < 1000){
             
@@ -182,7 +183,7 @@ public class NewtonMethodSolver {
     
     public double vaporPressureError(double[] params){
         setParametersValues(params);
-       return errorFunction.vaporPressureError();
+       return errorFunction.error();
     }
 
     
@@ -209,11 +210,11 @@ public class NewtonMethodSolver {
     }
 //    public double doubleDeriv(double[] args, int i){
 //        double[] params = args.clone();
-//        double error = vaporPressureError(args);
+//        double error = error(args);
 //        args[i] = params[i] - numericalDerivativeDelta;
-//        double backwardError = vaporPressureError(args);
+//        double backwardError = error(args);
 //        args[i] = params[i] + numericalDerivativeDelta;
-//        double forwardError = vaporPressureError(args);
+//        double forwardError = error(args);
 //        resetParameterValues(args,params);
 //        return (forwardError - 2 * error + backwardError)/ Math.pow(numericalDerivativeDelta,2);
 //    }
@@ -553,14 +554,14 @@ public class NewtonMethodSolver {
     /**
      * @return the errorFunction
      */
-    public VaporPressureErrorFunction getErrorFunction() {
+    public ErrorFunction getErrorFunction() {
         return errorFunction;
     }
 
     /**
      * @param errorFunction the errorFunction to set
      */
-    public void setErrorFunction(VaporPressureErrorFunction errorFunction) {
+    public void setErrorFunction(ErrorFunction errorFunction) {
         this.errorFunction = errorFunction;
     }
 

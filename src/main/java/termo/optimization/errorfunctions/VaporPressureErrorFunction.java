@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import termo.component.Component;
 import termo.data.ExperimentalData;
 import termo.eos.alpha.Alpha;
+import termo.matter.Heterogeneous;
 import termo.matter.HeterogeneousSubstance;
 import termo.optimization.ErrorData;
 
@@ -17,9 +18,9 @@ import termo.optimization.ErrorData;
  *
  * @author Hugo
  */
-public class VaporPressureErrorFunction {
+public class VaporPressureErrorFunction implements ErrorFunction {
     private HeterogeneousSubstance substance;
-     private ArrayList<ExperimentalData> experimental = new ArrayList();
+    private ArrayList<ExperimentalData> experimental = new ArrayList();
      
    
      private Double totalError;
@@ -34,12 +35,14 @@ public class VaporPressureErrorFunction {
         this.experimental = experimental;
     }
     
+    @Override
     public int numberOfParameters(){
         Alpha alpha = substance.getVapor().getAlpha();
         return alpha.numberOfParameters();
     }
     
        //to class function
+    @Override
     public double getParameter(int index){
         
         Component component = substance.getVapor().getComponent();
@@ -47,7 +50,8 @@ public class VaporPressureErrorFunction {
             return alpha.getParameter( component, index);
     }
       //to class function
-   public double vaporPressureError(){
+    @Override
+   public double error(){
         errorForEachExperimentalData.clear();
         double error =0;
         for (ExperimentalData pair: experimental){
@@ -68,6 +72,7 @@ public class VaporPressureErrorFunction {
    
    
     //to class function
+    @Override
    public void setParameter(double value,int index){
         Component component = substance.getVapor().getComponent();
         Alpha alpha = substance.getVapor().getAlpha();
@@ -80,7 +85,7 @@ public class VaporPressureErrorFunction {
      */
     public double getTotalError() {
         if(totalError == null){
-            vaporPressureError();
+            error();
         }
         return totalError;
     }
@@ -92,7 +97,7 @@ public class VaporPressureErrorFunction {
      */
     public ArrayList<ErrorData> getErrorForEachExperimentalData() {
        // if(experimental.size() != errorForEachExperimentalData.size()){
-            vaporPressureError();//para calcular por primera vez
+            error();//para calcular por primera vez
         //}
         return errorForEachExperimentalData;
         

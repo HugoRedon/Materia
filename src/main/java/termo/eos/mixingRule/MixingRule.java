@@ -3,6 +3,7 @@ package termo.eos.mixingRule;
 import java.util.ArrayList;
 import java.util.HashMap;
 import termo.binaryParameter.InteractionParameter;
+import termo.component.Component;
 import termo.matter.Mixture;
 import termo.matter.Substance;
 
@@ -33,4 +34,15 @@ public abstract class MixingRule {
          return this.name;
      }
   
+    public abstract double getParameter(Component referenceComponent,
+            Component nonReferenceComponent,
+            InteractionParameter params,
+            int index);
+    public abstract void setParameter(double value, 
+            Component referenceComponent,
+            Component nonReferenceComponent,
+            InteractionParameter params,
+            int index);
+    
+    public abstract int numberOfParameters() ;
 }

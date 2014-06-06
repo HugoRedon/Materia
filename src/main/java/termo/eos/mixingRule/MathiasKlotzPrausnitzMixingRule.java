@@ -1,6 +1,7 @@
 package termo.eos.mixingRule;
 
 import termo.binaryParameter.InteractionParameter;
+import termo.component.Component;
 import termo.matter.Mixture;
 import termo.matter.Substance;
 
@@ -183,6 +184,33 @@ public class MathiasKlotzPrausnitzMixingRule extends MixingRule {
             secondTerm += xi * Math.pow(firstFactor,2) * secondFactor;
         }
         return (1d/2d)*(firstTerm + secondFactor);
+    }
+
+    @Override
+    public double getParameter(Component referenceComponent, Component nonReferenceComponent, InteractionParameter params, int index) {
+        switch(index){
+            case 0: return params.getValue(referenceComponent, nonReferenceComponent);
+            case 1: return params.getValue(nonReferenceComponent, referenceComponent);
+            default: return 0;
+        }
+        
+    }
+
+    @Override
+    public void setParameter(double value, Component referenceComponent, Component nonReferenceComponent, InteractionParameter params, int index) {
+        switch(index){
+            case 0: 
+                params.setValue(referenceComponent, nonReferenceComponent,value);
+                break;
+            case 1:  
+                params.setValue(nonReferenceComponent, referenceComponent,value);
+                break;
+        }
+    }
+
+    @Override
+    public int numberOfParameters() {
+        return 2;
     }
 
 

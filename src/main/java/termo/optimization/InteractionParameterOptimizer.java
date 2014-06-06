@@ -19,6 +19,7 @@ public class InteractionParameterOptimizer {
     private ArrayList<ExperimentalDataBinary> experimental;
     private Component referenceComponent;
     private Component nonReferenceComponent;
+
     
     double optimizationTolerance = 1e-5;
     double deltaK = 0.00001;

@@ -3,6 +3,7 @@ package termo.eos.mixingRule;
 import java.util.ArrayList;
 import java.util.HashMap;
 import termo.binaryParameter.InteractionParameter;
+import termo.component.Component;
 import termo.matter.Mixture;
 import termo.matter.Substance;
 
@@ -84,9 +85,34 @@ public class VDWMixingRule extends MixingRule{
         }
         return b;
     }
-   
-    
-    
+
+    @Override
+    public double getParameter(Component referenceComponent, 
+            Component nonReferenceComponent,
+            InteractionParameter params,
+            int index) {
+            if(index ==0){
+                return params.getValue(referenceComponent, nonReferenceComponent);
+            }else {
+                return 0;
+            }
+    }
+
+    @Override
+    public void setParameter(double value, Component referenceComponent, Component nonReferenceComponent, 
+            InteractionParameter params,
+            int index) {
+        if(index ==0){
+            params.setValue(referenceComponent, nonReferenceComponent, value);
+        }
+    }
+
+    @Override
+    public int numberOfParameters() {
+        return 1;
+    }
+
+ 
 
    
   

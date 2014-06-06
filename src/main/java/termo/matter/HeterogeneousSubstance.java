@@ -270,8 +270,8 @@ public class HeterogeneousSubstance extends Heterogeneous{
     private NewtonMethodSolver alphaOptimizer;
     public void optimizeTo(ArrayList<ExperimentalData> expData) {
         
-        
-        alphaOptimizer.getErrorFunction().setExperimental(expData);
+        VaporPressureErrorFunction errorFunction  =(VaporPressureErrorFunction)alphaOptimizer.getErrorFunction();
+        errorFunction.setExperimental(expData);
         alphaOptimizer.solve();
     }
 
