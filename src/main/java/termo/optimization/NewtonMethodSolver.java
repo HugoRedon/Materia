@@ -2,29 +2,26 @@
 package termo.optimization;
 
 import java.util.ArrayList;
-import termo.component.Component;
-import termo.data.ExperimentalData;
-import termo.eos.alpha.Alpha;
 import termo.matrix.Matrix;
-import termo.matter.HeterogeneousSubstance;
+import termo.optimization.errorfunctions.VaporPressureErrorFunction;
 
 /**
  *
  * @author Hugo
  */
-public class AlphaOptimization {
+public class NewtonMethodSolver {
     //fields
-    private HeterogeneousSubstance substance;
-    private ArrayList<ExperimentalData> experimental = new ArrayList();
-    private double numericalDerivativeDelta = 0.0001;
     
-//    private boolean fixParameterA;
-//    private boolean fixParameterB;
-//    private boolean fixParameterC;
-//    
+    private VaporPressureErrorFunction errorFunction;
+    
+    private boolean[] constrainParameters ;
+    private double[] maxVariationParameters;
+    
+   
+    private double numericalDerivativeDelta = 0.0001;
+  
     private boolean[] fixParameters ;
     
-    //end fields
     private boolean indeter;
     private boolean maxIterationsReached;
     private String message;
@@ -36,29 +33,26 @@ public class AlphaOptimization {
     private ArrayList<Parameters_Error> convergenceHistory = new ArrayList();
     
     
+    private boolean applyErrorDecreaseTechnique = false;
+    private int maxErrorDecreaseIterations = 26;
+    private int errorDecreaseIterations = 0;
+    
     
  
     //constructores
-    public AlphaOptimization(HeterogeneousSubstance substance){
-        this.substance = substance;
+    public NewtonMethodSolver(VaporPressureErrorFunction errorFunction){
+        this.errorFunction = errorFunction;
         initializeArrays();
        
     }
     
-    public AlphaOptimization(HeterogeneousSubstance substance,ArrayList<ExperimentalData> experimental){
-        this.substance = substance ; 
-        this.experimental = experimental;
-        initializeArrays();
-    }
     
     public final void initializeArrays(){
-         int numberOfParameters = substance.getVapor().getAlpha().numberOfParameters();
+         int numberOfParameters = errorFunction.numberOfParameters();
         fixParameters = new boolean[numberOfParameters];
         constrainParameters = new boolean[numberOfParameters];
         maxVariationParameters  = new double[numberOfParameters];
     }
-    
-    //end constructors
     
     public int fixedVariablesCount(){
         int result = 0;
@@ -68,20 +62,13 @@ public class AlphaOptimization {
                 result++;
             }
         }
-//        if(fixParameterA){
-//            result++;
-//        }if(fixParameterB){
-//            result++;
-//        }if(fixParameterC){
-//            result++;
-//        }
         return result;
     }
     
     public int numberOfVariablesToOptimize(){
-        Alpha alpha = substance.getVapor().getAlpha();
+       
         
-        int numberOfParameters = alpha.numberOfParameters();
+        int numberOfParameters =errorFunction.numberOfParameters();
         int fixedParameters = fixedVariablesCount();
         
         return numberOfParameters- fixedParameters;
@@ -89,52 +76,26 @@ public class AlphaOptimization {
   
     
     
+  
+    
+    
     
     
     public double[] initialValues(int numberOfVariablesToOptimize){
-        
         double[] initialValues = new double[numberOfVariablesToOptimize];
-
-        Component component = substance.getVapor().getComponent();
-            Alpha alpha = substance.getVapor().getAlpha();
-
             for(int i = 0; i < numberOfVariablesToOptimize; i++){
                 for(int j =i; j< numberOfVariablesToOptimize; j++){
                     if(!fixParameters[j]){
-                        initialValues[i] =   alpha.getParameter( component, j);
+                        initialValues[i] =   errorFunction.getParameter(j);
                         break;
                     }
                 }
         }
-        
-        
-        
-//        
-//        if(numberOfVariablesToOptimize >=1){
-//            if(!fixParameters[0]){
-//                initialValues[0] = alpha.getParameter(component,0);
-//            }else if(!fixParameters[1]){
-//                initialValues[0] = alpha.getParameter(component,1);
-//            }else if(!fixParameters[2]){
-//                initialValues[0] = alpha.getParameter(component,2);
-//            }
-//        }
-//        
-//        if(numberOfVariablesToOptimize >=2){
-//            if(!fixParameters[1]){
-//                initialValues[1] = alpha.getParameter(component,1);
-//            }else if(!fixParameters[2]){
-//                initialValues[1] = alpha.getParameter(component,2);
-//            }
-//            
-//        }
-//        
-//        if(numberOfVariablesToOptimize >=3){
-//           initialValues[2] = alpha.getParameter(component,2);
-//        }
-        
         return initialValues;
     }
+    
+ 
+    
     
     public void solve(){
         int numberOfVariablesToOptimize = numberOfVariablesToOptimize();
@@ -156,7 +117,7 @@ public class AlphaOptimization {
         double criteria =50;
         
         iterations = 0;
-        convergenceHistory.add(new Parameters_Error(args, vaporPressureError(), iterations));
+        convergenceHistory.add(new Parameters_Error(args, errorFunction.vaporPressureError(), iterations));
         
         while(Math.abs(criteria) > tolerance && iterations < 1000){
             
@@ -170,8 +131,8 @@ public class AlphaOptimization {
                 if(Double.isNaN(args[i]) | Double.isInfinite(args[i])){
                     indeter = true;
                     StringBuilder sb = new StringBuilder();
-                    sb.append("El valor del parametro " + i + " se indetermina en la iteración " + iterations);
-                    sb.append("El valor que provoca la indeterminación es " + before[i]);
+                    sb.append("El valor del parametro " + i + " se indetermina en la iteraciÃ³n " + iterations);
+                    sb.append("El valor que provoca la indeterminaciÃ³n es " + before[i]);
                     
                     message = sb.toString();
                     
@@ -193,7 +154,7 @@ public class AlphaOptimization {
         
         if(! (iterations < 1000)){
             maxIterationsReached = true;
-            message = "Se alcanzó el numero máximo de iteraciones";
+            message = "Se alcanzÃ³ el numero mÃ¡ximo de iteraciones";
         }
 
         return args;
@@ -201,46 +162,27 @@ public class AlphaOptimization {
     }
     
 
-    
-   public double vaporPressureError(){
-        errorForEachExperimentalData.clear();
-        double error =0;
-        for (ExperimentalData pair: experimental){
-            double temperature = pair.getTemperature();
-            substance.setTemperature(temperature);
-            substance.dewPressure();
-            double expP = pair.getPressure();
-            double calcP = substance.getPressure();
-            double relativeError = (calcP - expP)/expP;
-            double squareError = Math.pow(relativeError,2);
-            error += squareError;
-            errorForEachExperimentalData.add(new ErrorData(expP, calcP, relativeError,temperature));
-        }   
-        totalError = error;
-        return error;   
-   }
-   private Double totalError;
-   private ArrayList<ErrorData> errorForEachExperimentalData = new ArrayList();
-   
+  
+ 
 
    public void setParametersValues(double[] params){
-        Component component = substance.getVapor().getComponent();
-        Alpha alpha = substance.getVapor().getAlpha();
-        
         for(int i = 0; i < params.length; i++){
             for(int j =i; j< params.length; j++){
                 if(!fixParameters[j]){
-                    alpha.setParameter(params[i], component, j);
+                    errorFunction.setParameter(params[i], j);
                     break;
                 }
             }
         }
    }
    
+   
+  
+   
     
     public double vaporPressureError(double[] params){
         setParametersValues(params);
-       return vaporPressureError();
+       return errorFunction.vaporPressureError();
     }
 
     
@@ -288,7 +230,7 @@ public class AlphaOptimization {
     
     
     
-      public void resetParameterValues(double[] args, double[] params){
+    public void resetParameterValues(double[] args, double[] params){
         setParametersValues(params);        
         for(int i = 0; i < params.length; i++){
             args[i] = params[i];
@@ -328,20 +270,7 @@ public class AlphaOptimization {
         }return result;
         
     }
-//    private double parameterAMaxVariation = 0.2;
-//    private boolean constrainParameterA = false;
-//    
-//    private double parameterBMaxVariation = 0.2;
-//    private boolean constrainParameterB = false;
-//    
-//    private double parameterCMaxVariation = 0.2;
-//    private boolean constrainParameterC = false;
-    
-    
-    private boolean applyErrorDecreaseTechnique = false;
-    private int maxErrorDecreaseIterations = 26;
-    private int errorDecreaseIterations = 0;
-    
+
     public double[] errorDecrease(double[] before, double[] newValues){
         double error = vaporPressureError(before);
         double newError= vaporPressureError(newValues);
@@ -374,9 +303,7 @@ public class AlphaOptimization {
     
     
     
-    private boolean[] constrainParameters ;
-    private double[] maxVariationParameters;
-    
+ 
     private double findLambda(double[] before, double[] newValues){
 //        int numberOfVariablestoOptimize = numberOfVariablesToOptimize();
         ArrayList<Double> lambdas = new ArrayList();
@@ -450,19 +377,7 @@ public class AlphaOptimization {
         this.numericalDerivativeDelta = numericalDerivativeDelta;
     }
 
-    /**
-     * @return the experimental
-     */
-    public ArrayList<ExperimentalData> getExperimental() {
-        return experimental;
-    }
 
-    /**
-     * @param experimental the experimental to set
-     */
-    public void setExperimental(ArrayList<ExperimentalData> experimental) {
-        this.experimental = experimental;
-    }
 
     /**
      * @return the iterations
@@ -506,28 +421,7 @@ public class AlphaOptimization {
         this.convergenceHistory = convergenceHistory;
     }
 
-    /**
-     * @return the totalError
-     */
-    public double getTotalError() {
-        if(totalError == null){
-            vaporPressureError();
-        }
-        return totalError;
-    }
 
-   
-
-    /**
-     * @return the errorForEachExperimentalData
-     */
-    public ArrayList<ErrorData> getErrorForEachExperimentalData() {
-       // if(experimental.size() != errorForEachExperimentalData.size()){
-            vaporPressureError();//para calcular por primera vez
-        //}
-        return errorForEachExperimentalData;
-        
-    }
 
     /**
      * @return the indeter
@@ -654,6 +548,20 @@ public class AlphaOptimization {
      */
     public void setMaxVariationParameters(double[] maxVariationParameters) {
         this.maxVariationParameters = maxVariationParameters;
+    }
+
+    /**
+     * @return the errorFunction
+     */
+    public VaporPressureErrorFunction getErrorFunction() {
+        return errorFunction;
+    }
+
+    /**
+     * @param errorFunction the errorFunction to set
+     */
+    public void setErrorFunction(VaporPressureErrorFunction errorFunction) {
+        this.errorFunction = errorFunction;
     }
 
    

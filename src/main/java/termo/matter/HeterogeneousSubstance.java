@@ -7,7 +7,8 @@ import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
 import termo.equilibrium.EquilibriaFunction;
 import termo.equilibrium.EquilibriaSolution;
-import termo.optimization.AlphaOptimization;
+import termo.optimization.NewtonMethodSolver;
+import termo.optimization.errorfunctions.VaporPressureErrorFunction;
 import termo.phase.Phase;
 
 /**
@@ -50,7 +51,9 @@ public class HeterogeneousSubstance extends Heterogeneous{
         vaporImplementation.setCubicEquationOfState(eos);
         vaporImplementation.setAlpha(alpha);
         vaporImplementation.setComponent(component);
-	this.alphaOptimizer = new AlphaOptimization(this);
+	//this.alphaOptimizer = new NewtonMethodSolver(this);
+        VaporPressureErrorFunction errorFunction = new VaporPressureErrorFunction(this);
+        alphaOptimizer = new NewtonMethodSolver(errorFunction);
     }
         
 //    public HeterogeneousSubstance(Substance pure){
@@ -264,23 +267,25 @@ public class HeterogeneousSubstance extends Heterogeneous{
 //	this.component = component;
 //    }
 
-    private AlphaOptimization alphaOptimizer;
+    private NewtonMethodSolver alphaOptimizer;
     public void optimizeTo(ArrayList<ExperimentalData> expData) {
-        alphaOptimizer.setExperimental(expData);
+        
+        
+        alphaOptimizer.getErrorFunction().setExperimental(expData);
         alphaOptimizer.solve();
     }
 
     /**
      * @return the alphaOptimizer
      */
-    public AlphaOptimization getAlphaOptimizer() {
+    public NewtonMethodSolver getAlphaOptimizer() {
         return alphaOptimizer;
     }
 
     /**
      * @param alphaOptimizer the alphaOptimizer to set
      */
-    public void setAlphaOptimizer(AlphaOptimization alphaOptimizer) {
+    public void setAlphaOptimizer(NewtonMethodSolver alphaOptimizer) {
         this.alphaOptimizer = alphaOptimizer;
     }
 

@@ -13,17 +13,18 @@ import termo.eos.EquationOfStateFactory;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.matter.HeterogeneousSubstance;
+import termo.optimization.errorfunctions.VaporPressureErrorFunction;
 
 /**
  *
  * @author Hugo
  */
-public class AlphaOptimizationTest {
+public class NewtonMethodSolverTest {
     Component component = new Component("Acetaldehído");
     
      private ArrayList<ExperimentalData> list;
      
-    public AlphaOptimizationTest() {
+    public NewtonMethodSolverTest() {
         list = new ArrayList<ExperimentalData>();
         
         double[][] experimental = {//temperature[C], pressure[kPa]
@@ -80,6 +81,8 @@ public class AlphaOptimizationTest {
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
         double[] args ={0,0,0};
         
+        
+        
         substance.getAlphaOptimizer().centralDerivative(args,0);//no importa el valor
         double a = alpha.getParameter(component,0);
         assertEquals(0, a,1e-8);
@@ -133,8 +136,9 @@ public class AlphaOptimizationTest {
        
          
         
-      
-        AlphaOptimization op = new AlphaOptimization(substance,list);
+         VaporPressureErrorFunction errorFunction = new VaporPressureErrorFunction(substance);
+         errorFunction.setExperimental(list);
+        NewtonMethodSolver op = new NewtonMethodSolver(errorFunction);
         
        
         
