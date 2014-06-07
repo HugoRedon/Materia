@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
+import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.matter.Mixture;
 import termo.matter.Substance;
@@ -143,4 +144,10 @@ public class WilsonActivityModel extends ActivityModel{
         
         return  result;
     }
+
+ 
+
+   
+
+   
 }

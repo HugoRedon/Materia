@@ -3,7 +3,10 @@ package termo.optimization;
 
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import org.junit.Test;
+import termo.activityModel.WilsonActivityModel;
+import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.componentsForTests.ComponentsForTests;
@@ -14,6 +17,7 @@ import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.eos.mixingRule.MixingRule;
 import termo.eos.mixingRule.VDWMixingRule;
+import termo.eos.mixingRule.WongSandlerMixingRule;
 import termo.matter.HeterogeneousMixture;
 import termo.optimization.errorfunctions.TemperatureErrorFunction;
 
@@ -90,6 +94,33 @@ public class InteractionParameterOptimizerTest {
         int compare = Double.compare(result12, result21);
         assertEquals(true, compare == 0);
     }
-    
+    @Test public void testSolveWilson_WongSandler_Parameters(){
+         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
+        ArrayList<Component> components = new ArrayList<>();
+        components.add(water);
+        components.add(methanol);
+        WilsonActivityModel wilson = new WilsonActivityModel();
+        WongSandlerMixingRule mr = new WongSandlerMixingRule(wilson, eos);
+        
+        
+        ActivityModelBinaryParameter parameters = new ActivityModelBinaryParameter();
+        
+        mixture = new HeterogeneousMixture(eos, alpha, mr, components, parameters);
+        
+        
+         TemperatureErrorFunction errorFunction = 
+                (TemperatureErrorFunction)mixture.getOptimizer().getErrorFunction();
+        errorFunction.setExperimental(experimental);
+        mixture.getOptimizer().setApplyErrorDecreaseTechnique(true);
+        mixture.getOptimizer().solve();
+        
+        
+        for (int i = 0; i < mixture.getOptimizer().getErrorFunction().numberOfParameters(); i++) {
+            System.out.println("Parámetro " + i + " : " + mixture.getOptimizer().getErrorFunction().getParameter(i));
+        }
+        fail();
+        
+    }
     
 }

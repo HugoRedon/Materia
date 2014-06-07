@@ -20,7 +20,7 @@ import termo.matter.Substance;
 public class WongSandlerMixingRule extends ExcessGibbsMixingRule {
        
     
-    private double L;
+    
     public WongSandlerMixingRule(ActivityModel activityModel,Cubic eos){
 	super(activityModel, eos);
         name = "Wong Sandler (" + activityModel.getName()+")";
@@ -73,7 +73,7 @@ public class WongSandlerMixingRule extends ExcessGibbsMixingRule {
 	
 	double ge = activityModel.excessGibbsEnergy(mixture);
 	
-	double denom = 1 - ge/(L*mixture.getTemperature() * Constants.R) - denomSum;
+	double denom = 1 - ge/(getL()*mixture.getTemperature() * Constants.R) - denomSum;
 	
 	return numer/denom;
 	
@@ -94,17 +94,36 @@ public class WongSandlerMixingRule extends ExcessGibbsMixingRule {
 
     @Override
     public double getParameter(Component referenceComponent, Component nonReferenceComponent, InteractionParameter params, int index) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       int numberOfParametersOfActivity = activityModel.numberOfParameters();
+       ActivityModelBinaryParameter activityParams = (ActivityModelBinaryParameter)params;
+       
+       if(index == numberOfParametersOfActivity){
+           return activityParams.getK().getValue(referenceComponent, nonReferenceComponent);
+       }else if(index == numberOfParametersOfActivity + 1){
+           return activityParams.getK().getValue(nonReferenceComponent, referenceComponent);
+       }else{
+           return activityModel.getParameter(referenceComponent, nonReferenceComponent, activityParams, index);
+       }
+       
     }
 
     @Override
     public void setParameter(double value, Component referenceComponent, Component nonReferenceComponent, InteractionParameter params, int index) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         int numberOfParametersOfActivity = activityModel.numberOfParameters();
+       ActivityModelBinaryParameter activityParams = (ActivityModelBinaryParameter)params;
+       
+       if(index == numberOfParametersOfActivity){
+            activityParams.getK().setValue(referenceComponent, nonReferenceComponent,value);
+       }else if(index == numberOfParametersOfActivity + 1){
+            activityParams.getK().setValue(nonReferenceComponent, referenceComponent,value);
+       }else{
+            activityModel.setParameter(value, referenceComponent, nonReferenceComponent, activityParams, index);
+       }
     }
 
     @Override
     public int numberOfParameters() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 2 + activityModel.numberOfParameters();
     }
 
    

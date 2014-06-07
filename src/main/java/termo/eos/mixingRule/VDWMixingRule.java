@@ -1,7 +1,5 @@
 package termo.eos.mixingRule;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.matter.Mixture;
