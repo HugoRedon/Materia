@@ -88,7 +88,7 @@ public class InteractionParameterOptimizerTest {
         
         System.out.println("12 : " + result12+", 21 : " +result21);
         int compare = Double.compare(result12, result21);
-        assertEquals(true, compare != 0);
+        assertEquals(true, compare == 0);
     }
     
     

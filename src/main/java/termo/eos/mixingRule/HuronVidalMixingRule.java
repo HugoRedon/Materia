@@ -21,38 +21,20 @@ import termo.matter.Substance;
  * @author
  * Hugo
  */
-public class HuronVidalMixingRule extends MixingRule{
+public class HuronVidalMixingRule extends ExcessGibbsMixingRule{
 
-    ActivityModel activityModel;
-    private double L;
+    
     
     public HuronVidalMixingRule(ActivityModel activityModel, Cubic equationOfState){
-        this.activityModel = activityModel;
-        L = equationOfState.calculateL(1, 1);
+        super(activityModel, equationOfState);
         name = "Huron Vidal (" + activityModel.getName()+ ")";
     }
-
+//
 
     
     
 
-    @Override
-    public double a(Mixture mixture) {
-            
-            double b = b(mixture);
-            double excessGibbs = activityModel.excessGibbsEnergy( mixture);
-            
-            double firstTerm = 0;
-           
-            for(Substance ci :mixture.getPureSubstances()){
-                 double xi = ci.getMolarFraction();
-                 double ai = ci.calculate_a_cubicParameter();//singleAs.get(ci);
-                 double bi = ci.calculate_b_cubicParameter();//singleBs.get(ci);
-                
-                firstTerm += xi * (ai) / bi ;
-            }
-       return b* (firstTerm  - excessGibbs/(getL()));
-    }
+
 
     
     @Override
@@ -69,40 +51,11 @@ public class HuronVidalMixingRule extends MixingRule{
 
     
     
-    @Override
-    public double oneOverNParcial_aN2RespectN(
-	Substance ci,
-        Mixture mixture) {
-         
-        double b = b(mixture);
-        double a =a(mixture);
-        
-        ActivityModelBinaryParameter param = (ActivityModelBinaryParameter)mixture.getBinaryParameters();
-	double ai = ci.calculate_a_cubicParameter();
-	double bi = ci.calculate_b_cubicParameter();
-	double alphai = ai/(bi*Constants.R * mixture.getTemperature());
-	
-        double gammai = activityModel.activityCoefficient( ci,mixture   );
 
-        return b * Constants.R * mixture.getTemperature()*( alphai -  Math.log(gammai)/L) + a * bi / b;
-    }
 
     
    
 
-    /**
-     * @return the L
-     */
-    public double getL() {
-	return L;
-    }
-
-    /**
-     * @param L the L to set
-     */
-    public void setL(double L) {
-	this.L = L;
-    }
 
 
 
