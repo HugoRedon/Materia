@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import org.junit.Test;
+import termo.activityModel.NRTLActivityModel;
 import termo.activityModel.WilsonActivityModel;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
@@ -102,6 +103,35 @@ public class InteractionParameterOptimizerTest {
         components.add(methanol);
         WilsonActivityModel wilson = new WilsonActivityModel();
         WongSandlerMixingRule mr = new WongSandlerMixingRule(wilson, eos);
+        
+        
+        ActivityModelBinaryParameter parameters = new ActivityModelBinaryParameter();
+        
+        mixture = new HeterogeneousMixture(eos, alpha, mr, components, parameters);
+        
+        
+         TemperatureErrorFunction errorFunction = 
+                (TemperatureErrorFunction)mixture.getOptimizer().getErrorFunction();
+        errorFunction.setExperimental(experimental);
+        mixture.getOptimizer().setApplyErrorDecreaseTechnique(true);
+        mixture.getOptimizer().solve();
+        
+        
+        for (int i = 0; i < mixture.getOptimizer().getErrorFunction().numberOfParameters(); i++) {
+            System.out.println("Parámetro " + i + " : " + mixture.getOptimizer().getErrorFunction().getParameter(i));
+        }
+        fail();
+        
+    }
+    
+     @Test public void testSolveNRTL_WongSandler_Parameters(){
+         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
+        ArrayList<Component> components = new ArrayList<>();
+        components.add(water);
+        components.add(methanol);
+         NRTLActivityModel nrtl = new NRTLActivityModel();
+        WongSandlerMixingRule mr = new WongSandlerMixingRule(nrtl, eos);
         
         
         ActivityModelBinaryParameter parameters = new ActivityModelBinaryParameter();

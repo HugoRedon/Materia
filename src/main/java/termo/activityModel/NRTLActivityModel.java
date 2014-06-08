@@ -183,7 +183,41 @@ public class NRTLActivityModel extends ActivityModel{
         return Constants.R * result;
     }
 
+    @Override
+    public int numberOfParameters() {
+        return super.numberOfParameters()+ 2; 
+    }
 
+    @Override
+    public double getParameter(Component referenceComponent, Component nonReferenceComponent, ActivityModelBinaryParameter params, int index) {
+        int parametersNumber = super.numberOfParameters();
+        if(index ==parametersNumber ){
+            return params.getAlpha().getValue(referenceComponent, nonReferenceComponent);
+        }else if(index == parametersNumber +1 ){
+            return params.getAlpha().getValue(nonReferenceComponent, referenceComponent);
+        }
+        
+        return super.getParameter(referenceComponent, nonReferenceComponent, params, index); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setParameter(double value, Component referenceComponent, Component nonReferenceComponent, ActivityModelBinaryParameter params, int index) {
+         int parametersNumber = super.numberOfParameters();
+        if(index ==parametersNumber ){
+            params.getAlpha().setValue(referenceComponent, nonReferenceComponent,value);
+        }else if(index == parametersNumber +1 ){
+            params.getAlpha().setValue(nonReferenceComponent, referenceComponent,value);
+        }
+        else{
+            super.setParameter(value, referenceComponent, nonReferenceComponent, params, index); //To change body of generated methods, choose Tools | Templates.
+        }
+    }
+    
+    
+    
+
+    
+    
 
 
 }

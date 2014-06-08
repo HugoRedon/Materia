@@ -55,9 +55,13 @@ public abstract class ActivityModel {
         
         switch(index){
             case 0: params.getA().setValue(referenceComponent, nonReferenceComponent,value);
+                break;
             case 1: params.getA().setValue(nonReferenceComponent, referenceComponent,value);
+                break;
             case 2: params.getB().setValue(referenceComponent, nonReferenceComponent,value);
+                break;
             case 3: params.getB().setValue(nonReferenceComponent, referenceComponent,value);
+                break;
             
         }
         
