@@ -134,15 +134,22 @@ public class InteractionParameterOptimizerTest {
         WongSandlerMixingRule mr = new WongSandlerMixingRule(nrtl, eos);
         
         
+        
+        
         ActivityModelBinaryParameter parameters = new ActivityModelBinaryParameter();
         
         mixture = new HeterogeneousMixture(eos, alpha, mr, components, parameters);
-        
+       
         
          TemperatureErrorFunction errorFunction = 
                 (TemperatureErrorFunction)mixture.getOptimizer().getErrorFunction();
         errorFunction.setExperimental(experimental);
         mixture.getOptimizer().setApplyErrorDecreaseTechnique(true);
+        
+        mixture.getOptimizer().getErrorFunction().setParameter(1, 0);
+        mixture.getOptimizer().getErrorFunction().setParameter(1, 1);
+        
+        
         mixture.getOptimizer().solve();
         
         

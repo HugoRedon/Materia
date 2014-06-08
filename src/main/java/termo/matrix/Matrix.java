@@ -72,7 +72,7 @@ public class Matrix {
     
     
     
-      private double[][] minorMatrix(int row , int col){
+    private double[][] minorMatrix(int row , int col){
         int minorDimension = matrix.length-1;
         double[][] minor = new double[minorDimension][minorDimension];
         int minorRow =0;
