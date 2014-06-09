@@ -115,12 +115,14 @@ public class NewtonMethodSolver {
         double beforeError;
         double error;
         
-        double criteria =50;
+        double errorDiference =50;
+        double gradientAbsSum = gradientAbsSum(args);
+        double[] variations = new double[args.length];
         
         iterations = 0;
-        convergenceHistory.add(new Parameters_Error(args, errorFunction.error(), iterations));
+        convergenceHistory.add(new Parameters_Error(args, errorFunction.error(), iterations,gradientAbsSum));
         
-        while(Math.abs(criteria) > tolerance && iterations < 1000){
+        while(criteria(errorDiference,gradientAbsSum,variations) && iterations < 1000){
             
             beforeError = vaporPressureError( args);
             double[] before = args;
@@ -146,11 +148,14 @@ public class NewtonMethodSolver {
             }
             error = vaporPressureError(args);
             
-            Parameters_Error pe = new Parameters_Error(args, error,iterations);
+            gradientAbsSum =gradientAbsSum(args);
+            //variations = parametersDelta(before,args);
+            
+            Parameters_Error pe = new Parameters_Error(args, error,iterations,gradientAbsSum);
             convergenceHistory.add(pe);
             
             
-            criteria = error-beforeError;
+            errorDiference = error-beforeError;
         }
         
         if(! (iterations < 1000)){
@@ -162,7 +167,32 @@ public class NewtonMethodSolver {
      
     }
     
-
+    private boolean gradientCriterion;
+    private boolean errorDiferenceCriterion = true;//default
+    boolean parameterDifferenceCriterion ;
+    
+    private double gradientCriterionTolerance = 1e-4;
+    double parametersVariationTolerance = 1e-4;
+    public boolean criteria(double errorDiferenceValue,double gradientAbsSum,double[] parametersVariations){
+        if(errorDiferenceCriterion){
+            return Math.abs(errorDiferenceValue) > tolerance;
+        }else if(gradientCriterion){
+            
+            return gradientAbsSum > gradientCriterionTolerance;
+        }else if(parameterDifferenceCriterion){
+            return findMax(parametersVariations) >parametersVariationTolerance;
+        }
+        return false;
+    }
+  
+    
+    public double gradientAbsSum(double[] args){
+        double sum=0; 
+        for( double deriv: gradient(args)){
+            sum += Math.abs(deriv);
+        }
+        return sum;
+    }
   
  
 
@@ -334,6 +364,17 @@ public class NewtonMethodSolver {
           }
       }
       return min;
+    }
+    
+    public double findMax( double[] list) {
+      Double max = list[0];
+      for(Double number: list){
+          int comparation = max.compareTo(number);
+          if(comparation < 0){
+              max = number;
+          }
+      }
+      return max;
     }
     
     
@@ -563,6 +604,48 @@ public class NewtonMethodSolver {
      */
     public void setErrorFunction(ErrorFunction errorFunction) {
         this.errorFunction = errorFunction;
+    }
+
+    /**
+     * @return the gradientCriterion
+     */
+    public boolean isGradientCriterion() {
+        return gradientCriterion;
+    }
+
+    /**
+     * @param gradientCriterion the gradientCriterion to set
+     */
+    public void setGradientCriterion(boolean gradientCriterion) {
+        this.gradientCriterion = gradientCriterion;
+    }
+
+    /**
+     * @return the errorDiferenceCriterion
+     */
+    public boolean isErrorDiferenceCriterion() {
+        return errorDiferenceCriterion;
+    }
+
+    /**
+     * @param errorDiferenceCriterion the errorDiferenceCriterion to set
+     */
+    public void setErrorDiferenceCriterion(boolean errorDiferenceCriterion) {
+        this.errorDiferenceCriterion = errorDiferenceCriterion;
+    }
+
+    /**
+     * @return the gradientCriterionTolerance
+     */
+    public double getGradientCriterionTolerance() {
+        return gradientCriterionTolerance;
+    }
+
+    /**
+     * @param gradientCriterionTolerance the gradientCriterionTolerance to set
+     */
+    public void setGradientCriterionTolerance(double gradientCriterionTolerance) {
+        this.gradientCriterionTolerance = gradientCriterionTolerance;
     }
 
    

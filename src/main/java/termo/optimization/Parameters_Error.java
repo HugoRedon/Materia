@@ -13,15 +13,17 @@ package termo.optimization;
 public class Parameters_Error {
     double[] parameters;
     double error;
+    private double gradientAbsSum;
     int iteration;
 
     public Parameters_Error() {
     }
 
-    public Parameters_Error(double[] parameters, double error, int iteration) {
+    public Parameters_Error(double[] parameters, double error, int iteration, double gradientAbsSum) {
         this.parameters = parameters;
         this.error = error;
         this.iteration = iteration;
+        this.gradientAbsSum = gradientAbsSum;
     }
 
     
@@ -48,6 +50,20 @@ public class Parameters_Error {
 
     public void setIteration(int iteration) {
         this.iteration = iteration;
+    }
+
+    /**
+     * @return the gradientAbsSum
+     */
+    public double getGradientAbsSum() {
+        return gradientAbsSum;
+    }
+
+    /**
+     * @param gradientAbsSum the gradientAbsSum to set
+     */
+    public void setGradientAbsSum(double gradientAbsSum) {
+        this.gradientAbsSum = gradientAbsSum;
     }
     
     
