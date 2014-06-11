@@ -253,6 +253,30 @@ public class NewtonMethodSolverTest {
         assertEquals(3, component.getA_Soave(),1e-4);
     }
     
+     @Test 
+    public void fixParameterB_in3VariableOptimization(){
+        System.out.println("fixParameter");
+         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Alpha alpha = AlphaFactory.getTwuExpression();
+        alpha.setParameter(0.5, component, 0);
+        alpha.setParameter(0.4, component, 1);
+        alpha.setParameter(0.3, component, 2);
+        
+        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
+//        substance.getAlphaOptimizer().setDamp(0.1);
+        substance.getAlphaOptimizer().getFixParameters()[1] = true;
+                //setFixParameterA(true);
+        
+        substance.optimizeTo(list);
+        
+        System.out.println("parameter 0: " + alpha.getParameter(component, 0));
+        System.out.println("parameter 1: " + alpha.getParameter(component, 1));
+        System.out.println("parameter 2: " + alpha.getParameter(component, 2));
+         System.out.println(substance.getAlphaOptimizer().getMessage());
+        assertEquals(true, !substance.getAlphaOptimizer().isIndeter() && !substance.getAlphaOptimizer().isMaxIterationsReached());
+    }
+    
+    
     
     
     @Test

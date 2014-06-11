@@ -93,7 +93,7 @@ public class NewtonMethodSolver implements PropertyChangeListener {
     public double[] initialValues(int numberOfVariablesToOptimize){
         double[] initialValues = new double[numberOfVariablesToOptimize];
             for(int i = 0; i < numberOfVariablesToOptimize; i++){
-                for(int j =i; j< numberOfVariablesToOptimize; j++){
+                for(int j =i; j< errorFunction.numberOfParameters(); j++){
                     if(!fixParameters[j]){
                         initialValues[i] =   errorFunction.getParameter(j);
                         break;
@@ -206,7 +206,7 @@ public class NewtonMethodSolver implements PropertyChangeListener {
 
    public void setParametersValues(double[] params){
         for(int i = 0; i < params.length; i++){
-            for(int j =i; j< params.length; j++){
+            for(int j =i; j< errorFunction.numberOfParameters(); j++){
                 if(!fixParameters[j]){
                     errorFunction.setParameter(params[i], j);
                     break;
@@ -348,12 +348,13 @@ public class NewtonMethodSolver implements PropertyChangeListener {
         ArrayList<Double> lambdas = new ArrayList();
         
         for (int i = 0; i < newValues.length; i++){
-            for(int j = i; j< newValues.length; j++){
+            for(int j = i; j< errorFunction.numberOfParameters(); j++){
                 if(!fixParameters[j]){
                     double lambda = requiredLambdaForConstraint(before[i], newValues[i], maxVariationParameters[j]);
                     if(considerLambda(lambda, constrainParameters[j])){
                         lambdas.add(lambda);
                     }
+                    break;
                 }
             }
         }
