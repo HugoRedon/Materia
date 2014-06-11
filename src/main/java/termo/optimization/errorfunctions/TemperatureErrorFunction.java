@@ -4,6 +4,7 @@ package termo.optimization.errorfunctions;
 import java.util.ArrayList;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
+import termo.data.ExperimentalData;
 import termo.data.ExperimentalDataBinary;
 import termo.matter.HeterogeneousMixture;
 
@@ -11,7 +12,7 @@ import termo.matter.HeterogeneousMixture;
  *
  * @author Hugo
  */
-public class TemperatureErrorFunction implements ErrorFunction{
+public class TemperatureErrorFunction extends ErrorFunction{
     private Component referenceComponent;
     private Component nonReferenceComponent;
     private HeterogeneousMixture mixture;
@@ -68,11 +69,12 @@ public class TemperatureErrorFunction implements ErrorFunction{
     /**
      * @param experimental the experimental to set
      */
-    public void setExperimental(ArrayList<ExperimentalDataBinary> experimental) {
-        this.experimental = experimental;
+    @Override
+    public void setExperimental(ArrayList<? extends ExperimentalData> experimental) {
+        this.experimental = (ArrayList< ExperimentalDataBinary>)experimental;
         mixture.setPressure(experimental.get(0).getPressure());
-         referenceComponent = experimental.get(0).getReferenceComponent();
-        nonReferenceComponent = experimental.get(0).getNonReferenceComponent();
+         referenceComponent = this.experimental.get(0).getReferenceComponent();
+        nonReferenceComponent = this.experimental.get(0).getNonReferenceComponent();
         
     }
     

@@ -54,6 +54,7 @@ public class HeterogeneousSubstance extends Heterogeneous{
 	//this.alphaOptimizer = new NewtonMethodSolver(this);
         VaporPressureErrorFunction errorFunction = new VaporPressureErrorFunction(this);
         alphaOptimizer = new NewtonMethodSolver(errorFunction);
+        addPropertyChangeListener(alphaOptimizer);
     }
         
 //    public HeterogeneousSubstance(Substance pure){
@@ -279,6 +280,11 @@ public class HeterogeneousSubstance extends Heterogeneous{
      * @return the alphaOptimizer
      */
     public NewtonMethodSolver getAlphaOptimizer() {
+        if(alphaOptimizer ==null){
+            VaporPressureErrorFunction errorFunction = new VaporPressureErrorFunction(this);
+            alphaOptimizer = new NewtonMethodSolver(errorFunction);
+            addPropertyChangeListener(alphaOptimizer);
+        }
         return alphaOptimizer;
     }
 

@@ -1,6 +1,8 @@
 
 package termo.optimization;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import termo.matrix.Matrix;
 import termo.optimization.errorfunctions.ErrorFunction;
@@ -10,7 +12,7 @@ import termo.optimization.errorfunctions.VaporPressureErrorFunction;
  *
  * @author Hugo
  */
-public class NewtonMethodSolver {
+public class NewtonMethodSolver implements PropertyChangeListener {
     //fields
     
     private ErrorFunction errorFunction;
@@ -39,7 +41,12 @@ public class NewtonMethodSolver {
     private int errorDecreaseIterations = 0;
     
     
- 
+  @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if(evt.getPropertyName() == "alpha"){
+            initializeArrays();
+        }
+    }
     //constructores
     public NewtonMethodSolver(ErrorFunction errorFunction){
         this.errorFunction = errorFunction;
@@ -49,6 +56,7 @@ public class NewtonMethodSolver {
     
     
     public final void initializeArrays(){
+        
          int numberOfParameters = errorFunction.numberOfParameters();
         fixParameters = new boolean[numberOfParameters];
         constrainParameters = new boolean[numberOfParameters];
@@ -647,6 +655,8 @@ public class NewtonMethodSolver {
     public void setGradientCriterionTolerance(double gradientCriterionTolerance) {
         this.gradientCriterionTolerance = gradientCriterionTolerance;
     }
+
+   
 
    
 }

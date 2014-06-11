@@ -18,13 +18,13 @@ import termo.optimization.ErrorData;
  *
  * @author Hugo
  */
-public class VaporPressureErrorFunction implements ErrorFunction {
+public class VaporPressureErrorFunction extends ErrorFunction {
     private HeterogeneousSubstance substance;
     private ArrayList<ExperimentalData> experimental = new ArrayList();
      
    
      private Double totalError;
-   private ArrayList<ErrorData> errorForEachExperimentalData = new ArrayList();
+   
    
      
     public VaporPressureErrorFunction(HeterogeneousSubstance substance){
@@ -38,7 +38,11 @@ public class VaporPressureErrorFunction implements ErrorFunction {
     @Override
     public int numberOfParameters(){
         Alpha alpha = substance.getVapor().getAlpha();
-        return alpha.numberOfParameters();
+        if(alpha !=null){
+            return alpha.numberOfParameters();
+        }else{
+            return 0;
+        }
     }
     
        //to class function
@@ -92,16 +96,7 @@ public class VaporPressureErrorFunction implements ErrorFunction {
 
    
 
-    /**
-     * @return the errorForEachExperimentalData
-     */
-    public ArrayList<ErrorData> getErrorForEachExperimentalData() {
-       // if(experimental.size() != errorForEachExperimentalData.size()){
-            error();//para calcular por primera vez
-        //}
-        return errorForEachExperimentalData;
-        
-    }
+  
 
     /**
      * @return the experimental
@@ -113,8 +108,9 @@ public class VaporPressureErrorFunction implements ErrorFunction {
     /**
      * @param experimental the experimental to set
      */
-    public void setExperimental(ArrayList<ExperimentalData> experimental) {
-        this.experimental = experimental;
+    @Override
+    public void setExperimental(ArrayList<? extends ExperimentalData> experimental) {
+        this.experimental = (ArrayList<ExperimentalData>) experimental;
     }
    
 }
