@@ -57,6 +57,9 @@ public final class HeterogeneousMixture extends Heterogeneous {
             case "zFractions":
                 zFractions = (HashMap<String,Double>)evt.getNewValue();
                 break;
+            case "mixingRule":
+                setMixingRule((MixingRule)evt.getNewValue());
+                break;
         }
         
     }
@@ -75,6 +78,7 @@ public final class HeterogeneousMixture extends Heterogeneous {
         
         TemperatureErrorFunction errorFunction = new TemperatureErrorFunction(this);
          optimizer = new NewtonMethodSolver(errorFunction);
+         mpcs.addPropertyChangeListener(optimizer);
     }
     
     

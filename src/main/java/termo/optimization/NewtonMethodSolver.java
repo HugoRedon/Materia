@@ -43,8 +43,14 @@ public class NewtonMethodSolver implements PropertyChangeListener {
     
   @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(evt.getPropertyName() == "alpha"){
-            initializeArrays();
+        
+        if(null != evt.getPropertyName())switch (evt.getPropertyName()) {
+            case "alpha":
+                initializeArrays();
+                break;
+            case "mixingRule":
+                initializeArrays();
+                break;
         }
     }
     //constructores
