@@ -4,15 +4,14 @@ package termo.matter;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
 import termo.eos.mixingRule.MixingRule;
-import termo.optimization.InteractionParameterOptimizer;
 import termo.optimization.NewtonMethodSolver;
 import termo.optimization.errorfunctions.TemperatureErrorFunction;
-import termo.optimization.errorfunctions.VaporPressureErrorFunction;
 import termo.phase.Phase;
 
 /**
@@ -28,7 +27,7 @@ public final class HeterogeneousMixture extends Heterogeneous {
     private InteractionParameter interactionParameters;
     
      private HashMap<String,Double> zFractions = new HashMap(); 
-     private ArrayList<Component> components;
+     private HashSet<Component> components;
      
      private NewtonMethodSolver optimizer;
     
@@ -53,7 +52,7 @@ public final class HeterogeneousMixture extends Heterogeneous {
         String name =evt.getPropertyName();
         switch(name){
             case "components":
-                components = (ArrayList<Component> )evt.getNewValue();
+                components = (HashSet<Component> )evt.getNewValue();
                 break;
             case "zFractions":
                 zFractions = (HashMap<String,Double>)evt.getNewValue();
@@ -66,7 +65,7 @@ public final class HeterogeneousMixture extends Heterogeneous {
 	    Cubic eos,
 	    Alpha alpha,
 	    MixingRule mixingrule, 
-	    ArrayList<Component> components, InteractionParameter k){
+	    HashSet<Component> components, InteractionParameter k){
         this();
         setEquationOfState(eos);
         setAlpha(alpha);
@@ -651,15 +650,15 @@ public final class HeterogeneousMixture extends Heterogeneous {
     /**
      * @return the components
      */
-    public ArrayList<Component> getComponents() {
+    public HashSet<Component> getComponents() {
 	return components;
     }
 
     /**
      * @param components the components to set
      */
-    public void setComponents(ArrayList<Component> components) {
-        ArrayList<Component> oldComponents = this.components;
+    public void setComponents(HashSet<Component> components) {
+        HashSet<Component> oldComponents = this.components;
 	this.components = components;
         mpcs.firePropertyChange("components", oldComponents, components);
     }

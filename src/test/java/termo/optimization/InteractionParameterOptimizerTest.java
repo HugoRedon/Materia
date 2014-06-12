@@ -2,12 +2,9 @@
 package termo.optimization;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import org.junit.Test;
-import termo.activityModel.NRTLActivityModel;
-import termo.activityModel.WilsonActivityModel;
-import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.componentsForTests.ComponentsForTests;
@@ -18,7 +15,6 @@ import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.eos.mixingRule.MixingRule;
 import termo.eos.mixingRule.VDWMixingRule;
-import termo.eos.mixingRule.WongSandlerMixingRule;
 import termo.matter.HeterogeneousMixture;
 import termo.optimization.errorfunctions.TemperatureErrorFunction;
 
@@ -38,7 +34,7 @@ public class InteractionParameterOptimizerTest {
 
         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
         Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
-        ArrayList<Component> components = new ArrayList<>();
+        HashSet<Component> components = new HashSet<>();
         components.add(water);
         components.add(methanol);
         MixingRule mr = new VDWMixingRule();

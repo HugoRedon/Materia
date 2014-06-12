@@ -1,7 +1,7 @@
 package termo.eos.mixingRule;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import termo.binaryParameter.InteractionParameter;
@@ -60,7 +60,7 @@ public class VDWMixingRuleTest {
 	
 	//fractions = new HashMap();
 	
-	ArrayList<Component> components = new ArrayList();
+	HashSet<Component> components = new HashSet();
 	components.add(ethane);
 	components.add(propane);
 	

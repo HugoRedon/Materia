@@ -4,6 +4,7 @@ import java.beans.PropertyChangeSupport;
 import termo.matter.Substance;
 import termo.matter.Mixture;
 import java.util.ArrayList;
+import java.util.HashSet;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import termo.binaryParameter.InteractionParameter;
@@ -22,13 +23,13 @@ import termo.phase.Phase;
  * @author
  * Hugo
  */
-public class MixtureSubstanceTest {
+public class MixtureTest {
     Mixture substance ;
     Substance ethanolPure ;
     Component acetaldehyd;
     Component formaldehyde;
-    ArrayList<Component> components = new ArrayList();
-    public MixtureSubstanceTest() {
+    HashSet<Component> components = new HashSet();
+    public MixtureTest() {
 //	substance = new MixtureSubstance();
 	
         Component ethanol = new Component("etanol");
@@ -181,7 +182,7 @@ public class MixtureSubstanceTest {
         double entropy = substance.calculateEntropy();
         System.out.println("entropy"  + entropy);
         
-        ArrayList<Component> differentList = new ArrayList();
+        HashSet<Component> differentList = new HashSet();
         differentList.add(acetaldehyd);
         differentList.add(formaldehyde);
         mpcs.firePropertyChange("components", components, differentList);
@@ -191,4 +192,11 @@ public class MixtureSubstanceTest {
         assertEquals(false, Double.isNaN(entropy));
     }
 
+    
+    @Test
+    public void noDuplicateComponents(){
+        System.out.println("no duplicate components");
+        boolean added = substance.getComponents().add(acetaldehyd);
+        assertEquals(false, added);
+    }
 }

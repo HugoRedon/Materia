@@ -7,7 +7,7 @@
 package termo.substance;
 
 import termo.matter.Mixture;
-import java.util.ArrayList;
+import java.util.HashSet;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import termo.binaryParameter.InteractionParameter;
@@ -65,7 +65,7 @@ public class MultiComponentTest {
         
         
         
-        ArrayList<Component> components = new ArrayList();
+        HashSet<Component> components = new HashSet();
         components.add(ethane);
         components.add(propane);
         components.add(nHeptane);

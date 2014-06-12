@@ -1,8 +1,7 @@
 
 package termo.activityModel;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import termo.binaryParameter.ActivityModelBinaryParameter;
@@ -15,7 +14,6 @@ import termo.eos.alpha.AlphaFactory;
 import termo.eos.mixingRule.HuronVidalMixingRule;
 import termo.eos.mixingRule.MixingRule;
 import termo.phase.Phase;
-import termo.matter.HeterogeneousMixture;
 import termo.matter.Mixture;
 import termo.matter.Substance;
 
@@ -28,7 +26,7 @@ public class WilsonActivityModelTest {
     
 //      HeterogeneousMixture substance;
     Mixture substance;
-       ArrayList<Component> components = new ArrayList();
+       HashSet<Component> components = new HashSet();
        Component ethane ;
        Component propane;
        

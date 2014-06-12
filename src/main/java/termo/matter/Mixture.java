@@ -3,6 +3,7 @@ package termo.matter;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import termo.Constants;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
@@ -17,7 +18,7 @@ import termo.phase.Phase;
  */
 public final class Mixture extends Homogeneous{
     private MixingRule mixingRule;
-    protected ArrayList<Substance> pureSubstances = new ArrayList<>();
+    protected HashSet<Substance> pureSubstances = new HashSet<>();
 //    protected HashMap<String,Double> molarFractions = new HashMap<>();
     protected InteractionParameter binaryParameters = new InteractionParameter();
 
@@ -36,7 +37,7 @@ public final class Mixture extends Homogeneous{
                 setAlpha((Alpha)evt.getNewValue());
                 break;
             case "components":
-                setComponents((ArrayList<Component>)evt.getNewValue());
+                setComponents((HashSet<Component>)evt.getNewValue());
                 break;
           
             case"mixingRule":
@@ -48,7 +49,7 @@ public final class Mixture extends Homogeneous{
         }
     }
 
-    public Mixture(Cubic equationOfState,Alpha alpha,  ArrayList<Component> components,Phase phase,MixingRule mixingRule ,InteractionParameter k){
+    public Mixture(Cubic equationOfState,Alpha alpha,  HashSet<Component> components,Phase phase,MixingRule mixingRule ,InteractionParameter k){
 	super(equationOfState,phase);
         setMixingRule(mixingRule);
         setAlpha(alpha);
@@ -60,7 +61,7 @@ public final class Mixture extends Homogeneous{
      
 
 
-    public void setComponents(ArrayList<Component> components){
+    public void setComponents(HashSet<Component> components){
         pureSubstances.clear();
         //molarFractions.clear();
         double fraction = 1d/components.size();
@@ -127,8 +128,8 @@ public final class Mixture extends Homogeneous{
     }
     
     
-    public ArrayList<Component> getComponents(){
-        ArrayList<Component> components = new ArrayList<>();
+    public HashSet<Component> getComponents(){
+        HashSet<Component> components = new HashSet<>();
         for (Substance pureSubstance : getPureSubstances()){
             components.add(pureSubstance.getComponent());
         }
@@ -201,7 +202,7 @@ public final class Mixture extends Homogeneous{
     /**
      * @return the pureSubstances
      */
-    public ArrayList<Substance> getPureSubstances() {
+    public HashSet<Substance> getPureSubstances() {
 	return pureSubstances;
     }
 

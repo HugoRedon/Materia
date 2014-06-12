@@ -6,6 +6,7 @@ package termo.substance;
 
 import termo.matter.HeterogeneousMixture;
 import java.util.ArrayList;
+import java.util.HashSet;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import termo.binaryParameter.InteractionParameter;
@@ -17,7 +18,6 @@ import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.eos.mixingRule.MixingRule;
 import termo.eos.mixingRule.VDWMixingRule;
-import termo.phase.Phase;
 
 /**
  *
@@ -46,7 +46,7 @@ public class HeterogeneousMixtureTest {
 	Cubic eos = EquationOfStateFactory.pengRobinsonBase();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
-	ArrayList<Component> components = new ArrayList();
+	HashSet<Component> components = new HashSet();
 	components.add(ethane);
 	components.add(propane);
 	
@@ -248,7 +248,7 @@ public class HeterogeneousMixtureTest {
 
         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
         Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
-        ArrayList<Component> components = new ArrayList<>();
+        HashSet<Component> components = new HashSet<>();
         components.add(water);
         components.add(methanol);
         MixingRule mr = new VDWMixingRule();

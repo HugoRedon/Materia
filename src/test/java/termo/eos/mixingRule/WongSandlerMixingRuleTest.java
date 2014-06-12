@@ -4,8 +4,8 @@
  */
 package termo.eos.mixingRule;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import org.junit.Test;
 import termo.activityModel.NRTLActivityModel;
 import termo.activityModel.WilsonActivityModel;
@@ -33,7 +33,7 @@ public class WongSandlerMixingRuleTest {
     HuronVidalMixingRule instance;
     InteractionParameter k = new ActivityModelBinaryParameter();
     
-    ArrayList<Component> components = new ArrayList<>();
+    HashSet<Component> components = new HashSet<>();
     Substance ci;
     
     Cubic eos;
