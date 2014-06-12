@@ -29,7 +29,8 @@ public final class HeterogeneousMixture extends Heterogeneous {
      private HashMap<String,Double> zFractions = new HashMap(); 
      private HashSet<Component> components;
      
-     private NewtonMethodSolver optimizer;
+     private TemperatureErrorFunction errorFunction;
+    // private NewtonMethodSolver optimizer;
     
     public HeterogeneousMixture(){
          liquid = new Mixture();
@@ -40,7 +41,7 @@ public final class HeterogeneousMixture extends Heterogeneous {
         mpcs.addPropertyChangeListener(liquid);
         mpcs.addPropertyChangeListener(vapor);
         
-        
+       
         
         
        
@@ -76,9 +77,10 @@ public final class HeterogeneousMixture extends Heterogeneous {
         setMixingRule(mixingrule);
         setInteractionParameters(k);
         
-        TemperatureErrorFunction errorFunction = new TemperatureErrorFunction(this);
-         optimizer = new NewtonMethodSolver(errorFunction);
-         mpcs.addPropertyChangeListener(optimizer);
+        
+          errorFunction = new TemperatureErrorFunction(this);
+        mpcs.addPropertyChangeListener(errorFunction);
+         
     }
     
     
@@ -778,6 +780,20 @@ public final class HeterogeneousMixture extends Heterogeneous {
         mpcs.firePropertyChange("interactionParameters", oldInteractionParameters, interactionParameters);
     }
 
+    /**
+     * @return the errorfunction
+     */
+    public TemperatureErrorFunction getErrorfunction() {
+        return errorFunction;
+    }
+
+    /**
+     * @param errorfunction the errorfunction to set
+     */
+    public void setErrorfunction(TemperatureErrorFunction errorfunction) {
+        this.errorFunction = errorfunction;
+    }
+
  
     
       
@@ -898,12 +914,12 @@ public final class HeterogeneousMixture extends Heterogeneous {
         return s;
     }
 
-    public NewtonMethodSolver getOptimizer() {
-        return optimizer;
-    }
-
-    public void setOptimizer(NewtonMethodSolver optimizer) {
-        this.optimizer = optimizer;
-    }
+//    public NewtonMethodSolver getOptimizer() {
+//        return optimizer;
+//    }
+//
+//    public void setOptimizer(NewtonMethodSolver optimizer) {
+//        this.optimizer = optimizer;
+//    }
  
 }

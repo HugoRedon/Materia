@@ -68,10 +68,10 @@ public class InteractionParameterOptimizerTest {
     @Test
     public void testSolve() {
         mixture.getInteractionParameters().setSymmetric(true);
-        TemperatureErrorFunction errorFunction = 
-                (TemperatureErrorFunction)mixture.getOptimizer().getErrorFunction();
-        errorFunction.setExperimental(experimental);
-        mixture.getOptimizer().solve();
+        mixture.getErrorfunction().setExperimental(experimental);
+        
+        mixture.getErrorfunction().minimize();
+                
         double result = mixture.getInteractionParameters().getValue(methanol, water);
         
         double expected = -0.050392324220228706;
