@@ -5,6 +5,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.eos.Cubic;
@@ -24,7 +25,7 @@ public final class HeterogeneousMixture extends Heterogeneous {
     private Alpha alpha;
     private MixingRule mixingRule;
     
-    private InteractionParameter interactionParameters;
+    private InteractionParameter interactionParameters = new ActivityModelBinaryParameter();
     
      private HashMap<String,Double> zFractions = new HashMap(); 
      private HashSet<Component> components;

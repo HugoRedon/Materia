@@ -24,7 +24,7 @@ public class TemperatureErrorFunction extends ErrorFunction implements PropertyC
     
     PropertyChangeSupport mpcs = new PropertyChangeSupport(this);
     
-    NewtonMethodSolver optimizer ;
+    private NewtonMethodSolver optimizer ;
     
     public TemperatureErrorFunction(HeterogeneousMixture mixture){
         this.mixture = mixture;
@@ -101,7 +101,7 @@ public class TemperatureErrorFunction extends ErrorFunction implements PropertyC
     }
     
     public void minimize(){
-        optimizer.solve();
+        getOptimizer().solve();
     }
 
     /**
@@ -130,5 +130,19 @@ public class TemperatureErrorFunction extends ErrorFunction implements PropertyC
      */
     public void setNonReferenceComponent(Component nonReferenceComponent) {
         this.nonReferenceComponent = nonReferenceComponent;
+    }
+
+    /**
+     * @return the optimizer
+     */
+    public NewtonMethodSolver getOptimizer() {
+        return optimizer;
+    }
+
+    /**
+     * @param optimizer the optimizer to set
+     */
+    public void setOptimizer(NewtonMethodSolver optimizer) {
+        this.optimizer = optimizer;
     }
 }
