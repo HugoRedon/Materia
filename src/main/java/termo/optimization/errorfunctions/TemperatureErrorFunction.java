@@ -40,7 +40,10 @@ public class TemperatureErrorFunction extends ErrorFunction implements PropertyC
 
     @Override
     public int numberOfParameters() {
-        return mixture.getMixingRule().numberOfParameters();
+        if(mixture.getMixingRule() !=null){
+            return mixture.getMixingRule().numberOfParameters();    
+        }
+        return 0;
     }
 
     @Override
@@ -83,9 +86,9 @@ public class TemperatureErrorFunction extends ErrorFunction implements PropertyC
     public void setExperimental(ArrayList<? extends ExperimentalData> experimental) {
         this.experimental = (ArrayList< ExperimentalDataBinary>)experimental;
         mixture.setPressure(experimental.get(0).getPressure());
-         referenceComponent = this.experimental.get(0).getReferenceComponent();
-        nonReferenceComponent = this.experimental.get(0).getNonReferenceComponent();
-        
+//         referenceComponent = this.experimental.get(0).getReferenceComponent();
+//        nonReferenceComponent = this.experimental.get(0).getNonReferenceComponent();
+//        
     }
 
     @Override

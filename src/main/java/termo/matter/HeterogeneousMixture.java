@@ -42,7 +42,8 @@ public final class HeterogeneousMixture extends Heterogeneous {
         mpcs.addPropertyChangeListener(vapor);
         
        
-        
+        errorFunction = new TemperatureErrorFunction(this);
+        mpcs.addPropertyChangeListener(errorFunction);
         
        
     }
@@ -78,8 +79,7 @@ public final class HeterogeneousMixture extends Heterogeneous {
         setInteractionParameters(k);
         
         
-          errorFunction = new TemperatureErrorFunction(this);
-        mpcs.addPropertyChangeListener(errorFunction);
+          
          
     }
     

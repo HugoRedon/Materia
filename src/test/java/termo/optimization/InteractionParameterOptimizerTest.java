@@ -51,17 +51,17 @@ public class InteractionParameterOptimizerTest {
         double pressure = 0.14991*101325;
        
 
-        experimental.add(new ExperimentalDataBinary( methanol, water, 327.4, pressure, 0, 0));
-        experimental.add(new ExperimentalDataBinary( methanol, water,318.05, pressure, 0.1, 0.433386));
-        experimental.add(new ExperimentalDataBinary( methanol, water,312.4, pressure, 0.2, 0.62119));
-        experimental.add(new ExperimentalDataBinary( methanol, water,308.55, pressure, 0.3, 0.725289));
-        experimental.add(new ExperimentalDataBinary( methanol, water,305.7, pressure, 0.4, 0.79242));     
-        experimental.add(new ExperimentalDataBinary( methanol, water,303.5, pressure, 0.5, 0.840656));
-        experimental.add(new ExperimentalDataBinary( methanol, water,301.7, pressure, 0.6, 0.87857));
-        experimental.add(new ExperimentalDataBinary( methanol, water,300.1, pressure, 0.7, 0.910835));
-        experimental.add(new ExperimentalDataBinary( methanol, water,298.7, pressure, 0.8, 0.940365));
-        experimental.add(new ExperimentalDataBinary( methanol, water,297.4, pressure, 0.9, 0.969404));
-        experimental.add(new ExperimentalDataBinary( methanol, water,296.1, pressure, 1, 1));
+        experimental.add(new ExperimentalDataBinary( 327.4, pressure, 0, 0));
+        experimental.add(new ExperimentalDataBinary( 318.05, pressure, 0.1, 0.433386));
+        experimental.add(new ExperimentalDataBinary( 312.4, pressure, 0.2, 0.62119));
+        experimental.add(new ExperimentalDataBinary( 308.55, pressure, 0.3, 0.725289));
+        experimental.add(new ExperimentalDataBinary( 305.7, pressure, 0.4, 0.79242));     
+        experimental.add(new ExperimentalDataBinary( 303.5, pressure, 0.5, 0.840656));
+        experimental.add(new ExperimentalDataBinary( 301.7, pressure, 0.6, 0.87857));
+        experimental.add(new ExperimentalDataBinary( 300.1, pressure, 0.7, 0.910835));
+        experimental.add(new ExperimentalDataBinary( 298.7, pressure, 0.8, 0.940365));
+        experimental.add(new ExperimentalDataBinary( 297.4, pressure, 0.9, 0.969404));
+        experimental.add(new ExperimentalDataBinary( 296.1, pressure, 1, 1));
       
     }
 
@@ -69,7 +69,8 @@ public class InteractionParameterOptimizerTest {
     public void testSolve() {
         mixture.getInteractionParameters().setSymmetric(true);
         mixture.getErrorfunction().setExperimental(experimental);
-        
+        mixture.getErrorfunction().setReferenceComponent(methanol);
+        mixture.getErrorfunction().setNonReferenceComponent(water);
         mixture.getErrorfunction().minimize();
                 
         double result = mixture.getInteractionParameters().getValue(methanol, water);

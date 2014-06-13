@@ -16,42 +16,39 @@ public class ExperimentalDataBinary extends ExperimentalData{
 //            private double temperature;
 //            private double pressure;
 
-            private Component referenceComponent;
-            private Component nonReferenceComponent;
+//            private Component referenceComponent;
+//            private Component nonReferenceComponent;
 
     public ExperimentalDataBinary() {
     }
 
-            public ExperimentalDataBinary(Component referenceComponent,Component nonReferenceComponent,double temperature, double pressure, double liquidFraction, double vaporFraction){
+            public ExperimentalDataBinary(double temperature, double pressure, double liquidFraction, double vaporFraction){
                 super(temperature, pressure);
-                this.referenceComponent = referenceComponent;
-                this.nonReferenceComponent = nonReferenceComponent;
                 this.liquidFraction = (liquidFraction);
-//                this.temperature =  (temperature);
-//                this.pressure =  (pressure);
+
                 this.vaporFraction =  (vaporFraction);
             }
 
-            public void setReferenceComponent(Component referenceComponent){
-                this.referenceComponent = referenceComponent;
-            }
-            public Component getReferenceComponent(){
-                return referenceComponent;
-            }
-
-            public void setNonReferenceComponent(Component nonReferenceComponent){
-                this.nonReferenceComponent = nonReferenceComponent;
-            }
-            public Component getNonReferenceComponent(){
-                return nonReferenceComponent;
-            }
-            public ArrayList<Component> getComponents(){
-                ArrayList<Component> components = new ArrayList<>();
-                components.add(referenceComponent);
-                components.add(nonReferenceComponent);
-                
-                return components;
-            }
+//            public void setReferenceComponent(Component referenceComponent){
+//                this.referenceComponent = referenceComponent;
+//            }
+//            public Component getReferenceComponent(){
+//                return referenceComponent;
+//            }
+//
+//            public void setNonReferenceComponent(Component nonReferenceComponent){
+//                this.nonReferenceComponent = nonReferenceComponent;
+//            }
+//            public Component getNonReferenceComponent(){
+//                return nonReferenceComponent;
+//            }
+//            public ArrayList<Component> getComponents(){
+//                ArrayList<Component> components = new ArrayList<>();
+//                components.add(referenceComponent);
+//                components.add(nonReferenceComponent);
+//                
+//                return components;
+//            }
 
 
             public void setLiquidFraction(double liquidFraction){
@@ -60,13 +57,13 @@ public class ExperimentalDataBinary extends ExperimentalData{
             public double getLiquidFraction(){
                 return liquidFraction;
             }
-            public HashMap<Component,Double> getLiquidFractions(){
-                HashMap<Component,Double> liquidFractions = new HashMap<>();
-                liquidFractions.put(referenceComponent, liquidFraction);
-                liquidFractions.put(nonReferenceComponent, 1- liquidFraction);
-
-                return liquidFractions;
-            }
+//            public HashMap<Component,Double> getLiquidFractions(){
+//                HashMap<Component,Double> liquidFractions = new HashMap<>();
+//                liquidFractions.put(referenceComponent, liquidFraction);
+//                liquidFractions.put(nonReferenceComponent, 1- liquidFraction);
+//
+//                return liquidFractions;
+//            }
 
             public void setVaporFraction(double vaporFraction){
                 this.vaporFraction =  (vaporFraction);

@@ -31,8 +31,8 @@ public class InteractionParameterOptimizer {
     void optimizeTo(ArrayList<ExperimentalDataBinary> experimental) {
          this.experimental = experimental;
         
-         referenceComponent = experimental.get(0).getReferenceComponent();
-         nonReferenceComponent = experimental.get(0).getNonReferenceComponent();
+//         referenceComponent = experimental.get(0).getReferenceComponent();
+//         nonReferenceComponent = experimental.get(0).getNonReferenceComponent();
          mixture.setPressure(experimental.get(0).getPressure());
          
          //  if(data.getDataType().equals(ExperimentalDataType.PRESSURE_CONSTANT)){
