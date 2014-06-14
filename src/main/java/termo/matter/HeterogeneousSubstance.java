@@ -30,6 +30,10 @@ public class HeterogeneousSubstance extends Heterogeneous{
         
         mpcs.addPropertyChangeListener(liquid);
         mpcs.addPropertyChangeListener(vapor);
+        
+         errorFunction = new VaporPressureErrorFunction(this);
+//        alphaOptimizer = new NewtonMethodSolver(errorFunction);
+        addPropertyChangeListener(errorFunction);
     }
     
     public HeterogeneousSubstance(
@@ -51,10 +55,10 @@ public class HeterogeneousSubstance extends Heterogeneous{
         vaporImplementation.setCubicEquationOfState(eos);
         vaporImplementation.setAlpha(alpha);
         vaporImplementation.setComponent(component);
+        
+        mpcs.firePropertyChange("alpha", null, alpha);//para inicializar los arreglos en errorfunction/newtonmethodsolver
 	//this.alphaOptimizer = new NewtonMethodSolver(this);
-        VaporPressureErrorFunction errorFunction = new VaporPressureErrorFunction(this);
-        alphaOptimizer = new NewtonMethodSolver(errorFunction);
-        addPropertyChangeListener(alphaOptimizer);
+        
     }
         
 //    public HeterogeneousSubstance(Substance pure){
@@ -267,32 +271,46 @@ public class HeterogeneousSubstance extends Heterogeneous{
 //    public void setComponent(Component component) {
 //	this.component = component;
 //    }
-
-    private NewtonMethodSolver alphaOptimizer;
+    private VaporPressureErrorFunction errorFunction  ;
+    //private NewtonMethodSolver alphaOptimizer;
     public void optimizeTo(ArrayList<ExperimentalData> expData) {
         
-        VaporPressureErrorFunction errorFunction  =(VaporPressureErrorFunction)alphaOptimizer.getErrorFunction();
+        //VaporPressureErrorFunction errorFunction  =(VaporPressureErrorFunction)alphaOptimizer.getErrorFunction();
         errorFunction.setExperimental(expData);
-        alphaOptimizer.solve();
+        errorFunction.minimize();
     }
 
     /**
      * @return the alphaOptimizer
      */
-    public NewtonMethodSolver getAlphaOptimizer() {
-        if(alphaOptimizer ==null){
-            VaporPressureErrorFunction errorFunction = new VaporPressureErrorFunction(this);
-            alphaOptimizer = new NewtonMethodSolver(errorFunction);
-            addPropertyChangeListener(alphaOptimizer);
-        }
-        return alphaOptimizer;
+//    public NewtonMethodSolver getAlphaOptimizer() {
+//        if(alphaOptimizer ==null){
+//            VaporPressureErrorFunction errorFunction = new VaporPressureErrorFunction(this);
+//            alphaOptimizer = new NewtonMethodSolver(errorFunction);
+//            addPropertyChangeListener(alphaOptimizer);
+//        }
+//        return alphaOptimizer;
+//    }
+//
+//    /**
+//     * @param alphaOptimizer the alphaOptimizer to set
+//     */
+//    public void setAlphaOptimizer(NewtonMethodSolver alphaOptimizer) {
+//        this.alphaOptimizer = alphaOptimizer;
+//    }
+
+    /**
+     * @return the errorFunction
+     */
+    public VaporPressureErrorFunction getErrorFunction() {
+        return errorFunction;
     }
 
     /**
-     * @param alphaOptimizer the alphaOptimizer to set
+     * @param errorFunction the errorFunction to set
      */
-    public void setAlphaOptimizer(NewtonMethodSolver alphaOptimizer) {
-        this.alphaOptimizer = alphaOptimizer;
+    public void setErrorFunction(VaporPressureErrorFunction errorFunction) {
+        this.errorFunction = errorFunction;
     }
 
    

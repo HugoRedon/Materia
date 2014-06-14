@@ -2,7 +2,7 @@
 package termo.matter;
 
 import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import termo.binaryParameter.ActivityModelBinaryParameter;
@@ -11,7 +11,6 @@ import termo.component.Component;
 import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
 import termo.eos.mixingRule.MixingRule;
-import termo.optimization.NewtonMethodSolver;
 import termo.optimization.errorfunctions.TemperatureErrorFunction;
 import termo.phase.Phase;
 
@@ -20,14 +19,14 @@ import termo.phase.Phase;
  * @author
  * Hugo
  */
-public final class HeterogeneousMixture extends Heterogeneous {
+public final class HeterogeneousMixture extends Heterogeneous implements Serializable{
     private Cubic equationOfState;
     private Alpha alpha;
     private MixingRule mixingRule;
     
     private InteractionParameter interactionParameters = new ActivityModelBinaryParameter();
     
-     private HashMap<String,Double> zFractions = new HashMap(); 
+     private final HashMap<String,Double> zFractions = new HashMap(); 
      private HashSet<Component> components;
      
      private TemperatureErrorFunction errorFunction;
@@ -57,11 +56,17 @@ public final class HeterogeneousMixture extends Heterogeneous {
             case "components":
                 components = (HashSet<Component> )evt.getNewValue();
                 break;
-            case "zFractions":
-                zFractions = (HashMap<String,Double>)evt.getNewValue();
-                break;
+//            case "zFractions":
+//                zFractions = (HashMap<String,Double>)evt.getNewValue();
+//                break;
             case "mixingRule":
                 setMixingRule((MixingRule)evt.getNewValue());
+                break;
+            case "alpha":
+                setAlpha((Alpha)evt.getNewValue());
+                break;
+            case "cubic":
+                setEquationOfState((Cubic) evt.getNewValue());
                 break;
         }
         
@@ -584,8 +589,15 @@ public final class HeterogeneousMixture extends Heterogeneous {
     public double calculateVaporPressure(double temperature){
 	double vaporPressure = 0;
 	setTemperature(temperature);
-	 for (Substance component : getVapor().getPureSubstances() ){
-               vaporPressure += component.calculatetAcentricFactorBasedVaporPressure()*getzFractions().get(component.getComponent().getName());     
+	 for (Substance pureSubstance : getVapor().getPureSubstances()){
+             double acentricFactorVaporPressure=pureSubstance.calculatetAcentricFactorBasedVaporPressure();
+             Component componentObject = pureSubstance.getComponent();
+             String componentName = componentObject.getName();
+             System.out.println("componentName" + componentName);
+             HashMap<String,Double> zFractionss =getzFractions();
+             double zFraction = zFractionss.get(componentName);
+             double vaporPressureS = acentricFactorVaporPressure*zFraction;     
+               vaporPressure += vaporPressureS;
            }
 	 
 	 return vaporPressure;
@@ -668,6 +680,26 @@ public final class HeterogeneousMixture extends Heterogeneous {
         HashSet<Component> oldComponents = this.components;
 	this.components = components;
         mpcs.firePropertyChange("components", oldComponents, components);
+    }
+    
+    public void removeComponent(Component component){
+        if(components.contains(component)){
+            HashSet<Component> oldComponents =(HashSet<Component>) components.clone();
+            components.remove(component);
+            mpcs.firePropertyChange("components", oldComponents, components);
+        }else{
+            System.out.println("Warning---: componente no presente en la mezcla");
+        }
+    }
+    
+    public void addComponent(Component component){
+        if(components.contains(component)){
+            System.out.println("Warning---: el componente ya estaba en la lista");
+        }else{
+            HashSet<Component> oldComponents = (HashSet<Component>) components.clone();
+            components.add(component);
+            mpcs.firePropertyChange("componentes", oldComponents, components);
+        }
     }
 
     /**
@@ -833,7 +865,10 @@ public final class HeterogeneousMixture extends Heterogeneous {
    
     private void copyZfractionsToliquid(){
 	for (Component component:getComponents()){
-	    getLiquid().setFraction(component, getzFractions().get(component.getName()));
+            System.out.println("component: " + component);
+            double zFraction = getzFractions().get(component.getName());
+            System.out.println("copyzfractions to liquid " + component.getName()+": "+ zFraction);
+	    getLiquid().setFraction(component, zFraction);
 	}
     }
     

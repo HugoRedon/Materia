@@ -4,7 +4,10 @@ package termo.optimization;
 import java.util.ArrayList;
 import java.util.HashSet;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import org.junit.Test;
+import termo.activityModel.NRTLActivityModel;
+import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.componentsForTests.ComponentsForTests;
@@ -15,6 +18,7 @@ import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.eos.mixingRule.MixingRule;
 import termo.eos.mixingRule.VDWMixingRule;
+import termo.eos.mixingRule.WongSandlerMixingRule;
 import termo.matter.HeterogeneousMixture;
 import termo.optimization.errorfunctions.TemperatureErrorFunction;
 
@@ -124,7 +128,7 @@ public class InteractionParameterOptimizerTest {
 //     @Test public void testSolveNRTL_WongSandler_Parameters(){
 //         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
 //        Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
-//        ArrayList<Component> components = new ArrayList<>();
+//        HashSet<Component> components = new HashSet<>();
 //        components.add(water);
 //        components.add(methanol);
 //         NRTLActivityModel nrtl = new NRTLActivityModel();
@@ -138,24 +142,24 @@ public class InteractionParameterOptimizerTest {
 //        mixture = new HeterogeneousMixture(eos, alpha, mr, components, parameters);
 //       
 //        
-//         TemperatureErrorFunction errorFunction = 
-//                (TemperatureErrorFunction)mixture.getOptimizer().getErrorFunction();
-//        errorFunction.setExperimental(experimental);
-//        mixture.getOptimizer().setApplyErrorDecreaseTechnique(true);
+//        mixture.getErrorfunction().setReferenceComponent(methanol);
+//        mixture.getErrorfunction().setNonReferenceComponent(water);
+//        mixture.getErrorfunction().setExperimental(experimental);
+//        mixture.getErrorfunction().getOptimizer().setApplyErrorDecreaseTechnique(true);
 //        
-//        mixture.getOptimizer().getErrorFunction().setParameter(1, 0);
-//        mixture.getOptimizer().getErrorFunction().setParameter(1, 1);
-//        
-//        
-//        mixture.getOptimizer().solve();
+//        mixture.getErrorfunction().getOptimizer().getErrorFunction().setParameter(1, 0);
+//        mixture.getErrorfunction().getOptimizer().getErrorFunction().setParameter(1, 1);
 //        
 //        
-//        for (int i = 0; i < mixture.getOptimizer().getErrorFunction().numberOfParameters(); i++) {
-//            System.out.println("Parámetro " + i + " : " + mixture.getOptimizer().getErrorFunction().getParameter(i));
+//        mixture.getErrorfunction().getOptimizer().solve();
+//        
+//        
+//        for (int i = 0; i < mixture.getErrorfunction().getOptimizer().getErrorFunction().numberOfParameters(); i++) {
+//            System.out.println("Parámetro " + i + " : " + mixture.getErrorfunction().getOptimizer().getErrorFunction().getParameter(i));
 //        }
 //        
 //         //System.out.println("Error: "+ mixture.getOptimizer().getErrorFunction().get);
-//        for(Parameters_Error error:mixture.getOptimizer().getConvergenceHistory()){
+//        for(Parameters_Error error:mixture.getErrorfunction().getOptimizer().getConvergenceHistory()){
 //            StringBuilder sb = new StringBuilder();
 //            sb.append("------------iteración " + error.getIteration() + " ");
 //            double[] params = error.getParameters();
@@ -166,7 +170,7 @@ public class InteractionParameterOptimizerTest {
 //            System.out.println(sb);
 //        }
 //        
-//        for(Parameters_Error error:mixture.getOptimizer().getConvergenceHistory()){
+//        for(Parameters_Error error:mixture.getErrorfunction().getOptimizer().getConvergenceHistory()){
 //            System.out.println("Suma de absolutos del gradiente : " +error.getGradientAbsSum());
 //        }
 //        
@@ -177,7 +181,7 @@ public class InteractionParameterOptimizerTest {
 //         
 //        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
 //        Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
-//        ArrayList<Component> components = new ArrayList<>();
+//        HashSet<Component> components = new HashSet<>();
 //        components.add(water);
 //        components.add(methanol);
 //         NRTLActivityModel nrtl = new NRTLActivityModel();
@@ -191,24 +195,26 @@ public class InteractionParameterOptimizerTest {
 //        mixture = new HeterogeneousMixture(eos, alpha, mr, components, parameters);
 //       
 //        
-//         TemperatureErrorFunction errorFunction = 
-//                (TemperatureErrorFunction)mixture.getOptimizer().getErrorFunction();
-//        errorFunction.setExperimental(experimental);
-//        mixture.getOptimizer().setApplyErrorDecreaseTechnique(true);
+////         TemperatureErrorFunction errorFunction = 
+////                (TemperatureErrorFunction)mixture.getErrorfunction().getOptimizer().getErrorFunction();
+//        mixture.getErrorfunction().setReferenceComponent(methanol);
+//        mixture.getErrorfunction().setNonReferenceComponent(water);
+//        mixture.getErrorfunction().setExperimental(experimental);
+//        mixture.getErrorfunction().getOptimizer().setApplyErrorDecreaseTechnique(true);
 //        
-//        mixture.getOptimizer().getErrorFunction().setParameter(1, 0);
-//        mixture.getOptimizer().getErrorFunction().setParameter(1, 1);
-//        mixture.getOptimizer().setTolerance(1e-3);
+//        mixture.getErrorfunction().setParameter(1, 0);
+//        mixture.getErrorfunction().setParameter(1, 1);
+//        mixture.getErrorfunction().getOptimizer().setTolerance(1e-3);
 //        
-//        mixture.getOptimizer().solve();
+//        mixture.getErrorfunction().getOptimizer().solve();
 //        
 //          
-//        for (int i = 0; i < mixture.getOptimizer().getErrorFunction().numberOfParameters(); i++) {
-//            System.out.println("Parámetro " + i + " : " + mixture.getOptimizer().getErrorFunction().getParameter(i));
+//        for (int i = 0; i < mixture.getErrorfunction().getOptimizer().getErrorFunction().numberOfParameters(); i++) {
+//            System.out.println("Parámetro " + i + " : " + mixture.getErrorfunction().getOptimizer().getErrorFunction().getParameter(i));
 //        }
 //        
 //         //System.out.println("Error: "+ mixture.getOptimizer().getErrorFunction().get);
-//        for(Parameters_Error error:mixture.getOptimizer().getConvergenceHistory()){
+//        for(Parameters_Error error:mixture.getErrorfunction().getOptimizer().getConvergenceHistory()){
 //            StringBuilder sb = new StringBuilder();
 //            sb.append("------------iteración " + error.getIteration() + " ");
 //            double[] params = error.getParameters();
@@ -219,26 +225,26 @@ public class InteractionParameterOptimizerTest {
 //            System.out.println(sb);
 //        }
 //        
-//        for(Parameters_Error error:mixture.getOptimizer().getConvergenceHistory()){
+//        for(Parameters_Error error:mixture.getErrorfunction().getOptimizer().getConvergenceHistory()){
 //            System.out.println("Suma de absolutos del gradiente : " +error.getGradientAbsSum());
 //        }
 //         
 //        
-//         int iterationsWithErrorDifferenceCriterion =  mixture.getOptimizer().getIterations();
+//         int iterationsWithErrorDifferenceCriterion =  mixture.getErrorfunction().getOptimizer().getIterations();
 //         
 //         
 //        mixture.setInteractionParameters(new ActivityModelBinaryParameter()) ;
 //        
-//        mixture.getOptimizer().getErrorFunction().setParameter(1, 0);
-//        mixture.getOptimizer().getErrorFunction().setParameter(1, 1);
+//        mixture.getErrorfunction().getOptimizer().getErrorFunction().setParameter(1, 0);
+//        mixture.getErrorfunction().getOptimizer().getErrorFunction().setParameter(1, 1);
 //        
-//        mixture.getOptimizer().setErrorDiferenceCriterion(false);
-//        mixture.getOptimizer().setGradientCriterion(true);
-//        mixture.getOptimizer().setGradientCriterionTolerance(1e-5);
-//        mixture.getOptimizer().solve();
+//        mixture.getErrorfunction().getOptimizer().setErrorDiferenceCriterion(false);
+//        mixture.getErrorfunction().getOptimizer().setGradientCriterion(true);
+//        mixture.getErrorfunction().getOptimizer().setGradientCriterionTolerance(1e-5);
+//        mixture.getErrorfunction().getOptimizer().solve();
 //        
 //        
-//        int iterationsWithGradientAbsSumCriterion = mixture.getOptimizer().getIterations();
+//        int iterationsWithGradientAbsSumCriterion = mixture.getErrorfunction().getOptimizer().getIterations();
 //        
 //         
 //        
@@ -256,12 +262,12 @@ public class InteractionParameterOptimizerTest {
 //        
 //        
 //        
-//        for (int i = 0; i < mixture.getOptimizer().getErrorFunction().numberOfParameters(); i++) {
-//            System.out.println("Parámetro " + i + " : " + mixture.getOptimizer().getErrorFunction().getParameter(i));
+//        for (int i = 0; i < mixture.getErrorfunction().getOptimizer().getErrorFunction().numberOfParameters(); i++) {
+//            System.out.println("Parámetro " + i + " : " + mixture.getErrorfunction().getOptimizer().getErrorFunction().getParameter(i));
 //        }
 //        
 //         //System.out.println("Error: "+ mixture.getOptimizer().getErrorFunction().get);
-//        for(Parameters_Error error:mixture.getOptimizer().getConvergenceHistory()){
+//        for(Parameters_Error error:mixture.getErrorfunction().getOptimizer().getConvergenceHistory()){
 //            StringBuilder sb = new StringBuilder();
 //            sb.append("------------iteración " + error.getIteration() + " ");
 //            double[] params = error.getParameters();
@@ -272,7 +278,7 @@ public class InteractionParameterOptimizerTest {
 //            System.out.println(sb);
 //        }
 //        
-//        for(Parameters_Error error:mixture.getOptimizer().getConvergenceHistory()){
+//        for(Parameters_Error error:mixture.getErrorfunction().getOptimizer().getConvergenceHistory()){
 //            System.out.println("Suma de absolutos del gradiente : " +error.getGradientAbsSum());
 //        }
 //         assertEquals(true, iterationsWithErrorDifferenceCriterion < iterationsWithGradientAbsSumCriterion);

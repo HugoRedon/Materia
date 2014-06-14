@@ -10,6 +10,7 @@ import termo.component.Component;
 import termo.data.ExperimentalData;
 import termo.data.ExperimentalDataBinary;
 import termo.matter.HeterogeneousMixture;
+import termo.optimization.ErrorData;
 import termo.optimization.NewtonMethodSolver;
 
 /**
@@ -19,7 +20,7 @@ import termo.optimization.NewtonMethodSolver;
 public class TemperatureErrorFunction extends ErrorFunction implements PropertyChangeListener{
     private Component referenceComponent;
     private Component nonReferenceComponent;
-    private HeterogeneousMixture mixture;
+    private final HeterogeneousMixture mixture;
     private ArrayList<ExperimentalDataBinary> experimental;
     
     PropertyChangeSupport mpcs = new PropertyChangeSupport(this);
@@ -34,44 +35,57 @@ public class TemperatureErrorFunction extends ErrorFunction implements PropertyC
     
     @Override
     public double getParameter(int index) {
-        InteractionParameter params = mixture.getInteractionParameters();
-        return mixture.getMixingRule().getParameter( referenceComponent, nonReferenceComponent, params, index);
+        InteractionParameter params = getMixture().getInteractionParameters();
+        return getMixture().getMixingRule().getParameter( referenceComponent, nonReferenceComponent, params, index);
     }
 
     @Override
     public int numberOfParameters() {
-        if(mixture.getMixingRule() !=null){
-            return mixture.getMixingRule().numberOfParameters();    
+        if(getMixture().getMixingRule() !=null){
+            return getMixture().getMixingRule().numberOfParameters();    
         }
         return 0;
     }
 
     @Override
     public void setParameter(double value, int index) {
-        InteractionParameter params = mixture.getInteractionParameters();
+        InteractionParameter params = getMixture().getInteractionParameters();
         mixture.getMixingRule().setParameter(value, referenceComponent, nonReferenceComponent, params, index);
         
     }
 
     @Override
     public double error() {
-            double error = 0;
-        for(ExperimentalDataBinary data : experimental){
-            
+        errorForEachExperimentalData.clear();
+        double error = 0;
+        for(ExperimentalDataBinary data : experimental){            
             mixture.setZFraction(referenceComponent, data.getLiquidFraction());
             mixture.setZFraction(nonReferenceComponent, 1-data.getLiquidFraction());
-            
+
             mixture.bubbleTemperature();
             double tempCalc = mixture.getTemperature();
             double tempExp = data.getTemperature();
             
             error += Math.pow((tempCalc- tempExp)/tempExp,2);
             
+            TemperatureMixtureErrorData errorData= 
+                    new TemperatureMixtureErrorData(
+                            data.getLiquidFraction(),
+                            tempExp,
+                            tempCalc
+                    );
+            errorForEachExperimentalData.add(errorData);
+                    
         }
         
         return error;
     }
-
+    ArrayList<TemperatureMixtureErrorData> errorForEachExperimentalData = new ArrayList();
+    public Iterable<TemperatureMixtureErrorData> getErrorForEachExperimentalData() {
+        error();
+        return errorForEachExperimentalData;
+    }
+    
     /**
      * @return the experimental
      */
@@ -85,7 +99,7 @@ public class TemperatureErrorFunction extends ErrorFunction implements PropertyC
     @Override
     public void setExperimental(ArrayList<? extends ExperimentalData> experimental) {
         this.experimental = (ArrayList< ExperimentalDataBinary>)experimental;
-        mixture.setPressure(experimental.get(0).getPressure());
+        getMixture().setPressure(experimental.get(0).getPressure());
 //         referenceComponent = this.experimental.get(0).getReferenceComponent();
 //        nonReferenceComponent = this.experimental.get(0).getNonReferenceComponent();
 //        
@@ -145,4 +159,13 @@ public class TemperatureErrorFunction extends ErrorFunction implements PropertyC
     public void setOptimizer(NewtonMethodSolver optimizer) {
         this.optimizer = optimizer;
     }
+
+    /**
+     * @return the mixture
+     */
+    public HeterogeneousMixture getMixture() {
+        return mixture;
+    }
+
+  
 }

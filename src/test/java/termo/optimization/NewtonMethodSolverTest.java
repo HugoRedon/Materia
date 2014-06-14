@@ -71,7 +71,7 @@ public class NewtonMethodSolverTest {
         
         double a = alpha.getParameter(component,0);
         assertEquals(false, Double.isNaN(a));
-        assertEquals(true,substance.getAlphaOptimizer().isIndeter());
+        assertEquals(true,substance.getErrorFunction().getOptimizer().isIndeter());
     }
     
     @Test public void testsNoPersistentDerivativeIncrementInA(){
@@ -83,7 +83,7 @@ public class NewtonMethodSolverTest {
         
         
         
-        substance.getAlphaOptimizer().centralDerivative(args,0);//no importa el valor
+        substance.getErrorFunction().getOptimizer().centralDerivative(args,0);//no importa el valor
         double a = alpha.getParameter(component,0);
         assertEquals(0, a,1e-8);
         
@@ -96,7 +96,7 @@ public class NewtonMethodSolverTest {
 //        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
 //        double[] args ={0,0,0};
 //        
-//        substance.getAlphaOptimizer().centralDerivativeB(args);//no importa el valor
+//        substance.getErrorFunction.getOptimizer().centralDerivativeB(args);//no importa el valor
 //        double b = alpha.getAlphaParameterB(component);
 //        assertEquals(0, b,1e-6);
 //        
@@ -110,7 +110,7 @@ public class NewtonMethodSolverTest {
 //        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
 //        double[] args ={0,0,0};
 //        
-//        substance.getAlphaOptimizer().centralDerivativeC(args);//no importa el valor
+//        substance.getErrorFunction.getOptimizer().centralDerivativeC(args);//no importa el valor
 //        double c = alpha.getAlphaParameterC(component);
 //        assertEquals(0, c,1e-6);
 //        
@@ -182,8 +182,8 @@ public class NewtonMethodSolverTest {
         
 //        assertEquals(-7.098408047518564,component.getA_AndroulakisEtAl(),1e-4);
         
-        boolean isIndeter = substance.getAlphaOptimizer().isIndeter();
-        boolean isMaxReached = substance.getAlphaOptimizer().isMaxIterationsReached();
+        boolean isIndeter = substance.getErrorFunction().getOptimizer().isIndeter();
+        boolean isMaxReached = substance.getErrorFunction().getOptimizer().isMaxIterationsReached();
         assertEquals(false,  (isIndeter || isMaxReached) );
         //compila se ejecuta y no entra en un loop infinito
     }
@@ -200,15 +200,15 @@ public class NewtonMethodSolverTest {
         component.setB_Soave(0.3);
         
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
-//        substance.getAlphaOptimizer().setDamp(0.1);
+//        substance.getErrorFunction.getOptimizer().setDamp(0.1);
         substance.optimizeTo(list);
         System.out.println("pengrobinson soave 2 ");
         System.out.println("parameter b debe ser parecido a -0.8443033101544569 :" + component.getB_Soave());//-2.405345971823838
         System.out.println("parametro a debe ser parecido a 3.7271215535951887:"  + component.getA_Soave() );
         
        // assertEquals(3.7271215535951887, component.getA_Soave(),1e-4);
-        boolean indeter = substance.getAlphaOptimizer().isIndeter();
-        boolean maxREached = substance.getAlphaOptimizer().isMaxIterationsReached();
+        boolean indeter = substance.getErrorFunction().getOptimizer().isIndeter();
+        boolean maxREached = substance.getErrorFunction().getOptimizer().isMaxIterationsReached();
         assertEquals(false, (indeter|| maxREached));
     }
     
@@ -222,7 +222,7 @@ public class NewtonMethodSolverTest {
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
         
         
-        substance.getAlphaOptimizer().getFixParameters()[1] = true;
+        substance.getErrorFunction().getOptimizer().getFixParameters()[1] = true;
                 //setFixParameterB(true);
         component.setB_Soave(-2);
         
@@ -241,8 +241,8 @@ public class NewtonMethodSolverTest {
         component.setB_Soave(0.3);
         
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
-//        substance.getAlphaOptimizer().setDamp(0.1);
-        substance.getAlphaOptimizer().getFixParameters()[0] = true;
+//        substance.getErrorFunction().getOptimizer().setDamp(0.1);
+        substance.getErrorFunction().getOptimizer().getFixParameters()[0] = true;
                 //setFixParameterA(true);
         
         substance.optimizeTo(list);
@@ -263,8 +263,8 @@ public class NewtonMethodSolverTest {
         alpha.setParameter(0.3, component, 2);
         
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
-//        substance.getAlphaOptimizer().setDamp(0.1);
-        substance.getAlphaOptimizer().getFixParameters()[1] = true;
+//        substance.getErrorFunction().getOptimizer().setDamp(0.1);
+        substance.getErrorFunction().getOptimizer().getFixParameters()[1] = true;
                 //setFixParameterA(true);
         
         substance.optimizeTo(list);
@@ -272,8 +272,8 @@ public class NewtonMethodSolverTest {
         System.out.println("parameter 0: " + alpha.getParameter(component, 0));
         System.out.println("parameter 1: " + alpha.getParameter(component, 1));
         System.out.println("parameter 2: " + alpha.getParameter(component, 2));
-         System.out.println(substance.getAlphaOptimizer().getMessage());
-        assertEquals(true, !substance.getAlphaOptimizer().isIndeter() && !substance.getAlphaOptimizer().isMaxIterationsReached());
+         System.out.println(substance.getErrorFunction().getOptimizer().getMessage());
+        assertEquals(true, !substance.getErrorFunction().getOptimizer().isIndeter() && !substance.getErrorFunction().getOptimizer().isMaxIterationsReached());
     }
     
     
@@ -304,9 +304,9 @@ public class NewtonMethodSolverTest {
         
         substance.optimizeTo(list);
         
-        int iterationsWithoutConstraint = substance.getAlphaOptimizer().getIterations();
+        int iterationsWithoutConstraint = substance.getErrorFunction().getOptimizer().getIterations();
         
-        for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
+        for(Parameters_Error err: substance.getErrorFunction().getOptimizer().getConvergenceHistory()){
             System.out.println("iteración:" + err.getIteration() + " A: " + err.getParameters()[0]);
             
         }
@@ -314,16 +314,16 @@ public class NewtonMethodSolverTest {
         System.out.println("iterationsWithoutConstraint:" +iterationsWithoutConstraint);
         System.out.println("Result A: " + alpha.getParameter(component,0));
         
-        substance.getAlphaOptimizer().getConstrainParameters()[0]=true;
-        substance.getAlphaOptimizer().getMaxVariationParameters()[0]=0.1;
+        substance.getErrorFunction().getOptimizer().getConstrainParameters()[0]=true;
+        substance.getErrorFunction().getOptimizer().getMaxVariationParameters()[0]=0.1;
         
-//        substance.getAlphaOptimizer().setConstrainParameterA(true);
-//        substance.getAlphaOptimizer().setParameterAMaxVariation(0.1);
+//        substance.getErrorFunction().getOptimizer().setConstrainParameterA(true);
+//        substance.getErrorFunction().getOptimizer().setParameterAMaxVariation(0.1);
         alpha.setParameter(0, component,0);
         substance.optimizeTo(list);
-        int iterationsWithConstraint = substance.getAlphaOptimizer().getIterations();
+        int iterationsWithConstraint = substance.getErrorFunction().getOptimizer().getIterations();
         
-        for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
+        for(Parameters_Error err: substance.getErrorFunction().getOptimizer().getConvergenceHistory()){
             System.out.println("iteración:" + err.getIteration() + " A: " + err.getParameters()[0]);
             
         }
@@ -348,30 +348,30 @@ public class NewtonMethodSolverTest {
         substance.optimizeTo(list);
         
         
-         for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
+         for(Parameters_Error err: substance.getErrorFunction().getOptimizer().getConvergenceHistory()){
             System.out.println("iteración:" + err.getIteration() +
                     " A: " + err.getParameters()[0] + " B: " + err.getParameters()[1]);
             
         }
-         int iterations = substance.getAlphaOptimizer().getIterations();
+         int iterations = substance.getErrorFunction().getOptimizer().getIterations();
         System.out.println("iterationsWithoutConstraint:"+iterations);
         
         
         
         
         
-        substance.getAlphaOptimizer().getConstrainParameters()[1]=true;
-        substance.getAlphaOptimizer().getMaxVariationParameters()[1]=0.05;
+        substance.getErrorFunction().getOptimizer().getConstrainParameters()[1]=true;
+        substance.getErrorFunction().getOptimizer().getMaxVariationParameters()[1]=0.05;
         
-//        substance.getAlphaOptimizer().setConstrainParameterB(true);
-//        substance.getAlphaOptimizer().setParameterBMaxVariation(0.05);
+//        substance.getErrorFunction().getOptimizer().setConstrainParameterB(true);
+//        substance.getErrorFunction().getOptimizer().setParameterBMaxVariation(0.05);
         
         alpha.setParameter(1, component,0);
         alpha.setParameter(0.3, component,1);
         substance.optimizeTo(list);
         
-        int iterationsWithconstraint = substance.getAlphaOptimizer().getIterations();
-        for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
+        int iterationsWithconstraint = substance.getErrorFunction().getOptimizer().getIterations();
+        for(Parameters_Error err: substance.getErrorFunction().getOptimizer().getConvergenceHistory()){
             System.out.println("iteración:" + err.getIteration() +
                     " A: " + err.getParameters()[0] + " B: " + err.getParameters()[1]);
             
@@ -410,32 +410,32 @@ public class NewtonMethodSolverTest {
         
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, ethanol);
         substance.optimizeTo(list);
-        for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
+        for(Parameters_Error err: substance.getErrorFunction().getOptimizer().getConvergenceHistory()){
             System.out.println("iteración:" + err.getIteration() +
                     " A: " + err.getParameters()[0] + " B: " + err.getParameters()[1] +
                     " C: " + err.getParameters()[2]);
             
         }
         
-        boolean isIndeter = substance.getAlphaOptimizer().isIndeter();
-        boolean isMaxReached = substance.getAlphaOptimizer().isMaxIterationsReached();
+        boolean isIndeter = substance.getErrorFunction().getOptimizer().isIndeter();
+        boolean isMaxReached = substance.getErrorFunction().getOptimizer().isMaxIterationsReached();
         if((isIndeter || isMaxReached)){
-            Assert.fail("optimización con errores " + substance.getAlphaOptimizer().getMessage());
+            Assert.fail("optimización con errores " + substance.getErrorFunction().getOptimizer().getMessage());
         }
         
         
-        int iterationsWithNoRestriction = substance.getAlphaOptimizer().getIterations();
+        int iterationsWithNoRestriction = substance.getErrorFunction().getOptimizer().getIterations();
         
         
-        substance.getAlphaOptimizer().getConstrainParameters()[1]=true;
-        substance.getAlphaOptimizer().getMaxVariationParameters()[1]=1;
-        substance.getAlphaOptimizer().getConstrainParameters()[2]=true;
-        substance.getAlphaOptimizer().getMaxVariationParameters()[2]=1;
+        substance.getErrorFunction().getOptimizer().getConstrainParameters()[1]=true;
+        substance.getErrorFunction().getOptimizer().getMaxVariationParameters()[1]=1;
+        substance.getErrorFunction().getOptimizer().getConstrainParameters()[2]=true;
+        substance.getErrorFunction().getOptimizer().getMaxVariationParameters()[2]=1;
         
-//        substance.getAlphaOptimizer().setConstrainParameterB(true);
-//        substance.getAlphaOptimizer().setParameterBMaxVariation(1);
-//        substance.getAlphaOptimizer().setConstrainParameterC(true);
-//        substance.getAlphaOptimizer().setParameterCMaxVariation(1);
+//        substance.getErrorFunction().getOptimizer().setConstrainParameterB(true);
+//        substance.getErrorFunction().getOptimizer().setParameterBMaxVariation(1);
+//        substance.getErrorFunction().getOptimizer().setConstrainParameterC(true);
+//        substance.getErrorFunction().getOptimizer().setParameterCMaxVariation(1);
         
         alpha.setParameter(0, ethanol,0);
         alpha.setParameter(0, ethanol,1);
@@ -443,20 +443,20 @@ public class NewtonMethodSolverTest {
         
         substance.optimizeTo(list);
         
-         for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
+         for(Parameters_Error err: substance.getErrorFunction().getOptimizer().getConvergenceHistory()){
             System.out.println("iteración:" + err.getIteration() +
                     " A: " + err.getParameters()[0] + " B: " + err.getParameters()[1] +
                     " C: " + err.getParameters()[2]);
             
         }
         
-        isIndeter = substance.getAlphaOptimizer().isIndeter();
-        isMaxReached = substance.getAlphaOptimizer().isMaxIterationsReached();
+        isIndeter = substance.getErrorFunction().getOptimizer().isIndeter();
+        isMaxReached = substance.getErrorFunction().getOptimizer().isMaxIterationsReached();
         if((isIndeter || isMaxReached)){
-            Assert.fail("optimización con errores " + substance.getAlphaOptimizer().getMessage());
+            Assert.fail("optimización con errores " + substance.getErrorFunction().getOptimizer().getMessage());
         }
         
-        int iterationsWithRestriction = substance.getAlphaOptimizer().getIterations();
+        int iterationsWithRestriction = substance.getErrorFunction().getOptimizer().getIterations();
         
         
         
@@ -493,24 +493,24 @@ public class NewtonMethodSolverTest {
         
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, ethanol);
         substance.optimizeTo(list);
-        for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
+        for(Parameters_Error err: substance.getErrorFunction().getOptimizer().getConvergenceHistory()){
             System.out.println("iteración:" + err.getIteration() +
                     " A: " + err.getParameters()[0] + " B: " + err.getParameters()[1] +
                     " C: " + err.getParameters()[2]);
             
         }
         
-        boolean isIndeter = substance.getAlphaOptimizer().isIndeter();
-        boolean isMaxReached = substance.getAlphaOptimizer().isMaxIterationsReached();
+        boolean isIndeter = substance.getErrorFunction().getOptimizer().isIndeter();
+        boolean isMaxReached = substance.getErrorFunction().getOptimizer().isMaxIterationsReached();
         if((isIndeter || isMaxReached)){
-            Assert.fail("optimización con errores " + substance.getAlphaOptimizer().getMessage());
+            Assert.fail("optimización con errores " + substance.getErrorFunction().getOptimizer().getMessage());
         }
         
         
-        int iterationsWithNoRestriction = substance.getAlphaOptimizer().getIterations();
+        int iterationsWithNoRestriction = substance.getErrorFunction().getOptimizer().getIterations();
         
         
-        substance.getAlphaOptimizer().setApplyErrorDecreaseTechnique(true);
+        substance.getErrorFunction().getOptimizer().setApplyErrorDecreaseTechnique(true);
         
         alpha.setParameter(30, ethanol,0);
         alpha.setParameter(0, ethanol,1);
@@ -518,25 +518,25 @@ public class NewtonMethodSolverTest {
         
         substance.optimizeTo(list);
         
-         for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
+         for(Parameters_Error err: substance.getErrorFunction().getOptimizer().getConvergenceHistory()){
             System.out.println("iteración:" + err.getIteration() +
                     " A: " + err.getParameters()[0] + " B: " + err.getParameters()[1] +
                     " C: " + err.getParameters()[2]);
             
         }
         
-        isIndeter = substance.getAlphaOptimizer().isIndeter();
-        isMaxReached = substance.getAlphaOptimizer().isMaxIterationsReached();
+        isIndeter = substance.getErrorFunction().getOptimizer().isIndeter();
+        isMaxReached = substance.getErrorFunction().getOptimizer().isMaxIterationsReached();
         if((isIndeter || isMaxReached)){
-            Assert.fail("optimización con errores " + substance.getAlphaOptimizer().getMessage());
+            Assert.fail("optimización con errores " + substance.getErrorFunction().getOptimizer().getMessage());
         }
         
-        int iterationsWithDecreaseTechnique = substance.getAlphaOptimizer().getIterations();
+        int iterationsWithDecreaseTechnique = substance.getErrorFunction().getOptimizer().getIterations();
         
         
         
         
-       if(substance.getAlphaOptimizer().getErrorDecreaseIterations() ==0){
+       if(substance.getErrorFunction().getOptimizer().getErrorDecreaseIterations() ==0){
            fail("no se realizó la tecnica de disminucion de error");
        }
          
@@ -557,7 +557,7 @@ public class NewtonMethodSolverTest {
     
     
     private void printHistory(HeterogeneousSubstance substance){
-        for(Parameters_Error err: substance.getAlphaOptimizer().getConvergenceHistory()){
+        for(Parameters_Error err: substance.getErrorFunction().getOptimizer().getConvergenceHistory()){
             StringBuffer sb = new StringBuffer("iteración:" + err.getIteration() + "(");
             for(double param: err.getParameters()){
                 sb.append(param + " ");
@@ -567,7 +567,7 @@ public class NewtonMethodSolverTest {
             System.out.println(sb);
             
         }
-        System.out.println(substance.getAlphaOptimizer().getMessage());
+        System.out.println(substance.getErrorFunction().getOptimizer().getMessage());
     }
     
 }

@@ -17,6 +17,7 @@ public class NewtonMethodSolver implements PropertyChangeListener {
     
     private ErrorFunction errorFunction;
     
+    
     private boolean[] constrainParameters ;
     private double[] maxVariationParameters;
     

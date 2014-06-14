@@ -11,7 +11,7 @@ import termo.optimization.ErrorData;
 public abstract class ErrorFunction implements Parameterized{
 
     
-    protected ArrayList<ErrorData> errorForEachExperimentalData = new ArrayList();
+//    protected ArrayList<ErrorData> errorForEachExperimentalData = new ArrayList();
         //to class function
     abstract public double  getParameter(int index);
 
@@ -27,13 +27,13 @@ public abstract class ErrorFunction implements Parameterized{
       /**
      * @return the errorForEachExperimentalData
      */
-    public ArrayList<ErrorData> getErrorForEachExperimentalData() {
-       // if(experimental.size() != errorForEachExperimentalData.size()){
-            error();//para calcular por primera vez
-        //}
-        return errorForEachExperimentalData;
-        
-    }
+//    public ArrayList<ErrorData> getErrorForEachExperimentalData() {
+//       // if(experimental.size() != errorForEachExperimentalData.size()){
+//            error();//para calcular por primera vez
+//        //}
+//        return errorForEachExperimentalData;
+//        
+//    }
 
     
     

@@ -6,30 +6,58 @@
 
 package termo.optimization.errorfunctions;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import termo.component.Component;
 import termo.data.ExperimentalData;
 import termo.eos.alpha.Alpha;
-import termo.matter.Heterogeneous;
 import termo.matter.HeterogeneousSubstance;
 import termo.optimization.ErrorData;
+import termo.optimization.NewtonMethodSolver;
 
 /**
  *
  * @author Hugo
  */
-public class VaporPressureErrorFunction extends ErrorFunction {
+public class VaporPressureErrorFunction extends ErrorFunction implements PropertyChangeListener {
     private HeterogeneousSubstance substance;
     private ArrayList<ExperimentalData> experimental = new ArrayList();
      
-   
+   protected ArrayList<ErrorData> errorForEachExperimentalData = new ArrayList();
      private Double totalError;
-   
-   
      
-    public VaporPressureErrorFunction(HeterogeneousSubstance substance){
-        this.substance = substance;
+     PropertyChangeSupport mpcs = new PropertyChangeSupport(this);
+    private NewtonMethodSolver optimizer ;
+     
+     public VaporPressureErrorFunction(HeterogeneousSubstance substance){
+         this.substance= substance;
+         optimizer = new NewtonMethodSolver(this);
+         mpcs.addPropertyChangeListener(optimizer);
+     }
+     
+     
+    @Override 
+    public void propertyChange(PropertyChangeEvent evt) {
+        String propertyName = evt.getPropertyName();
+        
+        if(propertyName == "alpha"){
+            mpcs.firePropertyChange(evt);
+        }
     }
+    
+   public void minimize(){
+        getOptimizer().solve();
+   }
+      public ArrayList<ErrorData> getErrorForEachExperimentalData() {
+       // if(experimental.size() != errorForEachExperimentalData.size()){
+            error();//para calcular por primera vez
+        //}
+        return errorForEachExperimentalData;
+        
+    }
+
     public VaporPressureErrorFunction(HeterogeneousSubstance substance,ArrayList<ExperimentalData> experimental){
         this.substance = substance ; 
         this.experimental = experimental;
@@ -112,5 +140,21 @@ public class VaporPressureErrorFunction extends ErrorFunction {
     public void setExperimental(ArrayList<? extends ExperimentalData> experimental) {
         this.experimental = (ArrayList<ExperimentalData>) experimental;
     }
+
+    /**
+     * @return the optimizer
+     */
+    public NewtonMethodSolver getOptimizer() {
+        return optimizer;
+    }
+
+    /**
+     * @param optimizer the optimizer to set
+     */
+    public void setOptimizer(NewtonMethodSolver optimizer) {
+        this.optimizer = optimizer;
+    }
+
+    
    
 }
