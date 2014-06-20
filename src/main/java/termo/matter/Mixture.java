@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import termo.Constants;
+import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
 import termo.eos.Cubic;
@@ -20,7 +21,7 @@ public final class Mixture extends Homogeneous{
     private MixingRule mixingRule;
     protected HashSet<Substance> pureSubstances = new HashSet<>();
 //    protected HashMap<String,Double> molarFractions = new HashMap<>();
-    protected InteractionParameter binaryParameters = new InteractionParameter();
+    protected InteractionParameter binaryParameters = new ActivityModelBinaryParameter();
 
     private Alpha alpha;
     

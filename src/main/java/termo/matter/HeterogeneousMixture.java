@@ -27,7 +27,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     private InteractionParameter interactionParameters = new ActivityModelBinaryParameter();
     
      private final HashMap<String,Double> zFractions = new HashMap(); 
-     private HashSet<Component> components;
+     private HashSet<Component> components = new HashSet();
      
      private TemperatureErrorFunction errorFunction;
     // private NewtonMethodSolver optimizer;
@@ -54,7 +54,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
         String name =evt.getPropertyName();
         switch(name){
             case "components":
-                components = (HashSet<Component> )evt.getNewValue();
+                setComponents((HashSet<Component> )evt.getNewValue());
                 break;
 //            case "zFractions":
 //                zFractions = (HashMap<String,Double>)evt.getNewValue();
@@ -593,7 +593,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
              double acentricFactorVaporPressure=pureSubstance.calculatetAcentricFactorBasedVaporPressure();
              Component componentObject = pureSubstance.getComponent();
              String componentName = componentObject.getName();
-             System.out.println("componentName" + componentName);
+            // System.out.println("componentName" + componentName);
              HashMap<String,Double> zFractionss =getzFractions();
              double zFraction = zFractionss.get(componentName);
              double vaporPressureS = acentricFactorVaporPressure*zFraction;     
@@ -698,7 +698,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
         }else{
             HashSet<Component> oldComponents = (HashSet<Component>) components.clone();
             components.add(component);
-            mpcs.firePropertyChange("componentes", oldComponents, components);
+            mpcs.firePropertyChange("components", oldComponents, components);
         }
     }
 
@@ -865,9 +865,9 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
    
     private void copyZfractionsToliquid(){
 	for (Component component:getComponents()){
-            System.out.println("component: " + component);
+            //System.out.println("component: " + component);
             double zFraction = getzFractions().get(component.getName());
-            System.out.println("copyzfractions to liquid " + component.getName()+": "+ zFraction);
+            //System.out.println("copyzfractions to liquid " + component.getName()+": "+ zFraction);
 	    getLiquid().setFraction(component, zFraction);
 	}
     }

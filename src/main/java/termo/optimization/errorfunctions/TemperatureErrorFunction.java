@@ -10,7 +10,6 @@ import termo.component.Component;
 import termo.data.ExperimentalData;
 import termo.data.ExperimentalDataBinary;
 import termo.matter.HeterogeneousMixture;
-import termo.optimization.ErrorData;
 import termo.optimization.NewtonMethodSolver;
 
 /**
@@ -58,7 +57,8 @@ public class TemperatureErrorFunction extends ErrorFunction implements PropertyC
     public double error() {
         errorForEachExperimentalData.clear();
         double error = 0;
-        for(ExperimentalDataBinary data : experimental){            
+        for(ExperimentalDataBinary data : experimental){   
+            
             mixture.setZFraction(referenceComponent, data.getLiquidFraction());
             mixture.setZFraction(nonReferenceComponent, 1-data.getLiquidFraction());
 
@@ -66,14 +66,16 @@ public class TemperatureErrorFunction extends ErrorFunction implements PropertyC
             double tempCalc = mixture.getTemperature();
             double tempExp = data.getTemperature();
             
-            error += Math.pow((tempCalc- tempExp)/tempExp,2);
+            double relativeError = (tempCalc- tempExp)/tempExp;
+            error += Math.pow(relativeError,2);
             
             TemperatureMixtureErrorData errorData= 
-                    new TemperatureMixtureErrorData(
-                            data.getLiquidFraction(),
-                            tempExp,
-                            tempCalc
-                    );
+                    new TemperatureMixtureErrorData(data.getLiquidFraction(),
+                            data.getVaporFraction(),
+                            mixture.getVapor().getFraction(mixture.getVapor().getPureSubstance(referenceComponent)) ,
+                            data.getTemperature(), 
+                            tempCalc,
+                    relativeError);
             errorForEachExperimentalData.add(errorData);
                     
         }

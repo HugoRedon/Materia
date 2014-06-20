@@ -116,6 +116,7 @@ public class NewtonMethodSolver implements PropertyChangeListener {
     public void solve(){
         int numberOfVariablesToOptimize = numberOfVariablesToOptimize();
         if(numberOfVariablesToOptimize == 0){
+            System.out.println("cero variables a optimizar ");
             return;
         }
         double[] initialValues =initialValues(numberOfVariablesToOptimize);
@@ -143,7 +144,6 @@ public class NewtonMethodSolver implements PropertyChangeListener {
             double[] before = args;
             iterations++;    
            // double[] gradiente=  gradient(args);
-            
             args = nextValue(args );
             for(int i =0; i<args.length;i++){
                 if(Double.isNaN(args[i]) | Double.isInfinite(args[i])){

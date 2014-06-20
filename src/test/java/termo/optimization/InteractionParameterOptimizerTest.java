@@ -83,6 +83,31 @@ public class InteractionParameterOptimizerTest {
         assertEquals(expected,result,1e-4);
           
     }
+    
+        @Test
+    public void testSolveInteractionParameterInVaporAndLiquid() {
+        mixture.getInteractionParameters().setSymmetric(true);
+        mixture.getErrorfunction().setExperimental(experimental);
+        mixture.getErrorfunction().setReferenceComponent(methanol);
+        mixture.getErrorfunction().setNonReferenceComponent(water);
+        mixture.getErrorfunction().minimize();
+                
+        double result = mixture.getInteractionParameters().getValue(methanol, water);
+        double liquidResult = mixture.getLiquid().getBinaryParameters().getValue(methanol, water);
+        double vaporResult = mixture.getVapor().getBinaryParameters().getValue(methanol, water);
+        
+        double expected = -0.050392324220228706;
+        double tol = 1e-4;
+        assertEquals(true, equalValue(expected, result,tol) && equalValue(expected,liquidResult,tol) 
+                && equalValue(expected, vaporResult, tol) );
+        
+          
+    }
+    
+    public boolean equalValue(double expected, double value,double  tolerance){
+        return Math.abs(value-expected) < tolerance;
+            
+    }
 //    @Test public void testSolveWithNonSymetricInteractionParameter(){//optimización multivariable (2 K12 Y K21)
 //         //interactionParameters default false
 //        TemperatureErrorFunction errorFunction = 
