@@ -5,6 +5,11 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import termo.cp.CpEquation;
 import termo.cp.DIPPR_107_Equation;
 import termo.eos.alpha.Alpha;
@@ -15,7 +20,14 @@ import termo.eos.alpha.annotation.AlphaParameter;
  *
  * @author Hugo Redon Rivera
  */
+@Entity
 public class Component implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    public Component() {
+    }
     
     public Component (String name){
         this.name  = name.toLowerCase();
@@ -108,6 +120,7 @@ public class Component implements Serializable {
     @AlphaParameter(alphaName = AlphaNames.YuAndLu)
     private double C_YuAndLu;
     
+    @Transient
     private CpEquation cp;
     
     private double A_dippr107Cp;
@@ -1456,6 +1469,14 @@ public class Component implements Serializable {
      */
     public void setC_YuAndLu(double C_YuAndLu) {
         this.C_YuAndLu = C_YuAndLu;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
 
