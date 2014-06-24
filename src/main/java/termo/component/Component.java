@@ -5,13 +5,17 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import static javax.persistence.FetchType.EAGER;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import termo.cp.CpEquation;
 import termo.cp.DIPPR_107_Equation;
+import termo.data.ExperimentalDataList;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaNames;
 import termo.eos.alpha.annotation.AlphaParameter;
@@ -32,6 +36,8 @@ public class Component implements Serializable {
     public Component (String name){
         this.name  = name.toLowerCase();
     }
+    @OneToMany( cascade = CascadeType.ALL, fetch =EAGER )
+    private ArrayList<ExperimentalDataList> experimentalLists = new ArrayList();
     
     private double molecularWeight;
     private double lowerFlammabilityLimitTemperature;
@@ -1477,6 +1483,20 @@ public class Component implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * @return the experimentalLists
+     */
+    public ArrayList<ExperimentalDataList> getExperimentalLists() {
+        return experimentalLists;
+    }
+
+    /**
+     * @param experimentalLists the experimentalLists to set
+     */
+    public void setExperimentalLists(ArrayList<ExperimentalDataList> experimentalLists) {
+        this.experimentalLists = experimentalLists;
     }
 
 

@@ -1,12 +1,19 @@
 package termo.data;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  *
  * @author Hugo
  */
-public class ExperimentalData {
+@Entity
+public class ExperimentalData implements Serializable {
     private double temperature;
     private double pressure;
+    @Id
+    private Long id;
 
     public ExperimentalData(){
         
@@ -42,5 +49,13 @@ public class ExperimentalData {
      */
     public void setPressure(double pressure) {
         this.pressure = pressure;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
