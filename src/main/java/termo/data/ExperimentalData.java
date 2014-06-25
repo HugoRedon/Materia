@@ -1,7 +1,9 @@
 package termo.data;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,8 +20,8 @@ public class ExperimentalData implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne
-    ExperimentalDataList dataList;
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER,optional = false)
+    private ExperimentalDataList dataList;
 
     public ExperimentalData(){
         
@@ -63,5 +65,19 @@ public class ExperimentalData implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * @return the dataList
+     */
+    public ExperimentalDataList getDataList() {
+        return dataList;
+    }
+
+    /**
+     * @param dataList the dataList to set
+     */
+    public void setDataList(ExperimentalDataList dataList) {
+        this.dataList = dataList;
     }
 }

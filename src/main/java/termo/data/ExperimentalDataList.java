@@ -102,4 +102,11 @@ public class ExperimentalDataList implements Serializable {
     public void setComponent(Component component) {
         this.component = component;
     }
+
+    public void addExperimentalData(ExperimentalData data) {
+        if(!list.contains(data)){
+            data.setDataList(this);
+            list.add(data);
+        }
+    }
 }
