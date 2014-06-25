@@ -7,13 +7,17 @@
 package termo.data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.CascadeType;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import termo.component.Component;
 
 /**
  *
@@ -22,10 +26,18 @@ import javax.persistence.OneToMany;
 @Entity
 public class ExperimentalDataList implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private ArrayList<ExperimentalData> list;
+    private String name;
+    
+    
+    @OneToMany(mappedBy = "dataList",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private Set<ExperimentalData> list=new HashSet();
     private String source;
+    
+    @ManyToOne(cascade = CascadeType.ALL ,fetch = FetchType.EAGER,optional = false,
+            targetEntity = Component.class)
+    private Component component;
 
     public Long getId() {
         return id;
@@ -38,14 +50,14 @@ public class ExperimentalDataList implements Serializable {
     /**
      * @return the list
      */
-    public ArrayList<ExperimentalData> getList() {
+    public Set<ExperimentalData> getList() {
         return list;
     }
 
     /**
      * @param list the list to set
      */
-    public void setList(ArrayList<ExperimentalData> list) {
+    public void setList(Set<ExperimentalData> list) {
         this.list = list;
     }
 
@@ -61,5 +73,33 @@ public class ExperimentalDataList implements Serializable {
      */
     public void setSource(String source) {
         this.source = source;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the component
+     */
+    public Component getComponent() {
+        return component;
+    }
+
+    /**
+     * @param component the component to set
+     */
+    public void setComponent(Component component) {
+        this.component = component;
     }
 }

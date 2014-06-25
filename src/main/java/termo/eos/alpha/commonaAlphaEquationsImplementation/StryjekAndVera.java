@@ -2,7 +2,6 @@
 
 package termo.eos.alpha.commonaAlphaEquationsImplementation;
 
-import com.sun.org.apache.bcel.internal.generic.SWITCH;
 import termo.component.Component;
 import termo.eos.alpha.AlphaNames;
 import termo.eos.alpha.CommonAlphaEquation;

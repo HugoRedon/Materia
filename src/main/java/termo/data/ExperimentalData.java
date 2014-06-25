@@ -2,7 +2,10 @@ package termo.data;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -13,7 +16,10 @@ public class ExperimentalData implements Serializable {
     private double temperature;
     private double pressure;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @ManyToOne
+    ExperimentalDataList dataList;
 
     public ExperimentalData(){
         

@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import static javax.persistence.FetchType.EAGER;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,8 +38,9 @@ public class Component implements Serializable {
     public Component (String name){
         this.name  = name.toLowerCase();
     }
-    @OneToMany( cascade = CascadeType.ALL, fetch =EAGER )
-    private ArrayList<ExperimentalDataList> experimentalLists = new ArrayList();
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "component")
+    private Set<ExperimentalDataList> experimentalLists = new HashSet();
     
     private double molecularWeight;
     private double lowerFlammabilityLimitTemperature;
@@ -1488,15 +1491,22 @@ public class Component implements Serializable {
     /**
      * @return the experimentalLists
      */
-    public ArrayList<ExperimentalDataList> getExperimentalLists() {
+    public Set<ExperimentalDataList> getExperimentalLists() {
         return experimentalLists;
     }
 
     /**
      * @param experimentalLists the experimentalLists to set
      */
-    public void setExperimentalLists(ArrayList<ExperimentalDataList> experimentalLists) {
+    public void setExperimentalLists(Set<ExperimentalDataList> experimentalLists) {
         this.experimentalLists = experimentalLists;
+    }
+
+    public void addExperimentalDataList(ExperimentalDataList dataList) {
+        if(!experimentalLists.contains(dataList)){
+            dataList.setComponent(this);
+            experimentalLists.add(dataList);
+        }
     }
 
 
