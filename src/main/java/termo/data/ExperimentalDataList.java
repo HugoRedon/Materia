@@ -8,6 +8,7 @@ package termo.data;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -29,13 +30,51 @@ public class ExperimentalDataList implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.id);
+        hash = 53 * hash + Objects.hashCode(this.name);
+        hash = 53 * hash + Objects.hashCode(this.list);
+        hash = 53 * hash + Objects.hashCode(this.source);
+        hash = 53 * hash + Objects.hashCode(this.component);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ExperimentalDataList other = (ExperimentalDataList) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.list, other.list)) {
+            return false;
+        }
+        if (!Objects.equals(this.source, other.source)) {
+            return false;
+        }
+        if (!Objects.equals(this.component, other.component)) {
+            return false;
+        }
+        return true;
+    }
     
     
     @OneToMany(mappedBy = "dataList",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<ExperimentalData> list=new HashSet();
     private String source;
     
-    @ManyToOne(cascade = CascadeType.ALL ,fetch = FetchType.EAGER,optional = false,
+    @ManyToOne( fetch = FetchType.EAGER,optional = true,
             targetEntity = Component.class)
     private Component component;
 
@@ -101,6 +140,7 @@ public class ExperimentalDataList implements Serializable {
      */
     public void setComponent(Component component) {
         this.component = component;
+        //component.getExperimentalLists().add(this);
     }
 
     public void addExperimentalData(ExperimentalData data) {
