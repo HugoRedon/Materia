@@ -1,6 +1,7 @@
     package termo.data;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 /**
@@ -16,8 +17,8 @@ public class ExperimentalDataBinary extends Experimental{
 //            private double temperature;
 //            private double pressure;
 
-    @ManyToOne
-    ExperimentalDataBinaryList experimentalDataList;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private ExperimentalDataBinaryList experimentalDataList;
 
 
     public ExperimentalDataBinary() {
@@ -46,6 +47,20 @@ public class ExperimentalDataBinary extends Experimental{
     }
     public double getVaporFraction(){
         return vaporFraction;
+    }
+
+    /**
+     * @return the experimentalDataList
+     */
+    public ExperimentalDataBinaryList getExperimentalDataList() {
+        return experimentalDataList;
+    }
+
+    /**
+     * @param experimentalDataList the experimentalDataList to set
+     */
+    public void setExperimentalDataList(ExperimentalDataBinaryList experimentalDataList) {
+        this.experimentalDataList = experimentalDataList;
     }
 
           

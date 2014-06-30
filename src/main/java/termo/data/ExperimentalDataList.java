@@ -151,4 +151,11 @@ public class ExperimentalDataList implements Serializable {
             list.add(data);
         }
     }
+
+    public void removeExperimentalData(ExperimentalData data) {
+        if(list.contains(data)){
+            data.setDataList(null);
+            list.remove(data);
+        }
+    }
 }

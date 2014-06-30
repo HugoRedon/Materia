@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,9 +26,12 @@ public class ExperimentalDataBinaryList implements Serializable{
       @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+      
+      @Enumerated(EnumType.STRING)
+      private ExperimentalDataBinaryType type = ExperimentalDataBinaryType.isobaric;
     
       
-    @OneToMany(mappedBy = "experimentalDataList"  ,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "experimentalDataList"  ,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<ExperimentalDataBinary> list = new HashSet();
     
     @ManyToOne
@@ -45,7 +51,16 @@ public class ExperimentalDataBinaryList implements Serializable{
     public ExperimentalDataBinaryList() {
     }
     
-    
+    public void addExperimentalDataToList(ExperimentalDataBinary data){
+        data.setExperimentalDataList(this);
+        list.add(data);
+    }
+    public void removeExperimentalDataList(ExperimentalDataBinary data){
+        if(list.contains(data)){
+            data.setExperimentalDataList(null);
+            list.remove(data);
+        }
+    }
 
     /**
      * @return the list
@@ -129,6 +144,20 @@ public class ExperimentalDataBinaryList implements Serializable{
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * @return the type
+     */
+    public ExperimentalDataBinaryType getType() {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(ExperimentalDataBinaryType type) {
+        this.type = type;
     }
     
 }
