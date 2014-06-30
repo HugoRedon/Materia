@@ -7,7 +7,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Component;
-import termo.data.ExperimentalData;
+import termo.data.Experimental;
 import termo.data.ExperimentalDataBinary;
 import termo.matter.HeterogeneousMixture;
 import termo.optimization.NewtonMethodSolver;
@@ -99,7 +99,7 @@ public class TemperatureErrorFunction extends ErrorFunction implements PropertyC
      * @param experimental the experimental to set
      */
     @Override
-    public void setExperimental(ArrayList<? extends ExperimentalData> experimental) {
+    public void setExperimental(ArrayList<? extends Experimental> experimental) {
         this.experimental = (ArrayList< ExperimentalDataBinary>)experimental;
         getMixture().setPressure(experimental.get(0).getPressure());
 //         referenceComponent = this.experimental.get(0).getReferenceComponent();

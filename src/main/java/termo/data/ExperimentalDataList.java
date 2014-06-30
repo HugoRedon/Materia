@@ -72,6 +72,8 @@ public class ExperimentalDataList implements Serializable {
     
     @OneToMany(mappedBy = "dataList",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<ExperimentalData> list=new HashSet();
+    
+    
     private String source;
     
     @ManyToOne( fetch = FetchType.EAGER,optional = true,

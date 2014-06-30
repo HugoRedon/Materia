@@ -11,6 +11,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import termo.component.Component;
+import termo.data.Experimental;
 import termo.data.ExperimentalData;
 import termo.eos.alpha.Alpha;
 import termo.matter.HeterogeneousSubstance;
@@ -137,7 +138,7 @@ public class VaporPressureErrorFunction extends ErrorFunction implements Propert
      * @param experimental the experimental to set
      */
     @Override
-    public void setExperimental(ArrayList<? extends ExperimentalData> experimental) {
+    public void setExperimental(ArrayList<? extends Experimental> experimental) {
         this.experimental = (ArrayList<ExperimentalData>) experimental;
     }
 
