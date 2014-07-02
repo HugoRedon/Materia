@@ -1,6 +1,6 @@
 package termo.optimization.errorfunctions;
 
-import java.util.ArrayList;
+import java.util.List;
 import termo.data.Experimental;
 
 /**
@@ -22,7 +22,7 @@ public abstract class ErrorFunction implements Parameterized{
     //to class function
     abstract public double error();
     
-    abstract public void setExperimental(ArrayList<? extends Experimental> experimental);
+    abstract public void setExperimental(List<? extends Experimental> experimental);
       /**
      * @return the errorForEachExperimentalData
      */

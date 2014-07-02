@@ -7,6 +7,7 @@
 package termo.data;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,6 +31,36 @@ public abstract class Experimental implements Serializable{
     public Experimental(double temperature, double pressure){
         this.temperature = temperature;
         this.pressure = pressure;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this.temperature) ^ (Double.doubleToLongBits(this.temperature) >>> 32));
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this.pressure) ^ (Double.doubleToLongBits(this.pressure) >>> 32));
+        hash = 59 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Experimental other = (Experimental) obj;
+        if (Double.doubleToLongBits(this.temperature) != Double.doubleToLongBits(other.temperature)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.pressure) != Double.doubleToLongBits(other.pressure)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
     
     

@@ -1,5 +1,6 @@
     package termo.data;
 
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -19,6 +20,38 @@ public class ExperimentalDataBinary extends Experimental{
 
     @ManyToOne(fetch = FetchType.EAGER)
     private ExperimentalDataBinaryList experimentalDataList;
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.liquidFraction) ^ (Double.doubleToLongBits(this.liquidFraction) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.vaporFraction) ^ (Double.doubleToLongBits(this.vaporFraction) >>> 32));
+        hash = 37 * hash + Objects.hashCode(this.experimentalDataList);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ExperimentalDataBinary other = (ExperimentalDataBinary) obj;
+        if (Double.doubleToLongBits(this.liquidFraction) != Double.doubleToLongBits(other.liquidFraction)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.vaporFraction) != Double.doubleToLongBits(other.vaporFraction)) {
+            return false;
+        }
+        if (!Objects.equals(this.experimentalDataList, other.experimentalDataList)) {
+            return false;
+        }
+        return true;
+    }
+
+  
 
 
     public ExperimentalDataBinary() {

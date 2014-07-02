@@ -10,6 +10,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.List;
 import termo.component.Component;
 import termo.data.Experimental;
 import termo.data.ExperimentalData;
@@ -24,7 +25,7 @@ import termo.optimization.NewtonMethodSolver;
  */
 public class VaporPressureErrorFunction extends ErrorFunction implements PropertyChangeListener {
     private HeterogeneousSubstance substance;
-    private ArrayList<ExperimentalData> experimental = new ArrayList();
+    private List<ExperimentalData> experimental = new ArrayList();
      
    protected ArrayList<ErrorData> errorForEachExperimentalData = new ArrayList();
      private Double totalError;
@@ -130,7 +131,7 @@ public class VaporPressureErrorFunction extends ErrorFunction implements Propert
     /**
      * @return the experimental
      */
-    public ArrayList<ExperimentalData> getExperimental() {
+    public List<ExperimentalData> getExperimental() {
         return experimental;
     }
 
@@ -138,8 +139,8 @@ public class VaporPressureErrorFunction extends ErrorFunction implements Propert
      * @param experimental the experimental to set
      */
     @Override
-    public void setExperimental(ArrayList<? extends Experimental> experimental) {
-        this.experimental = (ArrayList<ExperimentalData>) experimental;
+    public void setExperimental(List<? extends Experimental> experimental) {
+        this.experimental = (List<ExperimentalData>) experimental;
     }
 
     /**
