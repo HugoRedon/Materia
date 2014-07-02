@@ -2,7 +2,7 @@ package termo.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import termo.component.Component;
 
 /**
@@ -32,7 +33,8 @@ public class ExperimentalDataBinaryList implements Serializable{
     
       
     @OneToMany(mappedBy = "experimentalDataList"  ,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    private Set<ExperimentalDataBinary> list = new HashSet();
+    @OrderBy(value = "liquidFraction")
+    private List<ExperimentalDataBinary> list = new ArrayList();
     
     @ManyToOne
     @JoinColumn
@@ -65,14 +67,14 @@ public class ExperimentalDataBinaryList implements Serializable{
     /**
      * @return the list
      */
-    public Set<ExperimentalDataBinary> getList() {
+    public List<ExperimentalDataBinary> getList() {
         return list;
     }
 
     /**
      * @param list the list to set
      */
-    public void setList(Set<ExperimentalDataBinary> list) {
+    public void setList(List<ExperimentalDataBinary> list) {
         this.list = list;
     }
 

@@ -7,7 +7,8 @@
 package termo.data;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -18,6 +19,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import termo.component.Component;
 
 /**
@@ -71,7 +73,8 @@ public class ExperimentalDataList implements Serializable {
     
     
     @OneToMany(mappedBy = "dataList",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    private Set<ExperimentalData> list=new HashSet();
+    @OrderBy(value = "temperature")
+    private List<ExperimentalData> list=new ArrayList();
     
     
     private String source;
@@ -91,14 +94,14 @@ public class ExperimentalDataList implements Serializable {
     /**
      * @return the list
      */
-    public Set<ExperimentalData> getList() {
+    public List<ExperimentalData> getList() {
         return list;
     }
 
     /**
      * @param list the list to set
      */
-    public void setList(Set<ExperimentalData> list) {
+    public void setList(List<ExperimentalData> list) {
         this.list = list;
     }
 
