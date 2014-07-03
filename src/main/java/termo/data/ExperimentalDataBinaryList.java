@@ -98,9 +98,9 @@ public class ExperimentalDataBinaryList implements Serializable{
         if (this.type != other.type) {
             return false;
         }
-        if (!Objects.equals(this.list, other.list)) {
-            return false;
-        }
+//        if (!Objects.equals(this.list, other.list)) {
+//            return false;
+//        }
         if (!Objects.equals(this.referenceComponent, other.referenceComponent)) {
             return false;
         }
