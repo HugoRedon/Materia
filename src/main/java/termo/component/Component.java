@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import termo.cp.CpEquation;
 import termo.cp.DIPPR_107_Equation;
@@ -21,6 +22,8 @@ import termo.data.ExperimentalDataList;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaNames;
 import termo.eos.alpha.annotation.AlphaParameter;
+import termo.equations.Eqn101VaporPressure;
+import termo.equations.Eqn10VaporPressure;
 
 /**
  *
@@ -1508,6 +1511,44 @@ public class Component implements Serializable {
             experimentalLists.add(dataList);
         }
     }
+   // se debe decidir en obtener una super clase o mantener las dos ecuaciones
+    @OneToOne(mappedBy = "component",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private Eqn101VaporPressure eqn101VaporPressure ;
+    
+    @OneToOne(mappedBy = "component",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private Eqn10VaporPressure eqn10VaporPressure ;
+    
+
+    /**
+     * @return the eqn101VaporPressure
+     */
+    public Eqn101VaporPressure getEqn101VaporPressure() {
+        return eqn101VaporPressure;
+    }
+
+    /**
+     * @param eqn101VaporPressure the eqn101VaporPressure to set
+     */
+    public void setEqn101VaporPressure(Eqn101VaporPressure eqn101VaporPressure) {
+        this.eqn101VaporPressure = eqn101VaporPressure;
+    }
+
+    /**
+     * @return the eqn10VaporPressure
+     */
+    public Eqn10VaporPressure getEqn10VaporPressure() {
+        return eqn10VaporPressure;
+    }
+
+    /**
+     * @param eqn10VaporPressure the eqn10VaporPressure to set
+     */
+    public void setEqn10VaporPressure(Eqn10VaporPressure eqn10VaporPressure) {
+        this.eqn10VaporPressure = eqn10VaporPressure;
+    }
+    
+
+  
 
 
     
