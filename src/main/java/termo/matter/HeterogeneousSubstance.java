@@ -18,7 +18,8 @@ import termo.phase.Phase;
  */
 public class HeterogeneousSubstance extends Heterogeneous{
 
-
+    private Alpha alpha ;
+    private Component component;
     public HeterogeneousSubstance(){
         
        
@@ -56,7 +57,8 @@ public class HeterogeneousSubstance extends Heterogeneous{
         vaporImplementation.setAlpha(alpha);
         vaporImplementation.setComponent(component);
         
-        mpcs.firePropertyChange("alpha", null, alpha);//para inicializar los arreglos en errorfunction/newtonmethodsolver
+        setAlpha(alpha);
+        //mpcs.firePropertyChange("alpha", null, alpha);//para inicializar los arreglos en errorfunction/newtonmethodsolver
 	//this.alphaOptimizer = new NewtonMethodSolver(this);
         
     }
@@ -311,6 +313,38 @@ public class HeterogeneousSubstance extends Heterogeneous{
      */
     public void setErrorFunction(VaporPressureErrorFunction errorFunction) {
         this.errorFunction = errorFunction;
+    }
+
+    /**
+     * @return the alpha
+     */
+    public Alpha getAlpha() {
+        return alpha;
+    }
+
+    /**
+     * @param alpha the alpha to set
+     */
+    public void setAlpha(Alpha alpha) {
+        Alpha oldAlpha = this.alpha;
+        this.alpha = alpha;
+         mpcs.firePropertyChange("alpha", oldAlpha, alpha);
+    }
+
+    /**
+     * @return the component
+     */
+    public Component getComponent() {
+        return component;
+    }
+
+    /**
+     * @param component the component to set
+     */
+    public void setComponent(Component component) {
+        Component oldComponent = this.component;
+        this.component = component;
+        mpcs.firePropertyChange("component",oldComponent,component);
     }
 
    

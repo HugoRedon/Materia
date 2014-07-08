@@ -18,12 +18,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import termo.cp.CpEquation;
 import termo.cp.DIPPR_107_Equation;
+import termo.data.ExperimentalData;
 import termo.data.ExperimentalDataList;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaNames;
 import termo.eos.alpha.annotation.AlphaParameter;
 import termo.equations.Eqn101VaporPressure;
 import termo.equations.Eqn10VaporPressure;
+import termo.equations.EqnVaporPressure;
 
 /**
  *
@@ -1518,6 +1520,29 @@ public class Component implements Serializable {
     @OneToOne(mappedBy = "component",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Eqn10VaporPressure eqn10VaporPressure ;
     
+    
+    
+    public ExperimentalDataList getVaporPressureList(EqnVaporPressure eqn){
+        ExperimentalDataList list = new ExperimentalDataList();
+        if(eqn instanceof Eqn101VaporPressure){
+            list.setName("Estimados Dippr 101 ");
+        }else if(eqn instanceof Eqn10VaporPressure){
+            list.setName("Estimados ecuación 10 (Antoine)");
+        }
+        list.setSource("Datos estimados con ecuación, parametros obtenidos de Chemsep"  );
+        
+        double minT = eqn.getMinTemperature();
+        double maxT = eqn.getMaxTemperature();
+        
+        Integer n = 100;
+        double pass = (maxT- minT)/n.doubleValue();
+        for (int i = 0;i < n; i++ ){
+            double temperature = minT + pass * i;
+            double vaporPressure = eqn.vaporPressure(temperature);
+            list.getList().add(new ExperimentalData(temperature, vaporPressure));
+        }
+        return list;
+    }
 
     /**
      * @return the eqn101VaporPressure

@@ -49,6 +49,13 @@ public class HeterogeneousSubstanceTest {
         
         assertEquals(impl.getLiquid().getAlpha(), AlphaFactory.getPengAndRobinsonExpression());
     }
+    @Test public void testAlphaChangeWithSetterMethod(){
+        System.out.println("propertyChangeListener for alpha");
+        HeterogeneousSubstance impl = new HeterogeneousSubstance(null, AlphaFactory.getAdachiAndLu(), null);
+       impl.setAlpha(AlphaFactory.getPengAndRobinsonExpression());
+        
+        assertEquals(impl.getLiquid().getAlpha(), AlphaFactory.getPengAndRobinsonExpression());
+    }
     
     
      /**
