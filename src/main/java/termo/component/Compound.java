@@ -32,15 +32,15 @@ import termo.equations.EqnVaporPressure;
  * @author Hugo Redon Rivera
  */
 @Entity
-public class Component implements Serializable {
+public class Compound implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    public Component() {
+    public Compound() {
     }
     
-    public Component (String name){
+    public Compound (String name){
         this.name  = name.toLowerCase();
     }
 
@@ -244,7 +244,7 @@ public class Component implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Component other = (Component) obj;
+        final Compound other = (Compound) obj;
         if (Double.doubleToLongBits(this.molecularWeight) != Double.doubleToLongBits(other.molecularWeight)) {
             return false;
         }

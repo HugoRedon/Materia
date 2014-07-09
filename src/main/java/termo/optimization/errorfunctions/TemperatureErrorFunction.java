@@ -7,7 +7,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 import termo.binaryParameter.InteractionParameter;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.data.Experimental;
 import termo.data.ExperimentalDataBinary;
 import termo.matter.HeterogeneousMixture;
@@ -18,8 +18,8 @@ import termo.optimization.NewtonMethodSolver;
  * @author Hugo
  */
 public class TemperatureErrorFunction extends ErrorFunction implements PropertyChangeListener{
-    private Component referenceComponent;
-    private Component nonReferenceComponent;
+    private Compound referenceComponent;
+    private Compound nonReferenceComponent;
     private final HeterogeneousMixture mixture;
     private ArrayList<ExperimentalDataBinary> experimental;
     
@@ -124,28 +124,28 @@ public class TemperatureErrorFunction extends ErrorFunction implements PropertyC
     /**
      * @return the referenceComponent
      */
-    public Component getReferenceComponent() {
+    public Compound getReferenceComponent() {
         return referenceComponent;
     }
 
     /**
      * @param referenceComponent the referenceComponent to set
      */
-    public void setReferenceComponent(Component referenceComponent) {
+    public void setReferenceComponent(Compound referenceComponent) {
         this.referenceComponent = referenceComponent;
     }
 
     /**
      * @return the nonReferenceComponent
      */
-    public Component getNonReferenceComponent() {
+    public Compound getNonReferenceComponent() {
         return nonReferenceComponent;
     }
 
     /**
      * @param nonReferenceComponent the nonReferenceComponent to set
      */
-    public void setNonReferenceComponent(Component nonReferenceComponent) {
+    public void setNonReferenceComponent(Compound nonReferenceComponent) {
         this.nonReferenceComponent = nonReferenceComponent;
     }
 

@@ -1,7 +1,7 @@
 package termo.binaryParameter;
 
 import java.util.HashMap;
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -22,7 +22,7 @@ public class InteractionParameter {
     }
   
    
-    public double  getValue(Component component1,Component component2){
+    public double  getValue(Compound component1,Compound component2){
          
         String key = keyFor(component1, component2);
         
@@ -33,11 +33,11 @@ public class InteractionParameter {
         }
     }
     
-    public String keyFor(Component component1,Component component2){
+    public String keyFor(Compound component1,Compound component2){
         return "("+component1.getName() +","+ component2.getName()+")";
     }
     
-    public void setValue(Component component1,Component component2,double value){
+    public void setValue(Compound component1,Compound component2,double value){
         
         String key = keyFor(component1, component2);
         param.put(key, value);

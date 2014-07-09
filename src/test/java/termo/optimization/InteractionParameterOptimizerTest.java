@@ -9,7 +9,7 @@ import org.junit.Test;
 import termo.activityModel.NRTLActivityModel;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.componentsForTests.ComponentsForTests;
 import termo.data.ExperimentalDataBinary;
 import termo.eos.Cubic;
@@ -27,8 +27,8 @@ import termo.optimization.errorfunctions.TemperatureErrorFunction;
  * @author Hugo
  */
 public class InteractionParameterOptimizerTest {
-    Component water;
-    Component methanol;
+    Compound water;
+    Compound methanol;
     HeterogeneousMixture mixture; 
     
     ArrayList<ExperimentalDataBinary> experimental = new ArrayList<>();
@@ -38,7 +38,7 @@ public class InteractionParameterOptimizerTest {
 
         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
         Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
-        HashSet<Component> components = new HashSet<>();
+        HashSet<Compound> components = new HashSet<>();
         components.add(water);
         components.add(methanol);
         MixingRule mr = new VDWMixingRule();

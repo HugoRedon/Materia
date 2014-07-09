@@ -3,7 +3,7 @@ package termo.optimization;
 
 import java.util.ArrayList;
 import termo.binaryParameter.InteractionParameter;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.data.ExperimentalDataBinary;
 import termo.eos.Cubic;
 import termo.matrix.Matrix2x2;
@@ -17,8 +17,8 @@ import termo.matter.HeterogeneousMixture;
 public class InteractionParameterOptimizer {
     private final HeterogeneousMixture mixture;
     private ArrayList<ExperimentalDataBinary> experimental;
-    private Component referenceComponent;
-    private Component nonReferenceComponent;
+    private Compound referenceComponent;
+    private Compound nonReferenceComponent;
 
     
     double optimizationTolerance = 1e-5;

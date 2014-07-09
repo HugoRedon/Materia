@@ -1,7 +1,7 @@
 package termo.eos.alpha;
 
 import java.util.Objects;
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -52,9 +52,9 @@ public abstract class Alpha {
      * @param component
      * @return 
      */
-    public  abstract double alpha(double temperature,Component component);
+    public  abstract double alpha(double temperature,Compound component);
     
-    public abstract double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature,Component component);
+    public abstract double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature,Compound component);
   
     @Override 
     public String toString(){
@@ -74,21 +74,21 @@ public abstract class Alpha {
     public void setEquation(String equation) {
         this.equation = equation;
     }
-    public abstract double getParameter(Component component, int index);
-    public abstract void setParameter(double value, Component component, int index);
+    public abstract double getParameter(Compound component, int index);
+    public abstract void setParameter(double value, Compound component, int index);
     
     public abstract int numberOfParameters() ;
 //
-//    public abstract void setAlphaParameterA(double paramValue, Component component) ;
-//    public abstract double getAlphaParameterA(Component component);
+//    public abstract void setAlphaParameterA(double paramValue, Compound component) ;
+//    public abstract double getAlphaParameterA(Compound component);
 //    
-//    public abstract void setAlphaParameterB(double paramValue, Component component) ;
-//    public abstract double getAlphaParameterB( Component component);
+//    public abstract void setAlphaParameterB(double paramValue, Compound component) ;
+//    public abstract double getAlphaParameterB( Compound component);
 //    
-//    public abstract void setAlphaParameterC(double paramValue, Component component) ;
-//    public abstract double getAlphaParameterC(Component component);
+//    public abstract void setAlphaParameterC(double paramValue, Compound component) ;
+//    public abstract double getAlphaParameterC(Compound component);
 //
-//    public abstract double[] getParameters(Component component);
-//    public abstract void setParameters(double[] paramsValues, Component component);
+//    public abstract double[] getParameters(Compound component);
+//    public abstract void setParameters(double[] paramsValues, Compound component);
    
 }

@@ -20,7 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -80,8 +80,8 @@ public class ExperimentalDataList implements Serializable {
     private String source;
     
     @ManyToOne( fetch = FetchType.EAGER,optional = true,
-            targetEntity = Component.class)
-    private Component component;
+            targetEntity = Compound.class)
+    private Compound component;
 
     public Long getId() {
         return id;
@@ -136,14 +136,14 @@ public class ExperimentalDataList implements Serializable {
     /**
      * @return the component
      */
-    public Component getComponent() {
+    public Compound getComponent() {
         return component;
     }
 
     /**
      * @param component the component to set
      */
-    public void setComponent(Component component) {
+    public void setComponent(Compound component) {
         this.component = component;
         //component.getExperimentalLists().add(this);
     }

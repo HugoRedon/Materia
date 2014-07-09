@@ -1,6 +1,6 @@
 package termo.eos.alpha;
 
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -11,13 +11,13 @@ public class AndroulakisEtAlAboveTc extends Alpha{
         setEquation("\\alpha(T) = e^{A\\left( 1 - T_r^{\\frac{2}{3}} \\right)}");
     }
     @Override
-    public double alpha(double temperature, Component component) {
+    public double alpha(double temperature, Compound component) {
         double A = component.getA_AndroulakisEtAl();
         double tr = temperature / component.getCriticalTemperature();
         return Math.exp(A*(1- Math.pow(tr, 2d/3d)));
     }
     @Override
-    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Component component) {
+    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Compound component) {
         double A = component.getA_AndroulakisEtAl();
         double tr = temperature / component.getCriticalTemperature();
         
@@ -30,12 +30,12 @@ public class AndroulakisEtAlAboveTc extends Alpha{
     }
 
     @Override
-    public void setParameter(double value, Component component, int index) {
+    public void setParameter(double value, Compound component, int index) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double getParameter(Component component, int index) {
+    public double getParameter(Compound component, int index) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

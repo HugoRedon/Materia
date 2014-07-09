@@ -7,7 +7,7 @@ import termo.Constants;
 import termo.activityModel.ActivityModel;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.matter.Mixture;
 import termo.matter.Substance;
@@ -93,7 +93,7 @@ public class WongSandlerMixingRule extends ExcessGibbsMixingRule {
     }
 
     @Override
-    public double getParameter(Component referenceComponent, Component nonReferenceComponent, InteractionParameter params, int index) {
+    public double getParameter(Compound referenceComponent, Compound nonReferenceComponent, InteractionParameter params, int index) {
        int numberOfParametersOfActivity = activityModel.numberOfParameters();
        ActivityModelBinaryParameter activityParams = (ActivityModelBinaryParameter)params;
        
@@ -108,7 +108,7 @@ public class WongSandlerMixingRule extends ExcessGibbsMixingRule {
     }
 
     @Override
-    public void setParameter(double value, Component referenceComponent, Component nonReferenceComponent, InteractionParameter params, int index) {
+    public void setParameter(double value, Compound referenceComponent, Compound nonReferenceComponent, InteractionParameter params, int index) {
          int numberOfParametersOfActivity = activityModel.numberOfParameters();
        ActivityModelBinaryParameter activityParams = (ActivityModelBinaryParameter)params;
        

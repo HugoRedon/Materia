@@ -3,7 +3,7 @@ package termo.substance;
 import termo.matter.Substance;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.cp.PolinomialCpEquation;
 import termo.eos.Cubic;
 import termo.eos.EquationOfStateFactory;
@@ -19,7 +19,7 @@ import termo.phase.Phase;
 public class PureSubstanceTest {
      Substance substance ; 
     public PureSubstanceTest() {
-	Component ethane = new Component("ethane");
+	Compound ethane = new Compound("ethane");
 	
 	ethane.setAcentricFactor(0.09781);
 	ethane.setCriticalTemperature(305.43);

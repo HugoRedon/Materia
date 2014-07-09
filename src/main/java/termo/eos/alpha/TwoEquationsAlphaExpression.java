@@ -1,6 +1,6 @@
 package termo.eos.alpha;
 
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -34,15 +34,15 @@ public class TwoEquationsAlphaExpression extends Alpha{
    
     
     @Override
-     public  double alpha(double temperature,Component component){
+     public  double alpha(double temperature,Compound component){
            return getProperAlpha(temperature, component).alpha(temperature, component);
     }
        @Override
-    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Component component) {
+    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Compound component) {
             return getProperAlpha(temperature, component).TempOverAlphaTimesDerivativeAlphaRespectTemperature(temperature, component);
     }
        
-       public Alpha getProperAlpha(double temperature ,Component component){
+       public Alpha getProperAlpha(double temperature ,Compound component){
                 double criticalTemperature = component.getCriticalTemperature();
         double q = component.getK_StryjekAndVera();
         
@@ -89,12 +89,12 @@ public class TwoEquationsAlphaExpression extends Alpha{
     }
 
     @Override
-    public double getParameter(Component component, int index) {
+    public double getParameter(Compound component, int index) {
         return alphaBelowTc.getParameter(component, index);
     }
 
     @Override
-    public void setParameter(double value, Component component, int index) {
+    public void setParameter(double value, Compound component, int index) {
         alphaBelowTc.setParameter(value, component, index);
     }
     

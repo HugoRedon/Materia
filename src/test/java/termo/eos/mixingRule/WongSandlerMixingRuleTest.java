@@ -11,7 +11,7 @@ import termo.activityModel.NRTLActivityModel;
 import termo.activityModel.WilsonActivityModel;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.eos.EquationOfStateFactory;
 import termo.eos.alpha.Alpha;
@@ -27,13 +27,13 @@ import termo.matter.Substance;
  */
 public class WongSandlerMixingRuleTest {
     
-    Component ethane;
-    Component propane;
+    Compound ethane;
+    Compound propane;
     HashMap<Substance, Double> fractions;
     HuronVidalMixingRule instance;
     InteractionParameter k = new ActivityModelBinaryParameter();
     
-    HashSet<Component> components = new HashSet<>();
+    HashSet<Compound> components = new HashSet<>();
     Substance ci;
     
     Cubic eos;
@@ -41,7 +41,7 @@ public class WongSandlerMixingRuleTest {
     public WongSandlerMixingRuleTest() {
         
         // se debe analizar porque esta prueba falla, pero para poder mantener la libreria con las pruebas activas se comentaran
-	ethane = new Component("Ethane");
+	ethane = new Compound("Ethane");
 	
 	//ethane.setName();
 	ethane.setAcentricFactor(0.09781);
@@ -49,7 +49,7 @@ public class WongSandlerMixingRuleTest {
 	ethane.setCriticalPressure(48.1595*101325);
 	ethane.setK_StryjekAndVera(0.02669);
 	
-	propane = new Component("Propane");
+	propane = new Compound("Propane");
 	
 	 //propane.setName();
 	propane.setAcentricFactor(0.15416);

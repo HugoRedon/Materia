@@ -1,7 +1,7 @@
 package termo.matter;
 
 import java.util.ArrayList;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.data.ExperimentalData;
 import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
@@ -19,7 +19,7 @@ import termo.phase.Phase;
 public class HeterogeneousSubstance extends Heterogeneous{
 
     private Alpha alpha ;
-    private Component component;
+    private Compound component;
     public HeterogeneousSubstance(){
         
        
@@ -40,7 +40,7 @@ public class HeterogeneousSubstance extends Heterogeneous{
     public HeterogeneousSubstance(
 	    Cubic eos,
 	    Alpha alpha,
-	    Component component){
+	    Compound component){
         this();
 //	this.cubicEquationOfState = eos;
 //	this.alpha = alpha;
@@ -263,14 +263,14 @@ public class HeterogeneousSubstance extends Heterogeneous{
 //    /**
 //     * @return the component
 //     */
-//    public Component getComponent() {
+//    public Compound getComponent() {
 //	return component;
 //    }
 //
 //    /**
 //     * @param component the component to set
 //     */
-//    public void setComponent(Component component) {
+//    public void setComponent(Compound component) {
 //	this.component = component;
 //    }
     private VaporPressureErrorFunction errorFunction  ;
@@ -334,15 +334,15 @@ public class HeterogeneousSubstance extends Heterogeneous{
     /**
      * @return the component
      */
-    public Component getComponent() {
+    public Compound getComponent() {
         return component;
     }
 
     /**
      * @param component the component to set
      */
-    public void setComponent(Component component) {
-        Component oldComponent = this.component;
+    public void setComponent(Compound component) {
+        Compound oldComponent = this.component;
         this.component = component;
         mpcs.firePropertyChange("component",oldComponent,component);
     }

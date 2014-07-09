@@ -11,7 +11,7 @@ import java.util.HashSet;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import termo.binaryParameter.InteractionParameter;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.eos.EquationOfStateFactory;
 import termo.eos.alpha.Alpha;
@@ -25,29 +25,29 @@ import termo.phase.Phase;
  * @author Hugo
  */
 public class MultiComponentTest {
-    Component ethane;
-    Component propane;
-    Component nHeptane;
+    Compound ethane;
+    Compound propane;
+    Compound nHeptane;
     
     Mixture vdw ;
     
     public MultiComponentTest(){
         
-        ethane = new Component("ethane");
+        ethane = new Compound("ethane");
 	
 	ethane.setAcentricFactor(0.09781);
 	ethane.setCriticalTemperature(305.43);
 	ethane.setCriticalPressure(48.1595*101325);
 	ethane.setK_StryjekAndVera(0.02669);
 	
-	 propane = new Component("propane");
+	 propane = new Compound("propane");
 	
 	propane.setAcentricFactor(0.15416);
 	propane.setCriticalTemperature(369.82);
 	propane.setCriticalPressure(41.9396*101325);
 	propane.setK_StryjekAndVera(0.03136);
 	
-        nHeptane = new Component("n-heptane");
+        nHeptane = new Compound("n-heptane");
         
         nHeptane.setAcentricFactor(0.35);
         nHeptane.setCriticalTemperature(540.14);
@@ -65,7 +65,7 @@ public class MultiComponentTest {
         
         
         
-        HashSet<Component> components = new HashSet();
+        HashSet<Compound> components = new HashSet();
         components.add(ethane);
         components.add(propane);
         components.add(nHeptane);

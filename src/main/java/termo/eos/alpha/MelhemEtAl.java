@@ -1,6 +1,6 @@
 package termo.eos.alpha;
 
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -13,7 +13,7 @@ public class MelhemEtAl extends Alpha{
         setEquation("\\ln{\\alpha(T)} = A\\left( 1- T_r\\right) + B (1-\\sqrt{T_r})^2");
     }
     @Override
-    public double alpha(double temperature, Component component) {
+    public double alpha(double temperature, Compound component) {
         double A = component.getA_MelhemEtAl();
         double B = component.getB_MelhemEtAl();
         double tr = temperature / component.getCriticalTemperature();
@@ -23,7 +23,7 @@ public class MelhemEtAl extends Alpha{
     }
 
     @Override
-    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Component component) {
+    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Compound component) {
         double A = component.getA_MelhemEtAl();
         double B = component.getB_MelhemEtAl();
         double tr = temperature / component.getCriticalTemperature();
@@ -37,7 +37,7 @@ public class MelhemEtAl extends Alpha{
     }
 
     @Override
-    public double getParameter(Component component, int index) {
+    public double getParameter(Compound component, int index) {
         switch(index){
             case 0 : return component.getA_MelhemEtAl();
             case 1: return component.getB_MelhemEtAl();
@@ -46,7 +46,7 @@ public class MelhemEtAl extends Alpha{
     }
 
     @Override
-    public void setParameter(double value, Component component, int index) {
+    public void setParameter(double value, Compound component, int index) {
         switch(index){
             case 0 : component.setA_MelhemEtAl(value);
                 break;

@@ -11,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -24,7 +24,7 @@ public abstract class EqnVaporPressure {
     private Long id;
     
     @OneToOne
-    private Component component;
+    private Compound component;
     protected double A;
     protected double B;
     protected double C;
@@ -51,14 +51,14 @@ public abstract class EqnVaporPressure {
     /**
      * @return the component
      */
-    public Component getComponent() {
+    public Compound getComponent() {
         return component;
     }
 
     /**
      * @param component the component to set
      */
-    public void setComponent(Component component) {
+    public void setComponent(Compound component) {
         this.component = component;
     }
 

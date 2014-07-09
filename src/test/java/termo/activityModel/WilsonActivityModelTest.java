@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.eos.EquationOfStateFactory;
 import termo.eos.alpha.Alpha;
@@ -26,9 +26,9 @@ public class WilsonActivityModelTest {
     
 //      HeterogeneousMixture substance;
     Mixture substance;
-       HashSet<Component> components = new HashSet();
-       Component ethane ;
-       Component propane;
+       HashSet<Compound> components = new HashSet();
+       Compound ethane ;
+       Compound propane;
        
        Cubic eos;
        Alpha alpha;
@@ -36,7 +36,7 @@ public class WilsonActivityModelTest {
 	
 	
 	
-	ethane = new Component("ethane");
+	ethane = new Compound("ethane");
 	
 //	ethane.setName();
 	ethane.setAcentricFactor(0.09781);
@@ -44,7 +44,7 @@ public class WilsonActivityModelTest {
 	ethane.setCriticalPressure(48.1595*101325);
 	ethane.setK_StryjekAndVera(0.02669);
 	
-	propane = new Component("propane");
+	propane = new Compound("propane");
 	
 //	 propane.setName("Propane");
 	propane.setAcentricFactor(0.15416);

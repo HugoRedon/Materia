@@ -5,7 +5,7 @@
 package termo.equilibrium;
 
 import java.util.HashMap;
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -14,10 +14,10 @@ import termo.component.Component;
 public class FlashSolution {
     
     double vF;
-    private HashMap<Component,Double> liquidFractions;
-    private HashMap<Component,Double> vaporFractions;
+    private HashMap<Compound,Double> liquidFractions;
+    private HashMap<Compound,Double> vaporFractions;
     
-    public FlashSolution(double vF,HashMap<Component,Double> liquidFractions, HashMap<Component,Double> vaporFractions){
+    public FlashSolution(double vF,HashMap<Compound,Double> liquidFractions, HashMap<Compound,Double> vaporFractions){
         this.vF = vF;
         this.liquidFractions = liquidFractions;
         this.vaporFractions = vaporFractions;
@@ -29,28 +29,28 @@ public class FlashSolution {
     /**
      * @return the liquidFractions
      */
-    public HashMap<Component,Double> getLiquidFractions() {
+    public HashMap<Compound,Double> getLiquidFractions() {
         return liquidFractions;
     }
 
     /**
      * @param liquidFractions the liquidFractions to set
      */
-    public void setLiquidFractions(HashMap<Component,Double> liquidFractions) {
+    public void setLiquidFractions(HashMap<Compound,Double> liquidFractions) {
         this.liquidFractions = liquidFractions;
     }
 
     /**
      * @return the vaporFractions
      */
-    public HashMap<Component,Double> getVaporFractions() {
+    public HashMap<Compound,Double> getVaporFractions() {
         return vaporFractions;
     }
 
     /**
      * @param vaporFractions the vaporFractions to set
      */
-    public void setVaporFractions(HashMap<Component,Double> vaporFractions) {
+    public void setVaporFractions(HashMap<Compound,Double> vaporFractions) {
         this.vaporFractions = vaporFractions;
     }
     

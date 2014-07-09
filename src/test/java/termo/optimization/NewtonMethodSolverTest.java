@@ -5,7 +5,7 @@ import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import org.junit.Test;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.cp.DIPPR_107_Equation;
 import termo.data.ExperimentalData;
 import termo.eos.Cubic;
@@ -20,7 +20,7 @@ import termo.optimization.errorfunctions.VaporPressureErrorFunction;
  * @author Hugo
  */
 public class NewtonMethodSolverTest {
-    Component component = new Component("Acetaldehído");
+    Compound component = new Compound("Acetaldehído");
     
      private ArrayList<ExperimentalData> list;
      
@@ -121,7 +121,7 @@ public class NewtonMethodSolverTest {
      @Test
     public void testPRSV(){
         System.out.println("testPRSV");
-        Component ethanol = new Component("ethanol");
+        Compound ethanol = new Compound("ethanol");
         //ethanol.setName("ethanol");
         ethanol.setAcentricFactor(0.64439);
         ethanol.setCriticalTemperature(513.92);
@@ -159,7 +159,7 @@ public class NewtonMethodSolverTest {
         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
         Alpha alpha = AlphaFactory.getAndroulakisEtAl();
         
-        Component ethanol = new Component("etanol");
+        Compound ethanol = new Compound("etanol");
        // ethanol.setName("Etanol");
         ethanol.setCriticalTemperature(514);
         ethanol.setCriticalPressure(6.13700E+06);
@@ -392,7 +392,7 @@ public class NewtonMethodSolverTest {
         Alpha alpha = AlphaFactory.getAndroulakisEtAl();
         
         
-        Component ethanol = new Component("etanol");
+        Compound ethanol = new Compound("etanol");
        // ethanol.setName("Etanol");
         ethanol.setCriticalTemperature(514);
         ethanol.setCriticalPressure(6.13700E+06);
@@ -482,7 +482,7 @@ public class NewtonMethodSolverTest {
         Alpha alpha = AlphaFactory.getAndroulakisEtAl();
         
         
-        Component ethanol = new Component("etanol");
+        Compound ethanol = new Compound("etanol");
        // ethanol.setName("Etanol");
         ethanol.setCriticalTemperature(514);
         ethanol.setCriticalPressure(6.13700E+06);

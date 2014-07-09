@@ -5,7 +5,7 @@ import java.util.HashSet;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import termo.binaryParameter.InteractionParameter;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.eos.EquationOfStateFactory;
 import termo.eos.alpha.Alpha;
@@ -23,12 +23,12 @@ public class VDWMixingRuleTest {
     Mixture mixture ; 
     HashMap<Substance, Double> fractions;
     InteractionParameter b;
-    Component ethane;
+    Compound ethane;
     public VDWMixingRuleTest() {
 	
 	
 	
-	ethane = new Component("ethane");
+	ethane = new Compound("ethane");
 	
 	//ethane.setName();
 	ethane.setAcentricFactor(0.09781);
@@ -44,7 +44,7 @@ public class VDWMixingRuleTest {
 	ethanePure.setAlpha(alpha);
 	ethanePure.setComponent(ethane);
 	
-	Component propane = new Component("propane");
+	Compound propane = new Compound("propane");
 	//propane.setName();
 	propane.setAcentricFactor(0.15416);
 	propane.setCriticalTemperature(369.82);
@@ -60,7 +60,7 @@ public class VDWMixingRuleTest {
 	
 	//fractions = new HashMap();
 	
-	HashSet<Component> components = new HashSet();
+	HashSet<Compound> components = new HashSet();
 	components.add(ethane);
 	components.add(propane);
 	

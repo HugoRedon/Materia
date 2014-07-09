@@ -2,7 +2,7 @@
 
 package termo.eos.alpha.commonaAlphaEquationsImplementation;
 
-import termo.component.Component;
+import termo.component.Compound;
 import termo.eos.alpha.AlphaNames;
 import termo.eos.alpha.CommonAlphaEquation;
 
@@ -39,7 +39,7 @@ public class StryjekAndVera extends CommonAlphaEquation {
     
     
     @Override
-    public void setParameter(double value, Component component, int index){
+    public void setParameter(double value, Compound component, int index){
         if(index ==0){
             component.setK_StryjekAndVera(value);
         }
@@ -48,7 +48,7 @@ public class StryjekAndVera extends CommonAlphaEquation {
     
     
     @Override
-    public double getParameter(Component component, int index){
+    public double getParameter(Compound component, int index){
         if(index ==0){
             return component.getK_StryjekAndVera();
         }else{
@@ -59,7 +59,7 @@ public class StryjekAndVera extends CommonAlphaEquation {
     
 //    
 //    @Override
-//    public double getAlphaParameterA(Component component) {
+//    public double getAlphaParameterA(Compound component) {
 //	return component.getK_StryjekAndVera();
 //    }
 //
@@ -69,12 +69,12 @@ public class StryjekAndVera extends CommonAlphaEquation {
     }
 //
 //    @Override
-//    public void setAlphaParameterA(double paramValue, Component component) {
+//    public void setAlphaParameterA(double paramValue, Compound component) {
 //        component.setK_StryjekAndVera(paramValue);
 //    }
 //
 ////    @Override
-////    public double getAlphaParameterA(Component component) {
+////    public double getAlphaParameterA(Compound component) {
 ////        return component.getK_StryjekAndVera();
 ////    }
 //    
@@ -82,22 +82,22 @@ public class StryjekAndVera extends CommonAlphaEquation {
 //    
 //
 //    @Override
-//    public void setAlphaParameterB(double paramValue, Component component) {
+//    public void setAlphaParameterB(double paramValue, Compound component) {
 //        
 //    }
 //
 //    @Override
-//    public double getAlphaParameterB(Component component) {
+//    public double getAlphaParameterB(Compound component) {
 //        return 0;
 //    }
 //
 //    @Override
-//    public void setAlphaParameterC(double paramValue, Component component) {
+//    public void setAlphaParameterC(double paramValue, Compound component) {
 //        
 //    }
 //
 //    @Override
-//    public double getAlphaParameterC(Component component) {
+//    public double getAlphaParameterC(Compound component) {
 //        return 0;
 //    }
     }

@@ -1,6 +1,6 @@
 package termo.componentsForTests;
 
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -8,8 +8,8 @@ import termo.component.Component;
  */
 public class ComponentsForTests {
 
-    public static Component getMethanol (){
-        Component methanol = new Component("Methanol");
+    public static Compound getMethanol (){
+        Compound methanol = new Compound("Methanol");
 //        methanol.setName();
         methanol.setCasNumber("67-56-1");
         
@@ -23,8 +23,8 @@ public class ComponentsForTests {
         
         return methanol;
     }
-    public static Component getWater(){
-        Component water = new Component("Water");
+    public static Compound getWater(){
+        Compound water = new Compound("Water");
        // water.setName("Water");
         water.setCasNumber("7732-18-5");
         

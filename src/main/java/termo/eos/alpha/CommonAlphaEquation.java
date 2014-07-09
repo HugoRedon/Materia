@@ -1,7 +1,7 @@
 package termo.eos.alpha;
 
 import java.io.Serializable;
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -27,7 +27,7 @@ public abstract class CommonAlphaEquation extends Alpha implements Serializable{
     
    
     @Override
-    public  double alpha(double temperature, Component component){
+    public  double alpha(double temperature, Compound component){
 	double q = getParameter(component,0);
 	double omega = component.getAcentricFactor();
 	double reducedTemperature = temperature  / component.getCriticalTemperature();
@@ -47,7 +47,7 @@ public abstract class CommonAlphaEquation extends Alpha implements Serializable{
     }
 
     @Override
-    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Component component){
+    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Compound component){
 	double tr = temperature /component.getCriticalTemperature();    
 	double omega = component.getAcentricFactor();
 	double q = getParameter(component,0); 

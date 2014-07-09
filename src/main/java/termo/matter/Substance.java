@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Objects;
 import termo.Constants;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
 import termo.phase.Phase;
@@ -15,7 +15,7 @@ import termo.phase.Phase;
  * @author Hugo Redon Rivera
  */
 public class Substance extends Homogeneous {
-    private Component component;
+    private Compound component;
     private Alpha alpha;
     private Double molarFraction;
     
@@ -23,12 +23,12 @@ public class Substance extends Homogeneous {
 	
     }
 
-//    public Substance(Cubic eos,Alpha alpha,Component component){
+//    public Substance(Cubic eos,Alpha alpha,Compound component){
 //	super(eos);
 //	this.alpha = alpha;
 //	this.component = component;
 //    }
-//    private Substance(Alpha alpha , Component component){
+//    private Substance(Alpha alpha , Compound component){
 //	this.alpha = alpha;
 //	this.component = component;
 //    }
@@ -40,14 +40,14 @@ public class Substance extends Homogeneous {
                 this.alpha = (Alpha)evt.getNewValue();
                 break;
             case "component":
-                this.component =(Component)evt.getNewValue();
+                this.component =(Compound)evt.getNewValue();
                 break;
         }
     }
     
     
     
-    public Substance(Cubic eos,Alpha alpha,Component component,Phase phase ){
+    public Substance(Cubic eos,Alpha alpha,Compound component,Phase phase ){
 	super(eos,phase);
 	
 	this.alpha = alpha;
@@ -90,7 +90,7 @@ public class Substance extends Homogeneous {
 	
     }
 //    @Override
-//    public double calculateFugacity(Component component) {
+//    public double calculateFugacity(Compound component) {
 //	
 //    }
     
@@ -167,14 +167,14 @@ public class Substance extends Homogeneous {
     /**
      * @return the component
      */
-    public Component getComponent() {
+    public Compound getComponent() {
         return component;
     }
 
     /**
      * @param component the component to set
      */
-    public void setComponent(Component component) {
+    public void setComponent(Compound component) {
         this.component = component;
     }
 

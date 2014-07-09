@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
 import termo.eos.mixingRule.MixingRule;
@@ -27,7 +27,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     private InteractionParameter interactionParameters = new ActivityModelBinaryParameter();
     
      private final HashMap<String,Double> zFractions = new HashMap(); 
-     private HashSet<Component> components = new HashSet();
+     private HashSet<Compound> components = new HashSet();
      
      private TemperatureErrorFunction errorFunction;
     // private NewtonMethodSolver optimizer;
@@ -54,7 +54,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
         String name =evt.getPropertyName();
         switch(name){
             case "components":
-                setComponents((HashSet<Component> )evt.getNewValue());
+                setComponents((HashSet<Compound> )evt.getNewValue());
                 break;
 //            case "zFractions":
 //                zFractions = (HashMap<String,Double>)evt.getNewValue();
@@ -76,7 +76,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	    Cubic eos,
 	    Alpha alpha,
 	    MixingRule mixingrule, 
-	    HashSet<Component> components, InteractionParameter k){
+	    HashSet<Compound> components, InteractionParameter k){
         this();
         setEquationOfState(eos);
         setAlpha(alpha);
@@ -126,7 +126,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     
     public int bubbleTemperature(double estimate) {
 
-	 HashMap<Component,Double> K;
+	 HashMap<Compound,Double> K;
 	double e = 100;
 	double deltaT = 1;
 
@@ -143,7 +143,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	    e = Math.log(sy);
 	    double T_ = temp + deltaT;
 	    setTemperature(T_);
-	    HashMap<Component, Double> k_ = equilibriumRelations();
+	    HashMap<Compound, Double> k_ = equilibriumRelations();
 	    double Sy_ = calculateSy(k_);
 	    double e_ = Math.log(Sy_);
 	    temp = temp * T_ * (e_ - e) / (T_ * e_ - temp * e);
@@ -239,13 +239,13 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     @Override
     public int dewTemperature() {
 	
-        HashMap<Component,Double> K;
+        HashMap<Compound,Double> K;
 	
         double sx;
         double e = 100;
         double deltaT = 1;
         double T_;
-        HashMap<Component,Double> k_;
+        HashMap<Compound,Double> k_;
         double sx_;
         double e_;
         
@@ -314,11 +314,11 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	double vF = flashEstimate(temperature, pressure);
 	
 	double tolerance  = 1e-4;
-            HashMap<Component,Double> K;
+            HashMap<Compound,Double> K;
             double error=100;
-            HashMap<Component,Double> x_;
+            HashMap<Compound,Double> x_;
 
-            HashMap<Component,Double> y_;
+            HashMap<Compound,Double> y_;
             while(error >= tolerance){
 		setTemperature(temperature);
                 K = equilibriumRelations();
@@ -390,10 +390,10 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	flashEstimateLiquidFractions(temperature, pressure);
 	
 	double tolerance  = 1e-4;
-            HashMap<Component,Double> K;           
-            HashMap<Component,Double> x_;
+            HashMap<Compound,Double> K;           
+            HashMap<Compound,Double> x_;
 
-            HashMap<Component,Double> y_;
+            HashMap<Compound,Double> y_;
            
 	    K = flashEstimateEquilibriumRelations(temperature, pressure);
 	   // error = calculateError(pressure, temperature);
@@ -429,8 +429,8 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	}
      }
      
-     public HashMap<Component,Double> flashEstimateEquilibriumRelations(double temperature, double pressure){
-	 HashMap<Component,Double> k = new HashMap();
+     public HashMap<Compound,Double> flashEstimateEquilibriumRelations(double temperature, double pressure){
+	 HashMap<Compound,Double> k = new HashMap();
 	setTemperature(temperature);
 	
 	for(Substance pure: getLiquid().getPureSubstances()){
@@ -446,20 +446,20 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     
     
     
-    private double sumS(HashMap<Component,Double> x_){
+    private double sumS(HashMap<Compound,Double> x_){
 	double s =0;
-        for(Component component: components){
+        for(Compound component: components){
             s += x_.get(component);
         }
 	return s;
     }
     
        
-    private  HashMap<Component,Double> y_(HashMap<Component,Double> x_,
-            HashMap<Component,Double> k){
-        HashMap<Component,Double> y_ = new HashMap<>();
+    private  HashMap<Compound,Double> y_(HashMap<Compound,Double> x_,
+            HashMap<Compound,Double> k){
+        HashMap<Compound,Double> y_ = new HashMap<>();
         
-        for(Component component: components){
+        for(Compound component: components){
             double ki = k.get(component);
             double x_i = x_.get(component);
             y_.put(component, x_i * ki);
@@ -467,11 +467,11 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
         return y_;
     }
     
-    private  HashMap<Component,Double> newFractions(HashMap<Component,Double> x_){
-        HashMap<Component,Double> x = new HashMap<>();
+    private  HashMap<Compound,Double> newFractions(HashMap<Compound,Double> x_){
+        HashMap<Compound,Double> x = new HashMap<>();
         double s = sumS(x_);
         
-        for(Component component: components){
+        for(Compound component: components){
             
             double x_i = x_.get(component);
             x.put(component, x_i /s);
@@ -480,15 +480,15 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
         return x;
     }
     
-    private HashMap<Component,Double> x_(
+    private HashMap<Compound,Double> x_(
             
-            HashMap<Component,Double> k,
+            HashMap<Compound,Double> k,
             double vF
             ){
         
-        HashMap<Component,Double> x_ = new HashMap<>();
+        HashMap<Compound,Double> x_ = new HashMap<>();
         
-        for(Component component : components){
+        for(Compound component : components){
             double zi = getzFractions().get(component.getName());
             double ki = k.get(component);
             
@@ -509,7 +509,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	double result=0;
 	setTemperature(temperature);
 	setPressure(pressure);
-	for(Component component: getComponents()){
+	for(Compound component: getComponents()){
 	    double xi = getLiquid().getReadOnlyFractions().get(component);
 	    double yi = getVapor().getReadOnlyFractions().get(component);
 	    double liquidFug = getLiquid().calculateFugacity(component);
@@ -519,7 +519,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	return result;
     }
     
-    private  double rachfordRice(HashMap<Component,Double> k, 	 
+    private  double rachfordRice(HashMap<Compound,Double> k, 	 
 	 double vF,
 	 double tolerance
 	 ){
@@ -536,10 +536,10 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     
     
     
-      private  double s(HashMap<Component,Double> k,double vF){
+      private  double s(HashMap<Compound,Double> k,double vF){
         
         double result =0;
-        for(Component component :components){
+        for(Compound component :components){
             
             double zi = getzFractions().get(component.getName());
             double ki = k.get(component);
@@ -549,12 +549,12 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
         
         return result;
     }
-    private double s_(HashMap<Component,Double> k,
+    private double s_(HashMap<Compound,Double> k,
               
             double vF
             ){
         double result =0;
-        for(Component component : components){
+        for(Compound component : components){
             double zi = getzFractions().get(component.getName());
             double ki = k.get(component);
             result += (- zi * Math.pow(ki - 1,2))/(Math.pow(1 + vF * (ki-1),2));
@@ -570,7 +570,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     
     
     
-   public void setZFraction(Component component, double d) {
+   public void setZFraction(Compound component, double d) {
 	getzFractions().put(component.getName(), d);
 	getLiquid().setFraction(component, d);
 	getVapor().setFraction(component, d);
@@ -591,7 +591,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	setTemperature(temperature);
 	 for (Substance pureSubstance : getVapor().getPureSubstances()){
              double acentricFactorVaporPressure=pureSubstance.calculatetAcentricFactorBasedVaporPressure();
-             Component componentObject = pureSubstance.getComponent();
+             Compound componentObject = pureSubstance.getComponent();
              String componentName = componentObject.getName();
             // System.out.println("componentName" + componentName);
              HashMap<String,Double> zFractionss =getzFractions();
@@ -605,10 +605,10 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
   
 
      public  void calculateNewYFractions(
-	     HashMap<Component,Double> equilibriumRelations, 
+	     HashMap<Compound,Double> equilibriumRelations, 
 	     double s){
          
-        for (Component aComponent: components){
+        for (Compound aComponent: components){
             double ki = equilibriumRelations.get(aComponent);
             double x = getLiquid().getReadOnlyFractions().get(aComponent);
             getVapor().setFraction(aComponent, ki * x / s);
@@ -620,7 +620,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     
       
       private int minimizePressure(MixtureEquilibriaFunction function,double temperature,Phase aPhase){
-	  HashMap<Component,Double> K;
+	  HashMap<Compound,Double> K;
 	double deltaP = 0.0001;
 	double e = 100;
 	double tolerance = 1e-5;
@@ -645,7 +645,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
       //return pressure;//new MixtureEquilibriaPhaseSolution(temperature,pressure,null,liquidFractions  , count);
       }
       
-      private void updateFractions(HashMap<Component , Double> K, Phase aPhase){
+      private void updateFractions(HashMap<Compound , Double> K, Phase aPhase){
 	  if(aPhase.equals(Phase.LIQUID)){
 	    double sx = calculateSx(K);
 	    calculateNewXFractions(K, sx);
@@ -656,10 +656,10 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	  
       }
     private void calculateNewXFractions(
-	    HashMap<Component,Double> equilibriumRelations, 
+	    HashMap<Compound,Double> equilibriumRelations, 
 	    double s){
-         HashMap<Component,Double> newFractions = new  HashMap<>();
-        for (Component aComponent: components){
+         HashMap<Compound,Double> newFractions = new  HashMap<>();
+        for (Compound aComponent: components){
             double ki = equilibriumRelations.get(aComponent);
             double y = getVapor().getReadOnlyFractions().get(aComponent);
             getLiquid().setFraction(aComponent,   y / (ki*s));
@@ -669,22 +669,22 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     /**
      * @return the components
      */
-    public HashSet<Component> getComponents() {
+    public HashSet<Compound> getComponents() {
 	return components;
     }
 
     /**
      * @param components the components to set
      */
-    public void setComponents(HashSet<Component> components) {
-        HashSet<Component> oldComponents = this.components;
+    public void setComponents(HashSet<Compound> components) {
+        HashSet<Compound> oldComponents = this.components;
 	this.components = components;
         mpcs.firePropertyChange("components", oldComponents, components);
     }
     
-    public void removeComponent(Component component){
+    public void removeComponent(Compound component){
         if(components.contains(component)){
-            HashSet<Component> oldComponents =(HashSet<Component>) components.clone();
+            HashSet<Compound> oldComponents =(HashSet<Compound>) components.clone();
             components.remove(component);
             mpcs.firePropertyChange("components", oldComponents, components);
         }else{
@@ -692,11 +692,11 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
         }
     }
     
-    public void addComponent(Component component){
+    public void addComponent(Compound component){
         if(components.contains(component)){
             System.out.println("Warning---: el componente ya estaba en la lista");
         }else{
-            HashSet<Component> oldComponents = (HashSet<Component>) components.clone();
+            HashSet<Compound> oldComponents = (HashSet<Compound>) components.clone();
             components.add(component);
             mpcs.firePropertyChange("components", oldComponents, components);
         }
@@ -832,13 +832,13 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
       
  
       interface MixtureEquilibriaFunction{
-	  public double errorFunction(HashMap<Component,Double > equilibriumRelations);
+	  public double errorFunction(HashMap<Compound,Double > equilibriumRelations);
 	  public double newPressureFunction(double pressure, double pressure_, double e, double e_);
       }
       
     class DewPressureFunctions implements MixtureEquilibriaFunction{
 	@Override
-        public double errorFunction(HashMap<Component,Double> equilibriumRelations ){
+        public double errorFunction(HashMap<Compound,Double> equilibriumRelations ){
 	    double sx = calculateSx(equilibriumRelations);
 	    return sx -1;
 	}
@@ -850,7 +850,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     
      class BubblePressureFunctions implements MixtureEquilibriaFunction{
 	@Override
-	public double errorFunction(HashMap<Component,Double> equlibriumRelations){
+	public double errorFunction(HashMap<Compound,Double> equlibriumRelations){
 	double sy = calculateSy(equlibriumRelations);//, liquidFractions, components);
 	return sy -1;
     }
@@ -864,7 +864,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     
    
     private void copyZfractionsToliquid(){
-	for (Component component:getComponents()){
+	for (Compound component:getComponents()){
             //System.out.println("component: " + component);
             double zFraction = getzFractions().get(component.getName());
             //System.out.println("copyzfractions to liquid " + component.getName()+": "+ zFraction);
@@ -894,14 +894,14 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     }
 
     private void copyZfractionsToVapor(){
-	for (Component component:getComponents()){
+	for (Compound component:getComponents()){
 	    getVapor().setFraction(component, getzFractions().get(component.getName()));
 	}
     }
     
     
     
-//  public Double equilibriumRelation(Component component, double temperature, double pressure) {
+//  public Double equilibriumRelation(Compound component, double temperature, double pressure) {
 //	
 //    }
 //  
@@ -911,26 +911,26 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 //           double vaporFug = getVapor().calculateFugacity(pure, temperature, pressure);     
 //           return liquidFug/ vaporFug;
 //    }
-    public Double equilibriumRelation(Component component){
+    public Double equilibriumRelation(Compound component){
 	double liquidFug = getLiquid().calculateFugacity(component);
 	double vaporFug = getVapor().calculateFugacity(component);
 	return liquidFug/vaporFug;
     }
     
 
-    public  HashMap<Component,Double> equilibriumRelations ( ){
-         HashMap<Component,Double> equilibriumRelations  = new HashMap<>();
+    public  HashMap<Compound,Double> equilibriumRelations ( ){
+         HashMap<Compound,Double> equilibriumRelations  = new HashMap<>();
          
-         for (Component aComponent : components){
+         for (Compound aComponent : components){
 	    double equilRel = equilibriumRelation(aComponent);
            equilibriumRelations.put(aComponent, equilRel);
          }
          return equilibriumRelations;
     }
-    public  double calculateSx(HashMap<Component,Double> equilibriumRelations){
+    public  double calculateSx(HashMap<Compound,Double> equilibriumRelations){
         
          double s = 0;
-        for (Component aComponent : components){
+        for (Compound aComponent : components){
               double equilRel = equilibriumRelations.get(aComponent);
            s +=  getVapor().getReadOnlyFractions().get(aComponent)/equilRel;
             
@@ -939,10 +939,10 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
         return s;
     }
     
-    public double calculateSy(HashMap<Component,Double> equilibriumRelations){
+    public double calculateSy(HashMap<Compound,Double> equilibriumRelations){
         
          double s = 0;
-        for (Component aComponent : components){
+        for (Compound aComponent : components){
               double equilRel = equilibriumRelations.get(aComponent);
            s += equilRel * getLiquid().getReadOnlyFractions().get(aComponent);
         }

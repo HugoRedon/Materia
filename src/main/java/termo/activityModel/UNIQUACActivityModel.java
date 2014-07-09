@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -28,9 +28,9 @@ public class UNIQUACActivityModel {
 
     
     public double activityCoefficient(
-            ArrayList<Component> components,
-            Component ci, 
-            HashMap<Component, Double> fractions, 
+            ArrayList<Compound> components,
+            Compound ci, 
+            HashMap<Compound, Double> fractions, 
             ActivityModelBinaryParameter k, 
             double temperature) {
         
@@ -56,7 +56,7 @@ public class UNIQUACActivityModel {
         double sum =0;
         
         
-        for(Component cj: components){
+        for(Compound cj: components){
             xj = fractions.get(cj);
             lj = l(cj);
             thetaj = theta(cj, fractions, components);
@@ -68,7 +68,7 @@ public class UNIQUACActivityModel {
             
             
             sum =0;
-            for(Component ck : components){
+            for(Compound ck : components){
                 thethak =theta(ck, fractions, components);
                 taukj = tau(ck, cj, k, temperature);
                 
@@ -84,18 +84,18 @@ public class UNIQUACActivityModel {
         return Math.exp(log);
     }
 
-    public double l(Component ci){
+    public double l(Compound ci){
         double r = ci.getR_UNIQUAC();
         double q = ci.getQ_UNIQUAC();
         return (this.z / 2) * (r - q ) - (r - 1);
     }
     
-    private double phi(Component ci, HashMap<Component, Double> fractions, ArrayList<Component> components) {
+    private double phi(Compound ci, HashMap<Compound, Double> fractions, ArrayList<Compound> components) {
         double ri = ci.getR_UNIQUAC();
         double xi = fractions.get(ci);
         
         double denominator = 0;
-        for (Component cj : components){
+        for (Compound cj : components){
             double rj = cj.getR_UNIQUAC();
             double xj = fractions.get(cj);
              denominator += rj * xj;
@@ -104,11 +104,11 @@ public class UNIQUACActivityModel {
         return ri * xi / denominator;
     }
 
-    private double combinatorialExcessGibbsEnergy(ArrayList<Component> components, HashMap<Component, Double> fractions) {
+    private double combinatorialExcessGibbsEnergy(ArrayList<Compound> components, HashMap<Compound, Double> fractions) {
         
         double firstTerm = 0;
         double secondTerm = 0;
-          for (Component ci : components){
+          for (Compound ci : components){
             double xi = fractions.get(ci);
             double phi = phi(ci, fractions,components);
             
@@ -121,13 +121,13 @@ public class UNIQUACActivityModel {
         return firstTerm + secondTerm;
     }
 
-    private double theta(Component ci, HashMap<Component, Double> fractions, ArrayList<Component> components) {
+    private double theta(Compound ci, HashMap<Compound, Double> fractions, ArrayList<Compound> components) {
         double qi = ci.getQ_UNIQUAC();
         double xi = fractions.get(ci);
         
         double denominator = 0;
         
-        for ( Component cj : components){
+        for ( Compound cj : components){
             double qj =cj.getQ_UNIQUAC();
             double xj = fractions.get(cj);
             
@@ -155,17 +155,17 @@ public class UNIQUACActivityModel {
 
     public double residualExcessGibbsEnergyOverRT(
             double temperature, 
-            ArrayList<Component> components, 
-            HashMap<Component, Double> fractions, 
+            ArrayList<Compound> components, 
+            HashMap<Compound, Double> fractions, 
             ActivityModelBinaryParameter k) {
        double excess = 0;
         
-        for (Component ci : components){
+        for (Compound ci : components){
             double qi = ci.getQ_UNIQUAC();
             double xi = fractions.get(ci);
             
             double insideLog = 0;
-            for ( Component cj: components){
+            for ( Compound cj: components){
                 double thetaResidual =theta(cj, fractions, components);
                 double tau = tau(cj,ci,k,temperature);
                 
@@ -176,12 +176,12 @@ public class UNIQUACActivityModel {
         return excess;
     }
 
-//    private double thetaResidual(Component ci,ArrayList<Component> components, HashMap<Component, Double> fractions) {
+//    private double thetaResidual(Compound ci,ArrayList<Component> components, HashMap<Component, Double> fractions) {
 //        double qqi = ci.getQq_UNIQUAC();
 //        double xi = fractions.get(ci);
 //        
 //        double denominator = 0;
-//        for(Component cj: components){
+//        for(Compound cj: components){
 //            double qqj = cj.getQq_UNIQUAC();
 //            double xj = fractions.get(cj);
 //            
@@ -191,11 +191,11 @@ public class UNIQUACActivityModel {
 //        return qqi * xi / denominator;
 //    }
 
-    private double tau(Component cj,Component ci,ActivityModelBinaryParameter deltaU, double temperature) {
+    private double tau(Compound cj,Compound ci,ActivityModelBinaryParameter deltaU, double temperature) {
         double u = u(cj, ci, deltaU, temperature);
         return Math.exp(- u);
     }
-    public double u(Component cj,Component ci,ActivityModelBinaryParameter param,double temperature){
+    public double u(Compound cj,Compound ci,ActivityModelBinaryParameter param,double temperature){
         double aji = param.getA().getValue(cj, ci);
         double bji = param.getB().getValue(cj, ci);
         
@@ -205,8 +205,8 @@ public class UNIQUACActivityModel {
 
     
     public double parcialExcessGibbsRespectTemperature(
-            ArrayList<Component> components, 
-            HashMap<Component, Double> fractions, 
+            ArrayList<Compound> components, 
+            HashMap<Compound, Double> fractions, 
             ActivityModelBinaryParameter k,
             double temperature) {
         double combinatorial = Constants.R * combinatorialExcessGibbsEnergy(components, fractions);
@@ -225,14 +225,14 @@ public class UNIQUACActivityModel {
         double xi =0;
         double uji = 0;
         
-        for(Component ci: components){
+        for(Compound ci: components){
             t0 =0;
             b1 =0;
             u1 =0;
             
             qi = ci.getQ_UNIQUAC();
             xi = fractions.get(ci);
-            for(Component cj : components){
+            for(Compound cj : components){
                 
                 theta = theta(cj,  fractions,components);
                 tau = tau(cj, ci, k, temperature);
@@ -252,7 +252,7 @@ public class UNIQUACActivityModel {
     }
 
    
-    public double excessGibbsEnergy(HashMap<Component, Double> fractions, ActivityModelBinaryParameter k, double temperature) {
+    public double excessGibbsEnergy(HashMap<Compound, Double> fractions, ActivityModelBinaryParameter k, double temperature) {
 	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

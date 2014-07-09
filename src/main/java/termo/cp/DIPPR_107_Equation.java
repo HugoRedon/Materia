@@ -3,7 +3,7 @@ package termo.cp;
 import java.io.Serializable;
 import java.util.Objects;
 import termo.Constants;
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -18,7 +18,7 @@ public class DIPPR_107_Equation implements CpEquation,Serializable{
     private double D;
     private double E;
 
-    public DIPPR_107_Equation(Component component) {
+    public DIPPR_107_Equation(Compound component) {
 	this.A = component.getA_dippr107Cp();
 	this.B = component.getB_dippr107Cp();
 	this.C = component.getC_dippr107Cp();

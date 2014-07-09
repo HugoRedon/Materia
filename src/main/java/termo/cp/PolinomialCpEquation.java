@@ -5,7 +5,7 @@
 package termo.cp;
 
 import termo.Constants;
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -19,7 +19,7 @@ public class PolinomialCpEquation implements CpEquation {
     private double D;
     private double E;
     private double F;
-    public PolinomialCpEquation(Component component){
+    public PolinomialCpEquation(Compound component){
 	A = component.getA_PolinomialCp();
 	B = component.getB_PolinomialCp();
 	C = component.getC_PolinomialCp();

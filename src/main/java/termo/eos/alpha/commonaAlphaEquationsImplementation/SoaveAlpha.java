@@ -6,7 +6,7 @@
 
 package termo.eos.alpha.commonaAlphaEquationsImplementation;
 
-import termo.component.Component;
+import termo.component.Compound;
 import termo.eos.alpha.AlphaNames;
 import termo.eos.alpha.CommonAlphaEquation;
 
@@ -36,12 +36,12 @@ public class SoaveAlpha extends CommonAlphaEquation{
     }
 
     @Override
-    public double getParameter(Component component, int index) {
+    public double getParameter(Compound component, int index) {
         return 0;
     }
 
     @Override
-    public void setParameter(double value, Component component, int index) {
+    public void setParameter(double value, Compound component, int index) {
        //no tiene parametros 
     }
     

@@ -9,7 +9,7 @@ import termo.Constants;
 import termo.activityModel.ActivityModel;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
 import termo.phase.Phase;
@@ -65,12 +65,12 @@ public class HuronVidalMixingRule extends ExcessGibbsMixingRule{
     }
 
     @Override
-    public double getParameter(Component referenceComponent, Component nonReferenceComponent, InteractionParameter params, int index) {
+    public double getParameter(Compound referenceComponent, Compound nonReferenceComponent, InteractionParameter params, int index) {
         return activityModel.getParameter(referenceComponent, nonReferenceComponent, (ActivityModelBinaryParameter)params, index);
     }
 
     @Override
-    public void setParameter(double value, Component referenceComponent, Component nonReferenceComponent, InteractionParameter params, int index) {
+    public void setParameter(double value, Compound referenceComponent, Compound nonReferenceComponent, InteractionParameter params, int index) {
         activityModel.setParameter(value, referenceComponent, nonReferenceComponent, (ActivityModelBinaryParameter)params, index);
     }
 

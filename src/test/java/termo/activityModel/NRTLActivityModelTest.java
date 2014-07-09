@@ -9,7 +9,7 @@ import java.util.HashSet;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import termo.binaryParameter.ActivityModelBinaryParameter;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.eos.EquationOfStateFactory;
 import termo.eos.alpha.Alpha;
@@ -24,10 +24,10 @@ import termo.matter.Substance;
  * Hugo
  */
 public class NRTLActivityModelTest {
-	Component ethane ;
-	Component propane;
+	Compound ethane ;
+	Compound propane;
 	HashMap<Substance,Double> fractions =new HashMap();
-	HashSet<Component> components = new HashSet();
+	HashSet<Compound> components = new HashSet();
 	Cubic eos;
 	Alpha alpha;
 	
@@ -35,7 +35,7 @@ public class NRTLActivityModelTest {
 	
 	Mixture mixture ;
     public NRTLActivityModelTest() {
-	ethane = new Component("Ethane");
+	ethane = new Compound("Ethane");
 	
 	//ethane.setName();
 	ethane.setAcentricFactor(0.09781);
@@ -43,7 +43,7 @@ public class NRTLActivityModelTest {
 	ethane.setCriticalPressure(48.1595*101325);
 	ethane.setK_StryjekAndVera(0.02669);
 	
-	propane = new Component("Propane");
+	propane = new Compound("Propane");
 	
 	 //propane.setName();
 	propane.setAcentricFactor(0.15416);

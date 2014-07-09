@@ -8,7 +8,7 @@ package termo.equations;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *

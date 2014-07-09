@@ -1,7 +1,7 @@
 package termo.eos.mixingRule;
 
 import termo.binaryParameter.InteractionParameter;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.matter.Mixture;
 import termo.matter.Substance;
 
@@ -85,8 +85,8 @@ public class VDWMixingRule extends MixingRule{
     }
 
     @Override
-    public double getParameter(Component referenceComponent, 
-            Component nonReferenceComponent,
+    public double getParameter(Compound referenceComponent, 
+            Compound nonReferenceComponent,
             InteractionParameter params,
             int index) {
             if(index ==0){
@@ -97,7 +97,7 @@ public class VDWMixingRule extends MixingRule{
     }
 
     @Override
-    public void setParameter(double value, Component referenceComponent, Component nonReferenceComponent, 
+    public void setParameter(double value, Compound referenceComponent, Compound nonReferenceComponent, 
             InteractionParameter params,
             int index) {
         if(index ==0){

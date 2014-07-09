@@ -74,7 +74,7 @@ public class ComponentDeleted {
 //     * @param criticalTemperature K
 //     * @param criticalVolume L/mol
 //     */
-//    public Component(int id, String name,
+//    public Compound(int id, String name,
 //            double acentricFactor, 
 //            double criticalPressure, double criticalTemperature,double criticalVolume){
 //      this.acentricFactor = acentricFactor;
@@ -171,7 +171,7 @@ public class ComponentDeleted {
     }
     
    
-    public boolean equals(Component aComponent){ 
+    public boolean equals(Compound aComponent){ 
        return getCASNumber().equals(aComponent.getCasNumber());
     }
 

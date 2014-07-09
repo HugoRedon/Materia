@@ -17,7 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -39,10 +39,10 @@ public class ExperimentalDataBinaryList implements Serializable{
     
     @ManyToOne
     @JoinColumn
-    private Component referenceComponent;
+    private Compound referenceComponent;
     @ManyToOne
     @JoinColumn
-    private Component nonReferenceComponent;
+    private Compound nonReferenceComponent;
     
     private String name;
     private String source;
@@ -137,28 +137,28 @@ public class ExperimentalDataBinaryList implements Serializable{
     /**
      * @return the referenceComponent
      */
-    public Component getReferenceComponent() {
+    public Compound getReferenceComponent() {
         return referenceComponent;
     }
 
     /**
      * @param referenceComponent the referenceComponent to set
      */
-    public void setReferenceComponent(Component referenceComponent) {
+    public void setReferenceComponent(Compound referenceComponent) {
         this.referenceComponent = referenceComponent;
     }
 
     /**
      * @return the nonReferenceComponent
      */
-    public Component getNonReferenceComponent() {
+    public Compound getNonReferenceComponent() {
         return nonReferenceComponent;
     }
 
     /**
      * @param nonReferenceComponent the nonReferenceComponent to set
      */
-    public void setNonReferenceComponent(Component nonReferenceComponent) {
+    public void setNonReferenceComponent(Compound nonReferenceComponent) {
         this.nonReferenceComponent = nonReferenceComponent;
     }
 

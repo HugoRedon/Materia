@@ -8,23 +8,23 @@ package termo.binaryParameter;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
  * @author Hugo
  */
 public class InteractionParameterTest {
-    Component com1;
-    Component com2;
+    Compound com1;
+    Compound com2;
     InteractionParameter b;
     ActivityModelBinaryParameter ac;
     public InteractionParameterTest() {
-        com1 = new Component("com1");
+        com1 = new Compound("com1");
         com1.setCriticalTemperature(500);
         com1.setK_StryjekAndVera(0);
         
-        com2 = new Component("com2");
+        com2 = new Compound("com2");
         com2.setCriticalTemperature(350);
         com2.setK_StryjekAndVera(1.2);
         b = new InteractionParameter();

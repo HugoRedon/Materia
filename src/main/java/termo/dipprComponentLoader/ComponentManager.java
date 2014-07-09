@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import termo.component.Component;
+import termo.component.Compound;
 import static termo.dipprComponentLoader.DipprPropertyID.*;
 
 /**
@@ -77,7 +77,7 @@ public final class ComponentManager {
         }
         return 0;
     }
-    public Component getComponentByName(String name){
+    public Compound getComponentByName(String name){
         try {        
             casNumberByNameStatement.setString(1, name);
             ResultSet rs = casNumberByNameStatement.executeQuery();
@@ -97,8 +97,8 @@ public final class ComponentManager {
     }
     
     
-    public Component getComponentByCasNumber(String CasNumber){
-        Component aComponent = new Component(getFromChemInfo(CasNumber, ChemInfoColumn.Name));
+    public Compound getComponentByCasNumber(String CasNumber){
+        Compound aComponent = new Compound(getFromChemInfo(CasNumber, ChemInfoColumn.Name));
         
         aComponent.setAbsoluteEntropyinStandardStateat298_15Kand101325Pa(getPropertyValue(CasNumber, absoluteEntropyinStandardStateat298_15Kand101325Pa));
         aComponent.setAbsoluteEntropyofIdealGasat298_15Kand101325Pa(getPropertyValue(CasNumber, absoluteEntropyofIdealGasat298_15Kand101325Pa));
@@ -197,8 +197,8 @@ public final class ComponentManager {
     }
   
     
-    public List<Component> getAllComponents(){
-        List<Component> allComponents = new ArrayList<>();
+    public List<Compound> getAllComponents(){
+        List<Compound> allComponents = new ArrayList<>();
         
         List<String> casNumbers = getAllComponentsCasNumbers();
         

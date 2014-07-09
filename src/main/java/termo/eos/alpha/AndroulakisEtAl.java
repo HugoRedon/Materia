@@ -1,6 +1,6 @@
 package termo.eos.alpha;
 
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -13,7 +13,7 @@ public class AndroulakisEtAl extends Alpha{
         setEquation("\\alpha(T) = 1 + A" + term +" +  B " +term+"^2 + C"+ term + "^3");
     }
     @Override
-    public double alpha(double temperature, Component component) {
+    public double alpha(double temperature, Compound component) {
         double A = component.getA_AndroulakisEtAl();
         double B = component.getB_AndroulakisEtAl();
         double C = component.getC_AndroulakisEtAl();
@@ -28,7 +28,7 @@ public class AndroulakisEtAl extends Alpha{
    
 
     @Override
-    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Component component) {
+    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Compound component) {
         double A = component.getA_AndroulakisEtAl();
         double B = component.getB_AndroulakisEtAl();
         double C = component.getC_AndroulakisEtAl();
@@ -45,7 +45,7 @@ public class AndroulakisEtAl extends Alpha{
     }
 
     @Override
-    public void setParameter(double value, Component component, int index) {
+    public void setParameter(double value, Compound component, int index) {
         switch(index){
             case 0: component.setA_AndroulakisEtAl(value);
                 break;
@@ -57,7 +57,7 @@ public class AndroulakisEtAl extends Alpha{
     }
 
     @Override
-    public double getParameter(Component component, int index) {
+    public double getParameter(Compound component, int index) {
           switch(index){
             case 0: 
                 return component.getA_AndroulakisEtAl();

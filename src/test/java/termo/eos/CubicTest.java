@@ -2,7 +2,7 @@ package termo.eos;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.cp.DIPPR_107_Equation;
 import termo.eos.alpha.AlphaFactory;
 import termo.phase.Phase;

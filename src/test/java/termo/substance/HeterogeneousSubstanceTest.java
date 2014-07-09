@@ -8,7 +8,7 @@ import termo.matter.HeterogeneousSubstance;
 import java.beans.PropertyChangeSupport;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.eos.EquationOfStateFactory;
 import termo.eos.alpha.Alpha;
@@ -23,7 +23,7 @@ public class HeterogeneousSubstanceTest {
     HeterogeneousSubstance substance;
     public HeterogeneousSubstanceTest() {
 	
-	Component ethane = new Component("ethane");
+	Compound ethane = new Compound("ethane");
 	ethane.setAcentricFactor(0.09781);
 	ethane.setCriticalTemperature(305.43);
 	ethane.setCriticalPressure(48.1595*101325);

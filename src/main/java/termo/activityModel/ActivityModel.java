@@ -5,7 +5,7 @@ import java.util.HashMap;
 import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.matter.Mixture;
 import termo.matter.Substance;
 import termo.optimization.errorfunctions.ErrorFunction;
@@ -21,20 +21,20 @@ public abstract class ActivityModel {
    public abstract double activityCoefficient(
             Substance ci,
            Mixture mixture);
-   public abstract double parcialExcessGibbsRespectTemperature(ArrayList<Component> components,
-            HashMap<Component,Double> fractions,
+   public abstract double parcialExcessGibbsRespectTemperature(ArrayList<Compound> components,
+            HashMap<Compound,Double> fractions,
             ActivityModelBinaryParameter k,
             double temperature);
    
-    public double tau(Component ci,Component cj, ActivityModelBinaryParameter k ,double T){
+    public double tau(Compound ci,Compound cj, ActivityModelBinaryParameter k ,double T){
     double aij = k.getA().getValue(ci, cj);
     double bij = k.getB().getValue(ci, cj);
 
     return (aij + bij * T)/(Constants.R * T);
     }
     
-    public double getParameter(Component referenceComponent,
-            Component nonReferenceComponent,
+    public double getParameter(Compound referenceComponent,
+            Compound nonReferenceComponent,
             ActivityModelBinaryParameter params,
             int index){
         
@@ -48,8 +48,8 @@ public abstract class ActivityModel {
                 
     }
     public  void setParameter(double value, 
-            Component referenceComponent,
-            Component nonReferenceComponent,
+            Compound referenceComponent,
+            Compound nonReferenceComponent,
             ActivityModelBinaryParameter params,
             int index){
         

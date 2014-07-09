@@ -1,6 +1,6 @@
 package termo.eos.alpha;
 
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -32,7 +32,7 @@ public class MathiasCopemanEquation extends Alpha{
     
 
     @Override
-    public double alpha(double temperature, Component component) {
+    public double alpha(double temperature, Compound component) {
        double A = component.getA_Mathias_Copeman();
        double B = component.getB_Mathias_Copeman();
        double C = component.getC_Mathias_Copeman();
@@ -49,7 +49,7 @@ public class MathiasCopemanEquation extends Alpha{
     }
 
     @Override
-    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Component component) {
+    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Compound component) {
         double A = component.getA_Mathias_Copeman();
        double B = component.getB_Mathias_Copeman();
        double C = component.getC_Mathias_Copeman();
@@ -66,7 +66,7 @@ public class MathiasCopemanEquation extends Alpha{
     }
 
     @Override
-    public void setParameter(double value, Component component, int index) {
+    public void setParameter(double value, Compound component, int index) {
         switch(index){
             case 0:component.setA_Mathias_Copeman(value);
                 break;
@@ -79,7 +79,7 @@ public class MathiasCopemanEquation extends Alpha{
     }
 
     @Override
-    public double getParameter(Component component, int index) {
+    public double getParameter(Compound component, int index) {
         switch(index){
             case 0:return component.getA_Mathias_Copeman();
             case 1: return component.getB_Mathias_Copeman();

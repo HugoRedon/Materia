@@ -1,6 +1,6 @@
 package termo.eos.alpha;
 
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -19,7 +19,7 @@ public class MathiasAboveTcAlphaEquation extends Alpha{
     }
 
     @Override
-    public double alpha(double temperature, Component component) {
+    public double alpha(double temperature, Compound component) {
          double criticalTemperature = component.getCriticalTemperature();
      
         
@@ -31,14 +31,14 @@ public class MathiasAboveTcAlphaEquation extends Alpha{
             return Math.exp(calc);
     }
      
-    private double c(Component component){
+    private double c(Compound component){
         double q = belowTcAlphaEquation.getParameter(component,0);
 	double omega = component.getAcentricFactor();
         return 1+0.5*belowTcAlphaEquation.m(omega)+0.3*q;
     }
 
     @Override
-    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Component component) {
+    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Compound component) {
         
           double c = c(component);
            double tr = temperature /component.getCriticalTemperature();      
@@ -65,14 +65,14 @@ public class MathiasAboveTcAlphaEquation extends Alpha{
     }
 
     @Override
-    public void setParameter(double value, Component component, int index) {
+    public void setParameter(double value, Compound component, int index) {
        if(index ==0) {
            component.setA_Mathias(value);
        }
     }
 
     @Override
-    public double getParameter(Component component, int index) {
+    public double getParameter(Compound component, int index) {
           if(index ==0) {
                 return component.getA_Mathias();
           }else{

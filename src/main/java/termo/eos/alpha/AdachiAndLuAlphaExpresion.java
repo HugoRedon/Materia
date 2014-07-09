@@ -1,6 +1,6 @@
 package termo.eos.alpha;
 
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -12,7 +12,7 @@ public class AdachiAndLuAlphaExpresion extends Alpha{
         setEquation("\\alpha(T) = A10^{B\\left(1-T_r\\right)}");
     }
     @Override
-    public double alpha(double temperature, Component component) {
+    public double alpha(double temperature, Compound component) {
         double A = component.getA_AdachiAndLu();
         double B = component.getB_AdachiAndLu();
         double tr = temperature / component.getCriticalTemperature();
@@ -20,7 +20,7 @@ public class AdachiAndLuAlphaExpresion extends Alpha{
     }
 
     @Override
-    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Component component) {
+    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Compound component) {
         double A = component.getA_AdachiAndLu();
         double B = component.getB_AdachiAndLu();
         double tr = temperature /component.getCriticalTemperature();
@@ -34,7 +34,7 @@ public class AdachiAndLuAlphaExpresion extends Alpha{
     }
 
     @Override
-    public void setParameter(double value, Component component, int index) {
+    public void setParameter(double value, Compound component, int index) {
         if(index ==0 ){
             component.setA_AdachiAndLu(value);
         }else if(index ==1){
@@ -43,7 +43,7 @@ public class AdachiAndLuAlphaExpresion extends Alpha{
     }
 
     @Override
-    public double getParameter(Component component, int index) {
+    public double getParameter(Compound component, int index) {
         if(index ==0 ){
             return component.getA_AdachiAndLu();
         }else if(index ==1){

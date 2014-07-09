@@ -8,7 +8,7 @@ import java.util.HashSet;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import termo.binaryParameter.InteractionParameter;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.cp.DIPPR_107_Equation;
 import termo.eos.Cubic;
 import termo.eos.EquationOfStateFactory;
@@ -26,13 +26,13 @@ import termo.phase.Phase;
 public class MixtureTest {
     Mixture substance ;
     Substance ethanolPure ;
-    Component acetaldehyd;
-    Component formaldehyde;
-    HashSet<Component> components = new HashSet();
+    Compound acetaldehyd;
+    Compound formaldehyde;
+    HashSet<Compound> components = new HashSet();
     public MixtureTest() {
 //	substance = new MixtureSubstance();
 	
-        Component ethanol = new Component("etanol");
+        Compound ethanol = new Compound("etanol");
        // ethanol.setName("Etanol");
         ethanol.setCriticalTemperature(514);
         ethanol.setCriticalPressure(6.13700E+06);
@@ -48,7 +48,7 @@ public class MixtureTest {
         ethanol.setE_dippr107Cp(7.4470E+02);
         
         
-         acetaldehyd = new Component("Acetaldehído");
+         acetaldehyd = new Compound("Acetaldehído");
         //acetaldehyd.setName();
         acetaldehyd.setCriticalPressure(5.57e6);
         acetaldehyd.setCriticalTemperature(466);
@@ -65,7 +65,7 @@ public class MixtureTest {
         
         acetaldehyd.setCp(new DIPPR_107_Equation(acetaldehyd));
         
-         formaldehyde = new Component("Formaldehído");
+         formaldehyde = new Compound("Formaldehído");
         //formaldehyde.setName();
         formaldehyde.setCriticalTemperature(420);
         formaldehyde.setCriticalPressure(6.59000E+06);
@@ -83,7 +83,7 @@ public class MixtureTest {
         formaldehyde.setCp(new DIPPR_107_Equation(formaldehyde));
         
         
-        Component ammonia = new Component("Amoníaco");
+        Compound ammonia = new Compound("Amoníaco");
         //ammonia.setName();
         ammonia.setCriticalTemperature(405.65);
         ammonia.setCriticalPressure(1.12800E+07);
@@ -101,7 +101,7 @@ public class MixtureTest {
         ammonia.setCp(new DIPPR_107_Equation(ammonia));
         
         
-        Component water = new Component("Agua");
+        Compound water = new Compound("Agua");
         //water.setName();
         water.setCriticalTemperature(647.096);
         water.setCriticalPressure(2.20640E+07);
@@ -182,7 +182,7 @@ public class MixtureTest {
         double entropy = substance.calculateEntropy();
         System.out.println("entropy"  + entropy);
         
-        HashSet<Component> differentList = new HashSet();
+        HashSet<Compound> differentList = new HashSet();
         differentList.add(acetaldehyd);
         differentList.add(formaldehyde);
         mpcs.firePropertyChange("components", components, differentList);

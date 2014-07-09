@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.matter.Mixture;
 import termo.matter.Substance;
 
@@ -50,14 +50,14 @@ public class NRTLActivityModel extends ActivityModel{
                         Substance cip, 
             Mixture mixture) {
         
-	ArrayList<Component> components = new ArrayList<>();
-	HashMap<Component,Double> fractions = new HashMap();
+	ArrayList<Compound> components = new ArrayList<>();
+	HashMap<Compound,Double> fractions = new HashMap();
 	for(Substance c: mixture.getPureSubstances()){
 	    components.add(c.getComponent());
 	    fractions.put(c.getComponent(), c.getMolarFraction());
 	}
 	
-	Component ci = cip.getComponent();
+	Compound ci = cip.getComponent();
         double xj = 0;
         double tauij = 0;
         double gij = 0;
@@ -69,7 +69,7 @@ public class NRTLActivityModel extends ActivityModel{
         
         double secondTerm = 0;
 
-        for(Component cj : components){
+        for(Compound cj : components){
             xj = fractions.get(cj);
             gij = G(ci, cj, k, mixture.getTemperature());
             tauij = tau(ci, cj, k, mixture.getTemperature());
@@ -86,17 +86,17 @@ public class NRTLActivityModel extends ActivityModel{
 	return Math.exp(result);
     }
     
-    private double summa1 (Component ci, ArrayList<Component> components, HashMap<Component, Double> fractions, ActivityModelBinaryParameter k, double temperature){
+    private double summa1 (Compound ci, ArrayList<Compound> components, HashMap<Compound, Double> fractions, ActivityModelBinaryParameter k, double temperature){
          double summa = 0;
-         for(Component cj: components){
+         for(Compound cj: components){
                 double xj = fractions.get(cj);
                 summa += xj * G( cj, ci, k,temperature);
             }
         return summa;
     }
-      private double summa2 (Component ci, ArrayList<Component> components, HashMap<Component, Double> fractions, ActivityModelBinaryParameter k, double temperature){
+      private double summa2 (Compound ci, ArrayList<Compound> components, HashMap<Compound, Double> fractions, ActivityModelBinaryParameter k, double temperature){
          double summa = 0;
-         for(Component cj: components){
+         for(Compound cj: components){
                 double xj = fractions.get(cj);
                 double tauji = tau(cj, ci, k, temperature);
                 double gji = G(cj, ci, k, temperature);
@@ -107,7 +107,7 @@ public class NRTLActivityModel extends ActivityModel{
     }
     
     
-//    public double tau(Component cj,Component ci, ActivityModelBinaryParameter param,double temperature){
+//    public double tau(Compound cj,Compound ci, ActivityModelBinaryParameter param,double temperature){
 ////        double gji = param.get_gji(cj, ci);
 ////        double gii = param.get_gji(ci, ci);
 ////        double delta = gji - gii;
@@ -119,15 +119,15 @@ public class NRTLActivityModel extends ActivityModel{
 //        
 //        return (aji + bji * temperature)/(Constants.R * temperature);
 //    }
-    public double G(Component cj,Component ci, ActivityModelBinaryParameter param,double temperature){
+    public double G(Compound cj,Compound ci, ActivityModelBinaryParameter param,double temperature){
          double tau =tau(cj, ci, param, temperature);
         return Math.exp(- param.getAlpha().getValue(cj,ci) * tau);
     }
 
     @Override
     public double parcialExcessGibbsRespectTemperature(
-            ArrayList<Component> components, 
-            HashMap<Component, Double> fractions, 
+            ArrayList<Compound> components, 
+            HashMap<Compound, Double> fractions, 
             ActivityModelBinaryParameter param,
             double temperature) {
 //        NRTLBinaryParameter param = (NRTLBinaryParameter)k;
@@ -151,7 +151,7 @@ public class NRTLActivityModel extends ActivityModel{
         
           double result =0;
         
-        for(Component ci: components){
+        for(Compound ci: components){
            xi = fractions.get(ci);
            
            T0 =0;
@@ -160,7 +160,7 @@ public class NRTLActivityModel extends ActivityModel{
            A1 =0;
            A0 =0;
            
-            for(Component cj: components){
+            for(Compound cj: components){
                 bji = param.getB().getValue(cj, ci);
                 alphaji = param.getAlpha().getValue(cj, ci);
                 tauji = tau(cj, ci, param, temperature);
@@ -189,7 +189,7 @@ public class NRTLActivityModel extends ActivityModel{
     }
 
     @Override
-    public double getParameter(Component referenceComponent, Component nonReferenceComponent, ActivityModelBinaryParameter params, int index) {
+    public double getParameter(Compound referenceComponent, Compound nonReferenceComponent, ActivityModelBinaryParameter params, int index) {
         int parametersNumber = super.numberOfParameters();
         if(index ==parametersNumber ){
             return params.getAlpha().getValue(referenceComponent, nonReferenceComponent);//simetrico
@@ -202,7 +202,7 @@ public class NRTLActivityModel extends ActivityModel{
     }
 
     @Override
-    public void setParameter(double value, Component referenceComponent, Component nonReferenceComponent, ActivityModelBinaryParameter params, int index) {
+    public void setParameter(double value, Compound referenceComponent, Compound nonReferenceComponent, ActivityModelBinaryParameter params, int index) {
          int parametersNumber = super.numberOfParameters();
         if(index ==parametersNumber ){
             params.getAlpha().setValue(referenceComponent, nonReferenceComponent,value);

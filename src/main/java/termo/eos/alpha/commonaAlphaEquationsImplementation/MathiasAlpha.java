@@ -6,7 +6,7 @@
 
 package termo.eos.alpha.commonaAlphaEquationsImplementation;
 
-import termo.component.Component;
+import termo.component.Compound;
 import termo.eos.alpha.AlphaNames;
 import termo.eos.alpha.CommonAlphaEquation;
 
@@ -42,13 +42,13 @@ public class MathiasAlpha extends CommonAlphaEquation{
     }
     
     @Override
-    public double getParameter(Component component,int index) {
+    public double getParameter(Compound component,int index) {
 	if(index == 0 ){ return component.getA_Mathias();}
         else{ return 0;}
     }
     
     @Override
-    public void setParameter(double paramValue, Component component,int index) {
+    public void setParameter(double paramValue, Compound component,int index) {
         if(index ==0){
             component.setA_Mathias(paramValue);
         }

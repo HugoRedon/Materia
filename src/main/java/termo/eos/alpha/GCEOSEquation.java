@@ -1,6 +1,6 @@
 package termo.eos.alpha;
 
-import termo.component.Component;
+import termo.component.Compound;
 
 /**
  *
@@ -19,7 +19,7 @@ public class GCEOSEquation extends Alpha{
     private double k5;
 
     @Override
-    public double alpha(double temperature, Component component) {
+    public double alpha(double temperature, Compound component) {
         
         double tr = temperature / component.getCriticalTemperature();
         
@@ -28,13 +28,13 @@ public class GCEOSEquation extends Alpha{
       
         return Math.pow(1 + k *( 1 - Math.sqrt(tr)),2);
     }
-    public double k0(Component component){
+    public double k0(Compound component){
          double acentric = component.getAcentricFactor();
          return  A + B * acentric  + C * Math.pow(acentric,2) + D *Math.pow(acentric,3);
     }
 
     @Override
-    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Component component) {
+    public double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature, Compound component) {
          double tr = temperature / component.getCriticalTemperature();
          double k0 = k0(component);
          
@@ -186,12 +186,12 @@ public class GCEOSEquation extends Alpha{
     }
 
     @Override
-    public void setParameter(double value, Component component, int index) {
+    public void setParameter(double value, Compound component, int index) {
   
     }
 
     @Override
-    public double getParameter(Component component, int index) {
+    public double getParameter(Compound component, int index) {
         return 0;
     }
 

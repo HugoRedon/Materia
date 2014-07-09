@@ -9,7 +9,7 @@ package termo.eos.mixingRule;
 import termo.Constants;
 import termo.activityModel.ActivityModel;
 import termo.binaryParameter.InteractionParameter;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.matter.Mixture;
 import termo.matter.Substance;

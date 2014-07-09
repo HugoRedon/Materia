@@ -7,7 +7,7 @@ import java.util.HashSet;
 import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
 import termo.eos.mixingRule.MixingRule;
@@ -38,7 +38,7 @@ public final class Mixture extends Homogeneous{
                 setAlpha((Alpha)evt.getNewValue());
                 break;
             case "components":
-                setComponents((HashSet<Component>)evt.getNewValue());
+                setComponents((HashSet<Compound>)evt.getNewValue());
                 break;
           
             case"mixingRule":
@@ -50,7 +50,7 @@ public final class Mixture extends Homogeneous{
         }
     }
 
-    public Mixture(Cubic equationOfState,Alpha alpha,  HashSet<Component> components,Phase phase,MixingRule mixingRule ,InteractionParameter k){
+    public Mixture(Cubic equationOfState,Alpha alpha,  HashSet<Compound> components,Phase phase,MixingRule mixingRule ,InteractionParameter k){
 	super(equationOfState,phase);
         setMixingRule(mixingRule);
         setAlpha(alpha);
@@ -62,11 +62,11 @@ public final class Mixture extends Homogeneous{
      
 
 
-    public void setComponents(HashSet<Component> components){
+    public void setComponents(HashSet<Compound> components){
         pureSubstances.clear();
         //molarFractions.clear();
         double fraction = 1d/components.size();
-        for(Component component : components){ //implement property change listener
+        for(Compound component : components){ //implement property change listener
             Substance pure = new Substance(super.getCubicEquationOfState(), alpha, component, super.getPhase());
             pure.setTemperature(temperature);
             pure.setPressure(pressure);
@@ -79,7 +79,7 @@ public final class Mixture extends Homogeneous{
     }
 
     
-    public Substance getPureSubstance(Component component){
+    public Substance getPureSubstance(Compound component){
 	Substance result = null;
 	for(Substance pure: pureSubstances){
 	    if(component.equals(pure.getComponent())){
@@ -90,7 +90,7 @@ public final class Mixture extends Homogeneous{
     }
     
     
-    public double calculateFugacity(Component component){
+    public double calculateFugacity(Compound component){
 	Substance pure = getPureSubstance(component);
 	return calculateFugacity(pure);
 	//throw new Exception("La mezcla no contiene el componente " + component.toString());
@@ -129,17 +129,17 @@ public final class Mixture extends Homogeneous{
     }
     
     
-    public HashSet<Component> getComponents(){
-        HashSet<Component> components = new HashSet<>();
+    public HashSet<Compound> getComponents(){
+        HashSet<Compound> components = new HashSet<>();
         for (Substance pureSubstance : getPureSubstances()){
             components.add(pureSubstance.getComponent());
         }
         return components;
     }
-    public HashMap<Component,Double> getReadOnlyFractions(){
-        HashMap<Component,Double> fractions = new HashMap<>();
+    public HashMap<Compound,Double> getReadOnlyFractions(){
+        HashMap<Compound,Double> fractions = new HashMap<>();
         for (Substance pureSubstance : getPureSubstances()){
-            Component component = pureSubstance.getComponent();
+            Compound component = pureSubstance.getComponent();
             double molarFraction = pureSubstance.getMolarFraction();//getMolarFractions().get(pureSubstance.getComponent().getName());
             fractions.put(component, molarFraction);
         }
@@ -259,15 +259,15 @@ public final class Mixture extends Homogeneous{
 	//molarFractions.put(component.getComponent().getName(), i);
     }
 
-    public void setFraction(Component component, Double fraction) {
+    public void setFraction(Compound component, Double fraction) {
         getPureSubstance(component).setMolarFraction(fraction);
         //molarFractions.put(component.getName(), fraction);
 
     }
     
     
-    public void setFractions(HashMap<Component,Double> fractions){
-	for(Component comp: fractions.keySet()){
+    public void setFractions(HashMap<Compound,Double> fractions){
+	for(Compound comp: fractions.keySet()){
           //  molarFractions = fractions;
             getPureSubstance(comp).setMolarFraction(fractions.get(comp));
             //molarFractions.put(comp.getName(), fractions.get(comp));

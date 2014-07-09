@@ -2,7 +2,7 @@ package termo.eos.alpha;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.eos.alpha.commonaAlphaEquationsImplementation.MathiasAlpha;
 import termo.eos.alpha.commonaAlphaEquationsImplementation.PengAndRobinsonAlpha;
 import termo.eos.alpha.commonaAlphaEquationsImplementation.SoaveAlpha;
@@ -14,10 +14,10 @@ import termo.eos.alpha.commonaAlphaEquationsImplementation.StryjekAndVera;
  * Hugo
  */
 public class CommonAlphaEquationTest {
-	Component ethane;
+	Compound ethane;
 	CommonAlphaEquation alpha;
     public CommonAlphaEquationTest() {
-	ethane = new Component("ethane");
+	ethane = new Compound("ethane");
 	
 	ethane.setAcentricFactor(0.09781);
 	ethane.setCriticalTemperature(305.43);
@@ -51,12 +51,12 @@ public class CommonAlphaEquationTest {
        
 
         @Override
-        public double getParameter(Component component, int index) {
+        public double getParameter(Compound component, int index) {
             return 0;
         }
 
         @Override
-        public void setParameter(double value, Component component, int index) {
+        public void setParameter(double value, Compound component, int index) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 

@@ -5,7 +5,7 @@
 package termo.equilibrium;
 
 import java.util.HashMap;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.matter.Substance;
 
 /**
@@ -14,13 +14,13 @@ import termo.matter.Substance;
  * Hugo
  */
 public class MixtureEquilibriaPhaseSolution extends EquilibriaSolution{
-    private HashMap<Component,Double> vaporFractions;
-    private HashMap<Component,Double> liquidFractions;
+    private HashMap<Compound,Double> vaporFractions;
+    private HashMap<Compound,Double> liquidFractions;
     public MixtureEquilibriaPhaseSolution(
 	 double temperature, 
                 double pressure,
-                HashMap<Component,Double> liquidFractions, 
-                HashMap<Component,Double> solutionFractions,
+                HashMap<Compound,Double> liquidFractions, 
+                HashMap<Compound,Double> solutionFractions,
                 int iterations){
             super(temperature, pressure, iterations);
             
@@ -31,27 +31,27 @@ public class MixtureEquilibriaPhaseSolution extends EquilibriaSolution{
       /**
          * @return the vaporFractions
          */
-        public HashMap<Component,Double> getLiquidFractions() {
+        public HashMap<Compound,Double> getLiquidFractions() {
             return liquidFractions;
         }
 
         /**
          * @param vaporFractions the vaporFractions to set
          */
-        public void setLiquidFractions(HashMap<Component,Double> mixtureFractions) {
+        public void setLiquidFractions(HashMap<Compound,Double> mixtureFractions) {
             this.liquidFractions = mixtureFractions;
         }
 	 /**
      * @return the vaporFractions
      */
-    public HashMap<Component,Double> getVaporFractions() {
+    public HashMap<Compound,Double> getVaporFractions() {
         return vaporFractions;
     }
 
     /**
      * @param vaporFractions the vaporFractions to set
      */
-    public void setVaporFractions(HashMap<Component,Double> vaporFractions) {
+    public void setVaporFractions(HashMap<Compound,Double> vaporFractions) {
         this.vaporFractions = vaporFractions;
     }
 

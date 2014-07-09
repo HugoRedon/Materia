@@ -6,7 +6,7 @@ package termo.eos.alpha;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.eos.alpha.commonaAlphaEquationsImplementation.MathiasAlpha;
 import termo.eos.alpha.commonaAlphaEquationsImplementation.PengAndRobinsonAlpha;
 
@@ -16,10 +16,10 @@ import termo.eos.alpha.commonaAlphaEquationsImplementation.PengAndRobinsonAlpha;
  * Hugo
  */
 public class TwoEquationsAlphaExpressionTest {
-	Component component;
+	Compound component;
 	
     public TwoEquationsAlphaExpressionTest() {
-	component = new Component("component");
+	component = new Compound("component");
 	component.setAcentricFactor(0.09781);
 	component.setCriticalTemperature(305.43);
 	component.setCriticalPressure(48.1595*101325);
@@ -129,7 +129,7 @@ public class TwoEquationsAlphaExpressionTest {
     public void testGetProperAlpha() {
 	System.out.println("getProperAlpha");
 	double temperature = 50;
-	Component component1 = new Component("component1");
+	Compound component1 = new Compound("component1");
 	component1.setCriticalTemperature(100);
 	
 	Alpha alpha1 = new PengAndRobinsonAlpha();

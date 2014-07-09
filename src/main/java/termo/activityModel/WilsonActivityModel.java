@@ -5,7 +5,7 @@ import java.util.HashMap;
 import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
-import termo.component.Component;
+import termo.component.Compound;
 import termo.matter.Mixture;
 import termo.matter.Substance;
 
@@ -40,7 +40,7 @@ public class WilsonActivityModel extends ActivityModel{
            Mixture mixture) {
           
 //        double thirdTerm = 0;
-//        for(Component cj: components){
+//        for(Compound cj: components){
 //            double xj = fractions.get(cj);
 //            thirdTerm += (summa(cj, components, fractions, k,temperature));
 //        }
@@ -102,8 +102,8 @@ public class WilsonActivityModel extends ActivityModel{
 
     @Override
     public double parcialExcessGibbsRespectTemperature(
-            ArrayList<Component> components, 
-            HashMap<Component, Double> fractions, 
+            ArrayList<Compound> components, 
+            HashMap<Compound, Double> fractions, 
             ActivityModelBinaryParameter k,
             double temperature) {
         
@@ -121,13 +121,13 @@ public class WilsonActivityModel extends ActivityModel{
         double lambda =0;
         
         
-        for(Component ci: components){
+        for(Compound ci: components){
             t0 =0;
             b1 =0;
             t1 =0;
             
             xi = fractions.get(ci);
-            for(Component cj : components){
+            for(Compound cj : components){
                 
                 xj = fractions.get(cj);
 //                lambda = lambda(ci, cj, k, temperature);
