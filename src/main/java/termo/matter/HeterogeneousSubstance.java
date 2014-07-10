@@ -93,7 +93,7 @@ public class HeterogeneousSubstance extends Heterogeneous{
     @Override
     public int bubbleTemperature() {
 	
-	EquilibriaFunction function = new BubbleTemperatureFunctions();
+	EquilibriaFunction function = new BubbleTemperatureErrorFunction();
 	return minimizeTemperature(function);
     }
        
@@ -348,7 +348,7 @@ public class HeterogeneousSubstance extends Heterogeneous{
     }
 
    
-class BubbleTemperatureFunctions implements EquilibriaFunction{
+class BubbleTemperatureErrorFunction implements EquilibriaFunction{
     
     @Override
     public double errorFunction(double equilibriaRelation){
