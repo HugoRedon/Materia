@@ -113,7 +113,7 @@ public final class Mixture extends Homogeneous{
 
 
     @Override
-    public double temperatureParcial_a() {
+    public double partial_aPartial_temperature() {
         return getMixingRule().temperatureParcial_a(this);
     }
 

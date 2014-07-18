@@ -307,32 +307,28 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     }
     
     public double flash(double temperature,double pressure){
-	setTemperature(temperature);
-	setPressure(pressure);
-	
-	
-	double vF = flashEstimate(temperature, pressure);
-	
-	double tolerance  = 1e-4;
-            HashMap<Compound,Double> K;
-            double error=100;
-            HashMap<Compound,Double> x_;
-
-            HashMap<Compound,Double> y_;
-            while(error >= tolerance){
 		setTemperature(temperature);
-                K = equilibriumRelations();
-                error = calculateError(pressure, temperature);
-                vF = rachfordRice(K, vF,tolerance);
-                x_=x_( K, vF);
+		setPressure(pressure);
 		
-		getLiquid().setFractions(newFractions(x_));
-                
-		y_ = y_(x_, K);
-		getVapor().setFractions(newFractions(y_));
-                
-            }
-        
+		
+		double vF = flashEstimate(temperature, pressure);
+		
+		double tolerance  = 1e-4;
+        HashMap<Compound,Double> K;
+        double error=100;
+        HashMap<Compound,Double> x_;
+
+        HashMap<Compound,Double> y_;
+        while(error >= tolerance){
+			setTemperature(temperature);
+            K = equilibriumRelations();
+            error = calculateError(pressure, temperature);
+            vF = rachfordRice(K, vF,tolerance);
+            x_=x_( K, vF);
+			getLiquid().setFractions(newFractions(x_));
+			y_ = y_(x_, K);
+			getVapor().setFractions(newFractions(y_)); 
+        }
         return  vF;
     }
     
@@ -386,14 +382,14 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     
     
      public double flashEstimate(double temperature,double pressure){
-	double vF = 0.5;
-	flashEstimateLiquidFractions(temperature, pressure);
-	
-	double tolerance  = 1e-4;
-            HashMap<Compound,Double> K;           
-            HashMap<Compound,Double> x_;
+		double vF = 0.5;
+		flashEstimateLiquidFractions(temperature, pressure);
+		
+		double tolerance  = 1e-4;
+        HashMap<Compound,Double> K;           
+        HashMap<Compound,Double> x_;
 
-            HashMap<Compound,Double> y_;
+        HashMap<Compound,Double> y_;
            
 	    K = flashEstimateEquilibriumRelations(temperature, pressure);
 	   // error = calculateError(pressure, temperature);

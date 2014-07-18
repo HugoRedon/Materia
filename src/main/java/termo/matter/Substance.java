@@ -125,7 +125,7 @@ public class Substance extends Homogeneous {
     }
 
     @Override
-    public double temperatureParcial_a(){
+    public double partial_aPartial_temperature(){
         double a = calculate_a_cubicParameter();
         double ToveralphaDerivativeAlpha = alpha.TempOverAlphaTimesDerivativeAlphaRespectTemperature(super.getTemperature(), component);
         return a * ToveralphaDerivativeAlpha;

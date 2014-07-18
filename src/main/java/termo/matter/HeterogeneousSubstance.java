@@ -44,7 +44,7 @@ public class HeterogeneousSubstance extends Heterogeneous{
         this();
 //	this.cubicEquationOfState = eos;
 //	this.alpha = alpha;
-//	this.component = component;
+	this.component = component;
         
 
         Substance liquidImplementation  =(Substance)liquid;
