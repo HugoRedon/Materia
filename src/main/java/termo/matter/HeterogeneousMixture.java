@@ -5,6 +5,8 @@ import java.beans.PropertyChangeEvent;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
+
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Compound;
@@ -27,7 +29,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     private InteractionParameter interactionParameters = new ActivityModelBinaryParameter();
     
      private final HashMap<String,Double> zFractions = new HashMap(); 
-     private HashSet<Compound> components = new HashSet();
+     private Set<Compound> components = new HashSet();
      
      private TemperatureErrorFunction errorFunction;
     // private NewtonMethodSolver optimizer;
@@ -76,7 +78,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	    Cubic eos,
 	    Alpha alpha,
 	    MixingRule mixingrule, 
-	    HashSet<Compound> components, InteractionParameter k){
+	    Set<Compound> components, InteractionParameter k){
         this();
         setEquationOfState(eos);
         setAlpha(alpha);
@@ -665,22 +667,22 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     /**
      * @return the components
      */
-    public HashSet<Compound> getComponents() {
+    public Set<Compound> getComponents() {
 	return components;
     }
 
     /**
      * @param components the components to set
      */
-    public void setComponents(HashSet<Compound> components) {
-        HashSet<Compound> oldComponents = this.components;
+    public void setComponents(Set<Compound> components) {
+        Set<Compound> oldComponents = this.components;
 	this.components = components;
         mpcs.firePropertyChange("components", oldComponents, components);
     }
     
     public void removeComponent(Compound component){
         if(components.contains(component)){
-            HashSet<Compound> oldComponents =(HashSet<Compound>) components.clone();
+            Set<Compound> oldComponents =new HashSet(components);//.clone();
             components.remove(component);
             mpcs.firePropertyChange("components", oldComponents, components);
         }else{
@@ -692,7 +694,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
         if(components.contains(component)){
             System.out.println("Warning---: el componente ya estaba en la lista");
         }else{
-            HashSet<Compound> oldComponents = (HashSet<Compound>) components.clone();
+            HashSet<Compound> oldComponents = new HashSet( components);//.clone();
             components.add(component);
             mpcs.firePropertyChange("components", oldComponents, components);
         }

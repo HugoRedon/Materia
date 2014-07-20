@@ -141,7 +141,7 @@ public class NewtonMethodSolver implements PropertyChangeListener {
         while(criteria(errorDiference,gradientAbsSum,variations) && iterations < 1000){
             
             beforeError = vaporPressureError( args);
-            double[] before = args;
+            double[] before = args.clone();
             iterations++;    
            // double[] gradiente=  gradient(args);
             args = nextValue(args );
@@ -157,7 +157,9 @@ public class NewtonMethodSolver implements PropertyChangeListener {
                     return before;
                 }
             }
-            args = applyDamping(before, args);
+            if(anyParameterNeedsConstraint()){
+            	args = applyDamping(before, args);
+            }
             if(applyErrorDecreaseTechnique){
                 args = errorDecrease(before,args);
             }
@@ -347,7 +349,14 @@ public class NewtonMethodSolver implements PropertyChangeListener {
     }
     
     
-    
+    private boolean anyParameterNeedsConstraint(){
+    	for(int i =0; i< constrainParameters.length; i++){
+    		if(constrainParameters[i]){
+    			return true;
+    		}
+    	}
+    	return false;
+    }
     
  
     private double findLambda(double[] before, double[] newValues){
