@@ -19,11 +19,34 @@ public class TemperatureMixtureErrorData {
     private double calculatedTemperature;
     private double relativeError;
     
+    double calculatedPressure;
+    public double getCalculatedPressure() {
+		return calculatedPressure;
+	}
+
+	public void setCalculatedPressure(double calculatedPressure) {
+		this.calculatedPressure = calculatedPressure;
+	}
+
+	public double getExperimentalPressure() {
+		return experimentalPressure;
+	}
+
+	public void setExperimentalPressure(double experimentalPressure) {
+		this.experimentalPressure = experimentalPressure;
+	}
+
+	double experimentalPressure;
+    
+    
 //    TemperatureMixtureErrorData(double liquidFraction, double tempExp, double tempCalc) {
 //        this.liquidFraction= liquidFraction;
 //        this.experimentalTemperature = tempExp;
 //        this.calculatedTemperature = tempCalc;
 //    }
+	public TemperatureMixtureErrorData(){
+		
+	}
 
     public TemperatureMixtureErrorData(double liquidFraction, double experimentalVaporFraction, double calculatedVaporFraction, double experimentalTemperature, double calculatedTemperature,
             double relativeError) {
