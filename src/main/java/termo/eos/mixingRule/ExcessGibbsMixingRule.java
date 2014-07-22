@@ -46,7 +46,7 @@ public abstract class ExcessGibbsMixingRule extends MixingRule {
             firstTerm += xi * (ai) / bi;
             // secondTerm = Constants.R * temperature * c1 *xi * Math.log(b / bi);
         }
-        return b * (firstTerm - excessGibbs / (getL()));
+        return b * (firstTerm + excessGibbs / (getL()));
     }
     
         @Override

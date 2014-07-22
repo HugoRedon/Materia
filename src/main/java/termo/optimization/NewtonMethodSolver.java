@@ -99,11 +99,16 @@ public class NewtonMethodSolver implements PropertyChangeListener {
     
     public double[] initialValues(int numberOfVariablesToOptimize){
         double[] initialValues = new double[numberOfVariablesToOptimize];
+        int jumpCount = 0;
             for(int i = 0; i < numberOfVariablesToOptimize; i++){
-                for(int j =i; j< errorFunction.numberOfParameters(); j++){
-                    if(!fixParameters[j]){
+                for(int j =i+ jumpCount; j< errorFunction.numberOfParameters(); j++){
+                	boolean jump =fixParameters[j]; 
+                	
+                    if(!jump){
                         initialValues[i] =   errorFunction.getParameter(j);
                         break;
+                    }else{
+                    	jumpCount++;
                     }
                 }
         }
@@ -214,11 +219,16 @@ public class NewtonMethodSolver implements PropertyChangeListener {
  
 
    public void setParametersValues(double[] params){
+	   int jumpCount = 0;
         for(int i = 0; i < params.length; i++){
-            for(int j =i; j< errorFunction.numberOfParameters(); j++){
-                if(!fixParameters[j]){
+            for(int j =i + jumpCount; j< errorFunction.numberOfParameters(); j++){
+            	boolean jump =fixParameters[j]; 
+            	
+                if(!jump){
                     errorFunction.setParameter(params[i], j);
                     break;
+                }else{
+                	jumpCount++;
                 }
             }
         }

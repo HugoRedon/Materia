@@ -46,34 +46,34 @@ public class WongSandlerMixingRule extends ExcessGibbsMixingRule {
 	
 	for(Substance ci: mixture.getPureSubstances()){
 	    for(Substance cj: mixture.getPureSubstances()){
-		double xi = ci.getMolarFraction();
-		double xj = cj.getMolarFraction();
-		
-		double bi = ci.calculate_b_cubicParameter();
-		double ai = ci.calculate_a_cubicParameter();
-		
-		double bj = cj.calculate_b_cubicParameter();
-		double aj = cj.calculate_a_cubicParameter();
-		
-		double kij = params.getK().getValue(ci.getComponent(), cj.getComponent());
-		
-		double R = Constants.R;
-		
-		denomSum += xi*(ai/(bi*R*mixture.getTemperature()));
-		
-		
-		double isum = bi - ai/(R*mixture.getTemperature());
-		double jsum = bj - aj/(R*mixture.getTemperature());
-		
-		numer+= xi*xj*((isum+jsum)/2)*(1-kij);
-		
+			double xi = ci.getMolarFraction();
+			double xj = cj.getMolarFraction();
+			
+			double bi = ci.calculate_b_cubicParameter();
+			double ai = ci.calculate_a_cubicParameter();
+			
+			double bj = cj.calculate_b_cubicParameter();
+			double aj = cj.calculate_a_cubicParameter();
+			
+			double kij = params.getK().getValue(ci.getComponent(), cj.getComponent());
+			
+			double R = Constants.R;
+			
+			denomSum += xi*(ai/(bi*R*mixture.getTemperature()));
+			
+			
+			double isum = bi - ai/(R*mixture.getTemperature());
+			double jsum = bj - aj/(R*mixture.getTemperature());
+			
+			numer+= xi*xj*((isum+jsum)/2)*(1-kij);
+			
 	    }
 	}
 	
 	
 	double ge = activityModel.excessGibbsEnergy(mixture);
 	
-	double denom = 1 - ge/(getL()*mixture.getTemperature() * Constants.R) - denomSum;
+	double denom = 1 + ge/(getL()*mixture.getTemperature() * Constants.R) - denomSum;
 	
 	return numer/denom;
 	
@@ -109,14 +109,16 @@ public class WongSandlerMixingRule extends ExcessGibbsMixingRule {
 
     @Override
     public void setParameter(double value, Compound referenceComponent, Compound nonReferenceComponent, InteractionParameter params, int index) {
-         int numberOfParametersOfActivity = activityModel.numberOfParameters();
+         int activityParameterCount = activityModel.numberOfParameters();
        ActivityModelBinaryParameter activityParams = (ActivityModelBinaryParameter)params;
        
-       if(index == numberOfParametersOfActivity){
+       if(index == activityParameterCount){//simetrico
             activityParams.getK().setValue(referenceComponent, nonReferenceComponent,value);
-       }else if(index == numberOfParametersOfActivity + 1){
+       }
+       else if(index == activityParameterCount + 1){
             activityParams.getK().setValue(nonReferenceComponent, referenceComponent,value);
-       }else{
+       }
+       else{
             activityModel.setParameter(value, referenceComponent, nonReferenceComponent, activityParams, index);
        }
     }

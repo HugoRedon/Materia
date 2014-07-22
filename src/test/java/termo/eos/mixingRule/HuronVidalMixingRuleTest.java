@@ -91,7 +91,7 @@ public class HuronVidalMixingRuleTest {
 //	    pure.setTemperature(temperature);
 //	}
 	mixture.setTemperature(temperature);
-	double expResult = 9.70355653e5;
+	double expResult = 965895.394357623;
 	double result = mixture.calculate_a_cubicParameter();
 	assertEquals(expResult, result, 1e-3);
 
@@ -129,7 +129,7 @@ public class HuronVidalMixingRuleTest {
 	mixture.setTemperature(298);
 	mixture.setPressure(101325);
 	mixture.setPhase(Phase.LIQUID);
-	double expResult = 24.8948;
+	double expResult = 24.820652;
 	
 	double result = mixture.calculateFugacity(ethane);
 	assertEquals(expResult, result,1e-3);

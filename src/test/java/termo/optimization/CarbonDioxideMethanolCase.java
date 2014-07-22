@@ -92,18 +92,31 @@ public class CarbonDioxideMethanolCase {
 		double error =mix.getErrorfunction().error();
 		
 		
-		k.getA().setValue(carbonDioxide, methanol, 0.1);
-		k.getA().setValue(methanol, carbonDioxide, 0.1);
+		k.getA().setValue(carbonDioxide, methanol, 1);
+		k.getA().setValue(methanol, carbonDioxide, 1);
 		
-		k.getB().setValue(carbonDioxide, methanol, 0.1);
-		k.getB().setValue(methanol, carbonDioxide, 0.1);
+		k.getB().setValue(carbonDioxide, methanol, 1);
+		k.getB().setValue(methanol, carbonDioxide, 1);
 		
+		k.getAlpha().setSymmetric(true);
+		k.getAlpha().setValue(methanol, carbonDioxide, 0.3);
+		
+		k.getK().setValue(carbonDioxide, methanol, 0.1);
+		k.getK().setValue(methanol, carbonDioxide, 0.2);
+		
+		
+		System.out.println("numero de parametros :" +mix.getErrorfunction().numberOfParameters() );
+		boolean[]fixParameters = {false,false,false,false,true,false,false};
+		mix.getErrorfunction().getOptimizer().setFixParameters(fixParameters);
 		mix.getErrorfunction().getOptimizer().setApplyErrorDecreaseTechnique(true);
 		mix.getErrorfunction().minimize();
+		System.out.println("mensaje: " + mix.getErrorfunction().getOptimizer().getMessage());
 		boolean falseOptim =mix.getErrorfunction().getOptimizer().isIndeter() || mix.getErrorfunction().getOptimizer().isMaxIterationsReached();
 		
 		if(falseOptim){
+			System.out.println("mensaje: " + mix.getErrorfunction().getOptimizer().getMessage());
 			fail();
+			
 		}
 		
 		double errorAfterOptim =mix.getErrorfunction().error();
@@ -124,6 +137,9 @@ public class CarbonDioxideMethanolCase {
 		
 		System.out.println("B12: " + k.getB().getValue(carbonDioxide, methanol));
 		System.out.println("B21: " + k.getB().getValue( methanol,carbonDioxide));
+		
+		System.out.println("alpha12: " + k.getAlpha().getValue(carbonDioxide, methanol));
+		System.out.println("alpha21: " + k.getAlpha().getValue( methanol,carbonDioxide));
 		
 		
 	}
