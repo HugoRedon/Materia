@@ -25,7 +25,7 @@ public class MixtureBuilder {
 	InteractionParameter k;
 	
 	
-	public Mixture create(){
+	public Mixture build(){
 		Mixture mix =null;
 		if(compounds!= null && compounds.size() > 1){
 			mix =createWithCompounds();
@@ -42,9 +42,23 @@ public class MixtureBuilder {
 		return mix;
 	}
 	
+	private Mixture createWithSubstances(){
+		if(alpha !=null && equationOfState != null && phase != null){
+			return new Mixture(equationOfState, phase, mixingRule, k);
+					
+		}else{
+			//throw new Exception("Mezcla definida incorrectamente");
+			return null;
+		}
+	}
+	
 	private Mixture createWithCompounds(){
-		return new Mixture(equationOfState, alpha, compounds, phase, mixingRule, k);
-		 
+		if(alpha !=null && equationOfState != null && phase != null){
+			return new Mixture(equationOfState, alpha, compounds, phase, mixingRule, k);
+		}else{
+			//throw new Exception("Mezcla definida incorrectamente");
+			return null;
+		}
 	}
 	
 	public MixtureBuilder setEquationOfState(Cubic cubic){

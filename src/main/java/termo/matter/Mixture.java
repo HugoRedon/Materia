@@ -20,7 +20,7 @@ import termo.phase.Phase;
  */
 public final class Mixture extends Homogeneous{
     private MixingRule mixingRule;
-    protected HashSet<Substance> pureSubstances = new HashSet<>();
+    protected Set<Substance> pureSubstances = new HashSet<>();
 //    protected HashMap<String,Double> molarFractions = new HashMap<>();
     protected InteractionParameter binaryParameters = new ActivityModelBinaryParameter();
 
@@ -51,7 +51,7 @@ public final class Mixture extends Homogeneous{
         }
     }
 
-    public Mixture(Cubic equationOfState,Alpha alpha,  HashSet<Compound> components,Phase phase,MixingRule mixingRule ,InteractionParameter k){
+    public Mixture(Cubic equationOfState,Alpha alpha,  Set<Compound> components,Phase phase,MixingRule mixingRule ,InteractionParameter k){
     	this(equationOfState, phase, mixingRule, k);
     	setAlpha(alpha);
         setComponents(components);
@@ -65,7 +65,7 @@ public final class Mixture extends Homogeneous{
     }
 
 
-    public void setComponents(HashSet<Compound> components){
+    public void setComponents(Set<Compound> components){
         pureSubstances.clear();
         //molarFractions.clear();
         double fraction = 1d/components.size();
@@ -219,7 +219,7 @@ public final class Mixture extends Homogeneous{
     /**
      * @return the pureSubstances
      */
-    public HashSet<Substance> getPureSubstances() {
+    public Set<Substance> getPureSubstances() {
 	return pureSubstances;
     }
 
