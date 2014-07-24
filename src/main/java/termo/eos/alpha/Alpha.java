@@ -75,6 +75,7 @@ public abstract class Alpha {
         this.equation = equation;
     }
     public abstract double getParameter(Compound component, int index);
+    public abstract String getParameterName(int index);
     public abstract void setParameter(double value, Compound component, int index);
     
     public abstract int numberOfParameters() ;

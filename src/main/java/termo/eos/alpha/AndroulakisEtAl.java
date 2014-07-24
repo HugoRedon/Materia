@@ -71,6 +71,20 @@ public class AndroulakisEtAl extends Alpha{
         }
     }
 
+    @Override
+	public String getParameterName(int index){
+    	switch(index){
+        case 0: 
+            return "A";
+        case 1: 
+            return "B";
+        case 2: 
+            return "C";
+        default:
+            return null;
+            
+    }
+    }
     
     
     

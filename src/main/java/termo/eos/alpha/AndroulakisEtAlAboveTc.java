@@ -38,6 +38,11 @@ public class AndroulakisEtAlAboveTc extends Alpha{
     public double getParameter(Compound component, int index) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+	@Override
+	public String getParameterName(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
   
 }

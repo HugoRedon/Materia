@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.component.Compound;
 import termo.eos.Cubic;
-import termo.eos.EquationOfStateFactory;
+import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.phase.Phase;
@@ -57,7 +57,7 @@ public class NRTLActivityModelTest {
 	
 	
 	
-	eos = EquationOfStateFactory.pengRobinsonBase();
+	eos = EquationsOfState.pengRobinson();
 	alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
 	ci = new Substance(eos, alpha, ethane, Phase.VAPOR);

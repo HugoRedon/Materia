@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 import termo.component.Compound;
 import termo.cp.PolinomialCpEquation;
 import termo.eos.Cubic;
-import termo.eos.EquationOfStateFactory;
+import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.phase.Phase;
@@ -52,7 +52,7 @@ public class PureSubstanceTest {
 	ethane.setCp(new PolinomialCpEquation(ethane));//ugly stuff
 	
 	
-	Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+	Cubic eos = EquationsOfState.pengRobinson();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
 	

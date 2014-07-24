@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Compound;
 import termo.eos.Cubic;
-import termo.eos.EquationOfStateFactory;
+import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.phase.Phase;
@@ -36,7 +36,7 @@ public class VDWMixingRuleTest {
 	ethane.setCriticalPressure(48.1595*101325);
 	ethane.setK_StryjekAndVera(0.02669);
 	
-	Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+	Cubic eos = EquationsOfState.pengRobinson();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
 	Substance ethanePure = new Substance();

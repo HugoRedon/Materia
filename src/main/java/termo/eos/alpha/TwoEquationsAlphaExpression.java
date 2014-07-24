@@ -97,6 +97,13 @@ public class TwoEquationsAlphaExpression extends Alpha{
     public void setParameter(double value, Compound component, int index) {
         alphaBelowTc.setParameter(value, component, index);
     }
+
+
+
+	@Override
+	public String getParameterName(int index) {
+		return alphaBelowTc.getParameterName(index);
+	}
     
     
     

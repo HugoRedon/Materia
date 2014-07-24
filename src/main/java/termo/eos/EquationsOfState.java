@@ -9,12 +9,12 @@ import termo.eos.alpha.AlphaFactory;
  *
  * @author Hugo Redon Rivera
  */
-public class EquationOfStateFactory {
+public class EquationsOfState {
 
     public static ArrayList<EOS> getAllAvailableEquations(){
         ArrayList<EOS> eos = new ArrayList();
     
-        for(Method method :EquationOfStateFactory.class.getDeclaredMethods()){
+        for(Method method :EquationsOfState.class.getDeclaredMethods()){
             if( method.getName().equals("getAllAvailableEquations") ||
                     method.getName().equals("getAllAvailableCubicEquations")){
                 continue;
@@ -42,7 +42,7 @@ public class EquationOfStateFactory {
     
     
     
-    public static Cubic pengRobinsonBase(){
+    public static Cubic pengRobinson(){
         Cubic pengRobinson = new Cubic();
         pengRobinson.setName(EOSNames.PengRobinson);
         pengRobinson.setU(2);

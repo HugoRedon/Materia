@@ -8,7 +8,7 @@ import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Compound;
 import termo.eos.Cubic;
-import termo.eos.EquationOfStateFactory;
+import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.eos.mixingRule.HuronVidalMixingRule;
@@ -52,7 +52,7 @@ public class WilsonActivityModelTest {
 	propane.setCriticalPressure(41.9396*101325);
 	propane.setK_StryjekAndVera(0.03136);
 	
-	eos = EquationOfStateFactory.pengRobinsonBase();
+	eos = EquationsOfState.pengRobinson();
 	alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
 	

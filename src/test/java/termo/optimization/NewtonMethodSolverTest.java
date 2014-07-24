@@ -9,7 +9,7 @@ import termo.component.Compound;
 import termo.cp.DIPPR_107_Equation;
 import termo.data.ExperimentalData;
 import termo.eos.Cubic;
-import termo.eos.EquationOfStateFactory;
+import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.matter.HeterogeneousSubstance;
@@ -60,7 +60,7 @@ public class NewtonMethodSolverTest {
     
     
     @Test public void testIndetermination(){
-        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Cubic eos = EquationsOfState.pengRobinson();
         Alpha alpha = AlphaFactory.getMathiasAndCopemanExpression();//tres parametros
         
         alpha.setParameter(50, component,0);
@@ -76,7 +76,7 @@ public class NewtonMethodSolverTest {
     
     @Test public void testsNoPersistentDerivativeIncrementInA(){
         System.out.println("testsNoPersistentDerivativeIncrement");
-        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Cubic eos = EquationsOfState.pengRobinson();
         Alpha alpha = AlphaFactory.getAndroulakisEtAl();//tres parametros
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, component);
         double[] args ={0,0,0};
@@ -128,7 +128,7 @@ public class NewtonMethodSolverTest {
         ethanol.setCriticalPressure(60.676*101325);
         ethanol.setK_StryjekAndVera(0.9);
         
-        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Cubic eos = EquationsOfState.pengRobinson();
         Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
         
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, ethanol);
@@ -156,7 +156,7 @@ public class NewtonMethodSolverTest {
     @Test
     public void test3VariablesOptimization() {
         System.out.println("test3VariablesOptimization");
-        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Cubic eos = EquationsOfState.pengRobinson();
         Alpha alpha = AlphaFactory.getAndroulakisEtAl();
         
         Compound ethanol = new Compound("etanol");
@@ -194,7 +194,7 @@ public class NewtonMethodSolverTest {
     
     @Test public void test2VariableOptimization(){
         System.out.println("test2VariableOptimization");
-        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Cubic eos = EquationsOfState.pengRobinson();
         Alpha alpha = AlphaFactory.getSoave2Parameters();
         component.setA_Soave(1);
         component.setB_Soave(0.3);
@@ -215,7 +215,7 @@ public class NewtonMethodSolverTest {
     @Test
     public void fixParameterB(){
         System.out.println("fixParameterB");
-         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+         Cubic eos = EquationsOfState.pengRobinson();
         Alpha alpha = AlphaFactory.getSoave2Parameters();
   
         
@@ -235,7 +235,7 @@ public class NewtonMethodSolverTest {
     @Test 
     public void fixParameter(){
         System.out.println("fixParameter");
-         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+         Cubic eos = EquationsOfState.pengRobinson();
         Alpha alpha = AlphaFactory.getSoave2Parameters();
         component.setA_Soave(3);
         component.setB_Soave(0.3);
@@ -256,7 +256,7 @@ public class NewtonMethodSolverTest {
      @Test 
     public void fixParameterB_in3VariableOptimization(){
         System.out.println("fixParameter");
-         Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+         Cubic eos = EquationsOfState.pengRobinson();
         Alpha alpha = AlphaFactory.getTwuExpression();
         alpha.setParameter(0.5, component, 0);
         alpha.setParameter(0.4, component, 1);
@@ -282,7 +282,7 @@ public class NewtonMethodSolverTest {
     @Test
     public void test1VariableOptimization() {
         System.out.println("test1VariableOptimization");
-        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Cubic eos = EquationsOfState.pengRobinson();
         Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
         
         
@@ -295,7 +295,7 @@ public class NewtonMethodSolverTest {
     @Test
     public void testConstraintInParameterA(){
         System.out.println("parameterAConstraint");
-        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Cubic eos = EquationsOfState.pengRobinson();
         Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
         
         
@@ -339,7 +339,7 @@ public class NewtonMethodSolverTest {
     
     @Test public void testConstraintInparameterBFor2VariableOptimization(){
         System.out.println("testConstraintInparameterBFor2VariableOptimization");
-        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Cubic eos = EquationsOfState.pengRobinson();
           Alpha alpha = AlphaFactory.getSoave2Parameters();
         component.setA_Soave(1);
         component.setB_Soave(0.3);
@@ -388,7 +388,7 @@ public class NewtonMethodSolverTest {
     @Test
     public void testConstraintInparameterB_CFor3VariableOptimization() {
         System.out.println("testConstraintInparameterB_CFor3VariableOptimization");
-        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Cubic eos = EquationsOfState.pengRobinson();
         Alpha alpha = AlphaFactory.getAndroulakisEtAl();
         
         
@@ -478,7 +478,7 @@ public class NewtonMethodSolverTest {
      @Test
     public void testErrorDecreaseTechnique() {
         System.out.println("testErrorDecreaseTechnique");
-        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Cubic eos = EquationsOfState.pengRobinson();
         Alpha alpha = AlphaFactory.getAndroulakisEtAl();
         
         

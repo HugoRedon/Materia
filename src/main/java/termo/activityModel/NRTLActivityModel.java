@@ -81,7 +81,7 @@ public class NRTLActivityModel extends ActivityModel{
             
         }
         double firstTerm = summa2 / summa1;     
-        double result= firstTerm - secondTerm;
+        double result= firstTerm + secondTerm;
 	
 	return Math.exp(result);
     }

@@ -11,7 +11,7 @@ import termo.binaryParameter.InteractionParameter;
 import termo.component.Compound;
 import termo.cp.DIPPR_107_Equation;
 import termo.eos.Cubic;
-import termo.eos.EquationOfStateFactory;
+import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.eos.mixingRule.MixingRule;
@@ -124,7 +124,7 @@ public class MixtureTest {
         components.add(water);
         components.add(ammonia);
 	
-	Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+	Cubic eos = EquationsOfState.pengRobinson();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
 	

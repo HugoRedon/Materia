@@ -18,7 +18,7 @@ import termo.component.Compound;
 import termo.data.ExperimentalDataBinary;
 import termo.data.ExperimentalDataBinaryType;
 import termo.eos.Cubic;
-import termo.eos.EquationOfStateFactory;
+import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.eos.mixingRule.MixingRule;
@@ -66,7 +66,7 @@ public class CarbonDioxideMethanolCase {
 	}
 	@Test
 	public void carbondioxideOptimizationWithVaporPressureErrorFunction(){
-		Cubic eos= EquationOfStateFactory.pengRobinsonBase();
+		Cubic eos= EquationsOfState.pengRobinson();
 		Alpha alpha = AlphaFactory.getPengAndRobinsonExpression();
 		ActivityModel activityModel = new NRTLActivityModel();
 		MixingRule mr = new WongSandlerMixingRule(activityModel, eos);
@@ -89,26 +89,28 @@ public class CarbonDioxideMethanolCase {
 		mix.getErrorfunction().setReferenceComponent(carbonDioxide);
 		mix.getErrorfunction().setNonReferenceComponent(methanol);
 		
-		double error =mix.getErrorfunction().error();
 		
 		
-		k.getA().setValue(carbonDioxide, methanol, 1);
-		k.getA().setValue(methanol, carbonDioxide, 1);
 		
-		k.getB().setValue(carbonDioxide, methanol, 1);
-		k.getB().setValue(methanol, carbonDioxide, 1);
+		k.getA().setValue(carbonDioxide, methanol, 0);
+		k.getA().setValue(methanol, carbonDioxide, 0);
+		
+		k.getB().setValue(carbonDioxide, methanol, 8314*0.5013);
+		k.getB().setValue(methanol, carbonDioxide, 8314*0.1187);
 		
 		k.getAlpha().setSymmetric(true);
 		k.getAlpha().setValue(methanol, carbonDioxide, 0.3);
 		
-		k.getK().setValue(carbonDioxide, methanol, 0.1);
-		k.getK().setValue(methanol, carbonDioxide, 0.2);
+		k.getK().setSymmetric(true);
+		k.getK().setValue(methanol, carbonDioxide, 0.3972 );
 		
 		
-		System.out.println("numero de parametros :" +mix.getErrorfunction().numberOfParameters() );
-		boolean[]fixParameters = {false,false,false,false,true,false,false};
+		
+		boolean[]fixParameters = {true,true,false,false,true,true,false};
 		mix.getErrorfunction().getOptimizer().setFixParameters(fixParameters);
 		mix.getErrorfunction().getOptimizer().setApplyErrorDecreaseTechnique(true);
+		
+		double error =mix.getErrorfunction().error();
 		mix.getErrorfunction().minimize();
 		System.out.println("mensaje: " + mix.getErrorfunction().getOptimizer().getMessage());
 		boolean falseOptim =mix.getErrorfunction().getOptimizer().isIndeter() || mix.getErrorfunction().getOptimizer().isMaxIterationsReached();

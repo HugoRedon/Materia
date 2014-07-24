@@ -203,5 +203,11 @@ public class GeneralTwuEquation extends Alpha {
     public double getParameter(Compound component, int index) {
         return 0;
     }
+
+	@Override
+	public String getParameterName(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }

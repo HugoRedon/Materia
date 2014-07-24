@@ -44,6 +44,12 @@ public class SoaveAlpha extends CommonAlphaEquation{
     public void setParameter(double value, Compound component, int index) {
        //no tiene parametros 
     }
+
+	@Override
+	public String getParameterName(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
    
     

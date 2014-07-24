@@ -10,7 +10,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import termo.component.Compound;
 import termo.eos.Cubic;
-import termo.eos.EquationOfStateFactory;
+import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 
@@ -29,7 +29,7 @@ public class HeterogeneousSubstanceTest {
 	ethane.setCriticalPressure(48.1595*101325);
 	ethane.setK_StryjekAndVera(0.02669);//en eqfases2 tiene un signo negativo ...
 	
-	Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+	Cubic eos = EquationsOfState.pengRobinson();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
 	substance = new HeterogeneousSubstance(eos, alpha, ethane);

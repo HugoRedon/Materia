@@ -13,7 +13,7 @@ import termo.component.Compound;
 import termo.componentsForTests.ComponentsForTests;
 import termo.data.ExperimentalDataBinary;
 import termo.eos.Cubic;
-import termo.eos.EquationOfStateFactory;
+import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.eos.mixingRule.MixingRule;
@@ -36,7 +36,7 @@ public class InteractionParameterOptimizerTest {
         water = ComponentsForTests.getWater();
         methanol = ComponentsForTests.getMethanol();
 
-        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Cubic eos = EquationsOfState.pengRobinson();
         Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
         HashSet<Compound> components = new HashSet<>();
         components.add(water);

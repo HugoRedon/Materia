@@ -13,7 +13,7 @@ import termo.binaryParameter.InteractionParameter;
 import termo.component.Compound;
 import termo.componentsForTests.ComponentsForTests;
 import termo.eos.Cubic;
-import termo.eos.EquationOfStateFactory;
+import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.eos.mixingRule.MixingRule;
@@ -43,7 +43,7 @@ public class HeterogeneousMixtureTest {
 	propane.setCriticalPressure(41.9396*101325);
 	propane.setK_StryjekAndVera(0.03136);
 	
-	Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+	Cubic eos = EquationsOfState.pengRobinson();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
 	HashSet<Compound> components = new HashSet();
@@ -246,7 +246,7 @@ public class HeterogeneousMixtureTest {
             Compound water = ComponentsForTests.getWater();
         Compound methanol = ComponentsForTests.getMethanol();
 
-        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Cubic eos = EquationsOfState.pengRobinson();
         Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
         HashSet<Compound> components = new HashSet<>();
         components.add(water);

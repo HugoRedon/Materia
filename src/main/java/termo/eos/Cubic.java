@@ -1,6 +1,6 @@
 package termo.eos;
 
-import termo.Constants;
+import static termo.Constants.R;
 import termo.phase.Phase;
 
 /**
@@ -40,9 +40,10 @@ public  class Cubic extends EOS{
             double temperature, 
             double volume,
             double a,
-            double b){    
-        return ( Constants.R * temperature / (volume - b)    )
-                - ( a / (Math.pow(volume ,  2 ) +  this.getU()  *  b  *  volume  +  this.getW()  *  Math.pow( b ,  2 ) ) ) ;
+            double b)
+    {    
+        return (R*temperature/(volume-b))
+        		-(a/(Math.pow(volume,2)+u*b*volume+w*Math.pow(b,2)));
     }
     
     public boolean oneRoot(double pressure,
@@ -99,19 +100,20 @@ public  class Cubic extends EOS{
             double B,
             Phase aPhase){
       
-        double alpha = cubicSolutionAlpha(B);//1-(this.getU() - 1 ) * B;
-        double beta =cubicSolutionBeta(A, B);// A - this.getU() * B - this.getU() * Math.pow(B, 2) + this.getW() * Math.pow(B, 2);
-        double gama = cubicSolutionGama(A, B);//A*B + this.getW() * Math.pow(B,2) + this.getW() * Math.pow(B, 3);
+        double alpha = cubicSolutionAlpha(B);
+        double beta =cubicSolutionBeta(A, B);
+        double gama = cubicSolutionGama(A, B);
         
-        double C =cubicSolutionC(beta, alpha);// 3 * beta - Math.pow(alpha, 2);
-        double D = cubicSolutionD(alpha, beta, gama);//- Math.pow(alpha, 3) + 4.5d * alpha * beta - 13.5 * gama;
-        double Q = cubicSolutionQ(C, D);//Math.pow(C, 3) + Math.pow(D, 2);
-        //falta agregar la extrapolación
+        double C =cubicSolutionC(beta, alpha);
+        double D = cubicSolutionD(alpha, beta, gama);
+        double Q = cubicSolutionQ(C, D);
+        
         if(Q <= 0){
             double theta = Math.acos(-D / Math.sqrt(- Math.pow(C, 3)));
-            
-            double liquidz = (1d/3d) * (alpha + 2 * Math.sqrt(-C) * Math.cos((theta / 3) + 120*(Math.PI / 180)));
-            double vaporz = (1d/3d) * (alpha + 2 * Math.sqrt(-C) * Math.cos(theta / 3 ) );
+            double liquidz =
+        		(1d/3d)*(alpha+2*Math.sqrt(-C)*Math.cos((theta/3)+120*(Math.PI/180)));
+            double vaporz 
+            	= (1d/3d)*(alpha+2*Math.sqrt(-C)*Math.cos(theta/3));
             
             if(liquidz < B){
                 liquidz = vaporz;
@@ -124,27 +126,22 @@ public  class Cubic extends EOS{
             }
                 
         }else {
-           // Math.pow(negative number, fractional ) returns NaN
-            
-            
             double firstSum = -D + Math.sqrt(Q);
             double secondSum = -D - Math.sqrt(Q);
-            
-            double firstTerm = (firstSum < 0)? -Math.pow(-firstSum, 1d/3d): Math.pow(firstSum, 1d/3d);     
-            double secondTerm= (secondSum < 0)? -Math.pow(-secondSum, 1d/3d): Math.pow(secondSum, 1d/3d);       
+            double firstTerm 
+            	=(firstSum<0)?-Math.pow(-firstSum,1d/3d):Math.pow(firstSum,1d/3d);     
+            double secondTerm 
+            	=(secondSum<0)?-Math.pow(-secondSum,1d/3d):Math.pow(secondSum,1d/3d);       
             double z = (1d/3d) * (alpha + firstTerm + secondTerm);
             return z;
         }
-        
-        
-
     }
     
        public double get_A(double temperature, double pressure, double a){
-        return    a * pressure /Math.pow(Constants.R * temperature,2);
+        return    a * pressure /Math.pow(R * temperature,2);
     }
     public double get_B(double temperature, double pressure, double b){
-        return b * pressure / (Constants.R * temperature); 
+        return b * pressure / (R * temperature); 
     }
     
  public double calculateVolume(
@@ -152,7 +149,7 @@ public  class Cubic extends EOS{
             double pressure,
             double z
             ){
-      return z * Constants.R * temperature / pressure;
+      return z * R * temperature / pressure;
     }
  public double calculateFugacity(
                double temperature, 
@@ -172,7 +169,7 @@ public  class Cubic extends EOS{
    
         double L = calculateL(volume, b);
 	
-        double lnfug = -Math.log((volume-b)/volume) + (z-1) * (bi/b) + (a / (Constants.R * temperature * b))*((bi/b) - (parciala/a))* L - Math.log(z);
+        double lnfug = -Math.log((volume-b)/volume) + (z-1) * (bi/b) + (a / (R * temperature * b))*((bi/b) - (parciala/a))* L - Math.log(z);
         return Math.exp(lnfug);
 
     }

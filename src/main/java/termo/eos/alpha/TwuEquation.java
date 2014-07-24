@@ -63,6 +63,17 @@ public class TwuEquation extends Alpha {
                 
         }
     }
+
+	@Override
+	public String getParameterName(int index) {
+		switch(index){
+	        case 0 : return "N";
+	        case 1: return "M";
+	        case 2: return "L";
+	        default: return null;
+		}
+	
+	}
     
   
 

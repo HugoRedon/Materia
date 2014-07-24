@@ -1,6 +1,7 @@
 package termo.eos.alpha;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 import termo.component.Compound;
 import termo.eos.alpha.commonaAlphaEquationsImplementation.MathiasAlpha;
@@ -59,6 +60,14 @@ public class CommonAlphaEquationTest {
         public void setParameter(double value, Compound component, int index) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
+
+
+
+		@Override
+		public String getParameterName(int index) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 
         }
       /**

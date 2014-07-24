@@ -52,6 +52,15 @@ public class Soave2Parameters extends Alpha{
                 break;
         }
     }
+	@Override
+	public String getParameterName(int index) {
+		switch(index){
+	        case 0 : return "A";
+	        case 1: return "B";
+	        default: return null;
+		}
+	
+	}
     
     
     

@@ -52,6 +52,14 @@ public class AdachiAndLuAlphaExpresion extends Alpha{
             return 0;
         }
     }
+	@Override
+	public String getParameterName(int index) {
+		switch(index){
+	        case 0 : return "A";
+	        case 1: return "B";
+	        default: return null;
+		}
+	}
     
     
 

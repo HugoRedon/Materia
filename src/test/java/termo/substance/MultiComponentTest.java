@@ -13,7 +13,7 @@ import org.junit.Test;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Compound;
 import termo.eos.Cubic;
-import termo.eos.EquationOfStateFactory;
+import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.eos.mixingRule.MixingRule;
@@ -54,7 +54,7 @@ public class MultiComponentTest {
         nHeptane.setCriticalPressure(27.05*101325);
         nHeptane.setK_StryjekAndVera(0.02325);
         
-        Cubic eos = EquationOfStateFactory.pengRobinsonBase();
+        Cubic eos = EquationsOfState.pengRobinson();
         Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
         
         InteractionParameter k = new InteractionParameter(true);

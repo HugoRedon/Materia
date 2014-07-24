@@ -43,8 +43,11 @@ public class MathiasAlpha extends CommonAlphaEquation{
     
     @Override
     public double getParameter(Compound component,int index) {
-	if(index == 0 ){ return component.getA_Mathias();}
-        else{ return 0;}
+    	if(index == 0 ){
+    		return component.getA_Mathias();
+		}else{ 
+			return 0;
+		}
     }
     
     @Override
@@ -53,6 +56,16 @@ public class MathiasAlpha extends CommonAlphaEquation{
             component.setA_Mathias(paramValue);
         }
     }
+
+	@Override
+	public String getParameterName(int index) {
+		if(index == 0 ){
+			return "A";
+		}else{ 
+			return null;
+		}
+
+	}
     
     
 }

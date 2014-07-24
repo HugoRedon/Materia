@@ -20,7 +20,7 @@ public class EquationOfStateFactoryTest {
 
     @Test
     public void testSomeMethod() {
-        EquationOfStateFactory.getAllAvailableCubicEquations();
+        EquationsOfState.getAllAvailableCubicEquations();
         
     }
     

@@ -56,48 +56,17 @@ public class StryjekAndVera extends CommonAlphaEquation {
         }
     }
     
-    
-//    
-//    @Override
-//    public double getAlphaParameterA(Compound component) {
-//	return component.getK_StryjekAndVera();
-//    }
-//
+
     @Override
     public int numberOfParameters() {
         return 1;
     }
-//
-//    @Override
-//    public void setAlphaParameterA(double paramValue, Compound component) {
-//        component.setK_StryjekAndVera(paramValue);
-//    }
-//
-////    @Override
-////    public double getAlphaParameterA(Compound component) {
-////        return component.getK_StryjekAndVera();
-////    }
-//    
-//    
-//    
-//
-//    @Override
-//    public void setAlphaParameterB(double paramValue, Compound component) {
-//        
-//    }
-//
-//    @Override
-//    public double getAlphaParameterB(Compound component) {
-//        return 0;
-//    }
-//
-//    @Override
-//    public void setAlphaParameterC(double paramValue, Compound component) {
-//        
-//    }
-//
-//    @Override
-//    public double getAlphaParameterC(Compound component) {
-//        return 0;
-//    }
+
+	@Override
+	public String getParameterName(int index) {
+		if(index==0){
+			return "A";
+		}else{return null;}
+	}
+
     }

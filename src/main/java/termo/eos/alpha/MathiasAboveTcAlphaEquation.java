@@ -79,6 +79,15 @@ public class MathiasAboveTcAlphaEquation extends Alpha{
           return 0;}
             
     }
+
+	@Override
+	public String getParameterName(int index) {
+		if(index ==0) {
+			return "A";
+		}
+       
+		return null;
+	}
     
      
     

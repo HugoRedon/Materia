@@ -73,7 +73,7 @@ public class WongSandlerMixingRule extends ExcessGibbsMixingRule {
 	
 	double ge = activityModel.excessGibbsEnergy(mixture);
 	
-	double denom = 1 + ge/(getL()*mixture.getTemperature() * Constants.R) - denomSum;
+	double denom = 1 - ge/(getL()*mixture.getTemperature() * Constants.R) - denomSum;
 	
 	return numer/denom;
 	

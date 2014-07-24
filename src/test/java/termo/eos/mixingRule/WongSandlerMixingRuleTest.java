@@ -13,7 +13,7 @@ import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Compound;
 import termo.eos.Cubic;
-import termo.eos.EquationOfStateFactory;
+import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
 import termo.eos.alpha.AlphaFactory;
 import termo.phase.Phase;
@@ -63,7 +63,7 @@ public class WongSandlerMixingRuleTest {
 	
 	fractions = new HashMap();
 	
-	eos = EquationOfStateFactory.pengRobinsonBase();
+	eos = EquationsOfState.pengRobinson();
 	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
 	
 //	ci = new Substance(eos, alpha, ethane, Phase.VAPOR);
