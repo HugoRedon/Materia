@@ -10,7 +10,7 @@ import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
-import termo.eos.alpha.AlphaFactory;
+import termo.eos.alpha.Alphas;
 import termo.eos.mixingRule.HuronVidalMixingRule;
 import termo.eos.mixingRule.MixingRule;
 import termo.phase.Phase;
@@ -53,7 +53,7 @@ public class WilsonActivityModelTest {
 	propane.setK_StryjekAndVera(0.03136);
 	
 	eos = EquationsOfState.pengRobinson();
-	alpha = AlphaFactory.getStryjekAndVeraExpression();
+	alpha = Alphas.getStryjekAndVeraExpression();
 	
 	
 	components.add(ethane);

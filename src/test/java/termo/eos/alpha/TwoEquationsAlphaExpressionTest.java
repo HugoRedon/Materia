@@ -28,7 +28,7 @@ public class TwoEquationsAlphaExpressionTest {
     }
 
     
-    Alpha mathias = AlphaFactory.getMathiasExpression();
+    Alpha mathias = Alphas.getMathiasExpression();
     @Test
     public void testMathiasAlphaBelowTc() {
 	System.out.println("alpha");
@@ -75,7 +75,7 @@ public class TwoEquationsAlphaExpressionTest {
     
     
         
-    Alpha stryjekVera = AlphaFactory.getStryjekAndVeraExpression();
+    Alpha stryjekVera = Alphas.getStryjekAndVeraExpression();
     @Test
     public void testStryjekAndVeraAlphaBelowTc() {
 	System.out.println("alpha");

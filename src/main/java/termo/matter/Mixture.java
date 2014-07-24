@@ -1,9 +1,10 @@
 package termo.matter;
 
 import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
+
 import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
@@ -51,15 +52,17 @@ public final class Mixture extends Homogeneous{
     }
 
     public Mixture(Cubic equationOfState,Alpha alpha,  HashSet<Compound> components,Phase phase,MixingRule mixingRule ,InteractionParameter k){
-	super(equationOfState,phase);
-        setMixingRule(mixingRule);
-        setAlpha(alpha);
-        
-        setBinaryParameters(k);
+    	this(equationOfState, phase, mixingRule, k);
+    	setAlpha(alpha);
         setComponents(components);
-	
     }
      
+    public Mixture(Cubic equationOfState, Phase phase,MixingRule mixingRule ,InteractionParameter k){
+    	super(equationOfState,phase);
+            setMixingRule(mixingRule);
+            
+            setBinaryParameters(k);
+    }
 
 
     public void setComponents(HashSet<Compound> components){
@@ -105,6 +108,19 @@ public final class Mixture extends Homogeneous{
         getPureSubstances().add(pureSubstance);
 //        getMolarFractions().put(pureSubstance.getComponent().getName(), molarFraction);
     }
+    
+    public void addCompounds(Substance... pureSubstancesToAdd ){
+    	Set<Substance> substancesAccepted = new HashSet();
+    	
+    	for(Substance substance :pureSubstancesToAdd){
+    		if(!this.pureSubstances.contains(substance)){
+    			substancesAccepted.add(substance);
+    			mpcs.addPropertyChangeListener(substance);
+    		}    		
+    	}
+    	this.pureSubstances.addAll(substancesAccepted);
+    }
+    
     public void removeComponent(Substance pureSubstance){
         mpcs.removePropertyChangeListener(pureSubstance);
       	getPureSubstances().remove(pureSubstance);

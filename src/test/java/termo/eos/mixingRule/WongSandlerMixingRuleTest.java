@@ -15,7 +15,7 @@ import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
-import termo.eos.alpha.AlphaFactory;
+import termo.eos.alpha.Alphas;
 import termo.phase.Phase;
 import termo.matter.Mixture;
 import termo.matter.Substance;
@@ -64,7 +64,7 @@ public class WongSandlerMixingRuleTest {
 	fractions = new HashMap();
 	
 	eos = EquationsOfState.pengRobinson();
-	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
+	Alpha alpha = Alphas.getStryjekAndVeraExpression();
 	
 //	ci = new Substance(eos, alpha, ethane, Phase.VAPOR);
 //	Substance cj = new Substance(eos, alpha, propane, Phase.VAPOR);
@@ -92,7 +92,7 @@ public class WongSandlerMixingRuleTest {
 	
 	Mixture ms = new Mixture(
                 eos, 
-                AlphaFactory.getStryjekAndVeraExpression(),  
+                Alphas.getStryjekAndVeraExpression(),  
                 components , 
                 Phase.LIQUID,
                 ws, 
@@ -118,7 +118,7 @@ public class WongSandlerMixingRuleTest {
 	WongSandlerMixingRule ws = new WongSandlerMixingRule(nrtl, eos);
 	
 	Mixture ms = new Mixture(eos, 
-                AlphaFactory.getStryjekAndVeraExpression(), 
+                Alphas.getStryjekAndVeraExpression(), 
                 components, 
                 Phase.LIQUID,ws, k);
 	

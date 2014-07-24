@@ -11,11 +11,11 @@ import termo.eos.alpha.commonaAlphaEquationsImplementation.StryjekAndVera;
  *
  * @author Hugo Redon Rivera
  */
-public class AlphaFactory {
+public class Alphas {
     
     public static ArrayList<Alpha> getAllAvailableAlphas() {
         ArrayList<Alpha> alphas = new ArrayList();
-        Method[] methods = AlphaFactory.class.getDeclaredMethods();
+        Method[] methods = Alphas.class.getDeclaredMethods();
         for (Method method : methods){
             if( method.getName().equals("getAllAvailableAlphas")){
                 continue;

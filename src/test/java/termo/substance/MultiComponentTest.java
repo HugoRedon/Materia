@@ -15,7 +15,7 @@ import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
-import termo.eos.alpha.AlphaFactory;
+import termo.eos.alpha.Alphas;
 import termo.eos.mixingRule.MixingRule;
 import termo.eos.mixingRule.VDWMixingRule;
 import termo.phase.Phase;
@@ -55,7 +55,7 @@ public class MultiComponentTest {
         nHeptane.setK_StryjekAndVera(0.02325);
         
         Cubic eos = EquationsOfState.pengRobinson();
-        Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
+        Alpha alpha = Alphas.getStryjekAndVeraExpression();
         
         InteractionParameter k = new InteractionParameter(true);
         

@@ -9,7 +9,7 @@ import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
-import termo.eos.alpha.AlphaFactory;
+import termo.eos.alpha.Alphas;
 import termo.phase.Phase;
 import termo.matter.Mixture;
 import termo.matter.Substance;
@@ -37,7 +37,7 @@ public class VDWMixingRuleTest {
 	ethane.setK_StryjekAndVera(0.02669);
 	
 	Cubic eos = EquationsOfState.pengRobinson();
-	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
+	Alpha alpha = Alphas.getStryjekAndVeraExpression();
 	
 	Substance ethanePure = new Substance();
 	ethanePure.setCubicEquationOfState(eos);

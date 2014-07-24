@@ -12,7 +12,7 @@ import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
-import termo.eos.alpha.AlphaFactory;
+import termo.eos.alpha.Alphas;
 
 /**
  *
@@ -30,7 +30,7 @@ public class HeterogeneousSubstanceTest {
 	ethane.setK_StryjekAndVera(0.02669);//en eqfases2 tiene un signo negativo ...
 	
 	Cubic eos = EquationsOfState.pengRobinson();
-	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
+	Alpha alpha = Alphas.getStryjekAndVeraExpression();
 	
 	substance = new HeterogeneousSubstance(eos, alpha, ethane);
 //	
@@ -42,19 +42,19 @@ public class HeterogeneousSubstanceTest {
     }
     @Test public void testAlphaChangeForLiquidAndVaporWithPropertyChangeListener(){
         System.out.println("propertyChangeListener for alpha");
-        HeterogeneousSubstance impl = new HeterogeneousSubstance(null, AlphaFactory.getAdachiAndLu(), null);
+        HeterogeneousSubstance impl = new HeterogeneousSubstance(null, Alphas.getAdachiAndLu(), null);
         PropertyChangeSupport mpcs = new PropertyChangeSupport(this);
         mpcs.addPropertyChangeListener(impl);
-        mpcs.firePropertyChange("alpha", AlphaFactory.getAdachiAndLu(), AlphaFactory.getPengAndRobinsonExpression());
+        mpcs.firePropertyChange("alpha", Alphas.getAdachiAndLu(), Alphas.getPengAndRobinsonExpression());
         
-        assertEquals(impl.getLiquid().getAlpha(), AlphaFactory.getPengAndRobinsonExpression());
+        assertEquals(impl.getLiquid().getAlpha(), Alphas.getPengAndRobinsonExpression());
     }
     @Test public void testAlphaChangeWithSetterMethod(){
         System.out.println("propertyChangeListener for alpha");
-        HeterogeneousSubstance impl = new HeterogeneousSubstance(null, AlphaFactory.getAdachiAndLu(), null);
-       impl.setAlpha(AlphaFactory.getPengAndRobinsonExpression());
+        HeterogeneousSubstance impl = new HeterogeneousSubstance(null, Alphas.getAdachiAndLu(), null);
+       impl.setAlpha(Alphas.getPengAndRobinsonExpression());
         
-        assertEquals(impl.getLiquid().getAlpha(), AlphaFactory.getPengAndRobinsonExpression());
+        assertEquals(impl.getLiquid().getAlpha(), Alphas.getPengAndRobinsonExpression());
     }
     
     

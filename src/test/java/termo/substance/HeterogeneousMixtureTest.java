@@ -15,7 +15,7 @@ import termo.componentsForTests.ComponentsForTests;
 import termo.eos.Cubic;
 import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
-import termo.eos.alpha.AlphaFactory;
+import termo.eos.alpha.Alphas;
 import termo.eos.mixingRule.MixingRule;
 import termo.eos.mixingRule.VDWMixingRule;
 
@@ -44,7 +44,7 @@ public class HeterogeneousMixtureTest {
 	propane.setK_StryjekAndVera(0.03136);
 	
 	Cubic eos = EquationsOfState.pengRobinson();
-	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
+	Alpha alpha = Alphas.getStryjekAndVeraExpression();
 	
 	HashSet<Compound> components = new HashSet();
 	components.add(ethane);
@@ -247,7 +247,7 @@ public class HeterogeneousMixtureTest {
         Compound methanol = ComponentsForTests.getMethanol();
 
         Cubic eos = EquationsOfState.pengRobinson();
-        Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
+        Alpha alpha = Alphas.getStryjekAndVeraExpression();
         HashSet<Compound> components = new HashSet<>();
         components.add(water);
         components.add(methanol);

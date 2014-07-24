@@ -8,7 +8,7 @@ import termo.cp.PolinomialCpEquation;
 import termo.eos.Cubic;
 import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
-import termo.eos.alpha.AlphaFactory;
+import termo.eos.alpha.Alphas;
 import termo.phase.Phase;
 
 /**
@@ -53,7 +53,7 @@ public class PureSubstanceTest {
 	
 	
 	Cubic eos = EquationsOfState.pengRobinson();
-	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
+	Alpha alpha = Alphas.getStryjekAndVeraExpression();
 	
 	
 	

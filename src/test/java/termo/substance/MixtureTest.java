@@ -13,7 +13,7 @@ import termo.cp.DIPPR_107_Equation;
 import termo.eos.Cubic;
 import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
-import termo.eos.alpha.AlphaFactory;
+import termo.eos.alpha.Alphas;
 import termo.eos.mixingRule.MixingRule;
 import termo.eos.mixingRule.VDWMixingRule;
 import termo.phase.Phase;
@@ -125,7 +125,7 @@ public class MixtureTest {
         components.add(ammonia);
 	
 	Cubic eos = EquationsOfState.pengRobinson();
-	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
+	Alpha alpha = Alphas.getStryjekAndVeraExpression();
 	
 	
 	
@@ -164,7 +164,7 @@ public class MixtureTest {
     @Test 
     public void testChangeAlphaAndMolarFractionsStillWork(){
         System.out.println("change alpha");
-        substance.setAlpha(AlphaFactory.getAdachiAndLu());
+        substance.setAlpha(Alphas.getAdachiAndLu());
         System.out.println("propane pure alpha should be adachi" + ethanolPure.getAlpha());
         
         double fraction = substance.getFraction(ethanolPure);

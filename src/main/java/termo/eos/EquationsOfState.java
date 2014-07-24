@@ -3,7 +3,7 @@ package termo.eos;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import termo.eos.alpha.Alpha;
-import termo.eos.alpha.AlphaFactory;
+import termo.eos.alpha.Alphas;
 
 /**
  *
@@ -56,7 +56,7 @@ public class EquationsOfState {
         return new IdealGas();
     }
     
-    public static Cubic redlichKwongSoaveBase(){
+    public static Cubic redlichKwongSoave(){
         Cubic rks = new Cubic();
         rks.setU(1);
         rks.setW(0);

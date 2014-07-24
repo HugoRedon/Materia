@@ -22,7 +22,7 @@ public class AlphaFactoryTest {
 
     @Test
     public void getAllAvailableAlphasTest() {
-        ArrayList<Alpha> alphas = AlphaFactory.getAllAvailableAlphas();
+        ArrayList<Alpha> alphas = Alphas.getAllAvailableAlphas();
         boolean pass = true;
         ArrayList<String > alphaNames = new ArrayList();
         for(Field f:AlphaNames.class.getDeclaredFields()){

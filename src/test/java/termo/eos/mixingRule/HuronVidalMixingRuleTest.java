@@ -11,7 +11,7 @@ import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.eos.EquationsOfState;
 import termo.eos.alpha.Alpha;
-import termo.eos.alpha.AlphaFactory;
+import termo.eos.alpha.Alphas;
 import termo.phase.Phase;
 import termo.matter.Mixture;
 import termo.matter.Substance;
@@ -70,7 +70,7 @@ public class HuronVidalMixingRuleTest {
 	createComponents();
 //	createPureSubstaces();
 	eos =EquationsOfState.pengRobinson();
-	Alpha alpha = AlphaFactory.getStryjekAndVeraExpression();
+	Alpha alpha = Alphas.getStryjekAndVeraExpression();
 	ethanePure = new Substance(eos, alpha, ethane, Phase.VAPOR);
 	HuronVidalMixingRule hv = new HuronVidalMixingRule(new WilsonActivityModel(), eos);
 	mixture = new Mixture(eos, alpha, components, Phase.VAPOR, hv, k);
@@ -155,7 +155,7 @@ public class HuronVidalMixingRuleTest {
 //                k,nrtl);
         Mixture mix = new Mixture(
                 EquationsOfState.pengRobinson(), 
-                AlphaFactory.getStryjekAndVeraExpression(), 
+                Alphas.getStryjekAndVeraExpression(), 
                 components, Phase.LIQUID, hv, k);
 	
 	
