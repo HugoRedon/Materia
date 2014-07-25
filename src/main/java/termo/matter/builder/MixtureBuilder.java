@@ -1,4 +1,4 @@
-package termo.matter.factory;
+package termo.matter.builder;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,9 +17,10 @@ import termo.phase.Phase;
 public class MixtureBuilder {
 	Cubic equationOfState;
 	Alpha alpha;
-	Set<Compound> compounds;
-	Map<Compound,Double> compoundsWithFractions = new HashMap();
-	Set<Substance> substances;
+	Set<Compound> compounds = new HashSet();
+
+	Map<Compound,Alpha> compoundsWithAlpha = new HashMap();
+	Set<Substance> substances = new HashSet();
 	Phase phase;
 	MixingRule mixingRule;
 	InteractionParameter k;
@@ -30,35 +31,58 @@ public class MixtureBuilder {
 		if(compounds!= null && compounds.size() > 1){
 			mix =createWithCompounds();
 			
+		}else if(compoundsWithAlpha != null && compoundsWithAlpha.size()>1){
+			mix = createWithDifferentAlphas();
 		}
-		if(alpha !=null && equationOfState != null && phase != null){
-			mix = new Mixture(equationOfState, phase, mixingRule, k);
-		}
-		if(true){
-			
-		}
-		
 		
 		return mix;
 	}
-	
-	private Mixture createWithSubstances(){
-		if(alpha !=null && equationOfState != null && phase != null){
-			return new Mixture(equationOfState, phase, mixingRule, k);
-					
+	private Mixture createWithDifferentAlphas(){
+		if(equationOfState != null 
+				&& phase != null
+				&& mixingRule !=null
+				&& k != null){
+			Mixture mixture = new Mixture(equationOfState, phase, mixingRule, k);
+			Set<Substance> substancesToAdd = new HashSet();
+			int n = compoundsWithAlpha.size();
+			double z = 1d/Double.valueOf(n);
+			for(Compound comp: compoundsWithAlpha.keySet()){
+				Alpha alpha =compoundsWithAlpha.get(comp);
+				Substance substance = new Substance(equationOfState, alpha, comp, phase);
+				substance.setMolarFraction(z);
+				substancesToAdd.add(substance);
+			}
+			
+			mixture.addCompounds(substancesToAdd);
+		return mixture;
 		}else{
-			//throw new Exception("Mezcla definida incorrectamente");
-			return null;
+			return new Mixture();
 		}
 	}
 	
 	private Mixture createWithCompounds(){
-		if(alpha !=null && equationOfState != null && phase != null){
+		if(alpha !=null 
+				&& equationOfState != null 
+				&& phase != null
+				&& mixingRule !=null
+				&& k != null){
 			return new Mixture(equationOfState, alpha, compounds, phase, mixingRule, k);
 		}else{
 			//throw new Exception("Mezcla definida incorrectamente");
-			return null;
+			return new Mixture();
 		}
+	}
+	
+
+	
+	public MixtureBuilder setInteractionParameter(InteractionParameter k){
+		this.k = k;
+		return this;
+	}
+	
+	public MixtureBuilder setMixingRule(MixingRule mixingRule){
+		this.mixingRule = mixingRule;
+		return this;
 	}
 	
 	public MixtureBuilder setEquationOfState(Cubic cubic){
@@ -77,8 +101,8 @@ public class MixtureBuilder {
 		}
 		return this;
 	}
-	public MixtureBuilder addCompound(Compound compound, double molarFraction){
-		compoundsWithFractions.put(compound, molarFraction);
+	public MixtureBuilder addCompound(Compound compound, Alpha alpha){
+		compoundsWithAlpha.put(compound, alpha);
 		return this;
 	}
 	

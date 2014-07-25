@@ -5,17 +5,17 @@ import termo.eos.Cubic;
 
 public class MixingRules {
 
-	public VDWMixingRule vanDerWaals(){
+	public static VDWMixingRule vanDerWaals(){
 		return new VDWMixingRule();
 	}
-	public MathiasKlotzPrausnitzMixingRule mathiasKlotzPrausnitz(){
+	public static MathiasKlotzPrausnitzMixingRule mathiasKlotzPrausnitz(){
 		return new MathiasKlotzPrausnitzMixingRule();
 	}
-	public HuronVidalMixingRule huronVidal(ActivityModel activityModel , Cubic equationOfState){
+	public static HuronVidalMixingRule huronVidal(ActivityModel activityModel , Cubic equationOfState){
 		return new HuronVidalMixingRule(activityModel, equationOfState);
 	}
 	
-	public WongSandlerMixingRule wongSandler(ActivityModel activityModel, Cubic equationOfState){
+	public static WongSandlerMixingRule wongSandler(ActivityModel activityModel, Cubic equationOfState){
 		return new WongSandlerMixingRule(activityModel, equationOfState);
 	}
 }

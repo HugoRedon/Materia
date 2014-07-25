@@ -109,9 +109,8 @@ public final class Mixture extends Homogeneous{
 //        getMolarFractions().put(pureSubstance.getComponent().getName(), molarFraction);
     }
     
-    public void addCompounds(Substance... pureSubstancesToAdd ){
+    public void addCompounds(Set<Substance> pureSubstancesToAdd ){
     	Set<Substance> substancesAccepted = new HashSet();
-    	
     	for(Substance substance :pureSubstancesToAdd){
     		if(!this.pureSubstances.contains(substance)){
     			substancesAccepted.add(substance);
