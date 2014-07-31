@@ -115,10 +115,6 @@ public class HeterogeneousSubstance extends Heterogeneous{
     }
     
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int dewTemperature() {
 	EquilibriaFunction function = new DewTemperatureFunctions();

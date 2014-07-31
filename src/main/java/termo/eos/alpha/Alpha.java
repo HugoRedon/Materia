@@ -46,12 +46,7 @@ public abstract class Alpha {
     }
     
 
-    /**
-     * 
-     * @param temperature
-     * @param component
-     * @return 
-     */
+  
     public  abstract double alpha(double temperature,Compound component);
     
     public abstract double TempOverAlphaTimesDerivativeAlphaRespectTemperature(double temperature,Compound component);
@@ -61,16 +56,12 @@ public abstract class Alpha {
         return name;
     }
 
-    /**
-     * @return the equation
-     */
+  
     public String getEquation() {
         return equation;
     }
 
-    /**
-     * @param equation the equation to set
-     */
+  
     public void setEquation(String equation) {
         this.equation = equation;
     }

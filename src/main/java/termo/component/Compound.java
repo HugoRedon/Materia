@@ -928,7 +928,7 @@ public class Compound implements Serializable {
     }
 
     /**
-     * @param casName the casName to set
+     * @param casNumber the casNumber to set
      */
     public void setCasNumber(String casNumber) {
         this.casNumber = casNumber;

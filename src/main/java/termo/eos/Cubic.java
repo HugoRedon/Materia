@@ -28,14 +28,7 @@ public  class Cubic extends EOS{
         return "a = \\Omega_a \\frac{\\left(RT_c\\right)^2}{p_c}\\alpha(T)";
     }
     
-    /**
-     *
-     * @param temperature Temperature in Kelvin
-     * @param volume Volume in [m3/mol]
-     * @param components List of components of the mixture
-     * @param fractions Mol fractions of the mixture
-     * @return The calculated pressure with the current equation of state
-     */
+
     public double calculatePressure(
             double temperature, 
             double volume,

@@ -28,29 +28,21 @@ public class MixtureEquilibriaPhaseSolution extends EquilibriaSolution{
             this.vaporFractions = solutionFractions;
             
     }
-      /**
-         * @return the vaporFractions
-         */
+    
         public HashMap<Compound,Double> getLiquidFractions() {
             return liquidFractions;
         }
 
-        /**
-         * @param vaporFractions the vaporFractions to set
-         */
+     
         public void setLiquidFractions(HashMap<Compound,Double> mixtureFractions) {
             this.liquidFractions = mixtureFractions;
         }
-	 /**
-     * @return the vaporFractions
-     */
+	
     public HashMap<Compound,Double> getVaporFractions() {
         return vaporFractions;
     }
 
-    /**
-     * @param vaporFractions the vaporFractions to set
-     */
+  
     public void setVaporFractions(HashMap<Compound,Double> vaporFractions) {
         this.vaporFractions = vaporFractions;
     }
