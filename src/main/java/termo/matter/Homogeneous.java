@@ -128,7 +128,15 @@ public abstract class  Homogeneous  implements PropertyChangeListener{
     public String gibbsLatexEquation(){
         return "  g = h - T * s";
     }
-    
+    public double calculatePressure(double temperature,double volume){
+    	this.temperature = temperature;
+    	
+    	double a = calculate_a_cubicParameter();
+    	double b = calculate_b_cubicParameter();
+    	
+    	setPressure(cubicEquationOfState.calculatePressure(temperature, volume, a, b));
+    	return pressure;
+    }
 
     public abstract double partial_aPartial_temperature();
     public abstract double calculate_a_cubicParameter();
