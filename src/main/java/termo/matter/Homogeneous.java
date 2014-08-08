@@ -129,7 +129,7 @@ public abstract class  Homogeneous  implements PropertyChangeListener{
         return "  g = h - T * s";
     }
     public double calculatePressure(double temperature,double volume){
-    	this.temperature = temperature;
+    	setTemperature(temperature);
     	
     	double a = calculate_a_cubicParameter();
     	double b = calculate_b_cubicParameter();
