@@ -33,7 +33,6 @@ public class HeterogeneousSubstance extends Heterogeneous{
         mpcs.addPropertyChangeListener(vapor);
         
          errorFunction = new VaporPressureErrorFunction(this);
-//        alphaOptimizer = new NewtonMethodSolver(errorFunction);
         addPropertyChangeListener(errorFunction);
     }
     
@@ -42,8 +41,6 @@ public class HeterogeneousSubstance extends Heterogeneous{
 	    Alpha alpha,
 	    Compound component){
         this();
-//	this.cubicEquationOfState = eos;
-//	this.alpha = alpha;
 	this.component = component;
         
 
@@ -57,80 +54,72 @@ public class HeterogeneousSubstance extends Heterogeneous{
         vaporImplementation.setAlpha(alpha);
         vaporImplementation.setComponent(component);
         
-        setAlpha(alpha);
-        //mpcs.firePropertyChange("alpha", null, alpha);//para inicializar los arreglos en errorfunction/newtonmethodsolver
-	//this.alphaOptimizer = new NewtonMethodSolver(this);
+        setAlpha(alpha);    
         
     }
-        
-//    public HeterogeneousSubstance(Substance pure){
-//        
-//        Substance liquidImplementation  =(Substance)liquid;
-//        liquidImplementation.setCubicEquationOfState(pure.getCubicEquationOfState());
-//        liquidImplementation.setAlpha(pure.getAlpha());
-//        liquidImplementation.setComponent(pure.getComponent());
-//        
-//	Substance vaporImplementation  =(Substance)vapor;
-//        vaporImplementation.setCubicEquationOfState(pure.getCubicEquationOfState());
-//        vaporImplementation.setAlpha(pure.getAlpha());
-//        vaporImplementation.setComponent(pure.getComponent());
-//        
-//    }
-//    
     
-    
-    
-    
-    
-    
-    @Override
-    public int bubbleTemperatureEstimate(){
-	return temperatureEstimate();
+    public int saturationPressure(double pressureEstimate){
+    	return bubblePressure(pressureEstimate);
     }
+    public int saturationPressure(){
+    	return bubblePressure();
+    }
+    
+    public int saturationTemperature(){
+    	return bubbleTemperature();
+    }
+    
 
-  
-    
-    @Override
-    public int bubbleTemperature() {
+    //from super class
+	    public final int bubblePressure(double pressureEstimate){
+	        setPressure(pressureEstimate);
+	        return bubblePressure();
+	    }
+	    public final int bubblePressure(){
+	        bubblePressureEstimate();
+	        return bubblePressureImpl();
+	    }
 	
-	EquilibriaFunction function = new BubbleTemperatureErrorFunction();
-	return minimizeTemperature(function);
+	    public final int dewPressure(double pressureEstimate){
+			setPressure(pressureEstimate);
+			return dewPressure();
+	    }
+	    public final int dewPressure(){
+	        dewPressureEstimate();
+	        return dewPressureImpl();
+	    }
+    
+    //---
+    
+    public int bubbleTemperatureEstimate(){
+    	return temperatureEstimate();
     }
-       
-    @Override
+    public int bubbleTemperature() {
+		EquilibriaFunction function = new BubbleTemperatureErrorFunction();
+		return minimizeTemperature(function);
+    }
     public void bubblePressureEstimate(){
-	setPressure(liquid.calculatetAcentricFactorBasedVaporPressure());
+    	setPressure(liquid.calculatetAcentricFactorBasedVaporPressure());
     }
-    
-    @Override
     public int bubblePressureImpl() {
-	EquilibriaFunction function = new BubblePressureFunctions();
-	return minimizePressure(function);
+		EquilibriaFunction function = new BubblePressureFunctions();
+		return minimizePressure(function);
     }
     
 
-    @Override
     public int dewTemperatureEstimate() {
-	return temperatureEstimate();
+    	return temperatureEstimate();
     }
-    
-
-    @Override
     public int dewTemperature() {
-	EquilibriaFunction function = new DewTemperatureFunctions();
-	return minimizeTemperature(function);
+		EquilibriaFunction function = new DewTemperatureFunctions();
+		return minimizeTemperature(function);
     }
-     
-    @Override
     public void dewPressureEstimate() {
-	setPressure(vapor.calculatetAcentricFactorBasedVaporPressure());
-	//return new EquilibriaSolution(temperature, vapor.calculatetAcentricFactorBasedVaporPressure(), 0);
+    	setPressure(vapor.calculatetAcentricFactorBasedVaporPressure());
     }
-    
-    @Override
     public int dewPressureImpl() {
-	EquilibriaFunction function = new DewPressureFunctions();
-	return minimizePressure(function);
+		EquilibriaFunction function = new DewPressureFunctions();
+		return minimizePressure(function);
     }
     
     
@@ -176,56 +165,42 @@ public class HeterogeneousSubstance extends Heterogeneous{
     
       @Override
     public Substance getLiquid() {
-	return (Substance)liquid;
+    	  return (Substance)liquid;
     }
 
     @Override
     public Substance getVapor() {
-	return (Substance) vapor;
+    	return (Substance) vapor;
     }
     
     
-    
-    
-//    public Cubic getCubicEquationOfState() {
-//	return cubicEquationOfState;
-//    }   
-//    void setCubicEquationOfState(Cubic eos) {
-//	this.cubicEquationOfState = eos;
-//    }
-//    void setAlpha(Alpha alpha) {
-//	this.alpha = alpha;
-//    }
-//    public Alpha getAlpha() {
-//	return alpha;
-//    }
-  
+   
 
     private int minimizeTemperature(EquilibriaFunction function){
-	EquilibriaSolution result = new EquilibriaSolution();
-	temperatureEstimate();
-	result.setEstimateTemperature(temperature);
-	
-	double temp = temperature;
-	double tolerance = 1e-4;
-        double e = 100;
-        double deltaT = 1;
-        int count = 0;
-	
-        while(Math.abs(e) > tolerance && count < 1000){
-	    count++;
-            e = function.errorFunction(equilibriaRelation(temp, pressure));
-            double temperature_ = temp + deltaT;
-            double e_ = function.errorFunction(equilibriaRelation(temperature_, pressure));
-            temp = function.newVariableFunction(temp, temperature_, e, e_);
-        }
-	
-	setTemperature(temp);
-	result.setTemperature(temperature);
-	result.setPressure(pressure);
-	result.setIterations(count);
-        //return new EquilibriaSolution(temperature, pressure, count);
-	return count;
+		EquilibriaSolution result = new EquilibriaSolution();
+		temperatureEstimate();
+		result.setEstimateTemperature(temperature);
+		
+		double temp = temperature;
+		double tolerance = 1e-4;
+	        double e = 100;
+	        double deltaT = 1;
+	        int count = 0;
+		
+	        while(Math.abs(e) > tolerance && count < 1000){
+		    count++;
+	            e = function.errorFunction(equilibriaRelation(temp, pressure));
+	            double temperature_ = temp + deltaT;
+	            double e_ = function.errorFunction(equilibriaRelation(temperature_, pressure));
+	            temp = function.newVariableFunction(temp, temperature_, e, e_);
+	        }
+		
+		setTemperature(temp);
+		result.setTemperature(temperature);
+		result.setPressure(pressure);
+		result.setIterations(count);
+	        //return new EquilibriaSolution(temperature, pressure, count);
+		return count;
     }
     
      
@@ -252,50 +227,16 @@ public class HeterogeneousSubstance extends Heterogeneous{
 	
 	setPressure(p);
 	return count;
-	//return new EquilibriaSolution(temperature, pressure, count);
+
              
 }
 
-//    /**
-//     * @return the component
-//     */
-//    public Compound getComponent() {
-//	return component;
-//    }
-//
-//    /**
-//     * @param component the component to set
-//     */
-//    public void setComponent(Compound component) {
-//	this.component = component;
-//    }
     private VaporPressureErrorFunction errorFunction  ;
-    //private NewtonMethodSolver alphaOptimizer;
     public void optimizeTo(ArrayList<ExperimentalData> expData) {
-        
-        //VaporPressureErrorFunction errorFunction  =(VaporPressureErrorFunction)alphaOptimizer.getErrorFunction();
         errorFunction.setExperimental(expData);
         errorFunction.minimize();
     }
 
-    /**
-     * @return the alphaOptimizer
-     */
-//    public NewtonMethodSolver getAlphaOptimizer() {
-//        if(alphaOptimizer ==null){
-//            VaporPressureErrorFunction errorFunction = new VaporPressureErrorFunction(this);
-//            alphaOptimizer = new NewtonMethodSolver(errorFunction);
-//            addPropertyChangeListener(alphaOptimizer);
-//        }
-//        return alphaOptimizer;
-//    }
-//
-//    /**
-//     * @param alphaOptimizer the alphaOptimizer to set
-//     */
-//    public void setAlphaOptimizer(NewtonMethodSolver alphaOptimizer) {
-//        this.alphaOptimizer = alphaOptimizer;
-//    }
 
     /**
      * @return the errorFunction

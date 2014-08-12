@@ -90,10 +90,27 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
           
          
     }
+    //from superclass
+	    public final int bubblePressure(double pressureEstimate){
+	        setPressure(pressureEstimate);
+		return bubblePressure();
+	    }
+	    public final int bubblePressure(){
+	        bubblePressureEstimate();
+	        return bubblePressureImpl();
+	    }
+	
+	    public final int dewPressure(double pressureEstimate){
+		setPressure(pressureEstimate);
+		return dewPressure();
+	    }
+	    public final int dewPressure(){
+	        dewPressureEstimate();
+	        return dewPressureImpl();
+	    }
+    //----
     
     
-    
-    @Override
     public int bubbleTemperatureEstimate() {
 	copyZfractionsToliquid();
 	double temp =  300;
@@ -120,7 +137,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	return iterations;
     }
 
-    @Override
+    
     public int bubbleTemperature(){
         bubbleTemperatureEstimate();
         return bubbleTemperature(temperature);
@@ -157,7 +174,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	//return new MixtureEquilibriaPhaseSolution(temperature, pressure, (HashMap<Component,Double>)getLiquid().getReadOnlyFractions().clone(), (HashMap<Component,Double>)getVapor().getReadOnlyFractions().clone(), count);
     }
 
-    @Override
+    
     public void bubblePressureEstimate() {
 	
 	copyZfractionsToliquid();
@@ -177,7 +194,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
       
     }
 
-    @Override
+    
     public int bubblePressureImpl() {
 	BubblePressureFunctions function = new BubblePressureFunctions();
 	return minimizePressure(function, temperature,Phase.VAPOR);
@@ -187,7 +204,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     
     
 
-    @Override
+    
     public int dewTemperatureEstimate() {
 	
 	copyZfractionsToVapor();
@@ -238,7 +255,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
       return iterations;
     }
     
-    @Override
+    
     public int dewTemperature() {
 	
         HashMap<Compound,Double> K;
@@ -278,7 +295,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
         return count; //new MixtureEquilibriaPhaseSolution(temperature,pressure, molarFractions,liquidFractions, count);
     }
 
-    @Override
+    
     public void dewPressureEstimate() {
 	
 	copyZfractionsToVapor();
@@ -302,7 +319,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	//return pressure;//new MixtureEquilibriaPhaseSolution(temperature,pressure, null,null, iterations);
     }
 
-    @Override
+    
     public int dewPressureImpl() {
 	MixtureEquilibriaFunction function = new DewPressureFunctions();
 	return minimizePressure(function, temperature, Phase.LIQUID);

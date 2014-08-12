@@ -68,63 +68,23 @@ public abstract class Heterogeneous implements PropertyChangeListener{
     }
     
     
-    
-//    public final void bubblePressureEstimate(double temperature){
-//	setTemperature(temperature);
-//	bubblePressureEstimate();
-//    }
-//    public final int bubbleTemperature(double pressure){
-//	setPressure(pressure);
-//	return bubbleTemperature();
-//    }
-//    public final  int bubbleTemperatureEstimate(double pressure){
-//	setPressure(pressure);
-//	return bubbleTemperatureEstimate();
-//    }
-    public final int bubblePressure(double pressureEstimate){
-        setPressure(pressureEstimate);
-	return bubblePressure();
-    }
-    public final int bubblePressure(){
-        bubblePressureEstimate();
-        return bubblePressureImpl();
-    }
-    
-    protected abstract void bubblePressureEstimate();
-    protected abstract int bubbleTemperatureEstimate();
-    protected abstract int bubbleTemperature();
-    protected abstract int bubblePressureImpl();
-    
-    
-    
-    
-//    public final void  dewPressureEstimate(double temperature){
-//	setTemperature(temperature);
-//	dewPressureEstimate();
-//    }
-//    public final int dewTemperatureEstimate(double pressure){
-//	setPressure(pressure);
-//	return dewTemperatureEstimate();
-//    }
-    public final int dewPressure(double pressureEstimate){
-	setPressure(pressureEstimate);
-	return dewPressure();
-    }
-    public final int dewPressure(){
-        dewPressureEstimate();
-        return dewPressureImpl();
-    }
-    
-//    public final int dewTemperature(double pressure){
-//	setPressure(pressure);
-//	return dewTemperature();
-//    }
-    
-    protected abstract void dewPressureEstimate();
-    protected abstract int dewTemperatureEstimate();
-    protected abstract int dewPressureImpl();
-    protected abstract int dewTemperature();
-    
+ 
+//    
+//    protected abstract void bubblePressureEstimate();
+//    protected abstract int bubbleTemperatureEstimate();
+//    protected abstract int bubbleTemperature();
+//    protected abstract int bubblePressureImpl();
+//    
+//    
+//    
+//   
+//    
+//
+//    protected abstract void dewPressureEstimate();
+//    protected abstract int dewTemperatureEstimate();
+//    protected abstract int dewPressureImpl();
+//    protected abstract int dewTemperature();
+//    
     
     public abstract Homogeneous getLiquid();
     public abstract Homogeneous getVapor();
