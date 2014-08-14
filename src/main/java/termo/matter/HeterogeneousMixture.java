@@ -13,7 +13,7 @@ import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
 import termo.eos.mixingRule.MixingRule;
-import termo.optimization.errorfunctions.TemperatureErrorFunction;
+import termo.optimization.errorfunctions.MixtureErrorFunction;
 import termo.phase.Phase;
 
 /**
@@ -31,7 +31,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
      private final HashMap<String,Double> zFractions = new HashMap(); 
      private Set<Compound> components = new HashSet();
      
-     private TemperatureErrorFunction errorFunction;
+     private MixtureErrorFunction errorFunction;
     // private NewtonMethodSolver optimizer;
     
     public HeterogeneousMixture(){
@@ -44,7 +44,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
         mpcs.addPropertyChangeListener(vapor);
         
        
-        errorFunction = new TemperatureErrorFunction(this);
+        errorFunction = new MixtureErrorFunction(this);
         mpcs.addPropertyChangeListener(errorFunction);
         
        
@@ -831,14 +831,14 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     /**
      * @return the errorfunction
      */
-    public TemperatureErrorFunction getErrorfunction() {
+    public MixtureErrorFunction getErrorfunction() {
         return errorFunction;
     }
 
     /**
      * @param errorfunction the errorfunction to set
      */
-    public void setErrorfunction(TemperatureErrorFunction errorfunction) {
+    public void setErrorfunction(MixtureErrorFunction errorfunction) {
         this.errorFunction = errorfunction;
     }
 

@@ -20,7 +20,7 @@ import termo.eos.mixingRule.MixingRule;
 import termo.eos.mixingRule.VDWMixingRule;
 import termo.eos.mixingRule.WongSandlerMixingRule;
 import termo.matter.HeterogeneousMixture;
-import termo.optimization.errorfunctions.TemperatureErrorFunction;
+import termo.optimization.errorfunctions.MixtureErrorFunction;
 
 /**
  *

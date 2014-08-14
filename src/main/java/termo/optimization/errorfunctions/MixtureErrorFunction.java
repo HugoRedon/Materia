@@ -19,7 +19,7 @@ import termo.optimization.NewtonMethodSolver;
  *
  * @author Hugo
  */
-public class TemperatureErrorFunction extends ErrorFunction implements PropertyChangeListener{
+public class MixtureErrorFunction extends ErrorFunction implements PropertyChangeListener{
     private Compound referenceComponent;
     private Compound nonReferenceComponent;
     private final HeterogeneousMixture mixture;
@@ -32,7 +32,7 @@ public class TemperatureErrorFunction extends ErrorFunction implements PropertyC
     
     ExperimentalDataBinaryType dataType = ExperimentalDataBinaryType.isobaric;//default
     
-    public TemperatureErrorFunction(HeterogeneousMixture mixture){
+    public MixtureErrorFunction(HeterogeneousMixture mixture){
         this.mixture = mixture;
         optimizer = new NewtonMethodSolver(this);
         mpcs.addPropertyChangeListener(optimizer);
