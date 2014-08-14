@@ -1,13 +1,13 @@
 package termo.matter;
 
 import java.util.ArrayList;
+
 import termo.component.Compound;
 import termo.data.ExperimentalData;
 import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
 import termo.equilibrium.EquilibriaFunction;
 import termo.equilibrium.EquilibriaSolution;
-import termo.optimization.NewtonMethodSolver;
 import termo.optimization.errorfunctions.VaporPressureErrorFunction;
 import termo.phase.Phase;
 
@@ -68,12 +68,15 @@ public class HeterogeneousSubstance extends Heterogeneous{
     public int saturationTemperature(){
     	return bubbleTemperature();
     }
+    public int saturationTemperature(double temperatureEstimate){
+    	return bubbleTemperature(temperatureEstimate);
+    }
     
 
     //from super class
 	    public final int bubblePressure(double pressureEstimate){
 	        setPressure(pressureEstimate);
-	        return bubblePressure();
+	        return bubblePressureImpl();
 	    }
 	    public final int bubblePressure(){
 	        bubblePressureEstimate();
@@ -94,9 +97,13 @@ public class HeterogeneousSubstance extends Heterogeneous{
     public int bubbleTemperatureEstimate(){
     	return temperatureEstimate();
     }
+    public int bubbleTemperature(double temperatureEstimate){
+    	setTemperature(temperatureEstimate);
+    	return bubbleTemperatureImpl();
+    }
     public int bubbleTemperature() {
-		EquilibriaFunction function = new BubbleTemperatureErrorFunction();
-		return minimizeTemperature(function);
+    	bubbleTemperatureEstimate();
+		return bubbleTemperatureImpl();
     }
     public void bubblePressureEstimate(){
     	setPressure(liquid.calculatetAcentricFactorBasedVaporPressure());
@@ -104,6 +111,11 @@ public class HeterogeneousSubstance extends Heterogeneous{
     public int bubblePressureImpl() {
 		EquilibriaFunction function = new BubblePressureFunctions();
 		return minimizePressure(function);
+    }
+    
+    public int bubbleTemperatureImpl(){
+    	EquilibriaFunction function = new BubbleTemperatureErrorFunction();
+    	return minimizeTemperature(function);
     }
     
 
@@ -173,7 +185,7 @@ public class HeterogeneousSubstance extends Heterogeneous{
     	return (Substance) vapor;
     }
     
-    
+   
    
 
     private int minimizeTemperature(EquilibriaFunction function){

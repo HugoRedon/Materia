@@ -233,9 +233,9 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
             
             T_  = temp + deltaT;
            for (Substance component : getVapor().getPureSubstances() ){
-	       setTemperature(temp);
+        	   setTemperature(temp);
                double vaporPressure =component.calculatetAcentricFactorBasedVaporPressure();
-	       vaporPressures.put(component, vaporPressure);
+               vaporPressures.put(component, vaporPressure);
                denominator += getVapor().getFraction(component) / vaporPressure;
                setTemperature(T_);
                double vaporPressure_ =component.calculatetAcentricFactorBasedVaporPressure();
