@@ -1,11 +1,13 @@
 package termo.matter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import termo.component.Compound;
 import termo.data.ExperimentalData;
 import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
+import termo.eos.alpha.AlphaParameter;
 import termo.equilibrium.EquilibriaFunction;
 import termo.equilibrium.EquilibriaSolution;
 import termo.optimization.errorfunctions.VaporPressureErrorFunction;
@@ -56,6 +58,22 @@ public class HeterogeneousSubstance extends Heterogeneous{
         
         setAlpha(alpha);    
         
+    }
+    
+    public List<AlphaParameter> alphaParameters(){
+    	List<AlphaParameter> result = new ArrayList();
+    	
+    	int numberOfParameters = alpha.numberOfParameters();
+    	for(int i =0; i < numberOfParameters ; i++){
+    		double value = alpha.getParameter(component, i);
+    		String name = alpha.getParameterName(i);
+    		
+    		AlphaParameter param = new AlphaParameter(value,name);
+    		
+    		result.add(param);
+    	}
+    	
+    	return result;
     }
     
     public int saturationPressure(double pressureEstimate){

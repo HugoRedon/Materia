@@ -492,6 +492,7 @@ public class NewtonMethodSolverTest {
         alpha.setParameter(30, ethanol,0);
         
         HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, ethanol);
+        substance.getErrorFunction().getOptimizer().setApplyErrorDecreaseTechnique(false);
         substance.optimizeTo(list);
         for(Parameters_Error err: substance.getErrorFunction().getOptimizer().getConvergenceHistory()){
             System.out.println("iteración:" + err.getIteration() +

@@ -11,9 +11,11 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
+
 import termo.component.Compound;
 import termo.data.Experimental;
 import termo.data.ExperimentalData;
+import termo.data.ExperimentalDataList;
 import termo.eos.alpha.Alpha;
 import termo.matter.HeterogeneousSubstance;
 import termo.optimization.ErrorData;
@@ -83,6 +85,12 @@ public class VaporPressureErrorFunction extends ErrorFunction implements Propert
             Alpha alpha = substance.getVapor().getAlpha();
             return alpha.getParameter( component, index);
     }
+    public String getParameterName(int index){
+    	Alpha alpha = substance.getAlpha();
+    	return alpha.getParameterName(index);
+    	
+    }
+    
       //to class function
     @Override
    public double error(){
@@ -141,6 +149,10 @@ public class VaporPressureErrorFunction extends ErrorFunction implements Propert
     @Override
     public void setExperimental(List<? extends Experimental> experimental) {
         this.experimental = (List<ExperimentalData>) experimental;
+    }
+    
+    public void setExperimental(ExperimentalDataList list){
+    	this.experimental = list.getList();
     }
 
     /**

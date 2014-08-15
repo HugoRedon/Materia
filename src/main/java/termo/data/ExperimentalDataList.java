@@ -154,6 +154,10 @@ public class ExperimentalDataList implements Serializable {
             list.add(data);
         }
     }
+    
+    public void addExperimentalData(double temperature, double pressure){
+    	list.add(new ExperimentalData(temperature, pressure));
+    }
 
     public void removeExperimentalData(ExperimentalData data) {
         if(list.contains(data)){

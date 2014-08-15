@@ -37,7 +37,7 @@ public class NewtonMethodSolver implements PropertyChangeListener {
     private ArrayList<Parameters_Error> convergenceHistory = new ArrayList();
     
     
-    private boolean applyErrorDecreaseTechnique = false;
+    private boolean applyErrorDecreaseTechnique = true;
     private int maxErrorDecreaseIterations = 26;
     private int errorDecreaseIterations = 0;
     
