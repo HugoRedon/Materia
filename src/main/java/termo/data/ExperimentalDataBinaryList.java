@@ -54,6 +54,11 @@ public class ExperimentalDataBinaryList implements Serializable{
     public ExperimentalDataBinaryList() {
     }
     
+    public void addExperimentalDataToList(double temperature,double pressure, double x,double y){
+    	ExperimentalDataBinary data = new ExperimentalDataBinary(temperature, pressure, x, y);
+    	addExperimentalDataToList(data);
+    }
+    
     public void addExperimentalDataToList(ExperimentalDataBinary data){
         data.setExperimentalDataList(this);
         list.add(data);

@@ -11,6 +11,7 @@ import termo.binaryParameter.InteractionParameter;
 import termo.component.Compound;
 import termo.data.Experimental;
 import termo.data.ExperimentalDataBinary;
+import termo.data.ExperimentalDataBinaryList;
 import termo.data.ExperimentalDataBinaryType;
 import termo.matter.HeterogeneousMixture;
 import termo.optimization.NewtonMethodSolver;
@@ -165,6 +166,13 @@ public class MixtureErrorFunction extends ErrorFunction implements PropertyChang
 //         referenceComponent = this.experimental.get(0).getReferenceComponent();
 //        nonReferenceComponent = this.experimental.get(0).getNonReferenceComponent();
 //        
+    }
+    
+    
+    public void setExperimental(ExperimentalDataBinaryList binaryList){
+    	setExperimental(binaryList.getList(), binaryList.getType());
+    	setReferenceComponent(binaryList.getReferenceComponent());
+    	setNonReferenceComponent(binaryList.getNonReferenceComponent());
     }
     
     public void setExperimental(List<? extends Experimental> experimental,ExperimentalDataBinaryType datatype){
