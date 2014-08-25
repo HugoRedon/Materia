@@ -14,7 +14,49 @@ public abstract class Heterogeneous implements PropertyChangeListener{
     protected  Homogeneous liquid;
     protected Homogeneous vapor;
     
-    protected double temperature;
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((liquid == null) ? 0 : liquid.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(pressure);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(temperature);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((vapor == null) ? 0 : vapor.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Heterogeneous other = (Heterogeneous) obj;
+		if (liquid == null) {
+			if (other.liquid != null)
+				return false;
+		} else if (!liquid.equals(other.liquid))
+			return false;
+		if (Double.doubleToLongBits(pressure) != Double
+				.doubleToLongBits(other.pressure))
+			return false;
+		if (Double.doubleToLongBits(temperature) != Double
+				.doubleToLongBits(other.temperature))
+			return false;
+		if (vapor == null) {
+			if (other.vapor != null)
+				return false;
+		} else if (!vapor.equals(other.vapor))
+			return false;
+		return true;
+	}
+	protected double temperature;
     protected double pressure;
     
     PropertyChangeSupport mpcs = new PropertyChangeSupport(this);

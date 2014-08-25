@@ -1,7 +1,9 @@
 package termo.matter.builder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,6 +27,7 @@ public class MixtureBuilder {
 	MixingRule mixingRule;
 	InteractionParameter k;
 	
+	List<CompoundAlphaFraction> compoundAlphaFraction =new ArrayList<>();
 	
 	public Mixture build(){
 		Mixture mix =null;
@@ -106,6 +109,11 @@ public class MixtureBuilder {
 		return this;
 	}
 	
+	public MixtureBuilder addCompound(Compound compound,Alpha alpha,Double fraction){
+		compoundAlphaFraction.add(new CompoundAlphaFraction(compound, alpha, fraction));
+		return this;
+	}
+	
 	public MixtureBuilder addSubstances(Substance... substances){
 		for(Substance substance: substances){
 			this.substances.add(substance);
@@ -118,4 +126,34 @@ public class MixtureBuilder {
 		return this;
 	}
 	
+}
+
+class CompoundAlphaFraction{
+	Compound compound;
+	Alpha alpha;
+	Double fraction;
+	public CompoundAlphaFraction(Compound compound, Alpha alpha, Double fraction) {
+		super();
+		this.compound = compound;
+		this.alpha = alpha;
+		this.fraction = fraction;
+	}
+	public Compound getCompound() {
+		return compound;
+	}
+	public void setCompound(Compound compound) {
+		this.compound = compound;
+	}
+	public Alpha getAlpha() {
+		return alpha;
+	}
+	public void setAlpha(Alpha alpha) {
+		this.alpha = alpha;
+	}
+	public Double getFraction() {
+		return fraction;
+	}
+	public void setFraction(Double fraction) {
+		this.fraction = fraction;
+	}
 }

@@ -60,7 +60,39 @@ public class HeterogeneousSubstance extends Heterogeneous{
         
     }
     
-    public List<AlphaParameter> alphaParameters(){
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((alpha == null) ? 0 : alpha.hashCode());
+		result = prime * result
+				+ ((component == null) ? 0 : component.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		HeterogeneousSubstance other = (HeterogeneousSubstance) obj;
+		if (alpha == null) {
+			if (other.alpha != null)
+				return false;
+		} else if (!alpha.equals(other.alpha))
+			return false;
+		if (component == null) {
+			if (other.component != null)
+				return false;
+		} else if (!component.equals(other.component))
+			return false;
+		return true;
+	}
+
+	public List<AlphaParameter> alphaParameters(){
     	List<AlphaParameter> result = new ArrayList();
     	
     	int numberOfParameters = alpha.numberOfParameters();
