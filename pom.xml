@@ -27,16 +27,7 @@
           <url>https://github.com/HugoRedon</url>
       </developer>
   </developers>
-  <distributionManagement>
-  <snapshotRepository>
-    <id>ossrh</id>
-    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-  </snapshotRepository>
-  <repository>
-    <id>ossrh</id>
-    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-  </repository>
-</distributionManagement>
+  
   
     <build>
         <plugins>
@@ -45,10 +36,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5</version>
                 <configuration>
-                	<autoVersionSubmodules>true</autoVersionSubmodules>
-				    <useReleaseProfile>false</useReleaseProfile>
-			    	<releaseProfiles>release</releaseProfiles>
-				    <goals>deploy</goals>
                     <source>1.7</source>
                     <target>1.7</target>
                 </configuration>
@@ -59,7 +46,7 @@
 			  <version>1.6.2</version>
 			  <extensions>true</extensions>
 			  <configuration>
-			     <serverId>ossrh</serverId>
+			     <serverId>sonatype-nexus-staging</serverId>
 			     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
 			     <autoReleaseAfterClose>true</autoReleaseAfterClose>
 			  </configuration>
@@ -86,27 +73,14 @@
   </dependencies>
   
   
-  
-  <!--for snapshot -->
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
+
   
   <scm>
       <url>git@github.com:HugoRedon/Materia.git</url>
       <connection>scm:git:git@github.com:HugoRedon/Materia.git</connection>
       <developerConnection>scm:git:git@github.com:HugoRedon/Materia.git</developerConnection>
   </scm>
-  
-  
-  
-  
-  
-  <!--end snapshot -->
-  
-  
+    
   
   
   
