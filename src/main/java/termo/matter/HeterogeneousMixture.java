@@ -965,6 +965,68 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
         return s;
     }
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((alpha == null) ? 0 : alpha.hashCode());
+		result = prime * result
+				+ ((components == null) ? 0 : components.hashCode());
+		result = prime * result
+				+ ((equationOfState == null) ? 0 : equationOfState.hashCode());
+		result = prime
+				* result
+				+ ((interactionParameters == null) ? 0 : interactionParameters
+						.hashCode());
+		result = prime * result
+				+ ((mixingRule == null) ? 0 : mixingRule.hashCode());
+		result = prime * result
+				+ ((zFractions == null) ? 0 : zFractions.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		HeterogeneousMixture other = (HeterogeneousMixture) obj;
+		if (alpha == null) {
+			if (other.alpha != null)
+				return false;
+		} else if (!alpha.equals(other.alpha))
+			return false;
+		if (components == null) {
+			if (other.components != null)
+				return false;
+		} else if (!components.equals(other.components))
+			return false;
+		if (equationOfState == null) {
+			if (other.equationOfState != null)
+				return false;
+		} else if (!equationOfState.equals(other.equationOfState))
+			return false;
+		if (interactionParameters == null) {
+			if (other.interactionParameters != null)
+				return false;
+		} else if (!interactionParameters.equals(other.interactionParameters))
+			return false;
+		if (mixingRule == null) {
+			if (other.mixingRule != null)
+				return false;
+		} else if (!mixingRule.equals(other.mixingRule))
+			return false;
+		if (zFractions == null) {
+			if (other.zFractions != null)
+				return false;
+		} else if (!zFractions.equals(other.zFractions))
+			return false;
+		return true;
+	}
+
 //    public NewtonMethodSolver getOptimizer() {
 //        return optimizer;
 //    }
