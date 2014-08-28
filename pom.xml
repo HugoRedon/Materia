@@ -3,7 +3,7 @@
   <name>Materia</name>
   <groupId>com.github.hugoredon</groupId>
   <artifactId>materia</artifactId>
-  <version>3.5-SNAPSHOT</version>
+  <version>3.4-SNAPSHOT</version>
   <packaging>jar</packaging>
   <description>
       Thermodynamics properties and 
