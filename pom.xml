@@ -3,7 +3,7 @@
   <name>Materia</name>
   <groupId>com.github.hugoredon</groupId>
   <artifactId>materia</artifactId>
-  <version>3.4-SNAPSHOT</version>
+  <version>3.5-SNAPSHOT</version>
   <packaging>jar</packaging>
   <description>
       Thermodynamics properties and 
@@ -93,7 +93,11 @@
     </dependency>
   </dependencies>
   
-  
+      <parent>
+	        <groupId>org.sonatype.oss</groupId>
+	        <artifactId>oss-parent</artifactId>
+	        <version>7</version>
+	    </parent>
 
   
   <scm>
