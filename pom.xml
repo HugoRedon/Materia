@@ -40,7 +40,7 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
-            <plugin>
+            <!-- <plugin>
 			  <groupId>org.sonatype.plugins</groupId>
 			  <artifactId>nexus-staging-maven-plugin</artifactId>
 			  <version>1.6.2</version>
@@ -65,7 +65,7 @@
           </goals>
         </execution>
       </executions>
-    </plugin>
+    </plugin> -->
     </plugins>
     
     
