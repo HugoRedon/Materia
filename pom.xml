@@ -38,10 +38,10 @@
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                   <!--  <autoVersionSubmodules>true</autoVersionSubmodules>
 				    <useReleaseProfile>false</useReleaseProfile>
 				    <releaseProfiles>release</releaseProfiles>
-				    <goals>deploy</goals>
+				    <goals>deploy</goals> -->
                 </configuration>
             </plugin>
              <plugin>
@@ -55,7 +55,7 @@
 			     <autoReleaseAfterClose>true</autoReleaseAfterClose>
 			  </configuration>
 			</plugin>
-        	<!--
+        	
         <plugin>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-gpg-plugin</artifactId>
@@ -69,7 +69,7 @@
           </goals>
         </execution>
       </executions>
-    </plugin> -->
+    </plugin> 
     </plugins>
     
     
