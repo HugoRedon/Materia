@@ -12,6 +12,7 @@ import termo.component.Compound;
 import termo.eos.Cubic;
 import termo.eos.alpha.Alpha;
 import termo.eos.mixingRule.MixingRule;
+import termo.matter.HeterogeneousMixture;
 import termo.matter.Mixture;
 import termo.matter.Substance;
 import termo.phase.Phase;
@@ -29,17 +30,48 @@ public class MixtureBuilder {
 	
 	List<CompoundAlphaFraction> compoundAlphaFraction =new ArrayList<>();
 	
+
+
+	
+	
+	
 	public Mixture build(){
 		Mixture mix =null;
 		if(compounds!= null && compounds.size() > 1){
 			mix =createWithCompounds();
 			
 		}else if(compoundsWithAlpha != null && compoundsWithAlpha.size()>1){
+			//fracciones igual 
 			mix = createWithDifferentAlphas();
+		}else if(compoundAlphaFraction != null && compoundAlphaFraction.size()>1){
+			mix =createWithDiffAlphasAndFractions();
 		}
 		
 		return mix;
 	}
+	
+	private Mixture createWithDiffAlphasAndFractions(){
+		Mixture result=null;
+		if(equationOfState != null 
+				&& phase != null
+				&& mixingRule !=null
+				&& k != null){
+			
+			result = new Mixture(equationOfState,phase,mixingRule,k);
+			Set<Substance> substancesToAdd = new HashSet<>();
+			for(CompoundAlphaFraction caf: compoundAlphaFraction){
+				Compound c = caf.getCompound();
+				Alpha a = caf.getAlpha();
+				double f =caf.getFraction();
+				Substance pureSubstance = new Substance(equationOfState, a, c, phase);
+				pureSubstance.setMolarFraction(f);
+				substancesToAdd.add(pureSubstance);
+			}
+			result.addCompounds(substancesToAdd);
+		}
+		return result;
+	}
+	
 	private Mixture createWithDifferentAlphas(){
 		if(equationOfState != null 
 				&& phase != null
@@ -126,34 +158,4 @@ public class MixtureBuilder {
 		return this;
 	}
 	
-}
-
-class CompoundAlphaFraction{
-	Compound compound;
-	Alpha alpha;
-	Double fraction;
-	public CompoundAlphaFraction(Compound compound, Alpha alpha, Double fraction) {
-		super();
-		this.compound = compound;
-		this.alpha = alpha;
-		this.fraction = fraction;
-	}
-	public Compound getCompound() {
-		return compound;
-	}
-	public void setCompound(Compound compound) {
-		this.compound = compound;
-	}
-	public Alpha getAlpha() {
-		return alpha;
-	}
-	public void setAlpha(Alpha alpha) {
-		this.alpha = alpha;
-	}
-	public Double getFraction() {
-		return fraction;
-	}
-	public void setFraction(Double fraction) {
-		this.fraction = fraction;
-	}
 }

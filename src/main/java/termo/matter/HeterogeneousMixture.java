@@ -56,7 +56,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
         String name =evt.getPropertyName();
         switch(name){
             case "components":
-                setComponents((HashSet<Compound> )evt.getNewValue());
+                setComponents((Set<Compound> )evt.getNewValue());
                 break;
 //            case "zFractions":
 //                zFractions = (HashMap<String,Double>)evt.getNewValue();
@@ -730,6 +730,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
      */
     public void setVapor(Mixture vapor) {
 	this.vapor = vapor;
+	mpcs.addPropertyChangeListener(vapor);
     }
 
     /**
@@ -744,7 +745,8 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
      * @param liquid the liquid to set
      */
     public void setLiquid(Mixture liquid) {
-	this.liquid = liquid;
+    	this.liquid = liquid;
+    	mpcs.addPropertyChangeListener(liquid);
     }
 
     /**
