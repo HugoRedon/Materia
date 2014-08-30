@@ -214,4 +214,11 @@ public class MathiasKlotzPrausnitzMixingRule extends MixingRule {
     }
 
 
+	@Override
+	public String getParameterName(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }

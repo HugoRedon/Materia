@@ -5,6 +5,7 @@
 package termo.eos.mixingRule;
 
 import java.util.ArrayList;
+
 import termo.Constants;
 import termo.activityModel.ActivityModel;
 import termo.binaryParameter.ActivityModelBinaryParameter;
@@ -78,6 +79,10 @@ public class HuronVidalMixingRule extends ExcessGibbsMixingRule{
     public int numberOfParameters() {
         return activityModel.numberOfParameters();
     }
+	@Override
+	public String getParameterName(int index) {
+		return activityModel.getParameterName( index);
+	}
 
    
  

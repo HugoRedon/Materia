@@ -1,13 +1,15 @@
 package termo.eos.alpha;
 
 import java.util.Objects;
+
 import termo.component.Compound;
+import termo.optimization.ContainsParameters;
 
 /**
  *
  * @author Hugo Redon Rivera
  */
-public abstract class Alpha {
+public abstract class Alpha implements ContainsParameters{
     
     private String name ;
     protected String equation;
@@ -66,7 +68,7 @@ public abstract class Alpha {
         this.equation = equation;
     }
     public abstract double getParameter(Compound component, int index);
-    public abstract String getParameterName(int index);
+    
     public abstract void setParameter(double value, Compound component, int index);
     
     public abstract int numberOfParameters() ;

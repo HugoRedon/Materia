@@ -3,6 +3,7 @@ package termo.eos.mixingRule;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import termo.Constants;
 import termo.activityModel.ActivityModel;
 import termo.binaryParameter.ActivityModelBinaryParameter;
@@ -106,7 +107,18 @@ public class WongSandlerMixingRule extends ExcessGibbsMixingRule {
        }
        
     }
-
+	@Override
+	public String getParameterName(int index) {
+		 int numberOfParametersOfActivity = activityModel.numberOfParameters();	       
+	       
+	       if(index == numberOfParametersOfActivity){
+	           return "Kij";
+	       }else if(index == numberOfParametersOfActivity + 1){
+	           return "Kji";
+	       }else{
+	           return activityModel.getParameterName(index);
+	       }
+	}
     @Override
     public void setParameter(double value, Compound referenceComponent, Compound nonReferenceComponent, InteractionParameter params, int index) {
          int activityParameterCount = activityModel.numberOfParameters();
@@ -127,6 +139,8 @@ public class WongSandlerMixingRule extends ExcessGibbsMixingRule {
     public int numberOfParameters() {
         return 2 + activityModel.numberOfParameters();
     }
+
+
 
    
 }

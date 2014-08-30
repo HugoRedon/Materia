@@ -2,6 +2,7 @@ package termo.activityModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.component.Compound;
@@ -199,6 +200,13 @@ public class NRTLActivityModel extends ActivityModel{
 //        }
         
         return super.getParameter(referenceComponent, nonReferenceComponent, params, index); //To change body of generated methods, choose Tools | Templates.
+    }
+    @Override
+    public String getParameterName(int index) {
+    	if(index == super.numberOfParameters()){
+    		return "\\alpha";
+    	}
+    	return super.getParameterName(index);
     }
 
     @Override

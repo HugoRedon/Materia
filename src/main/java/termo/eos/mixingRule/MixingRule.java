@@ -7,12 +7,13 @@ import termo.binaryParameter.InteractionParameter;
 import termo.component.Compound;
 import termo.matter.Mixture;
 import termo.matter.Substance;
+import termo.optimization.ContainsParameters;
 
 /**
  *
  * @author Hugo Redon Rivera
  */
-public abstract class MixingRule {
+public abstract class MixingRule implements ContainsParameters {
     protected String name;
      
 

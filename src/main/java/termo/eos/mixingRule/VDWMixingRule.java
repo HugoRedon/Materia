@@ -110,6 +110,15 @@ public class VDWMixingRule extends MixingRule{
         return 1;
     }
 
+
+	@Override
+	public String getParameterName(int index) {
+		if(index==0){
+			return "k";
+		}
+		return "";
+	}
+
  
 
    

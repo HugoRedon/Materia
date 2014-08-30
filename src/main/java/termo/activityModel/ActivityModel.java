@@ -2,19 +2,21 @@ package termo.activityModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Compound;
 import termo.matter.Mixture;
 import termo.matter.Substance;
+import termo.optimization.ContainsParameters;
 import termo.optimization.errorfunctions.ErrorFunction;
 
 /**
  *
  * @author Hugo Redon Rivera
  */
-public abstract class ActivityModel {
+public abstract class ActivityModel implements ContainsParameters{
     private String name;
    public abstract double excessGibbsEnergy(
             Mixture mixture);
@@ -47,6 +49,17 @@ public abstract class ActivityModel {
         }
                 
     }
+    @Override
+    public String getParameterName(int index){
+    	 switch(index){
+         case 0: return "Aij";
+         case 1: return "Aji";
+         case 2: return "Bij";
+         case 3: return "Bji";
+         default:return "";
+     }
+    }
+    
     public  void setParameter(double value, 
             Compound referenceComponent,
             Compound nonReferenceComponent,
