@@ -1,0 +1,113 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <name>Materia</name>
+  <groupId>com.github.hugoredon</groupId>
+  <artifactId>materia</artifactId>
+  <version>3.6-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <description>
+      Thermodynamics properties and 
+      equilibria calculations for 
+      chemical engineering.
+  </description>
+  <url>http://ingenieria-eqpro.rhcloud.com/</url>
+  <licenses>
+      <license>
+          <name>GNU GENERAL PUBLIC LICENSE Version 2</name>
+          <url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
+          <distribution>repo</distribution>
+      </license>
+  </licenses>
+  
+  <developers>
+      <developer>
+          <id>hugoredon</id>
+          <email>hugo_redon_@hotmail.com</email>
+          <name>Hugo Redon</name>
+          <url>https://github.com/HugoRedon</url>
+      </developer>
+  </developers>
+  
+  
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                   <!--  <autoVersionSubmodules>true</autoVersionSubmodules>
+				    <useReleaseProfile>false</useReleaseProfile>
+				    <releaseProfiles>release</releaseProfiles>
+				    <goals>deploy</goals> -->
+                </configuration>
+            </plugin>
+             <plugin>
+			  <groupId>org.sonatype.plugins</groupId>
+			  <artifactId>nexus-staging-maven-plugin</artifactId>
+			  <version>1.6.2</version>
+			  <extensions>true</extensions>
+			  <configuration>
+			     <serverId>sonatype-nexus-staging</serverId>
+			     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+			     <autoReleaseAfterClose>true</autoReleaseAfterClose>
+			  </configuration>
+			</plugin>
+        	
+        <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-gpg-plugin</artifactId>
+      <version>1.5</version>
+      <executions>
+        <execution>
+          <id>sign-artifacts</id>
+          <phase>verify</phase>
+          <goals>
+            <goal>sign</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin> 
+    </plugins>
+    
+    
+    </build>
+    <properties>
+        <skipTests>false</skipTests>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+  <dependencies>
+    <dependency>
+	<groupId>junit</groupId>
+	<artifactId>junit</artifactId>
+	<version>4.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate.javax.persistence</groupId>
+      <artifactId>hibernate-jpa-2.1-api</artifactId>
+      <version>1.0.0.Final</version>
+      <type>jar</type>
+    </dependency>
+  </dependencies>
+  
+      <parent>
+	        <groupId>org.sonatype.oss</groupId>
+	        <artifactId>oss-parent</artifactId>
+	        <version>7</version>
+	    </parent>
+
+  
+  <scm>
+      <url>git@github.com:HugoRedon/Materia.git</url>
+      <connection>scm:git:git@github.com:HugoRedon/Materia.git</connection>
+      <developerConnection>scm:git:git@github.com:HugoRedon/Materia.git</developerConnection>
+  </scm>
+    
+  
+  
+  
+  
+</project>
