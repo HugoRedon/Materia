@@ -256,7 +256,12 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     }
     
     
-    public int dewTemperature() {
+    public int dewTemperature(){
+    	dewTemperatureEstimate();
+    	return dewTemperature(temperature);
+    }
+    
+    public int dewTemperature(double estimate) {
 	
         HashMap<Compound,Double> K;
 	
@@ -268,9 +273,9 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
         double sx_;
         double e_;
         
-	 dewTemperatureEstimate();
+	 //dewTemperatureEstimate();
 	 
-	 double temp = temperature;
+	 double temp = estimate;
 
         double tolerance  = 1e-4;
         int count = 0;
