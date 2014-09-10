@@ -93,7 +93,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     //from superclass
 	    public final int bubblePressure(double pressureEstimate){
 	        setPressure(pressureEstimate);
-		return bubblePressure();
+	        return bubblePressureImpl();
 	    }
 	    public final int bubblePressure(){
 	        bubblePressureEstimate();
@@ -101,8 +101,8 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	    }
 	
 	    public final int dewPressure(double pressureEstimate){
-		setPressure(pressureEstimate);
-		return dewPressure();
+			setPressure(pressureEstimate);
+			return dewPressureImpl();
 	    }
 	    public final int dewPressure(){
 	        dewPressureEstimate();

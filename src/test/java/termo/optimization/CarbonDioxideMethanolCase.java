@@ -66,6 +66,7 @@ public class CarbonDioxideMethanolCase {
 	}
 	@Test
 	public void carbondioxideOptimizationWithVaporPressureErrorFunction(){
+		System.out.println("carbonDioxideOptimization----------------------------------------------------------------");
 		Cubic eos= EquationsOfState.pengRobinson();
 		Alpha alpha = Alphas.getPengAndRobinsonExpression();
 		ActivityModel activityModel = new NRTLActivityModel();
