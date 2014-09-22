@@ -156,6 +156,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	double tolerance = 1e-4;
 	int count = 0;
 	while(Math.abs(e) >= tolerance && count < 1000){
+		count++;
 	    setTemperature(temp);
 	    K = equilibriumRelations() ;
 	    double sy = calculateSy(K);
@@ -280,6 +281,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
         double tolerance  = 1e-4;
         int count = 0;
         while(Math.abs(e) >= tolerance && count < 1000){
+        	count++;
 	    setTemperature(temp);
             K = equilibriumRelations(); 
             sx = calculateSx(K);
