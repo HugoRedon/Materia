@@ -185,7 +185,7 @@ public final class Mixture extends Homogeneous{
             
             term1 += xi * entropyFori;
             
-            term2 += xi * Math.log(xi);
+            term2 +=(xi!=0)? xi * Math.log(xi):0;
             
         }
         
