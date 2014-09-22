@@ -15,3 +15,4 @@ site/_site/
 coverage
 .ruby-version
 .sass-cache
+/target/
