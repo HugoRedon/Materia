@@ -158,7 +158,7 @@ public abstract class  Homogeneous  implements PropertyChangeListener{
 		
 		return  cubicEquationOfState.calculateCompresibilityFactor(A, B, getPhase());
     }
-    protected double calculateFugacity( Substance pureSubstance){
+    protected double calculateFugacityCoefficient( Substance pureSubstance){
         double a = calculate_a_cubicParameter();
         double b = calculate_b_cubicParameter();
         double  parcialb = pureSubstance.calculate_b_cubicParameter();//bi(pureSubstance);
@@ -166,6 +166,14 @@ public abstract class  Homogeneous  implements PropertyChangeListener{
         
         return getCubicEquationOfState().calculateFugacity(temperature, pressure, a, b, parciala, parcialb, getPhase());
     }  
+    protected double calculateFugacity(Substance pureSubstance){
+    	double result = 0;
+    	double fugacityCoefficient = calculateFugacityCoefficient(pureSubstance);
+    	double fraction = pureSubstance.getMolarFraction();
+    	result = pressure * fraction *fugacityCoefficient;
+    			
+    	return result;
+    }
     private double calculateEntropy( double volume){
         double idealGasEntropy = calculateIdealGasEntropy();
         double b = calculate_b_cubicParameter();

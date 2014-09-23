@@ -17,7 +17,7 @@ import termo.phase.Phase;
 public class Substance extends Homogeneous {
     private Compound component;
     private Alpha alpha;
-    private Double molarFraction;
+    private Double molarFraction=1d;
     
     public Substance(){
 	
@@ -85,9 +85,11 @@ public class Substance extends Homogeneous {
     }
     
     
+    public double calculateFugacityCoefficient(){
+    	return super.calculateFugacityCoefficient(this);
+    }
     public double calculateFugacity(){
-	return super.calculateFugacity(this);
-	
+    	return super.calculateFugacity(this);
     }
 //    @Override
 //    public double calculateFugacity(Compound component) {

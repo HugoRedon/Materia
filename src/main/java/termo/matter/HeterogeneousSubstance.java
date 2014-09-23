@@ -367,7 +367,7 @@ class BubbleTemperatureErrorFunction implements EquilibriaFunction{
     public double equilibriaRelation(double temperature, double pressure){
 	  setTemperature(temperature);
 	  setPressure(pressure);
-	return getLiquid().calculateFugacity()/getVapor().calculateFugacity();
+	return getLiquid().calculateFugacityCoefficient()/getVapor().calculateFugacityCoefficient();
     }
   
     

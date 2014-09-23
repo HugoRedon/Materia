@@ -95,7 +95,7 @@ public final class Mixture extends Homogeneous{
     
     public double calculateFugacity(Compound component){
 	Substance pure = getPureSubstance(component);
-	return calculateFugacity(pure);
+	return calculateFugacityCoefficient(pure);
 	//throw new Exception("La mezcla no contiene el componente " + component.toString());
 	
     }
