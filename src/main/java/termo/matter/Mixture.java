@@ -93,12 +93,16 @@ public final class Mixture extends Homogeneous{
     }
     
     
-    public double calculateFugacity(Compound component){
-	Substance pure = getPureSubstance(component);
-	return calculateFugacityCoefficient(pure);
-	//throw new Exception("La mezcla no contiene el componente " + component.toString());
-	
+    public double calculateFugacityCoefficient(Compound component){
+		Substance pure = getPureSubstance(component);
+		return calculateFugacityCoefficient(pure);
+		//throw new Exception("La mezcla no contiene el componente " + component.toString());
     }
+    public double calculateFugacity(Compound compound){
+    	Substance pure = getPureSubstance(compound);
+    	return super.calculateFugacity(pure);
+    }
+    
 
     
     public void addComponent(Substance pureSubstance, double molarFraction){

@@ -106,7 +106,7 @@ public class VDWMixingRuleTest {
         mixture.setPressure(101325);
 
         double expResult = 0.992262;
-        double result = mixture.calculateFugacity(ethane);
+        double result = mixture.calculateFugacityCoefficient(ethane);
 
         assertEquals(expResult, result,1e-3);
         

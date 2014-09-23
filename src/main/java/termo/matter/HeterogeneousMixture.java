@@ -534,8 +534,8 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	for(Compound component: getComponents()){
 	    double xi = getLiquid().getReadOnlyFractions().get(component);
 	    double yi = getVapor().getReadOnlyFractions().get(component);
-	    double liquidFug = getLiquid().calculateFugacity(component);
-	    double vaporFug = getVapor().calculateFugacity(component);
+	    double liquidFug = getLiquid().calculateFugacityCoefficient(component);
+	    double vaporFug = getVapor().calculateFugacityCoefficient(component);
 	    result += Math.abs(xi* liquidFug - yi * vaporFug    );
 	}
 	return result;
@@ -936,8 +936,8 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 //           return liquidFug/ vaporFug;
 //    }
     public Double equilibriumRelation(Compound component){
-	double liquidFug = getLiquid().calculateFugacity(component);
-	double vaporFug = getVapor().calculateFugacity(component);
+	double liquidFug = getLiquid().calculateFugacityCoefficient(component);
+	double vaporFug = getVapor().calculateFugacityCoefficient(component);
 	return liquidFug/vaporFug;
     }
     

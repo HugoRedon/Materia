@@ -103,7 +103,7 @@ public class WongSandlerMixingRuleTest {
 	ms.setTemperature(temperature);
 	ms.setPressure(pressure);
 	double expResult = 0.294285;//quien sabe
-	double resutl = ms.calculateFugacity(propane);
+	double resutl = ms.calculateFugacityCoefficient(propane);
 //	assertEquals(expResult, resutl,1e-3);
 	       System.out.println("Prueba deficiente");
     }
