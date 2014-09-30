@@ -102,10 +102,7 @@ public class WilsonActivityModel extends ActivityModel{
 
     @Override
     public double parcialExcessGibbsRespectTemperature(
-            ArrayList<Compound> components, 
-            HashMap<Compound, Double> fractions, 
-            ActivityModelBinaryParameter k,
-            double temperature) {
+           Mixture mixture) {
         
          double result = 0;
         
@@ -120,20 +117,20 @@ public class WilsonActivityModel extends ActivityModel{
         double xj =0;
         double lambda =0;
         
-        
-        for(Compound ci: components){
+        for(Substance ci: mixture.getPureSubstances()){
             t0 =0;
             b1 =0;
             t1 =0;
             
-            xi = fractions.get(ci);
-            for(Compound cj : components){
+            xi = ci.getMolarFraction();
+            ActivityModelBinaryParameter k = (ActivityModelBinaryParameter)mixture.getBinaryParameters();
+            for(Substance cj : mixture.getPureSubstances()){
                 
-                xj = fractions.get(cj);
+                xj = cj.getMolarFraction();
 //                lambda = lambda(ci, cj, k, temperature);
                         
-                tau = tau(ci, cj, k, temperature);
-                bji = k.getB().getValue(cj, ci);
+                tau = tau(ci.getComponent(), cj.getComponent(), k, mixture.getTemperature());
+                bji = k.getB().getValue(cj.getComponent(), ci.getComponent());
                 
                 t0 +=  xj *lambda;
                 b1 += xj *lambda * bji / Constants.R;

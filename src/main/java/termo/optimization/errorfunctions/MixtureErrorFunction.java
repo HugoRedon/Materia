@@ -44,6 +44,11 @@ public class MixtureErrorFunction extends ErrorFunction implements PropertyChang
         InteractionParameter params = getMixture().getInteractionParameters();
         return getMixture().getMixingRule().getParameter( referenceComponent, nonReferenceComponent, params, index);
     }
+    
+    @Override
+    public String getParameterName(int index) {        
+        return getMixture().getMixingRule().getParameterName(  index);
+    }
 
     @Override
     public int numberOfParameters() {

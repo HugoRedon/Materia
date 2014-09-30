@@ -20,7 +20,9 @@ import termo.matter.Substance;
  */
 public abstract class ExcessGibbsMixingRule extends MixingRule {
     ActivityModel activityModel;
-    private double L;
+ 
+
+	private double L;
    
 
     public ExcessGibbsMixingRule(ActivityModel activityModel, Cubic equationOfState){
@@ -71,6 +73,24 @@ public abstract class ExcessGibbsMixingRule extends MixingRule {
         return b * Constants.R * mixture.getTemperature()*( alphai -  Math.log(gammai)/L) + a * bi / b;
     }
     
+    @Override
+    public double temperatureParcial_a(Mixture mixture) {    	
+    	double b = mixture.calculate_b_cubicParameter();
+    	double firstTerm =0; 
+    	for(Substance subi: mixture.getPureSubstances()){
+    		double xi = subi.getMolarFraction();
+    		double ai = subi.calculate_a_cubicParameter();
+    		double bi = subi.calculate_b_cubicParameter();
+    		double temp = subi.getTemperature();
+    		Compound comp = subi.getComponent();
+    		double alphaDerivative_i = subi.getAlpha().TempOverAlphaTimesDerivativeAlphaRespectTemperature(temp, comp);
+    		
+    		firstTerm += xi*(ai/bi)*alphaDerivative_i;
+    	}
+    	double temperature =mixture.getTemperature();
+    	double secondTerm = temperature *activityModel.parcialExcessGibbsRespectTemperature(mixture)*(-1d/L);
+    	return b*(firstTerm+secondTerm);
+    }
     
     
     
@@ -99,6 +119,12 @@ public abstract class ExcessGibbsMixingRule extends MixingRule {
     }
     
     
-    
+    public ActivityModel getActivityModel() {
+ 		return activityModel;
+ 	}
+
+ 	public void setActivityModel(ActivityModel activityModel) {
+ 		this.activityModel = activityModel;
+ 	}    
     
 }

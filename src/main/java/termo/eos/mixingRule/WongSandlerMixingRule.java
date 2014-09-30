@@ -88,10 +88,7 @@ public class WongSandlerMixingRule extends ExcessGibbsMixingRule {
 
 
 
-        @Override
-    public double temperatureParcial_a(Mixture mixture) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+     
 
     @Override
     public double getParameter(Compound referenceComponent, Compound nonReferenceComponent, InteractionParameter params, int index) {

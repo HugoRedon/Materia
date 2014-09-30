@@ -23,10 +23,8 @@ public abstract class ActivityModel implements ContainsParameters{
    public abstract double activityCoefficient(
             Substance ci,
            Mixture mixture);
-   public abstract double parcialExcessGibbsRespectTemperature(ArrayList<Compound> components,
-            HashMap<Compound,Double> fractions,
-            ActivityModelBinaryParameter k,
-            double temperature);
+   public abstract double parcialExcessGibbsRespectTemperature(
+		   Mixture mixture);
    
     public double tau(Compound ci,Compound cj, ActivityModelBinaryParameter k ,double T){
     double aij = k.getA().getValue(ci, cj);

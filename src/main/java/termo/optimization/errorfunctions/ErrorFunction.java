@@ -13,6 +13,8 @@ public abstract class ErrorFunction implements Parameterized{
 //    protected ArrayList<ErrorData> errorForEachExperimentalData = new ArrayList();
         //to class function
     abstract public double  getParameter(int index);
+    
+    abstract public String getParameterName(int index);
 
     abstract public int numberOfParameters();
 

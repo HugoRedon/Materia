@@ -127,10 +127,7 @@ public class NRTLActivityModel extends ActivityModel{
 
     @Override
     public double parcialExcessGibbsRespectTemperature(
-            ArrayList<Compound> components, 
-            HashMap<Compound, Double> fractions, 
-            ActivityModelBinaryParameter param,
-            double temperature) {
+            Mixture mixture) {
 //        NRTLBinaryParameter param = (NRTLBinaryParameter)k;
         
         double T0 ;
@@ -152,8 +149,8 @@ public class NRTLActivityModel extends ActivityModel{
         
           double result =0;
         
-        for(Compound ci: components){
-           xi = fractions.get(ci);
+        for(Substance ci: mixture.getPureSubstances()){
+           xi = ci.getMolarFraction();
            
            T0 =0;
            T1 =0;
@@ -161,13 +158,15 @@ public class NRTLActivityModel extends ActivityModel{
            A1 =0;
            A0 =0;
            
-            for(Compound cj: components){
-                bji = param.getB().getValue(cj, ci);
-                alphaji = param.getAlpha().getValue(cj, ci);
-                tauji = tau(cj, ci, param, temperature);
-                xj = fractions.get(cj);
+            for(Substance cj: mixture.getPureSubstances()){
+            	ActivityModelBinaryParameter param=(ActivityModelBinaryParameter) mixture.getBinaryParameters();
+            	
+                bji = param.getB().getValue(cj.getComponent(), ci.getComponent());
+                alphaji = param.getAlpha().getValue(cj.getComponent(), ci.getComponent());
+                tauji = tau(cj.getComponent(), ci.getComponent(), param, mixture.getTemperature());
+                xj = cj.getMolarFraction();
                 
-                t0 = xj* G(cj, ci, param, temperature);
+                t0 = xj* G(cj.getComponent(), ci.getComponent(), param, mixture.getTemperature());
                 t1 = t0 * tauji;
                 T0 += t0;
                 T1 += t1;
