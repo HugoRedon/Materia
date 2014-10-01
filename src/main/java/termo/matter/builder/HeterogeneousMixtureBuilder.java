@@ -1,10 +1,5 @@
 package termo.matter.builder;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import termo.component.Compound;
-import termo.eos.mixingRule.MixingRule;
 import termo.matter.HeterogeneousMixture;
 import termo.matter.Mixture;
 import termo.matter.Substance;

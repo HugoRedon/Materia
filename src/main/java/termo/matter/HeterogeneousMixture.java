@@ -5,6 +5,7 @@ import java.beans.PropertyChangeEvent;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import termo.binaryParameter.ActivityModelBinaryParameter;
@@ -48,6 +49,24 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
         mpcs.addPropertyChangeListener(errorFunction);
         
        
+    }
+    
+    @Override
+    public String toString() {
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("Mezcla heterogénea, ");
+    	Iterator<Compound> it = components.iterator();
+    	sb.append("compuestos: (");
+    	while(it.hasNext()){
+    		Compound c= it.next();
+    		String coma = (it.hasNext())?", ":"";
+    		sb.append(c.getName()+ coma);
+    	}
+    	sb.append("), ");
+    	
+    	sb.append("regla de mezclado: "+mixingRule.getName());
+    	sb.append(", ecuación de estado: " + equationOfState.getName());
+    	return sb.toString();
     }
 
     @Override
@@ -187,7 +206,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
       for( Substance component : getLiquid().getPureSubstances()){
 	  double vaporP =  component.calculatetAcentricFactorBasedVaporPressure();
 	  vaporPressures.put(component, vaporP);
-	  p += vaporP * getLiquid().getFraction(component);  
+	  p += vaporP * component.getMolarFraction();  
       }
       setPressure(p);
       setVaporFractionsRaoultsLaw( vaporPressures);

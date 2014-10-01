@@ -38,6 +38,15 @@ public class HeterogeneousSubstance extends Heterogeneous{
         addPropertyChangeListener(errorFunction);
     }
     
+    @Override
+    public String toString() {
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("Substancia heterogénea, compuesto: "+component.getName()+", ");
+    	sb.append("alfa: "+alpha.getName() + ", " + "ecuación cúbica: " +liquid.getCubicEquationOfState().getName());
+    	
+    	return sb.toString();
+    }
+    
     public HeterogeneousSubstance(
 	    Cubic eos,
 	    Alpha alpha,
