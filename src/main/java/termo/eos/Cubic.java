@@ -150,7 +150,7 @@ public  class Cubic extends EOS{
                double a,
                double b,
                double parciala,
-               double bi,
+               double parcialb,
                Phase aPhase
                ){
            
@@ -162,7 +162,7 @@ public  class Cubic extends EOS{
    
         double L = calculateL(volume, b);
 	
-        double lnfug = -Math.log((volume-b)/volume) + (z-1) * (bi/b) + (a / (R * temperature * b))*((bi/b) - (parciala/a))* L - Math.log(z);
+        double lnfug = -Math.log((volume-b)/volume) + (z-1) * (parcialb/b) + (a / (R * temperature * b))*((parcialb/b) - (parciala/a))* L - Math.log(z);
         return Math.exp(lnfug);
 
     }

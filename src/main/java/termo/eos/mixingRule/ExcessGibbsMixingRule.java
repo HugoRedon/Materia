@@ -32,45 +32,39 @@ public abstract class ExcessGibbsMixingRule extends MixingRule {
 
     @Override
     public double a(Mixture mixture) {
-        //            ArrayList<PureSubstance> components = new ArrayList();
-        //	    HashMap<Component,Double> fra = new HashMap();
-        //	    for(Substance pure: fractions.keySet()){
-        //		components.add(pure);
-        //		fra.put(pure.getComponent(), fractions.get(pure));
-        //	    }
+      
         double b = b(mixture);
         double excessGibbs = activityModel.excessGibbsEnergy(mixture);
         double firstTerm = 0;
         for (Substance ci : mixture.getPureSubstances()) {
             double xi = ci.getMolarFraction();
-            double ai = ci.calculate_a_cubicParameter(); //singleAs.get(ci);
-            double bi = ci.calculate_b_cubicParameter(); //singleBs.get(ci);
+            double ai = ci.calculate_a_cubicParameter(); 
+            double bi = ci.calculate_b_cubicParameter(); 
             firstTerm += xi * (ai) / bi;
-            // secondTerm = Constants.R * temperature * c1 *xi * Math.log(b / bi);
         }
-        return b * (firstTerm + excessGibbs / (getL()));
+        return b * (firstTerm - excessGibbs / (getL()));
     }
     
         @Override
-    public double oneOverNParcial_aN2RespectN(
-            
-            
-            Substance ci, Mixture mixture) {
+    public double oneOverNParcial_aN2RespectN(            
+        Substance ci, Mixture mixture) {
          
         double b = b( mixture);
         double a =a(mixture);
         
-        
-        //double alphai = ci.getAlpha().alpha(temperature, ci.getComponent());//singleAlphas.get( ci);
-	
-	double ai = ci.calculate_a_cubicParameter();
-	double bi = ci.calculate_b_cubicParameter();
-	double alphai = ai/(bi*Constants.R * mixture.getTemperature());
+		double ai = ci.calculate_a_cubicParameter();
+		double bi = ci.calculate_b_cubicParameter();
+		double alphai = ai/(bi*Constants.R * mixture.getTemperature());
 	
         double gammai = activityModel.activityCoefficient( ci,mixture);
-//        double bi = ci.calculate_b_cubicParameter();//singleBs.get(ci);
-//	double ai = ci.calculate_a_cubicParameter(temperature);
-        return b * Constants.R * mixture.getTemperature()*( alphai -  Math.log(gammai)/L) + a * bi / b;
+        double parcial_b = oneOverNParcial_bNRespectN(ci, mixture);
+        return b * Constants.R * mixture.getTemperature()*( alphai -  Math.log(gammai)/L) + a * parcial_b / b;
+    }
+        
+    @Override
+    public double oneOverNParcial_bNRespectN(Substance iComponent,
+    		Mixture mixture) {
+    	return iComponent.calculate_b_cubicParameter();
     }
     
     @Override

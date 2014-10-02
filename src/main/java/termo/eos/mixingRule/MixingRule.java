@@ -24,6 +24,9 @@ public abstract class MixingRule implements ContainsParameters {
      public abstract double oneOverNParcial_aN2RespectN(
              Substance iComponent,
              Mixture mixture);
+     public abstract double oneOverNParcial_bNRespectN(
+             Substance iComponent,
+             Mixture mixture);
      
      @Override public String toString(){
          return this.name;

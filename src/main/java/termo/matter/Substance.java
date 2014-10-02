@@ -139,6 +139,10 @@ public class Substance extends Homogeneous {
         return 2 * calculate_a_cubicParameter();
     }
     
+    @Override
+    public double oneOver_N_Parcial_b(Substance pureSubstance) {    
+    	return pureSubstance.calculate_b_cubicParameter();
+    }
     
     
 

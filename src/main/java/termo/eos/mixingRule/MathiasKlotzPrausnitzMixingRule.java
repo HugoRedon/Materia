@@ -124,7 +124,11 @@ public class MathiasKlotzPrausnitzMixingRule extends MixingRule {
         return firstTerm + Math.pow(secondTerm,3) + thirdTerm;
                 
     }
-    
+    @Override
+    public double oneOverNParcial_bNRespectN(Substance iComponent,
+    		Mixture mixture) {
+    	return iComponent.calculate_b_cubicParameter();
+    }
     
  
 

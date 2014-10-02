@@ -144,9 +144,7 @@ public abstract class  Homogeneous  implements PropertyChangeListener{
     public abstract double calculate_b_cubicParameter();
     public  abstract double calculateIdealGasEntropy() ;
     public abstract double oneOver_N_Parcial_a(Substance pureSubstance);
-    public double oneOver_N_Parcial_b(Substance pureSubstance){
-    	return pureSubstance.calculate_b_cubicParameter();
-    }
+    public abstract double oneOver_N_Parcial_b(Substance pureSubstance);
     
     public double calculateMolarVolume(){
 		double z = calculateCompresibilityFactor();		

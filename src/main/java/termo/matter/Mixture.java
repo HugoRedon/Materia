@@ -203,6 +203,11 @@ public final class Mixture extends Homogeneous{
                this);
     }
 
+    
+    @Override
+    public double oneOver_N_Parcial_b(Substance pureSubstance) {
+    	return mixingRule.oneOverNParcial_bNRespectN(pureSubstance, this);    	
+    }
     /**
      * @return the mixingRule
      */

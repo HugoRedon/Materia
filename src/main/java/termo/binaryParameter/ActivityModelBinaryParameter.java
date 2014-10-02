@@ -3,8 +3,8 @@ package termo.binaryParameter;
 public class ActivityModelBinaryParameter extends InteractionParameter{
     private InteractionParameter a = new InteractionParameter();
     private InteractionParameter b= new InteractionParameter();
-    private InteractionParameter alpha= new InteractionParameter(true);
-    private InteractionParameter k = new InteractionParameter();
+    private InteractionParameter alpha= new InteractionParameter(true);//nrtl
+    private InteractionParameter k = new InteractionParameter(true);//wong sandler
     
     public InteractionParameter getA() {
         return a;

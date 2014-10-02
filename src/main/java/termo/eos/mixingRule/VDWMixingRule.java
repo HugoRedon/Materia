@@ -72,6 +72,13 @@ public class VDWMixingRule extends MixingRule{
 
         return  2 * sum ;
     }
+    
+    @Override
+    public double oneOverNParcial_bNRespectN(Substance iComponent,
+    		Mixture mixture) {
+    	return iComponent.calculate_b_cubicParameter();
+    			
+    }
 
     @Override
     public double b(Mixture mixture) {
