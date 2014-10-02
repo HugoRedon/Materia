@@ -3,9 +3,11 @@ package termo.matter;
 
 import java.beans.PropertyChangeEvent;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import termo.binaryParameter.ActivityModelBinaryParameter;
@@ -16,6 +18,7 @@ import termo.eos.alpha.Alpha;
 import termo.eos.mixingRule.MixingRule;
 import termo.optimization.errorfunctions.MixtureErrorFunction;
 import termo.phase.Phase;
+import termo.utils.IterationInfo;
 
 /**
  *
@@ -658,32 +661,47 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
         
     }
      
-    
+    private List<IterationInfo> calculationReport = new ArrayList<>(); 
       
-      private int minimizePressure(MixtureEquilibriaFunction function,double temperature,Phase aPhase){
-	  HashMap<Compound,Double> K;
-	double deltaP = 0.0001;
-	double e = 100;
-	double tolerance = 1e-5;
-    
-	double p = pressure ;
-	int count = 0;
-	while(Math.abs(e) > tolerance && count < 10000 ){         
-	    count++;
-	    setPressure(p);
-	    K =   equilibriumRelations();
-	    e = function.errorFunction(K);
-	    double pressure_ = p * (1 + deltaP);
-	    setPressure(pressure_);
-	    double e_ = function.errorFunction(equilibriumRelations());
-	    p = function.newPressureFunction(p, pressure_, e, e_);
-	    updateFractions(K, aPhase);
-	}    
+     private int minimizePressure(MixtureEquilibriaFunction function,double temperature,Phase aPhase){
+    	 calculationReport.clear();
+    	 HashMap<Compound,Double> K;
+		double deltaP = 0.0001;
+		double e = 100;
+		double tolerance = 1e-5;
+	    
+		double p = pressure ;
+		int count = 0;
+		while(Math.abs(e) > tolerance && count < 10000 ){
+			IterationInfo ii = new IterationInfo();
+		    ii.setPressure(p);
+			ii.setIteration(count);
+		    count++;
+		    setPressure(p);
+		    
+		    
+		    
+		    K =   equilibriumRelations();
+		    e = function.errorFunction(K);
+		    double pressure_ = p * (1 + deltaP);
+		    setPressure(pressure_);
+		    double e_ = function.errorFunction(equilibriumRelations());
+		    p = function.newPressureFunction(p, pressure_, e, e_);
+		    updateFractions(K, aPhase);
+		    		    
+		    ii.setPressure_(pressure_);
+		    ii.setTemperature(temperature);
+		    
+		    ii.setNewPressure(p);
+		    ii.setError(e);
+		    ii.setError_(e_);
+		    calculationReport.add(ii);
+		}    
+	  
+		setPressure(p);
+	
+		return count;
       
-	setPressure(p);
-	//HashMap<PureSubstance,Double> liquidFractions =new HashMap<>();//
-      return count;
-      //return pressure;//new MixtureEquilibriaPhaseSolution(temperature,pressure,null,liquidFractions  , count);
       }
       
       private void updateFractions(HashMap<Compound , Double> K, Phase aPhase){
@@ -1053,6 +1071,14 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 		} else if (!zFractions.equals(other.zFractions))
 			return false;
 		return true;
+	}
+
+	public List<IterationInfo> getCalculationReport() {
+		return calculationReport;
+	}
+
+	public void setCalculationReport(List<IterationInfo> calculationReport) {
+		this.calculationReport = calculationReport;
 	}
 
 //    public NewtonMethodSolver getOptimizer() {

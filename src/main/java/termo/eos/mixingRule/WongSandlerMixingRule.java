@@ -148,9 +148,11 @@ public class WongSandlerMixingRule extends ExcessGibbsMixingRule {
        
        if(index == numberOfParametersOfActivity){
            return activityParams.getK().getValue(referenceComponent, nonReferenceComponent);
-       }else if(index == numberOfParametersOfActivity + 1){
-           return activityParams.getK().getValue(nonReferenceComponent, referenceComponent);
-       }else{
+       }
+//       else if(index == numberOfParametersOfActivity + 1){
+//           return activityParams.getK().getValue(nonReferenceComponent, referenceComponent);
+//       }
+       else{
            return activityModel.getParameter(referenceComponent, nonReferenceComponent, activityParams, index);
        }
        
@@ -160,10 +162,12 @@ public class WongSandlerMixingRule extends ExcessGibbsMixingRule {
 		 int numberOfParametersOfActivity = activityModel.numberOfParameters();	       
 	       
 	       if(index == numberOfParametersOfActivity){
-	           return "Kij";
-	       }else if(index == numberOfParametersOfActivity + 1){
-	           return "Kji";
-	       }else{
+	           return "Kij=Kji";
+	       }
+//	       else if(index == numberOfParametersOfActivity + 1){
+//	           return "Kji";
+//	       }
+	       else{
 	           return activityModel.getParameterName(index);
 	       }
 	}
@@ -175,9 +179,9 @@ public class WongSandlerMixingRule extends ExcessGibbsMixingRule {
        if(index == activityParameterCount){//simetrico
             activityParams.getK().setValue(referenceComponent, nonReferenceComponent,value);
        }
-       else if(index == activityParameterCount + 1){
-            activityParams.getK().setValue(nonReferenceComponent, referenceComponent,value);
-       }
+//       else if(index == activityParameterCount + 1){
+//            activityParams.getK().setValue(nonReferenceComponent, referenceComponent,value);
+//       }
        else{
             activityModel.setParameter(value, referenceComponent, nonReferenceComponent, activityParams, index);
        }
@@ -185,7 +189,7 @@ public class WongSandlerMixingRule extends ExcessGibbsMixingRule {
 
     @Override
     public int numberOfParameters() {
-        return 2 + activityModel.numberOfParameters();
+        return 1 + activityModel.numberOfParameters();
     }
 
 
