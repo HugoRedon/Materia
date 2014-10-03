@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import termo.binaryParameter.ActivityModelBinaryParameter;
@@ -113,7 +114,11 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
          
     }
     //from superclass
-	    public final int bubblePressure(double pressureEstimate){
+	    public final int bubblePressure(double pressureEstimate,Map<String,Double>vaporFractionsEstimate){
+	    	for(Compound c: components){
+	    		double fraction = vaporFractionsEstimate.get(c.getName());
+	    		getVapor().setFraction(c, fraction);
+	    	}
 	        setPressure(pressureEstimate);
 	        return bubblePressureImpl();
 	    }
@@ -122,7 +127,11 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	        return bubblePressureImpl();
 	    }
 	
-	    public final int dewPressure(double pressureEstimate){
+	    public final int dewPressure(double pressureEstimate,Map<String,Double> liquidFractionsEstimate){
+	    	for(Compound c: components){
+	    		double fraction = liquidFractionsEstimate.get(c.getName());
+	    		getLiquid().setFraction(c, fraction);
+	    	}
 			setPressure(pressureEstimate);
 			return dewPressureImpl();
 	    }
@@ -166,7 +175,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     }
     
     public int bubbleTemperature(double estimate) {
-
+    	copyZfractionsToliquid();
 	 HashMap<Compound,Double> K;
 	double e = 100;
 	double deltaT = 1;
@@ -219,8 +228,9 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 
     
     public int bubblePressureImpl() {
-	BubblePressureFunctions function = new BubblePressureFunctions();
-	return minimizePressure(function, temperature,Phase.VAPOR);
+    	copyZfractionsToliquid();
+		BubblePressureFunctions function = new BubblePressureFunctions();
+		return minimizePressure(function, temperature,Phase.VAPOR);
 
     }
     
@@ -285,7 +295,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     }
     
     public int dewTemperature(double estimate) {
-	
+    	copyZfractionsToVapor();
         HashMap<Compound,Double> K;
 	
         double sx;
@@ -350,18 +360,26 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 
     
     public int dewPressureImpl() {
+    	copyZfractionsToVapor();
 	MixtureEquilibriaFunction function = new DewPressureFunctions();
 	return minimizePressure(function, temperature, Phase.LIQUID);
     }
     
-    public double flash(double temperature,double pressure){
-		setTemperature(temperature);
-		setPressure(pressure);
-		
-		
-		double vF = flashEstimate(temperature, pressure);
-		
-		double tolerance  = 1e-4;
+    public double flash(double temperature,double pressure,
+    		Map<String,Double> vaporFractions, 
+    		Map<String,Double> liquidFractions,double vF){
+    	for(Compound c: components){
+    		double liquidFraction = liquidFractions.get(c.getName());
+    		getLiquid().setFraction(c, liquidFraction);
+    		double vaporFraction = vaporFractions.get(c.getName());
+    		getVapor().setFraction(c, vaporFraction);
+    	}
+    	
+    	return flashImpl( temperature,  pressure,vF);
+    }
+    public double flashImpl(double temperature, double pressure,double vFEstimate){
+    	double vF = vFEstimate;
+    	double tolerance  = 1e-4;
         HashMap<Compound,Double> K;
         double error=100;
         HashMap<Compound,Double> x_;
@@ -378,6 +396,15 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 			getVapor().setFractions(newFractions(y_)); 
         }
         return  vF;
+    }
+    
+    
+    public double flash(double temperature,double pressure){
+		setTemperature(temperature);
+		setPressure(pressure);		
+		double vF = flashEstimate(temperature, pressure);
+		return flashImpl(temperature, pressure, vF);
+		
     }
     
     
@@ -620,6 +647,9 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	getVapor().setFraction(component, d);
     }
     
+//   public void onlySetZFraction(Compound component,double d){
+//	   getzFractions().put(component.getName(),d);
+//   }
 
  
 
@@ -683,6 +713,11 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 		    
 		    K =   equilibriumRelations();
 		    e = function.errorFunction(K);
+		    
+		    if(Math.abs(e) < tolerance){
+		    	updateFractions(K,aPhase);
+		    	break;
+		    }
 		    double pressure_ = p * (1 + deltaP);
 		    setPressure(pressure_);
 		    double e_ = function.errorFunction(equilibriumRelations());

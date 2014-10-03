@@ -164,7 +164,17 @@ public final class Mixture extends Homogeneous{
         }
         return fractions;
     }
+    public HashMap<String,Double> getFractions(){
+        HashMap<String,Double> fractions = new HashMap<>();
+        for (Substance pureSubstance : getPureSubstances()){
+            Compound component = pureSubstance.getComponent();
+            double molarFraction = pureSubstance.getMolarFraction();//getMolarFractions().get(pureSubstance.getComponent().getName());
+            fractions.put(component.getName(), molarFraction);
+        }
+        return fractions;
+    }
 
+    
     @Override
     public double calculateIdealGasEnthalpy() {
         double idealGasEnthalpy = 0;
