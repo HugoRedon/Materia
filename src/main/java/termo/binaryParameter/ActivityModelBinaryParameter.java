@@ -44,6 +44,50 @@ public class ActivityModelBinaryParameter extends InteractionParameter{
 	this.k = k;
     }
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((a == null) ? 0 : a.hashCode());
+		result = prime * result + ((alpha == null) ? 0 : alpha.hashCode());
+		result = prime * result + ((b == null) ? 0 : b.hashCode());
+		result = prime * result + ((k == null) ? 0 : k.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ActivityModelBinaryParameter other = (ActivityModelBinaryParameter) obj;
+		if (a == null) {
+			if (other.a != null)
+				return false;
+		} else if (!a.equals(other.a))
+			return false;
+		if (alpha == null) {
+			if (other.alpha != null)
+				return false;
+		} else if (!alpha.equals(other.alpha))
+			return false;
+		if (b == null) {
+			if (other.b != null)
+				return false;
+		} else if (!b.equals(other.b))
+			return false;
+		if (k == null) {
+			if (other.k != null)
+				return false;
+		} else if (!k.equals(other.k))
+			return false;
+		return true;
+	}
+
+  
     
     
 }

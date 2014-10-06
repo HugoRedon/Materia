@@ -40,7 +40,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     // private NewtonMethodSolver optimizer;
     
     public HeterogeneousMixture(){
-         liquid = new Mixture();
+    	liquid = new Mixture();
         liquid.setPhase(Phase.LIQUID);
         vapor = new Mixture();
         vapor.setPhase(Phase.VAPOR);
@@ -101,7 +101,9 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	    Cubic eos,
 	    Alpha alpha,
 	    MixingRule mixingrule, 
-	    Set<Compound> components, InteractionParameter k){
+	    Set<Compound> components, 
+	    InteractionParameter k){
+    	
         this();
         setEquationOfState(eos);
         setAlpha(alpha);
