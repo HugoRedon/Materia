@@ -5,6 +5,7 @@ public class ActivityModelBinaryParameter extends InteractionParameter{
     private InteractionParameter b= new InteractionParameter();
     private InteractionParameter alpha= new InteractionParameter(true);//nrtl
     private InteractionParameter k = new InteractionParameter(true);//wong sandler
+    private InteractionParameter A_vanLaar = new InteractionParameter();
     
     public InteractionParameter getA() {
         return a;
@@ -48,6 +49,8 @@ public class ActivityModelBinaryParameter extends InteractionParameter{
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result
+				+ ((A_vanLaar == null) ? 0 : A_vanLaar.hashCode());
 		result = prime * result + ((a == null) ? 0 : a.hashCode());
 		result = prime * result + ((alpha == null) ? 0 : alpha.hashCode());
 		result = prime * result + ((b == null) ? 0 : b.hashCode());
@@ -64,6 +67,11 @@ public class ActivityModelBinaryParameter extends InteractionParameter{
 		if (getClass() != obj.getClass())
 			return false;
 		ActivityModelBinaryParameter other = (ActivityModelBinaryParameter) obj;
+		if (A_vanLaar == null) {
+			if (other.A_vanLaar != null)
+				return false;
+		} else if (!A_vanLaar.equals(other.A_vanLaar))
+			return false;
 		if (a == null) {
 			if (other.a != null)
 				return false;
@@ -85,6 +93,14 @@ public class ActivityModelBinaryParameter extends InteractionParameter{
 		} else if (!k.equals(other.k))
 			return false;
 		return true;
+	}
+
+	public InteractionParameter getA_vanLaar() {
+		return A_vanLaar;
+	}
+
+	public void setA_vanLaar(InteractionParameter a_vanLaar) {
+		A_vanLaar = a_vanLaar;
 	}
 
   
