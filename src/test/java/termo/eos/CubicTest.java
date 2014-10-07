@@ -194,7 +194,7 @@ public class CubicTest {
 	instance.setW(0);
 	
 	double expResult = 0.5006393;
-	double result = instance.calculateL(volume, b);
+	double result = -instance.calculateL(volume, b);
 	assertEquals(expResult, result, 1e-4);
     }
 

@@ -4,16 +4,11 @@
  */
 package termo.eos.mixingRule;
 
-import java.util.ArrayList;
-
-import termo.Constants;
 import termo.activityModel.ActivityModel;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Compound;
 import termo.eos.Cubic;
-import termo.eos.alpha.Alpha;
-import termo.phase.Phase;
 import termo.matter.Mixture;
 import termo.matter.Substance;
 
@@ -30,12 +25,6 @@ public class HuronVidalMixingRule extends ExcessGibbsMixingRule{
         super(activityModel, equationOfState);
         name = "Huron Vidal (" + activityModel.getName()+ ")";
     }
-//
-
-    
-    
-
-
 
     
     @Override
@@ -48,9 +37,6 @@ public class HuronVidalMixingRule extends ExcessGibbsMixingRule{
       }
        return b;
     }
-
-
-    
    
 
     @Override

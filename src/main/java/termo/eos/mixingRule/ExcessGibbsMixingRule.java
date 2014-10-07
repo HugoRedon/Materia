@@ -35,14 +35,14 @@ public abstract class ExcessGibbsMixingRule extends MixingRule {
       
         double b = b(mixture);
         double excessGibbs = activityModel.excessGibbsEnergy(mixture);
-        double firstTerm = 0;
+        double alphai = 0;
         for (Substance ci : mixture.getPureSubstances()) {
             double xi = ci.getMolarFraction();
             double ai = ci.calculate_a_cubicParameter(); 
             double bi = ci.calculate_b_cubicParameter(); 
-            firstTerm += xi * (ai) / bi;
+            alphai += xi * (ai) / bi;
         }
-        return b * (firstTerm - excessGibbs / (getL()));
+        return b * (alphai + excessGibbs / (getL()));
     }
     
         @Override
@@ -51,14 +51,20 @@ public abstract class ExcessGibbsMixingRule extends MixingRule {
          
         double b = b( mixture);
         double a =a(mixture);
+        double parcial_b = oneOverNParcial_bNRespectN(ci, mixture);
         
-		double ai = ci.calculate_a_cubicParameter();
+        double D = a/(b*Constants.R * mixture.getTemperature() );
+        double parcial_D= parcialD_respectN(ci,mixture);
+        return ( Constants.R * mixture.getTemperature() )* (b*parcial_D + D*parcial_b );
+    }
+    
+    public double parcialD_respectN(Substance ci,Mixture mixture){
+    	double ai = ci.calculate_a_cubicParameter();
 		double bi = ci.calculate_b_cubicParameter();
 		double alphai = ai/(bi*Constants.R * mixture.getTemperature());
 	
         double gammai = activityModel.activityCoefficient( ci,mixture);
-        double parcial_b = oneOverNParcial_bNRespectN(ci, mixture);
-        return b * Constants.R * mixture.getTemperature()*( alphai -  Math.log(gammai)/L) + a * parcial_b / b;
+    	return alphai +  Math.log(gammai)/L;
     }
         
     @Override

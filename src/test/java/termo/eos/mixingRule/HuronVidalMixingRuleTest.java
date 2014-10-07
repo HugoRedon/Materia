@@ -73,6 +73,7 @@ public class HuronVidalMixingRuleTest {
 	Alpha alpha = Alphas.getStryjekAndVeraExpression();
 	ethanePure = new Substance(eos, alpha, ethane, Phase.VAPOR);
 	HuronVidalMixingRule hv = new HuronVidalMixingRule(new WilsonActivityModel(), eos);
+	System.out.println("hv L :" + hv.getL());
 	mixture = new Mixture(eos, alpha, components, Phase.VAPOR, hv, k);
 //	instance = new HuronVidalMixingRule(eos, alpha, components, Phase.VAPOR, k, new WilsonActivityModel());
         
@@ -130,6 +131,8 @@ public class HuronVidalMixingRuleTest {
 	mixture.setTemperature(298);
 	mixture.setPressure(101325);
 	mixture.setPhase(Phase.LIQUID);
+	//double expResult = 25.722068047672103;
+
 	double expResult = 24.894819044989497;
 	
 	double result = mixture.calculateFugacityCoefficient(ethane);

@@ -160,7 +160,7 @@ public  class Cubic extends EOS{
            double z = calculateCompresibilityFactor(A, B, aPhase);
            double volume = calculateVolume(temperature, pressure, z);
    
-        double L = calculateL(volume, b);
+        double L = -calculateL(volume, b);
 	
         double lnfug = -Math.log((volume-b)/volume) + (z-1) * (parcialb/b) + (a / (R * temperature * b))*((parcialb/b) - (parciala/a))* L - Math.log(z);
         return Math.exp(lnfug);
@@ -171,9 +171,9 @@ public  class Cubic extends EOS{
                double delta = Math.sqrt(Math.pow(this.getU(),2) - 4 * this.getW());
                
                  if( delta == 0 ){
-                     return b / volume;
+                     return -b / volume;
                  }else{
-                     return  (1 / delta)* Math.log((2 * volume + (u + delta) * b)/(2 * volume  + (u - delta) * b));
+                     return  -(1 / delta)* Math.log((2 * volume + (u + delta) * b)/(2 * volume  + (u - delta) * b));
                  }      
        }
        

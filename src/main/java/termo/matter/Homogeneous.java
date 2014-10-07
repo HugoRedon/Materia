@@ -180,7 +180,7 @@ public abstract class  Homogeneous  implements PropertyChangeListener{
         double b = calculate_b_cubicParameter();
         double Temp_parcial_a = partial_aPartial_temperature( );
         
-        double L = cubicEquationOfState.calculateL(volume, b);
+        double L = -cubicEquationOfState.calculateL(volume, b);
         double z = calculateCompresibilityFactor();
         
         //return idealGasEntropy +  Constants.R * Math.log( (pressure *(volume - b))/(Constants.R * temperature)) + L * (Temp_parcial_a)/(b);
@@ -194,7 +194,7 @@ public abstract class  Homogeneous  implements PropertyChangeListener{
         double idealGasEnthalpy = calculateIdealGasEnthalpy();
         double a = calculate_a_cubicParameter();
         double b = calculate_b_cubicParameter();
-        double L = cubicEquationOfState.calculateL(volume, b);
+        double L = -cubicEquationOfState.calculateL(volume, b);
         double partial_aPartial_temperature = partial_aPartial_temperature( );
         
         return idealGasEnthalpy + ((partial_aPartial_temperature - a)/b) * L  + pressure * volume - Constants.R *temperature;
