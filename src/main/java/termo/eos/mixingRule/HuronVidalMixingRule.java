@@ -27,16 +27,7 @@ public class HuronVidalMixingRule extends ExcessGibbsMixingRule{
     }
 
     
-    @Override
-    public double b(Mixture mixture) {
-         double b = 0;
-      for(Substance iComponent:mixture.getPureSubstances()){
-            double xi = iComponent.getMolarFraction();
-            double bi = iComponent.calculate_b_cubicParameter();//singleBs.get(iComponent);
-            b += xi * bi ;
-      }
-       return b;
-    }
+
    
 
     @Override

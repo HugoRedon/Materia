@@ -162,7 +162,7 @@ public abstract class  Homogeneous  implements PropertyChangeListener{
     protected double calculateFugacityCoefficient( Substance pureSubstance){
         double a = calculate_a_cubicParameter();
         double b = calculate_b_cubicParameter();
-        double  parcialb = oneOver_N_Parcial_b( pureSubstance);//bi(pureSubstance);TODO: esto no es correcto para reglas de mezclado como wong sandler
+        double  parcialb = oneOver_N_Parcial_b( pureSubstance);
         double parciala = oneOver_N_Parcial_a( pureSubstance);
         
         return getCubicEquationOfState().calculateFugacity(temperature, pressure, a, b, parciala, parcialb, getPhase());

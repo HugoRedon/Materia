@@ -6,7 +6,7 @@ public class ActivityModelBinaryParameter extends InteractionParameter{
     private InteractionParameter alpha= new InteractionParameter(true);//nrtl
     private InteractionParameter k = new InteractionParameter(true);//wong sandler
     private InteractionParameter A_vanLaar = new InteractionParameter();
-    
+    private InteractionParameter twoParameterVanDerWaals = new InteractionParameter();
     public InteractionParameter getA() {
         return a;
     }
@@ -55,6 +55,10 @@ public class ActivityModelBinaryParameter extends InteractionParameter{
 		result = prime * result + ((alpha == null) ? 0 : alpha.hashCode());
 		result = prime * result + ((b == null) ? 0 : b.hashCode());
 		result = prime * result + ((k == null) ? 0 : k.hashCode());
+		result = prime
+				* result
+				+ ((twoParameterVanDerWaals == null) ? 0
+						: twoParameterVanDerWaals.hashCode());
 		return result;
 	}
 
@@ -92,6 +96,12 @@ public class ActivityModelBinaryParameter extends InteractionParameter{
 				return false;
 		} else if (!k.equals(other.k))
 			return false;
+		if (twoParameterVanDerWaals == null) {
+			if (other.twoParameterVanDerWaals != null)
+				return false;
+		} else if (!twoParameterVanDerWaals
+				.equals(other.twoParameterVanDerWaals))
+			return false;
 		return true;
 	}
 
@@ -101,6 +111,15 @@ public class ActivityModelBinaryParameter extends InteractionParameter{
 
 	public void setA_vanLaar(InteractionParameter a_vanLaar) {
 		A_vanLaar = a_vanLaar;
+	}
+
+	public InteractionParameter getTwoParameterVanDerWaals() {
+		return twoParameterVanDerWaals;
+	}
+
+	public void setTwoParameterVanDerWaals(
+			InteractionParameter twoParameterVanDerWaals) {
+		this.twoParameterVanDerWaals = twoParameterVanDerWaals;
 	}
 
   

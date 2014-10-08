@@ -27,14 +27,18 @@ import termo.utils.IterationInfo;
  * Hugo
  */
 public final class HeterogeneousMixture extends Heterogeneous implements Serializable{
-    private Cubic equationOfState;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7958256517053288917L;
+	private Cubic equationOfState;
     private Alpha alpha;
     private MixingRule mixingRule;
     
     private InteractionParameter interactionParameters = new ActivityModelBinaryParameter();
     
-     private final HashMap<String,Double> zFractions = new HashMap(); 
-     private Set<Compound> components = new HashSet();
+     private final Map<String,Double> zFractions = new HashMap<>(); 
+     private Set<Compound> components = new HashSet<>();
      
      private MixtureErrorFunction errorFunction;
     // private NewtonMethodSolver optimizer;
@@ -670,7 +674,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
              Compound componentObject = pureSubstance.getComponent();
              String componentName = componentObject.getName();
             // System.out.println("componentName" + componentName);
-             HashMap<String,Double> zFractionss =getzFractions();
+             Map<String,Double> zFractionss =getzFractions();
              double zFraction = zFractionss.get(componentName);
              double vaporPressureS = acentricFactorVaporPressure*zFraction;     
                vaporPressure += vaporPressureS;
@@ -700,7 +704,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     	 HashMap<Compound,Double> K;
 		double deltaP = 0.0001;
 		double e = 100;
-		double tolerance = 1e-5;
+		double tolerance = 1e-7;
 	    
 		double p = pressure ;
 		int count = 0;
@@ -833,7 +837,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     /**
      * @return the zFractions
      */
-    public HashMap<String,Double> getzFractions() {
+    public Map<String,Double> getzFractions() {
 	return zFractions;
     }
 

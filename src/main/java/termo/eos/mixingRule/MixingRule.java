@@ -19,14 +19,26 @@ public abstract class MixingRule implements ContainsParameters {
 
      public abstract double a(Mixture mixture);
      
-     public abstract double b(Mixture mixture);
+     
+     public double b(Mixture mixture) {
+          double b = 0;
+       for(Substance iComponent:mixture.getPureSubstances()){
+             double xi = iComponent.getMolarFraction();
+             double bi = iComponent.calculate_b_cubicParameter();//singleBs.get(iComponent);
+             b += xi * bi ;
+       }
+        return b;
+     }
      
      public abstract double oneOverNParcial_aN2RespectN(
              Substance iComponent,
              Mixture mixture);
-     public abstract double oneOverNParcial_bNRespectN(
-             Substance iComponent,
-             Mixture mixture);
+     
+     public double oneOverNParcial_bNRespectN(Substance iComponent,
+     		Mixture mixture) {
+     	return iComponent.calculate_b_cubicParameter();
+     			
+     }
      
      @Override public String toString(){
          return this.name;
