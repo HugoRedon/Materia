@@ -23,11 +23,16 @@ public abstract class ExcessGibbsMixingRule extends MixingRule {
  
 
 	private double L;
+	private double L2 =0;
    
 
     public ExcessGibbsMixingRule(ActivityModel activityModel, Cubic equationOfState){
         this.activityModel = activityModel;
         L = equationOfState.calculateL(1, 1);
+    }
+    public ExcessGibbsMixingRule(ActivityModel activityModel,Cubic equationOfState ,boolean isModified){
+    	this(activityModel,equationOfState);
+    	L2 = L;
     }
 
     @Override
@@ -36,13 +41,16 @@ public abstract class ExcessGibbsMixingRule extends MixingRule {
         double b = b(mixture);
         double excessGibbs = activityModel.excessGibbsEnergy(mixture);
         double alphai = 0;
+        double modifiedHVTerm = 0;
         for (Substance ci : mixture.getPureSubstances()) {
             double xi = ci.getMolarFraction();
             double ai = ci.calculate_a_cubicParameter(); 
             double bi = ci.calculate_b_cubicParameter(); 
             alphai += xi * (ai) / bi;
+            modifiedHVTerm += xi*Math.log(b/bi);
         }
-        return b * (alphai + excessGibbs / (getL()));
+        double c2 = (L2==0)?0:1/L2;
+        return b * (alphai +c2*modifiedHVTerm+ excessGibbs / L);
     }
     
         @Override
@@ -64,7 +72,13 @@ public abstract class ExcessGibbsMixingRule extends MixingRule {
 		double alphai = ai/(bi*Constants.R * mixture.getTemperature());
 	
         double gammai = activityModel.activityCoefficient( ci,mixture);
-    	return alphai +  Math.log(gammai)/L;
+        
+        double b = mixture.calculate_b_cubicParameter();
+        double modifiedTerm = Math.log(b/bi);
+        
+        double c2 = (L2==0)?0:1/L2;
+        
+    	return alphai +c2*modifiedTerm + Math.log(gammai)/L;
     }
         
     @Override

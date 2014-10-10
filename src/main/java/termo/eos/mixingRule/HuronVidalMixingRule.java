@@ -25,6 +25,10 @@ public class HuronVidalMixingRule extends ExcessGibbsMixingRule{
         super(activityModel, equationOfState);
         name = "Huron Vidal (" + activityModel.getName()+ ")";
     }
+    public HuronVidalMixingRule(ActivityModel activityModel,Cubic equationOfState,boolean isModified){
+    	super(activityModel, equationOfState, isModified);
+    	name="Modified Huron Vidal FirstOrder (" + activityModel.getName() + ")";
+    }
 
     
 

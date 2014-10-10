@@ -18,4 +18,8 @@ public class MixingRules {
 	public static WongSandlerMixingRule wongSandler(ActivityModel activityModel, Cubic equationOfState){
 		return new WongSandlerMixingRule(activityModel, equationOfState);
 	}
+	
+	public static HuronVidalMixingRule ModifiedHuronVidalFirstOrderMixingRule(ActivityModel activityModel,Cubic equationOfState){
+		return new HuronVidalMixingRule(activityModel, equationOfState,true);
+	}
 }
