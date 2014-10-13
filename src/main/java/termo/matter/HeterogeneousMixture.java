@@ -649,8 +649,8 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     
    public void setZFraction(Compound component, double d) {
 	getzFractions().put(component.getName(), d);
-	getLiquid().setFraction(component, d);
-	getVapor().setFraction(component, d);
+//	getLiquid().setFraction(component, d);
+//	getVapor().setFraction(component, d);
     }
     
 //   public void onlySetZFraction(Compound component,double d){
@@ -687,11 +687,10 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
      public  void calculateNewYFractions(
 	     HashMap<Compound,Double> equilibriumRelations, 
 	     double s){
-         
-        for (Compound aComponent: components){
-            double ki = equilibriumRelations.get(aComponent);
-            double x = getLiquid().getReadOnlyFractions().get(aComponent);
-            getVapor().setFraction(aComponent, ki * x / s);
+         for(Substance sub: getLiquid().getPureSubstances()){
+            double ki = equilibriumRelations.get(sub.getComponent());
+            double x = sub.getMolarFraction();
+            getVapor().setFraction(sub.getComponent(), ki * x / s);
         }
         
         
@@ -728,6 +727,8 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 		    setPressure(pressure_);
 		    double e_ = function.errorFunction(equilibriumRelations());
 		    p = function.newPressureFunction(p, pressure_, e, e_);
+		   // setPressure(p);
+		    
 		    updateFractions(K, aPhase);
 		    		    
 		    ii.setPressure_(pressure_);
@@ -740,21 +741,52 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 		}    
 	  
 		setPressure(p);
+		updateFractions(equilibriumRelations()	, aPhase);
 	
 		return count;
       
       }
       
       private void updateFractions(HashMap<Compound , Double> K, Phase aPhase){
-	  if(aPhase.equals(Phase.LIQUID)){
-	    double sx = calculateSx(K);
-	    calculateNewXFractions(K, sx);
-	  }else{
-	    double sy = calculateSy(K);
-	    calculateNewYFractions(K, sy);
-	  }
+    	  
+    	  for(Compound c: K.keySet()){
+    		  double equil = K.get(c);
+    		  if(equil ==1){
+    			  System.out.println("checar");
+    		  }
+    		  System.out.println(c.getName()  + " :" + equil);
+    	  }
+    	  
+    	  for(Substance s : getLiquid().getPureSubstances()){
+    		  double x = s.getMolarFraction();
+    		  System.out.println("x: " + x);
+    	  }
+    	  for(Substance s : getVapor().getPureSubstances()){
+    		  double y = s.getMolarFraction();
+    		  System.out.println("y: " + y);
+    	  }
+		  if(aPhase.equals(Phase.LIQUID)){
+		    double sx = calculateSx(K);
+		    calculateNewXFractions(K, sx);
+		  }else{
+		
+		    double sy = calculateSy(K);
+		    calculateNewYFractions(K, sy);
+		  }
 	  
+		  
+		  for(Substance s : getLiquid().getPureSubstances()){
+    		  double x = s.getMolarFraction();
+    		  System.out.println("x: " + x);
+    	  }
+    	  for(Substance s : getVapor().getPureSubstances()){
+    		  double y = s.getMolarFraction();
+    		  System.out.println("y: " + y);
+    	  }
       }
+      
+      
+      
     private void calculateNewXFractions(
 	    HashMap<Compound,Double> equilibriumRelations, 
 	    double s){
@@ -956,10 +988,21 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	double sy = calculateSy(equlibriumRelations);//, liquidFractions, components);
 	return sy -1;
     }
-	@Override
-	public double newPressureFunction(double pressure, double pressure_, double e , double e_){
-	    return ((pressure * pressure_ )* (e_ - e)) / ((pressure_ * e_) - (pressure * e));   
-	}
+		@Override
+		public double newPressureFunction(double pressure, double pressure_, double e , double e_){
+		
+			double newPressure =((pressure * pressure_ )* (e_ - e)) / ((pressure_ * e_) - (pressure * e));
+			
+			if(newPressure > pressure*(1.1)){
+				newPressure = pressure*1.1;
+			}else if(newPressure< pressure*(0.9)){
+				newPressure = pressure*0.9;
+			}
+				
+				
+		    return  newPressure;  
+	    		
+		}
 	
     }
     
