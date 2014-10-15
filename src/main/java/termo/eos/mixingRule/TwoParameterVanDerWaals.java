@@ -72,7 +72,7 @@ public class TwoParameterVanDerWaals extends MixingRule {
 		double secondTerm = 0;
 		for(Substance cj : mixture.getPureSubstances()){
 			for(Substance ck : mixture.getPureSubstances()){
-				if(!ck.getComponent().equals(iComponent.getComponent())){
+				if(!ck.getComponent().equals(cj.getComponent())){
 					
 					double zj = cj.getMolarFraction();
 					double zk = ck.getMolarFraction();
@@ -99,16 +99,23 @@ public class TwoParameterVanDerWaals extends MixingRule {
 //		//double a = mixture.calculate_a_cubicParameter();
 //		//return parcialNaRespectNi(iComponent, mixture) + a;
 //		ActivityModelBinaryParameter param = (ActivityModelBinaryParameter)mixture.getBinaryParameters();
+//		
+//		
+//		double zi = iComponent.getMolarFraction();
+//		double ai = iComponent.calculate_a_cubicParameter();
+//		
 //		double firstTerm = 0;
 //		for(Substance sk : mixture.getPureSubstances()){
+//			double ak = sk.calculate_a_cubicParameter();
 //			double zk = sk.getMolarFraction();
-//			double aik = aij(iComponent,sk,param);
+//			double Kik = param.getTwoParameterVanDerWaals().getValue(iComponent.getComponent()	, sk.getComponent());
+//			double Kki = param.getTwoParameterVanDerWaals().getValue(sk.getComponent(), iComponent.getComponent());
+//			double aik = Math.sqrt(ai*ak)*(1-zi*Kik -zk *Kki);
 //			firstTerm += zk*aik;
 //		}
 //		double secondTerm = 0;
 //		
-//		double zi = iComponent.getMolarFraction();
-//		double ai = iComponent.calculate_a_cubicParameter();
+//		
 //		for(Substance cj : mixture.getPureSubstances()){
 //			if(!cj.getComponent().equals(iComponent.getComponent())){
 //				double zj = cj.getMolarFraction();

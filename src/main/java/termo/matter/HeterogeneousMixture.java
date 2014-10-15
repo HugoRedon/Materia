@@ -747,24 +747,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
       
       }
       
-      private void updateFractions(HashMap<Compound , Double> K, Phase aPhase){
-    	  
-    	  for(Compound c: K.keySet()){
-    		  double equil = K.get(c);
-    		  if(equil ==1){
-    			  System.out.println("checar");
-    		  }
-    		  System.out.println(c.getName()  + " :" + equil);
-    	  }
-    	  
-    	  for(Substance s : getLiquid().getPureSubstances()){
-    		  double x = s.getMolarFraction();
-    		  System.out.println("x: " + x);
-    	  }
-    	  for(Substance s : getVapor().getPureSubstances()){
-    		  double y = s.getMolarFraction();
-    		  System.out.println("y: " + y);
-    	  }
+      private void updateFractions(HashMap<Compound , Double> K, Phase aPhase){    	      	
 		  if(aPhase.equals(Phase.LIQUID)){
 		    double sx = calculateSx(K);
 		    calculateNewXFractions(K, sx);
@@ -772,17 +755,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 		
 		    double sy = calculateSy(K);
 		    calculateNewYFractions(K, sy);
-		  }
-	  
-		  
-		  for(Substance s : getLiquid().getPureSubstances()){
-    		  double x = s.getMolarFraction();
-    		  System.out.println("x: " + x);
-    	  }
-    	  for(Substance s : getVapor().getPureSubstances()){
-    		  double y = s.getMolarFraction();
-    		  System.out.println("y: " + y);
-    	  }
+		  }	  		 
       }
       
       
@@ -993,11 +966,11 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 		
 			double newPressure =((pressure * pressure_ )* (e_ - e)) / ((pressure_ * e_) - (pressure * e));
 			
-			if(newPressure > pressure*(1.1)){
-				newPressure = pressure*1.1;
-			}else if(newPressure< pressure*(0.9)){
-				newPressure = pressure*0.9;
-			}
+//			if(newPressure > pressure*(1.1)){
+//				newPressure = pressure*1.1;
+//			}else if(newPressure< pressure*(0.9)){
+//				newPressure = pressure*0.9;
+//			}
 				
 				
 		    return  newPressure;  
