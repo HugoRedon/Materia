@@ -8,7 +8,9 @@ import termo.matter.Mixture;
 import termo.matter.Substance;
 
 public class VanLaarActivityModel extends ActivityModel {
-
+	public VanLaarActivityModel() {
+		super.setName("Van Laar");
+	}
 	@Override
 	public double excessGibbsEnergy(Mixture mixture) {
 		ActivityModelBinaryParameter param = (ActivityModelBinaryParameter)mixture.getBinaryParameters();
