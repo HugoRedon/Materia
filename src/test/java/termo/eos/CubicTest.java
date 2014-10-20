@@ -173,8 +173,8 @@ public class CubicTest {
 	
 	double expLiquidResult = 0.8609433;
 	double expVaporResult = 0.8609429;
-	double liquidResult = instance.calculateFugacity(temperature, pressure, a, b, parciala, bi, Phase.LIQUID);
-	double vaporResult = instance.calculateFugacity(temperature, pressure, a, b, parciala, bi, Phase.VAPOR);
+	double liquidResult = instance.calculateFugacityCoefficient(temperature, pressure, a, b, parciala, bi, Phase.LIQUID);
+	double vaporResult = instance.calculateFugacityCoefficient(temperature, pressure, a, b, parciala, bi, Phase.VAPOR);
 	
 	assertEquals(expVaporResult, vaporResult, 1e-4);
 	assertEquals(expLiquidResult, liquidResult, 1e-4);

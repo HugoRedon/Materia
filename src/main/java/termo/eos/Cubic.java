@@ -144,7 +144,7 @@ public  class Cubic extends EOS{
             ){
       return z * R * temperature / pressure;
     }
- public double calculateFugacity(
+ public double calculateFugacityCoefficient(
                double temperature, 
                double pressure,
                double a,
