@@ -11,6 +11,7 @@ import termo.activityModel.ActivityModel;
 import termo.binaryParameter.InteractionParameter;
 import termo.component.Compound;
 import termo.eos.Cubic;
+import termo.eos.EquationsOfState;
 import termo.matter.Mixture;
 import termo.matter.Substance;
 
@@ -32,7 +33,8 @@ public abstract class ExcessGibbsMixingRule extends MixingRule {
     }
     public ExcessGibbsMixingRule(ActivityModel activityModel,Cubic equationOfState ,boolean isModified){
     	this(activityModel,equationOfState);
-    	L2 = L;
+    	L = equationOfState.calculateL(1.235, 1);
+    	L2= L;
     }
 
     @Override
@@ -50,7 +52,7 @@ public abstract class ExcessGibbsMixingRule extends MixingRule {
             modifiedHVTerm += xi*Math.log(b/bi);
         }
         double c2 = (L2==0)?0:1/L2;
-        return b * (alphai +c2*modifiedHVTerm+ excessGibbs / L);
+        return b * (alphai +c2*modifiedHVTerm*Constants.R * mixture.getTemperature()+ excessGibbs / L);
     }
     
         @Override
@@ -74,7 +76,7 @@ public abstract class ExcessGibbsMixingRule extends MixingRule {
         double gammai = activityModel.activityCoefficient( ci,mixture);
         
         double b = mixture.calculate_b_cubicParameter();
-        double modifiedTerm = Math.log(b/bi);
+        double modifiedTerm = Math.log(b/bi) + (bi-b)/b;
         
         double c2 = (L2==0)?0:1/L2;
         

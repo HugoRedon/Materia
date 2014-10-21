@@ -41,6 +41,8 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
      private Set<Compound> components = new HashSet<>();
      
      private MixtureErrorFunction errorFunction;
+     
+     private Integer maxIterations = 100;
     // private NewtonMethodSolver optimizer;
     
     public HeterogeneousMixture(){
@@ -192,7 +194,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	 
 	double tolerance = 1e-4;
 	int count = 0;
-	while(Math.abs(e) >= tolerance && count < 1000){
+	while(Math.abs(e) >= tolerance && count < maxIterations){
 		count++;
 	    setTemperature(temp);
 	    K = equilibriumRelations() ;
@@ -263,7 +265,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
       
       HashMap<Substance,Double> vaporPressures = new HashMap();
       int iterations =0;
-      while (Math.abs(error) >tol && iterations < 1000 ){
+      while (Math.abs(error) >tol && iterations < maxIterations ){
           iterations++;
             calcPressure = 0;
             calcP_ = 0;
@@ -707,7 +709,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 	    
 		double p = pressure ;
 		int count = 0;
-		while(Math.abs(e) > tolerance && count < 10000 ){
+		while(Math.abs(e) > tolerance && count < maxIterations ){
 			IterationInfo ii = new IterationInfo();
 		    ii.setPressure(p);
 			ii.setIteration(count);
@@ -1136,6 +1138,14 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 
 	public void setCalculationReport(List<IterationInfo> calculationReport) {
 		this.calculationReport = calculationReport;
+	}
+
+	public Integer getMaxIterations() {
+		return maxIterations;
+	}
+
+	public void setMaxIterations(Integer maxIterations) {
+		this.maxIterations = maxIterations;
 	}
 
 //    public NewtonMethodSolver getOptimizer() {
