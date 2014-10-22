@@ -141,6 +141,12 @@ public abstract class ExcessGibbsMixingRule extends MixingRule {
 
  	public void setActivityModel(ActivityModel activityModel) {
  		this.activityModel = activityModel;
- 	}    
+ 	}
+	public double getL2() {
+		return L2;
+	}
+	public void setL2(double l2) {
+		L2 = l2;
+	}    
     
 }
