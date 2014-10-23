@@ -17,8 +17,8 @@ public class HuronVidalModified2Order extends ExcessGibbsMixingRule{
 			Cubic equationOfState) {
 		super(activityModel, equationOfState);
 		super.setL(equationOfState.calculateL(1.632, 1));
-		super.setL2(equationOfState.calculateL(1, 1));
-		// TODO Auto-generated constructor stub
+		//super.setL2(equationOfState.calculateL(1, 1));
+		super.setL2(-0.003654);
 	}
 	@Override
 	public double oneOverNParcial_aN2RespectN(Substance ci, Mixture mixture) {	

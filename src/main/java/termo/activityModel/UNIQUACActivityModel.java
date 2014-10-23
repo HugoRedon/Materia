@@ -1,86 +1,81 @@
 package termo.activityModel;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+
 import termo.Constants;
 import termo.binaryParameter.ActivityModelBinaryParameter;
 import termo.component.Compound;
+import termo.matter.Mixture;
+import termo.matter.Substance;
 
 /**
  *
  * @author Hugo Redon Rivera
  */
-public class UNIQUACActivityModel {
-    private double z = 10; // default value
+public class UNIQUACActivityModel extends ActivityModel {
+    private double z = 10d; // default value
 
-//    @Override
-//    public double excessGibbsEnergy(
-//            
-//            HashMap<Component, Double> fractions, 
-//            ActivityModelBinaryParameter k, 
-//            double temperature) {
-//        double excess =0;
-//        double combE = combinatorialExcessGibbsEnergy(components, fractions);
-//        double resE = residualExcessGibbsEnergyOverRT(temperature,components,fractions,k);
-//        excess = combE + resE;
-//        return excess * Constants.R *temperature;
-//    }
+    @Override
+    public double excessGibbsEnergy(Mixture mixture) {
+        
+        double combE = combinatorialExcessGibbsEnergy(mixture);
+        double resE = residualExcessGibbsEnergyOverRT(mixture);
+        double excess = combE + resE;
+        return excess * Constants.R *mixture.getTemperature();
+    }
 
-    
-    public double activityCoefficient(
-            ArrayList<Compound> components,
-            Compound ci, 
-            HashMap<Compound, Double> fractions, 
-            ActivityModelBinaryParameter k, 
-            double temperature) {
+    @Override
+    public double activityCoefficient(Substance ci, Mixture mixture) {
         
-        double phi_i = phi(ci, fractions, components);
-        double xi = fractions.get(ci);
-        double thetai = theta(ci, fractions, components);
-        double qi = ci.getQ_UNIQUAC();
-        double li = l(ci);
+    	ActivityModelBinaryParameter k = (ActivityModelBinaryParameter)mixture.getBinaryParameters();
+    	double temperature = mixture.getTemperature();
+    	
+        double phi_i = phi(ci,mixture);
+        double xi = ci.getMolarFraction();
+        double thetai = theta(ci,mixture);
+        double qi = ci.getComponent().getQ_UNIQUAC();        
+        double li = l(ci.getComponent());
         
-        double log = Math.log(phi_i / xi) +    (this.z / 2d) * qi *Math.log(thetai/ phi_i) +     li;
-        
-        double xj =0;
-        double lj = 0;
-        double thetaj =0;
-        double tauji = 0;
-        double tauij =0;
-        double thethak =0;
-        double taukj =0;
-        
-        double thirdTerm =0;
-        double fourthTerm =0;
-        double sixthTerm =0;
-        double sum =0;
+        double firstTerm =Math.log(phi_i / xi) ; 
+        double secondTerm = (this.z / 2d) * qi *Math.log(thetai/ phi_i) ;
+        double thirdTerm = li;
         
         
-        for(Compound cj: components){
-            xj = fractions.get(cj);
-            lj = l(cj);
-            thetaj = theta(cj, fractions, components);
-            tauji = tau(cj, ci, k, temperature);
-            tauij = tau(ci, cj, k, temperature);
-            
-            thirdTerm -= (phi_i / xi) * xj*lj;
-            fourthTerm -= qi * thetaj * tauji ;
+       
+        
+        double fourthTerm =0;        
+        double fifthTermSum = 0;
+        double seventhTerm =0;
+        
+        
+        
+        for(Substance cj: mixture.getPureSubstances()){
+            double xj = cj.getMolarFraction();
+            double lj = l(cj.getComponent());
+            double thetaj = theta(cj, mixture);
+            double tauji = tau(cj.getComponent(), ci.getComponent(), k, temperature);
+            double tauij = tau(ci.getComponent(), cj.getComponent(), k, temperature);
+                                   
+            fourthTerm += -(phi_i / xi) * xj*lj;
+            fifthTermSum +=  thetaj * tauji ;
             
             
-            sum =0;
-            for(Compound ck : components){
-                thethak =theta(ck, fractions, components);
-                taukj = tau(ck, cj, k, temperature);
+            double sum =0;
+            for(Substance ck : mixture.getPureSubstances()){
+                double thethak =theta(ck, mixture);
+                double taukj = tau(ck.getComponent(), cj.getComponent(), k, temperature);
                 
                 sum+= thethak * taukj;
             }
             
-            sixthTerm -= qi * thetaj * tauij / sum;
+            seventhTerm += -qi * thetaj * tauij / sum;
         }
         
+        double fifthTerm = -qi * Math.log(fifthTermSum);
+        double sixthTerm = qi;
         
+        double log = firstTerm +    secondTerm+   thirdTerm  +fourthTerm + fifthTerm + sixthTerm + seventhTerm;
         
-        log += thirdTerm + fourthTerm + qi + sixthTerm;
         return Math.exp(log);
     }
 
@@ -90,46 +85,46 @@ public class UNIQUACActivityModel {
         return (this.z / 2) * (r - q ) - (r - 1);
     }
     
-    private double phi(Compound ci, HashMap<Compound, Double> fractions, ArrayList<Compound> components) {
-        double ri = ci.getR_UNIQUAC();
-        double xi = fractions.get(ci);
+    private double phi(Substance ci, Mixture mixture) {
+        double ri = ci.getComponent().getR_UNIQUAC();
+        double xi = ci.getMolarFraction();
         
         double denominator = 0;
-        for (Compound cj : components){
-            double rj = cj.getR_UNIQUAC();
-            double xj = fractions.get(cj);
+        for (Substance cj : mixture.getPureSubstances()){
+            double rj = cj.getComponent().getR_UNIQUAC();
+            double xj = cj.getMolarFraction();
              denominator += rj * xj;
         }
         
         return ri * xi / denominator;
     }
 
-    private double combinatorialExcessGibbsEnergy(ArrayList<Compound> components, HashMap<Compound, Double> fractions) {
+    private double combinatorialExcessGibbsEnergy(Mixture mixture) {
         
         double firstTerm = 0;
         double secondTerm = 0;
-          for (Compound ci : components){
-            double xi = fractions.get(ci);
-            double phi = phi(ci, fractions,components);
+          for (Substance ci : mixture.getPureSubstances()){
+            double xi = ci.getMolarFraction();
+            double phi = phi(ci, mixture);
             
             firstTerm += xi * Math.log(phi / xi);
             
-            double qi = ci.getQ_UNIQUAC();
-            double theta = theta(ci, fractions ,components);
-            secondTerm = (z / 2) * qi * xi * Math.log(theta / phi);
+            double qi = ci.getComponent().getQ_UNIQUAC();
+            double thetai = theta(ci, mixture);
+            secondTerm += (z / 2d) * qi * xi * Math.log(thetai / phi);
         }
         return firstTerm + secondTerm;
     }
 
-    private double theta(Compound ci, HashMap<Compound, Double> fractions, ArrayList<Compound> components) {
-        double qi = ci.getQ_UNIQUAC();
-        double xi = fractions.get(ci);
+    private double theta(Substance ci, Mixture mixture) {
+        double qi = ci.getComponent().getQ_UNIQUAC();
+        double xi = ci.getMolarFraction();
         
         double denominator = 0;
         
-        for ( Compound cj : components){
-            double qj =cj.getQ_UNIQUAC();
-            double xj = fractions.get(cj);
+        for ( Substance cj : mixture.getPureSubstances()){
+            double qj =cj.getComponent().getQ_UNIQUAC();
+            double xj = cj.getMolarFraction();
             
             denominator += qj * xj;
         }
@@ -153,25 +148,22 @@ public class UNIQUACActivityModel {
         this.z = z;
     }
 
-    public double residualExcessGibbsEnergyOverRT(
-            double temperature, 
-            ArrayList<Compound> components, 
-            HashMap<Compound, Double> fractions, 
-            ActivityModelBinaryParameter k) {
+    public double residualExcessGibbsEnergyOverRT(Mixture mixture) {
        double excess = 0;
-        
-        for (Compound ci : components){
-            double qi = ci.getQ_UNIQUAC();
-            double xi = fractions.get(ci);
+        ActivityModelBinaryParameter k = (ActivityModelBinaryParameter)mixture.getBinaryParameters();
+        double temperature = mixture.getTemperature();
+        for (Substance ci : mixture.getPureSubstances()){
+            double qi = ci.getComponent().getQ_UNIQUAC();
+            double xi = ci.getMolarFraction();
             
             double insideLog = 0;
-            for ( Compound cj: components){
-                double thetaResidual =theta(cj, fractions, components);
-                double tau = tau(cj,ci,k,temperature);
+            for ( Substance cj: mixture.getPureSubstances()){
+                double thetaResidual =theta(cj,mixture);
+                double tau = tau(cj.getComponent(),ci.getComponent(),k,temperature);
                 
                insideLog += thetaResidual * tau;
             }
-            excess = - qi * xi  * Math.log(insideLog);
+            excess += - qi * xi  * Math.log(insideLog);
         }       
         return excess;
     }
@@ -191,25 +183,26 @@ public class UNIQUACActivityModel {
 //        return qqi * xi / denominator;
 //    }
 
-    private double tau(Compound cj,Compound ci,ActivityModelBinaryParameter deltaU, double temperature) {
+    @Override
+    public double tau(Compound cj,Compound ci,ActivityModelBinaryParameter deltaU, double temperature) {
         double u = u(cj, ci, deltaU, temperature);
-        return Math.exp(- u);
+        return Math.exp(- u/(Constants.R * temperature));
     }
     public double u(Compound cj,Compound ci,ActivityModelBinaryParameter param,double temperature){
         double aji = param.getA().getValue(cj, ci);
         double bji = param.getB().getValue(cj, ci);
         
-        return (aji + bji * temperature)/(Constants.R * temperature);
+        return (aji + bji * temperature);
     }
 
 
     
-    public double parcialExcessGibbsRespectTemperature(
-            ArrayList<Compound> components, 
-            HashMap<Compound, Double> fractions, 
-            ActivityModelBinaryParameter k,
-            double temperature) {
-        double combinatorial = Constants.R * combinatorialExcessGibbsEnergy(components, fractions);
+    public double parcialExcessGibbsRespectTemperature(Mixture mixture) {
+    	
+    	ActivityModelBinaryParameter k = (ActivityModelBinaryParameter)mixture.getBinaryParameters();
+    	double temperature = mixture.getTemperature();
+    	
+        double combinatorial = Constants.R * combinatorialExcessGibbsEnergy(mixture);
         
         double residual = 0;
         
@@ -225,19 +218,19 @@ public class UNIQUACActivityModel {
         double xi =0;
         double uji = 0;
         
-        for(Compound ci: components){
+        for(Substance ci: mixture.getPureSubstances()){
             t0 =0;
             b1 =0;
             u1 =0;
             
-            qi = ci.getQ_UNIQUAC();
-            xi = fractions.get(ci);
-            for(Compound cj : components){
+            qi = ci.getComponent().getQ_UNIQUAC();
+            xi = ci.getMolarFraction();
+            for(Substance cj : mixture.getPureSubstances()){
                 
-                theta = theta(cj,  fractions,components);
-                tau = tau(cj, ci, k, temperature);
-                bji = k.getB().getValue(cj, ci);
-                uji = u(cj, ci, k, temperature);
+                theta = theta(cj,  mixture);
+                tau = tau(cj.getComponent(), ci.getComponent(), k, temperature);
+                bji = k.getB().getValue(cj.getComponent(), ci.getComponent());
+                uji = u(cj.getComponent(), ci.getComponent(), k, temperature);
                 
                 
                 t0 += theta * tau;
@@ -252,8 +245,6 @@ public class UNIQUACActivityModel {
     }
 
    
-    public double excessGibbsEnergy(HashMap<Compound, Double> fractions, ActivityModelBinaryParameter k, double temperature) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 
 }
