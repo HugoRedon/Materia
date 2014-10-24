@@ -16,6 +16,7 @@ public class HuronVidalModified2Order extends ExcessGibbsMixingRule{
 	public HuronVidalModified2Order(ActivityModel activityModel,
 			Cubic equationOfState) {
 		super(activityModel, equationOfState);
+		super.name="MHV2 (" +activityModel.getName() + ")";
 		super.setL(equationOfState.calculateL(1.632, 1));
 		//super.setL2(equationOfState.calculateL(1, 1));
 		super.setL2(-0.003654);

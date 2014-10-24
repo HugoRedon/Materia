@@ -5,13 +5,33 @@ import termo.binaryParameter.InteractionParameter;
 import termo.component.Compound;
 import termo.eos.Cubic;
 
-public class HuronVidalOrbeySandlerModification extends ExcessGibbsMixingRule {
+public class LinearCombinationOfHuronVidalAndMichelsenModels extends ExcessGibbsMixingRule{
 
-	public HuronVidalOrbeySandlerModification(ActivityModel activityModel,
-			Cubic equationOfState) {
+	public double lambda;
+	Cubic equationOfSate;
+	
+	public LinearCombinationOfHuronVidalAndMichelsenModels(
+			ActivityModel activityModel, Cubic equationOfState,double lambda) {
 		super(activityModel, equationOfState);
-		super.name="HVOS (" +activityModel.getName() + ")";
-		super.setL2(equationOfState.calculateL(1,	1));
+		super.name="LCVM (" +activityModel.getName() + ")";
+		this.equationOfSate = equationOfState;
+		setLambda( lambda);
+		
+	}
+	
+	public double getLambda(){
+		return lambda;
+	}
+	public void setLambda(double lambda){
+		this.lambda = lambda;
+		updateLs();
+	}
+	
+	public void updateLs(){
+		double c_ = equationOfSate.calculateL(1, 1);
+		double q1 = equationOfSate.calculateL(1.235,1);
+		setL((lambda/c_ )+ ((1-lambda)/q1));
+		setL2((1-lambda)/q1);
 	}
 
 	@Override

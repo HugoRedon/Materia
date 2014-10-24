@@ -22,4 +22,6 @@ public class MixingRules {
 	public static HuronVidalMixingRule ModifiedHuronVidalFirstOrderMixingRule(ActivityModel activityModel,Cubic equationOfState){
 		return new HuronVidalMixingRule(activityModel, equationOfState,true);
 	}
+	
+
 }
