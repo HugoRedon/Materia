@@ -14,6 +14,10 @@ import termo.matter.Substance;
  */
 public class UNIQUACActivityModel extends ActivityModel {
     private double z = 10d; // default value
+    
+    public UNIQUACActivityModel() {
+    	setName("UNIQUAC");
+	}
 
     @Override
     public double excessGibbsEnergy(Mixture mixture) {
