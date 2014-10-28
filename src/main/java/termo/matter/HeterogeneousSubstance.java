@@ -287,13 +287,32 @@ public class HeterogeneousSubstance extends Heterogeneous{
 	int count = 0;
 	while(Math.abs(e) > tolerance && count < 1000 ){         
 	    count++;
-	    e =  function.errorFunction(equilibriaRelation(temperature, p));
+	    double liquidZ= getLiquid().calculateCompresibilityFactor();
+	    double vaporZ= getVapor().calculateCompresibilityFactor(); 
+	    
+	    e =  function.errorFunction(equilibriaRelation(temperature, p));	    	   
+	    
 	    double pressure_ = p * (1 + deltaP); 
+	    
 	    double e_ = function.errorFunction(equilibriaRelation(temperature, pressure_));
-            if(e == 0){
-                break;
-            }
-	    p =  function.newVariableFunction(p, pressure_, e, e_);
+//            if(e == 0){
+//                break;
+//            }
+            
+            
+        if(Math.abs(vaporZ-liquidZ)> 1e-12){
+        	p =  function.newVariableFunction(p, pressure_, e, e_);
+	    }
+        else{
+        	e =100;
+        	if(liquidZ > 0.307){
+        		p = p*1.01;	
+        	}else if(vaporZ<0.307){
+        		p = p *0.99;
+        	}
+	    	
+	    }
+	    
 	}  
 	
 	setPressure(p);
@@ -365,7 +384,7 @@ class BubbleTemperatureErrorFunction implements EquilibriaFunction{
     }
     @Override
     public double newVariableFunction(double temperature, double temperature_, double e, double e_){
-	return temperature * temperature_ * (e_ - e) / (temperature_ * e_ - temperature * e);
+    	return temperature * temperature_ * (e_ - e) / (temperature_ * e_ - temperature * e);
     }
     
 }
@@ -376,6 +395,8 @@ class BubbleTemperatureErrorFunction implements EquilibriaFunction{
     public double equilibriaRelation(double temperature, double pressure){
 	  setTemperature(temperature);
 	  setPressure(pressure);
+	 
+	  
 	return getLiquid().calculateFugacityCoefficient()/getVapor().calculateFugacityCoefficient();
     }
   
@@ -404,11 +425,11 @@ class BubblePressureFunctions implements EquilibriaFunction{
     
     @Override
     public double errorFunction(double equilibriaRelation){
-	return equilibriaRelation-1;
+    	return equilibriaRelation-1;
     }
     @Override
     public double newVariableFunction(double pressure, double pressure_,double e, double e_){
-	return ((pressure * pressure_ )* (e_ - e)) / ((pressure_ * e_) - (pressure * e));
+    	return ((pressure * pressure_ )* (e_ - e)) / ((pressure_ * e_) - (pressure * e));
     }
     
 }

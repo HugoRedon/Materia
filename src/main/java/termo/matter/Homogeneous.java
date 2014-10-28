@@ -167,6 +167,8 @@ public abstract class  Homogeneous  implements PropertyChangeListener{
         
         return getCubicEquationOfState().calculateFugacityCoefficient(temperature, pressure, a, b, parciala, parcialb, getPhase());
     }  
+    
+    
     protected double calculateFugacity(Substance pureSubstance){
     	double result = 0;
     	double fugacityCoefficient = calculateFugacityCoefficient(pureSubstance);

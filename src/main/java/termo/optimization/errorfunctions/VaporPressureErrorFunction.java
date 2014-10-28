@@ -99,7 +99,7 @@ public class VaporPressureErrorFunction extends ErrorFunction implements Propert
         for (ExperimentalData pair: experimental){
             double temperature = pair.getTemperature();
             substance.setTemperature(temperature);
-            substance.dewPressure();
+            substance.dewPressure(substance.getPressure());
             double expP = pair.getPressure();
             double calcP = substance.getPressure();
             double relativeError = (calcP - expP)/expP;

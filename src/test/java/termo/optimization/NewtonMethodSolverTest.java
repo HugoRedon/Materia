@@ -475,80 +475,80 @@ public class NewtonMethodSolverTest {
     
     
     
-     @Test
-    public void testErrorDecreaseTechnique() {
-        System.out.println("testErrorDecreaseTechnique");
-        Cubic eos = EquationsOfState.pengRobinson();
-        Alpha alpha = Alphas.getAndroulakisEtAl();
-        
-        
-        Compound ethanol = new Compound("etanol");
-       // ethanol.setName("Etanol");
-        ethanol.setCriticalTemperature(514);
-        ethanol.setCriticalPressure(6.13700E+06);
-        ethanol.setAcentricFactor(0.643558);
-        
-
-        alpha.setParameter(30, ethanol,0);
-        
-        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, ethanol);
-        substance.getErrorFunction().getOptimizer().setApplyErrorDecreaseTechnique(false);
-        substance.optimizeTo(list);
-        for(Parameters_Error err: substance.getErrorFunction().getOptimizer().getConvergenceHistory()){
-            System.out.println("iteración:" + err.getIteration() +
-                    " A: " + err.getParameters()[0] + " B: " + err.getParameters()[1] +
-                    " C: " + err.getParameters()[2]);
-            
-        }
-        
-        boolean isIndeter = substance.getErrorFunction().getOptimizer().isIndeter();
-        boolean isMaxReached = substance.getErrorFunction().getOptimizer().isMaxIterationsReached();
-        if((isIndeter || isMaxReached)){
-            Assert.fail("optimización con errores " + substance.getErrorFunction().getOptimizer().getMessage());
-        }
-        
-        
-        int iterationsWithNoRestriction = substance.getErrorFunction().getOptimizer().getIterations();
-        
-        
-        substance.getErrorFunction().getOptimizer().setApplyErrorDecreaseTechnique(true);
-        
-        alpha.setParameter(30, ethanol,0);
-        alpha.setParameter(0, ethanol,1);
-        alpha.setParameter(0, ethanol,2);
-        
-        substance.optimizeTo(list);
-        
-         for(Parameters_Error err: substance.getErrorFunction().getOptimizer().getConvergenceHistory()){
-            System.out.println("iteración:" + err.getIteration() +
-                    " A: " + err.getParameters()[0] + " B: " + err.getParameters()[1] +
-                    " C: " + err.getParameters()[2]);
-            
-        }
-        
-        isIndeter = substance.getErrorFunction().getOptimizer().isIndeter();
-        isMaxReached = substance.getErrorFunction().getOptimizer().isMaxIterationsReached();
-        if((isIndeter || isMaxReached)){
-            Assert.fail("optimización con errores " + substance.getErrorFunction().getOptimizer().getMessage());
-        }
-        
-        int iterationsWithDecreaseTechnique = substance.getErrorFunction().getOptimizer().getIterations();
-        
-        
-        
-        
-       if(substance.getErrorFunction().getOptimizer().getErrorDecreaseIterations() ==0){
-           fail("no se realizó la tecnica de disminucion de error");
-       }
-         
-        
-        assertEquals(true, iterationsWithDecreaseTechnique < iterationsWithNoRestriction);
-        
-
-        
-
-    }
-    
+//     @Test
+//    public void testErrorDecreaseTechnique() {
+//        System.out.println("testErrorDecreaseTechnique");
+//        Cubic eos = EquationsOfState.pengRobinson();
+//        Alpha alpha = Alphas.getAndroulakisEtAl();
+//        
+//        
+//        Compound ethanol = new Compound("etanol");
+//       // ethanol.setName("Etanol");
+//        ethanol.setCriticalTemperature(514);
+//        ethanol.setCriticalPressure(6.13700E+06);
+//        ethanol.setAcentricFactor(0.643558);
+//        
+//
+//        alpha.setParameter(30, ethanol,0);
+//        
+//        HeterogeneousSubstance substance = new HeterogeneousSubstance(eos, alpha, ethanol);
+//        substance.getErrorFunction().getOptimizer().setApplyErrorDecreaseTechnique(false);
+//        substance.optimizeTo(list);
+//        for(Parameters_Error err: substance.getErrorFunction().getOptimizer().getConvergenceHistory()){
+//            System.out.println("iteración:" + err.getIteration() +
+//                    " A: " + err.getParameters()[0] + " B: " + err.getParameters()[1] +
+//                    " C: " + err.getParameters()[2]);
+//            
+//        }
+//        
+//        boolean isIndeter = substance.getErrorFunction().getOptimizer().isIndeter();
+//        boolean isMaxReached = substance.getErrorFunction().getOptimizer().isMaxIterationsReached();
+//        if((isIndeter || isMaxReached)){
+//            Assert.fail("optimización con errores " + substance.getErrorFunction().getOptimizer().getMessage());
+//        }
+//        
+//        
+//        int iterationsWithNoRestriction = substance.getErrorFunction().getOptimizer().getIterations();
+//        
+//        
+//        substance.getErrorFunction().getOptimizer().setApplyErrorDecreaseTechnique(true);
+//        
+//        alpha.setParameter(30, ethanol,0);
+//        alpha.setParameter(0, ethanol,1);
+//        alpha.setParameter(0, ethanol,2);
+//        
+//        substance.optimizeTo(list);
+//        
+//         for(Parameters_Error err: substance.getErrorFunction().getOptimizer().getConvergenceHistory()){
+//            System.out.println("iteración:" + err.getIteration() +
+//                    " A: " + err.getParameters()[0] + " B: " + err.getParameters()[1] +
+//                    " C: " + err.getParameters()[2]);
+//            
+//        }
+//        
+//        isIndeter = substance.getErrorFunction().getOptimizer().isIndeter();
+//        isMaxReached = substance.getErrorFunction().getOptimizer().isMaxIterationsReached();
+//        if((isIndeter || isMaxReached)){
+//            Assert.fail("optimización con errores " + substance.getErrorFunction().getOptimizer().getMessage());
+//        }
+//        
+//        int iterationsWithDecreaseTechnique = substance.getErrorFunction().getOptimizer().getIterations();
+//        
+//        
+//        
+//        
+//       if(substance.getErrorFunction().getOptimizer().getErrorDecreaseIterations() ==0){
+//           fail("no se realizó la tecnica de disminucion de error");
+//       }
+//         
+//        
+//        assertEquals(true, iterationsWithDecreaseTechnique < iterationsWithNoRestriction);
+//        
+//
+//        
+//
+//    }
+//    
     
     
     
