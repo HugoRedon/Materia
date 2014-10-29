@@ -14,6 +14,29 @@ public abstract class Heterogeneous implements PropertyChangeListener{
     protected  Homogeneous liquid;
     protected Homogeneous vapor;
     
+    double vF;
+    
+    public double calculateEnthalpy(){
+    	//flash for mixture before this calculation;
+    	double vaporEnthalpy  =vF *vapor.calculateEnthalpy();
+    	double liquidEnthalpy = (1-vF)*liquid.calculateEnthalpy();
+    	return vaporEnthalpy + liquidEnthalpy;
+    }
+    
+    public double calculateEntropy(){
+    	double vaporEntropy = vF*vapor.calculateEntropy();
+    	double liquidEntropy = (1-vF) *liquid.calculateEntropy();
+    	
+    	return vaporEntropy + liquidEntropy;
+    }
+    
+    public double calculateGibbs(){
+    	double vaporGibbs = vF*vapor.calculateGibbs();
+    	double liquidGibbs = (1-vF) *liquid.calculateGibbs();
+    	
+    	return vaporGibbs + liquidGibbs;
+    }
+    
     @Override
 	public int hashCode() {
 		final int prime = 31;
@@ -130,4 +153,12 @@ public abstract class Heterogeneous implements PropertyChangeListener{
     
     public abstract Homogeneous getLiquid();
     public abstract Homogeneous getVapor();
+
+	public double getvF() {
+		return vF;
+	}
+
+	public void setvF(double vF) {
+		this.vF = vF;
+	}
 }

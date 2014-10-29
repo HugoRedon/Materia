@@ -62,6 +62,23 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
     }
     
     @Override
+    public double calculateEnthalpy(){
+    	super.vF = flash(temperature, pressure);
+    	return super.calculateEnthalpy();
+    }
+    
+    @Override
+    public double calculateEntropy(){
+    	super.vF = flash(temperature, pressure);
+    	return super.calculateEntropy();
+    }
+    @Override
+    public double calculateGibbs(){
+    	super.vF = flash(temperature, pressure);
+    	return super.calculateGibbs();
+    }
+    
+    @Override
     public String toString() {
     	StringBuilder sb = new StringBuilder();
     	sb.append("Mezcla heterogénea, ");
