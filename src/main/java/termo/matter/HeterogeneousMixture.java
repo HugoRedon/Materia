@@ -61,22 +61,17 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
        
     }
     
-    @Override
-    public double calculateEnthalpy(){
-    	super.vF = flash(temperature, pressure);
-    	return super.calculateEnthalpy();
+    public void calculateVF(){
+    	vF=flash(temperature,pressure);
+    	if(vF< 0){
+    		vF=0;
+    		copyZfractionsToliquid();
+    	}else if (vF>1){
+    		vF =1;
+    		copyZfractionsToVapor();
+    	}
     }
-    
-    @Override
-    public double calculateEntropy(){
-    	super.vF = flash(temperature, pressure);
-    	return super.calculateEntropy();
-    }
-    @Override
-    public double calculateGibbs(){
-    	super.vF = flash(temperature, pressure);
-    	return super.calculateGibbs();
-    }
+     
     
     @Override
     public String toString() {
@@ -414,7 +409,13 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 			setTemperature(temperature);
             K = equilibriumRelations();
             error = calculateError(pressure, temperature);
-            vF = rachfordRice(K, vF,tolerance);
+            Double newVF =rachfordRice(K, vF,tolerance); 
+            System.out.println("vF: " + newVF);
+            if(Double.isFinite(newVF)){
+            	vF =newVF; 
+            }else{
+            	break;
+            }
             x_=x_( K, vF);
 			getLiquid().setFractions(newFractions(x_));
 			y_ = y_(x_, K);
@@ -428,6 +429,7 @@ public final class HeterogeneousMixture extends Heterogeneous implements Seriali
 		setTemperature(temperature);
 		setPressure(pressure);		
 		double vF = flashEstimate(temperature, pressure);
+		System.out.println("flash estimate: " + vF);
 		return flashImpl(temperature, pressure, vF);
 		
     }

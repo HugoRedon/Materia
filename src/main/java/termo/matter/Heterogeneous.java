@@ -15,9 +15,9 @@ public abstract class Heterogeneous implements PropertyChangeListener{
     protected Homogeneous vapor;
     
     double vF;
+    public abstract void calculateVF();
     
-    public double calculateEnthalpy(){
-    	//flash for mixture before this calculation;
+    public double calculateEnthalpy(){  
     	double vaporEnthalpy  =vF *vapor.calculateEnthalpy();
     	double liquidEnthalpy = (1-vF)*liquid.calculateEnthalpy();
     	return vaporEnthalpy + liquidEnthalpy;

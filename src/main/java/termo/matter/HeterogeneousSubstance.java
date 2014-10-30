@@ -39,6 +39,20 @@ public class HeterogeneousSubstance extends Heterogeneous{
     }
     
     @Override
+    public void calculateVF() {
+    	double press = pressure;
+    	saturationPressure();
+    	
+    	if(press >super.pressure ){
+    		vF=0;
+    	}else if(press < super.pressure ){
+    		vF=1;
+    	}
+    	pressure = press;
+    	
+    }
+    
+    @Override
     public String toString() {
     	StringBuilder sb = new StringBuilder();
     	sb.append("Substancia heterogénea, compuesto: "+component.getName()+", ");
