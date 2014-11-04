@@ -104,8 +104,12 @@ public class VaporPressureErrorFunction extends ErrorFunction implements Propert
             double calcP = substance.getPressure();
             double relativeError = (calcP - expP)/expP;
             double squareError = Math.pow(relativeError,2);
-            error += squareError;
-            errorForEachExperimentalData.add(new ErrorData(expP, calcP, relativeError,temperature));
+            
+            
+            if(!Double.isNaN(squareError) && Double.isFinite(squareError)){
+	            error += squareError;
+	            errorForEachExperimentalData.add(new ErrorData(expP, calcP, relativeError,temperature));
+            }
         }   
         totalError = error;
         return error;   

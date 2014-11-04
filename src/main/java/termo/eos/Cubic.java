@@ -15,6 +15,8 @@ public  class Cubic extends EOS{
     private double omega_a;
     private double omega_b;
     
+    private double criticalCompressibilityFactor;
+    
     @Override
     public String getEquation(){
         return "P = \\frac{RT}{v - b} - \\frac{a} { v^2 + u b v + w b^2}";
@@ -244,4 +246,13 @@ public  class Cubic extends EOS{
         }
         return true;
     }
+
+	public double getCriticalCompressibilityFactor() {
+		return criticalCompressibilityFactor;
+	}
+
+	public void setCriticalCompressibilityFactor(
+			double criticalCompressibilityFactor) {
+		this.criticalCompressibilityFactor = criticalCompressibilityFactor;
+	}
 }

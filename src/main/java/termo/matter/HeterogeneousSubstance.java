@@ -319,9 +319,11 @@ public class HeterogeneousSubstance extends Heterogeneous{
 	    }
         else{
         	e =100;
-        	if(liquidZ > 0.307){
+        	
+        	double zc = getLiquid().getCubicEquationOfState().getCriticalCompressibilityFactor(); 
+        	if(liquidZ > zc){
         		p = p*1.01;	
-        	}else if(vaporZ<0.307){
+        	}else if(vaporZ<zc){
         		p = p *0.99;
         	}
 	    	
